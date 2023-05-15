@@ -26,7 +26,7 @@ const useActiveTrail = (menuItems) => {
     }
     return [];
   }
-  return useMemo(() => getActiveTrail(menuItems), [menuItems, currentPath]);
+  return useMemo(() => getActiveTrail(menuItems), [useMemo, menuItems, currentPath]);
 }
 
 export default useActiveTrail;

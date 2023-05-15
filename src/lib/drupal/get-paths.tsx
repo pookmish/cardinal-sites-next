@@ -17,6 +17,7 @@ export const getPathsFromContext = async (
     types = [types]
   }
 
+
   const paths = await Promise.all(
     types.map(async (type) => {
       // Use sparse fieldset to expand max size.
@@ -58,9 +59,9 @@ export const getPathsFromContext = async (
 function buildPathsFromResources(resources, locale?: Locale) {
   return resources?.flatMap((resource) => {
     const slug =
-      resource?.path?.alias === process.env.DRUPAL_FRONT_PAGE
+      resource?.path === process.env.DRUPAL_FRONT_PAGE
         ? "/"
-        : resource?.path?.alias
+        : resource?.path
 
     const path = {
       params: {

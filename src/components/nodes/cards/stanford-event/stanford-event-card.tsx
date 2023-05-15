@@ -111,7 +111,7 @@ const StanfordEventCard = ({node}: { node: EventNodeType }) => {
         </div>
       </div>
 
-      {node.su_event_type &&
+      {node.su_event_type?.length > 0 &&
         <div className="su-digital-red">
           {node.su_event_type.at(0).name}
         </div>

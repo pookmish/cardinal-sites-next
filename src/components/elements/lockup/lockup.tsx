@@ -13,7 +13,7 @@ export const Lockup = async () => {
         <StanfordWordMark className="block text-cardinal-red no-underline max-h-[30px] w-auto"/>
 
         <span className="text-black text-m2 leading-none">
-          {siteSettings.su_site_name || "University"}
+          {siteSettings?.su_site_name || "University"}
         </span>
       </Link>
     </div>

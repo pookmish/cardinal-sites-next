@@ -80,22 +80,28 @@ const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
           }
 
         </div>
-        <aside className="w-1/3">
+        <aside className="w-1/3 shrink-0">
           {(node.su_person_mobile_phone || node.su_person_fax || node.su_person_email || node.su_person_mail_code) &&
 
             <div className="flex items-start gap-10 mb-20">
               <PhoneIcon width={30} className="shrink-0"/>
               <div>
                 <h2 className="text-m1">Contact</h2>
+
+                {node.su_person_telephone &&
+                  <div className="mb-10">
+                    p: <Telephone tel={node.su_person_telephone}/>
+                  </div>
+                }
                 {node.su_person_mobile_phone &&
                   <div className="mb-10">
-                    <Telephone tel={node.su_person_mobile_phone}/>
+                    m: <Telephone tel={node.su_person_mobile_phone}/>
                   </div>
                 }
 
                 {node.su_person_fax &&
                   <div className="mb-10">
-                    <Telephone tel={node.su_person_fax}/>
+                    f: <Telephone tel={node.su_person_fax}/>
                   </div>
                 }
 
@@ -115,12 +121,18 @@ const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
             </div>
           }
 
-          {node.su_person_location_address &&
+          {(node.su_person_location_address || node.su_person_map_url) &&
             <div className="flex items-start gap-10 mb-20">
               <MapPinIcon width={30} className="shrink-0"/>
               <div>
                 <h2 className="text-m1">Location</h2>
                 <Wysiwyg html={node.su_person_location_address}/>
+
+                {node.su_person_map_url &&
+                  <div>
+                    Map URL: <Link href={node.su_person_map_url.url}>{node.su_person_map_url.title || node.su_person_map_url.url}</Link>
+                  </div>
+                }
               </div>
             </div>
           }

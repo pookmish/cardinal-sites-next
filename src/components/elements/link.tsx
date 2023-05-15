@@ -7,7 +7,7 @@ const DrupalLink = ({href, children, ...props}: PropsWithChildren<{ href: string
     href = '#';
   }
 
-  if (!href.includes('/files/')) {
+  if (href && !href.includes('/files/')) {
     href = href.replace(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL, '')
       .replace('<front>', '/');
   }

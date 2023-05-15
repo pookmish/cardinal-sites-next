@@ -12,6 +12,7 @@ const BannerParagraph: React.FC<Props> = ({paragraph}) => {
   const hasCard = paragraph.su_banner_header || paragraph.su_banner_button || paragraph.su_banner_body
   const imageUrl = paragraph.su_banner_image?.field_media_image?.image_style_uri.breakpoint_2xl_2x;
   const imageAlt = paragraph.su_banner_image?.field_media_image?.resourceIdObjMeta?.alt ?? '';
+  const placeholder = paragraph.su_banner_image?.field_media_image?.uri.base64
 
   return (
     <div className="@container relative min-h-[520px]">
@@ -23,6 +24,8 @@ const BannerParagraph: React.FC<Props> = ({paragraph}) => {
             alt={imageAlt}
             fill
             className="object-cover object-center"
+            placeholder={placeholder ? 'blur': 'empty'}
+            blurDataURL={placeholder}
           />
         }
       </div>

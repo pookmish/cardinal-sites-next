@@ -124,10 +124,8 @@ export async function getResourceByPath<T extends JsonApiResource>(
     _format: "json",
   })
 
-
   const response = await fetch(url.toString(), {
     method: "POST",
-    credentials: "include",
     headers: await buildHeaders(options),
     redirect: "follow",
     body: JSON.stringify(payload),

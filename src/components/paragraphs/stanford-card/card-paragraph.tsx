@@ -10,6 +10,7 @@ const CardParagraph = ({paragraph}: { paragraph: CardParagraphType }) => {
   const imageAlt = paragraph.su_card_media?.field_media_image?.resourceIdObjMeta?.alt ?? '';
   const videoUrl = paragraph.su_card_media?.field_media_oembed_video;
   const linkStyle = paragraph.behavior_settings?.su_card_styles?.link_style;
+  const placeholder = paragraph.su_card_media?.field_media_image?.uri.base64;
 
   return (
     <div
@@ -21,6 +22,8 @@ const CardParagraph = ({paragraph}: { paragraph: CardParagraphType }) => {
             alt={imageAlt}
             fill
             className="object-cover object-center"
+            placeholder={placeholder ? 'blur' : 'empty'}
+            blurDataURL={placeholder}
           />
         </div>
       }
