@@ -96,7 +96,7 @@ export const generateStaticParams = async () => {
     page++;
   }
 
-  return paths.map(path => typeof path !== "string" ? path?.params : path);
+  return paths.map(path => typeof path !== "string" ? path?.params : path).slice(0, (process.env.BUILD_COMPLETE ? -1 : 20));
 }
 
 
