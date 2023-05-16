@@ -15,7 +15,7 @@ export const metadata = {
 
 export const revalidate = 300;
 
-const RootLayout = ({children}: { children: React.ReactNode }) => {
+const RootLayout = ({children, modal}: { children: React.ReactNode, modal?: React.ReactNode }) => {
   return (
     <html lang="en" className={SourceSansPro.className}>
     <body>
@@ -27,6 +27,7 @@ const RootLayout = ({children}: { children: React.ReactNode }) => {
       <PageHeader/>
       <main id="main-content" className="flex-grow mb-32">
         {children}
+        {modal}
       </main>
       <PageFooter/>
     </div>

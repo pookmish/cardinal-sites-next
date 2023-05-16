@@ -2,6 +2,7 @@ import {DrupalGalleryImageMediaType, ImageGalleryParagraphType} from "@/lib/type
 import Wysiwyg from "@/components/elements/wysiwyg";
 import Button from "@/components/elements/button";
 import Image from "next/image";
+import Link from "next/link";
 
 const GalleryParagraph = ({paragraph}: { paragraph: ImageGalleryParagraphType }) => {
   return (
@@ -11,7 +12,7 @@ const GalleryParagraph = ({paragraph}: { paragraph: ImageGalleryParagraphType })
       }
 
       {paragraph.su_gallery_description &&
-        <Wysiwyg html={paragraph.su_gallery_description}/>
+        <Wysiwyg html={paragraph.su_gallery_description} className="mb-10"/>
       }
 
       {paragraph.su_gallery_images &&
@@ -33,17 +34,19 @@ const GalleryParagraph = ({paragraph}: { paragraph: ImageGalleryParagraphType })
 
 const GalleryImage = ({image}: { image: DrupalGalleryImageMediaType }) => {
   const imageUrl = image.su_gallery_image.image_style_uri.card_1900x950
-  const imageAlt = image.su_gallery_image.resourceIdObjMeta.alt
+  const imageAlt = image.su_gallery_image.resourceIdObjMeta?.alt ?? ''
 
   return (
     <figure>
       <div className="relative aspect-[4/3] w-full">
-        <Image
-          src={imageUrl}
-          alt={imageAlt}
-          fill
-          className="object-cover"
-        />
+        <Link href={`/gallery-image/${image.su_gallery_image.filename}`}>
+          <Image
+            src={imageUrl}
+            alt={imageAlt}
+            fill
+            className="object-cover"
+          />
+        </Link>
       </div>
 
       {image.su_gallery_caption &&
