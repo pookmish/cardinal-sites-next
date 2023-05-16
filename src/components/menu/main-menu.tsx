@@ -19,6 +19,7 @@ const MainMenu = ({menuItems}) => {
     <OutsideClickHandler
       component="nav"
       onClickOutside={() => setMenuOpen(false)}
+      className="lg:cc"
     >
       <button
         className="flex flex-col items-center lg:hidden absolute top-10 right-10"
@@ -39,7 +40,7 @@ const MainMenu = ({menuItems}) => {
         className={(menuOpen ? "block" : "hidden") + " lg:block bg-black lg:bg-transparent absolute top-100 lg:relative z-10 w-full"}>
         <SiteSearchForm className="px-10 lg:hidden"/>
         <ul
-          className="lg:flex lg:justify-end flex-wrap m-0 p-0">
+          className="list-unstyled lg:flex lg:justify-end flex-wrap m-0 p-0">
           {menuItems.map(item =>
             <MenuItem key={item.id} {...item} activeTrail={activeTrail}/>
           )}
@@ -92,45 +93,49 @@ const MenuItem = ({id, url, title, items, activeTrail, level = 0}) => {
     <OutsideClickHandler
       component="li"
       onClickOutside={() => setSubmenuOpen(false)}
-      className={"m-0 py-2 lg:py-0 flex flex-no-wrap relative items-center justify-between border-b border-cool-grey lg:border-black-20 lg:relative lg:mr-5 last:lg:mr-0 " + (level === 0 ? "lg:border-b-0" : "")}
+      className={"m-0 py-2 lg:py-0 relative  border-b border-cool-grey lg:border-black-20 lg:relative lg:mr-5 last:lg:mr-0 " + (level === 0 ? "lg:border-b-0" : "")}
     >
-      <Link
-        href={url}
-        className={`w-full relative inline-block text-white lg:text-cardinal-red hocus:text-white lg:hocus:text-black no-underline hocus:underline py-5 ${leftPadding[level]} ` + (activeTrail.includes(id) ? inTrail : "") + (level >0 ? " lg:pl-5": " lg:pl-0") }
-        aria-current={activeTrail.at(-1) === id ? "true" : undefined}
-      >
-        {title}
-      </Link>
+      <div className="flex items-center justify-between lg:justify-end">
+        <Link
+          href={url}
+          className={`w-full relative inline-block text-white lg:text-cardinal-red hocus:text-white lg:hocus:text-black no-underline hocus:underline py-5 ${leftPadding[level]} ` + (activeTrail.includes(id) ? inTrail : "") + (level > 0 ? " lg:pl-5" : " lg:pl-0")}
+          aria-current={activeTrail.at(-1) === id ? "true" : undefined}
+        >
+          {title}
+        </Link>
+
+        {items &&
+          <>
+            {level === 0 && <div className="block ml-5 w-[1px] h-[30px] bg-archway-light shrink-0"/>}
+            <button
+              className="shrink-0 relative right-10 lg:right-0 text-white lg:text-cardinal-red bg-cardinal-red lg:bg-transparent rounded-full group"
+              onClick={() => setSubmenuOpen(!submenuOpen)}
+              aria-expanded={submenuOpen}
+            >
+              <ChevronDownIcon
+                height={40}
+                className={(submenuOpen ? "rotate-180" : "") + " transition group-hocus:scale-150 ease-in-out duration-150"}
+              />
+              <span className="sr-only">{submenuOpen ? "Close" : "Open"} {title} Submenu</span>
+            </button>
+
+          </>
+        }
+
+      </div>
 
       {items &&
-        <>
-          {level === 0 && <span className="block ml-5 w-[1px] h-3/5 bg-archway-light shrink-0"/>}
-          <button
-            className="shrink-0 relative right-10 lg:right-0 text-white lg:text-cardinal-red bg-cardinal-red lg:bg-transparent rounded-full group"
-            onClick={() => setSubmenuOpen(!submenuOpen)}
-            aria-expanded={submenuOpen}
-          >
-            <ChevronDownIcon
-              height={40}
-                             className={(submenuOpen ? "rotate-180" : "") + " transition group-hocus:scale-150 ease-in-out duration-150"}
+        <ul
+          className={(submenuOpen ? "block" : "hidden") + " list-unstyled w-full min-w-[300px] lg:absolute lg:bg-white lg:shadow-2xl px-0 " + (level >= 1 ? "lg:left-full lg:top-0 " : "lg:left-0 lg:top-full ") + zIndexes[level]}>
+          {items.map(item =>
+            <MenuItem
+              key={item.id}
+              {...item}
+              level={level + 1}
+              activeTrail={activeTrail}
             />
-            <span className="sr-only">
-              {submenuOpen ? "Close" : "Open"} {title} Submenu
-            </span>
-          </button>
-
-          <ul
-            className={(submenuOpen ? "block" : "hidden") + " w-full min-w-[300px] lg:absolute lg:bg-white lg:shadow-2xl px-0 " + (level >= 1 ? "lg:left-full lg:top-0 " : "lg:left-0 lg:top-full ") + zIndexes[level]}>
-            {items.map(item =>
-              <MenuItem
-                key={item.id}
-                {...item}
-                level={level + 1}
-                activeTrail={activeTrail}
-              />
-            )}
-          </ul>
-        </>
+          )}
+        </ul>
       }
     </OutsideClickHandler>
   )

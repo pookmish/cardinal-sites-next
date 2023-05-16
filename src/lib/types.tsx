@@ -4,7 +4,7 @@ import {JsonApiResource} from "next-drupal/src/types";
 // Node Types.
 export interface BasicPageNodeType extends DrupalNode {
   su_basic_page_type?: DrupalTaxonomyTerm[]
-  su_page_banner?: DrupalParagraph
+  su_page_banner?: BannerParagraphType
   su_page_components?: DrupalParagraph[]
   su_page_description?: string
   su_page_image?: DrupalImageMediaType

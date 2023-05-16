@@ -16,7 +16,7 @@ const EntityParagraph = async ({paragraph}: { paragraph: EntityTeaserParagraphTy
 
   return (
     <div
-      className="@container cc lg:max-w-[980px]">
+      className="@container cc lg:max-w-[980px] w-full">
       {paragraph.su_entity_headline && <h2>{paragraph.su_entity_headline}</h2>}
 
       {paragraph.su_entity_description &&

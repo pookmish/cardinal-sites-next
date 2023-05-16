@@ -32,7 +32,7 @@ const BannerParagraph: React.FC<Props> = ({paragraph}) => {
 
       {hasCard &&
         <div
-          className="relative shadow-lg flex flex-col gap-10 py-20 px-10 @6xl:bg-white @6xl:max-w-[450px] @6xl:my-20 @6xl:ml-20 @6xl:z-10">
+          className="w-full relative shadow-lg flex flex-col gap-10 py-20 px-10 @6xl:bg-white @6xl:max-w-[450px] @6xl:my-20 @6xl:ml-20 @6xl:z-10">
 
           {paragraph.su_banner_header &&
             <h2 className="order-2 text-m2 p-0 m-0">

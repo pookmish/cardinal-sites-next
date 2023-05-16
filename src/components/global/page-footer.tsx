@@ -10,7 +10,7 @@ const PageFooter = async () => {
       <LocalFooter/>
 
       <div className="basefont-20 rs-py-1 text-white bg-cardinal-red">
-        <div className="max-w-1500 mx-auto px-10 2xl:px-0 flex flex-col lg:flex-row">
+        <div className="max-w-1500 w-full mx-auto px-10 2xl:px-0 flex flex-col lg:flex-row">
           <div className="text-center mt-5 mb-9">
             <a className="logo text-white hocus:text-white type-3"
                href="https://www.stanford.edu">

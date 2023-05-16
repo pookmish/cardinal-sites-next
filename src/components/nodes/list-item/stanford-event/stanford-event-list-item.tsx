@@ -87,7 +87,7 @@ export const getEventTimeString = (start: Date, end: Date, timezone: string): st
   })
 }
 
-const StanfordEventCard = ({node}: { node: EventNodeType }) => {
+const StanfordEventListItem = ({node}: { node: EventNodeType }) => {
 
   const timezone: string = node.su_event_date_time?.timezone ?? 'America/Los_Angeles';
   const start = new Date(node.su_event_date_time?.value as string);
@@ -101,7 +101,7 @@ const StanfordEventCard = ({node}: { node: EventNodeType }) => {
   const goToPath = node.su_event_source?.url ?? node.path as string
 
   return (
-    <div className="max-w-[500px] w-full mx-auto shadow-lg p-10 flex flex-col gap-10 overflow-hidden">
+    <div className="max-w-[500px] w-full mx-auto shadow-lg p-10 flex flex-col gap-10">
       <div aria-hidden className="flex flex-col items-start w-fit">
         <div className="text-m0 font-semibold mb-4 w-full text-center">
           {startMonth.toUpperCase()}
@@ -137,4 +137,4 @@ const StanfordEventCard = ({node}: { node: EventNodeType }) => {
     </div>
   )
 }
-export default StanfordEventCard;
+export default StanfordEventListItem;

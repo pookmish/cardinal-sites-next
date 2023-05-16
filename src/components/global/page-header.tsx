@@ -21,14 +21,15 @@ const PageHeader = async () => {
 
       <GlobalMessage/>
 
-      <div className="shadow">
-        <div className="relative cc min-h-50">
+      <div className="relative shadow">
+        <div className="cc min-h-50">
           <div className="flex w-full justify-between">
             <Lockup/>
             <SiteSearchForm className="hidden lg:block"/>
           </div>
-          <MainMenu menuItems={tree}/>
         </div>
+
+        <MainMenu menuItems={tree}/>
       </div>
     </header>
   )

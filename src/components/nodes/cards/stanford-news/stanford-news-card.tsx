@@ -6,7 +6,7 @@ const StanfordNewsCard = ({node}: { node: NewsNodeType }) => {
   const imageUrl = node.su_news_featured_media?.field_media_image?.image_style_uri.card_1900x950;
   const imageAlt = node.su_news_featured_media?.field_media_image?.resourceIdObjMeta?.alt ?? '';
   return (
-    <div className="max-w-[500px] mx-auto shadow-xl border border-black-20">
+    <div className="max-w-[500px] w-full mx-auto shadow-xl border border-black-20 overflow-hidden">
 
       {imageUrl &&
         <div className="relative aspect-[16/9] w-full">
@@ -26,7 +26,7 @@ const StanfordNewsCard = ({node}: { node: NewsNodeType }) => {
         {node.su_news_topics &&
           <div>
             {node.su_news_topics.slice(0, 3).map((topic, index) =>
-              <span key={topic.id}>{topic.name}{(index != 2 && index != node.su_news_topics.length) ? ", " :""}</span>
+              <span key={topic.id}>{topic.name}{(index != 2 && index != node.su_news_topics.length - 1) ? ", " :""}</span>
             )}
           </div>
         }

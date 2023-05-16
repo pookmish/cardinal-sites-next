@@ -14,7 +14,7 @@ const InfoMessage = ({header, label, message, link}: Props) => {
 
   return (
     <div className="bg-digital-green text-white">
-      <div className="max-w-1500 mx-auto flex gap-20">
+      <div className="max-w-1500 w-full mx-auto flex gap-20">
         <div className="flex items-center leading-none shrink-0">
           <CheckCircleIcon width={40}/>
           {label}:
