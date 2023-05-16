@@ -113,6 +113,23 @@ export interface PublicationNodeType extends DrupalNode {
   su_shared_tags?: DrupalTaxonomyTerm[]
 }
 
+export interface PolicyNodeType extends DrupalNode {
+  body?: DrupalWysiwygFieldType
+  su_policy_authority?: string
+  su_policy_changelog?: PolicyChangeLogType[]
+  su_policy_chapter?: string
+  su_policy_effective?: string
+  su_policy_policy_num?: string
+  su_policy_related?: PolicyNodeType[]
+  su_policy_subchapter?: string
+  su_policy_title?: string
+  su_policy_updated?: string
+}
+
+export interface PolicyChangeLogType extends JsonApiResource {
+
+}
+
 // Paragraph Types.
 export interface LayoutParagraphsBehaviorsType {
   layout_paragraphs: {

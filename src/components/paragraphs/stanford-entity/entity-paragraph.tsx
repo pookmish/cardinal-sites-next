@@ -7,6 +7,12 @@ import Button from "@/components/elements/button";
 const EntityParagraph = async ({paragraph}: { paragraph: EntityTeaserParagraphType }) => {
   const items = await getResources(paragraph.su_entity_item ?? []);
   const entities = items.filter(item => item);
+  const gridCols = [
+    'lg:grid-cols-3',
+    'lg:grid-cols-1',
+    'lg:grid-cols-2',
+  ];
+  const gridClass = gridCols[entities.length >=3 ? 0: entities.length % 3]
 
   return (
     <div
@@ -17,7 +23,7 @@ const EntityParagraph = async ({paragraph}: { paragraph: EntityTeaserParagraphTy
         <Wysiwyg html={paragraph.su_entity_description}/>
       }
 
-      <div className="flex flex-col mb-20">
+      <div className={`grid ${gridClass} gap-20 mb-20`}>
         {entities.map(entity =>
           <NodeCard key={entity.id} node={entity}/>
         )}

@@ -106,12 +106,14 @@ const MenuItem = ({id, url, title, items, activeTrail, level = 0}) => {
         <>
           {level === 0 && <span className="block ml-5 w-[1px] h-3/5 bg-archway-light shrink-0"/>}
           <button
-            className="shrink-0 relative right-10 lg:right-0 text-white lg:text-cardinal-red bg-cardinal-red lg:bg-transparent rounded-full hocus:border lg:border-black"
+            className="shrink-0 relative right-10 lg:right-0 text-white lg:text-cardinal-red bg-cardinal-red lg:bg-transparent rounded-full group"
             onClick={() => setSubmenuOpen(!submenuOpen)}
             aria-expanded={submenuOpen}
           >
-            <ChevronDownIcon height={40}
-                             className={(submenuOpen ? "rotate-180" : "") + " transition"}/>
+            <ChevronDownIcon
+              height={40}
+                             className={(submenuOpen ? "rotate-180" : "") + " transition group-hocus:scale-150 ease-in-out duration-150"}
+            />
             <span className="sr-only">
               {submenuOpen ? "Close" : "Open"} {title} Submenu
             </span>

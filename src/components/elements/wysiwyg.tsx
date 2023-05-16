@@ -11,6 +11,7 @@ interface Props extends PropsWithoutRef<any> {
 
 const Wysiwyg = ({html, className = "", ...props}: Props) => {
   className += " wysiwyg"
+
   return (
     <div className={className.trim()} {...props}>
       {formatHtml(html)}

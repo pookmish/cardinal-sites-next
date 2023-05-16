@@ -1,7 +1,7 @@
 import '../src/styles/index.css';
 import PageHeader from "@/components/global/page-header";
 import PageFooter from "@/components/global/page-footer";
-import {Source_Sans_Pro} from "@next/font/google";
+import {Source_Sans_Pro} from "next/font/google";
 
 const SourceSansPro = Source_Sans_Pro({
   subsets: ['latin'],

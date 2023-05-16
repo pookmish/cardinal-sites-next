@@ -9,6 +9,7 @@ import StanfordCoursePage from "@/components/nodes/pages/stanford-course/stanfor
 import StanfordEventSeriesPage from "@/components/nodes/pages/stanford-event-series/stanford-event-series-page";
 
 const NodePage = ({node}: { node: DrupalNode }) => {
+
   switch (node.type) {
     case 'node--stanford_course':
       return <StanfordCoursePage node={node}/>

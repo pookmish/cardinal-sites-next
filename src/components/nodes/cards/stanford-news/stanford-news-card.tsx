@@ -6,7 +6,7 @@ const StanfordNewsCard = ({node}: { node: NewsNodeType }) => {
   const imageUrl = node.su_news_featured_media?.field_media_image?.image_style_uri.card_1900x950;
   const imageAlt = node.su_news_featured_media?.field_media_image?.resourceIdObjMeta?.alt ?? '';
   return (
-    <div className="max-w-[500px] mx-auto shadow-lg">
+    <div className="max-w-[500px] mx-auto shadow-xl border border-black-20">
 
       {imageUrl &&
         <div className="relative aspect-[16/9] w-full">
