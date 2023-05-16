@@ -20,8 +20,16 @@ const ListParagraph = async ({paragraph}: { paragraph: ListParagraphType }) => {
   if (itemsToDisplay) {
     drupalParams.addPageLimit(itemsToDisplay);
   }
-  const view: DrupalView = await getView<Promise<DrupalView<DrupalNode>>>(`${viewId}--${displayId}`, {params: drupalParams.getQueryObject()});
-  const results: DrupalNode[] = view.results ?? [];
+  let results: DrupalNode[] = [];
+
+  if (viewId && displayId) {
+    try {
+      const view: DrupalView = await getView<Promise<DrupalView<DrupalNode>>>(`${viewId}--${displayId}`, {params: drupalParams.getQueryObject()});
+      results = view.results ?? [];
+    } catch (e) {
+      console.log(`Unable to fetch view ${viewId}: ${displayId} ${e.message}`)
+    }
+  }
 
   if (paragraph.behavior_settings?.list_paragraph?.hide_empty && results.length === 0) {
     return null;
