@@ -45,7 +45,7 @@ const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
           }
 
           {node.su_person_education &&
-            <div>
+            <div className="mb-10">
               <h2 className="text-m1">Education</h2>
               {node.su_person_education.map((education, i) =>
                 <div key={`${node.id}-education-${i}`}>
@@ -56,26 +56,30 @@ const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
           }
 
           {node.su_person_research &&
-            <div>
+            <div className="mb-10">
               <h2 className="text-m1">Research</h2>
-              {node.su_person_research.map((research, i) =>
-                <div key={`${node.id}-research-${i}`}>
-                  {research}
-                </div>
-              )}
+              <div className="grid grid-cols-2 gap-10">
+                {node.su_person_research.map((research, i) =>
+                  <div key={`${node.id}-research-${i}`}>
+                    {research}
+                  </div>
+                )}
+              </div>
             </div>
           }
 
           {node.su_person_affiliations &&
-            <div>
+            <div className="mb-10">
               <h2 className="text-m1">Stanford Affiliations</h2>
-              {node.su_person_affiliations.map((affiliation, i) =>
-                <div key={`${node.id}-affiliation-${i}`}>
-                  <Button href={affiliation.url}>
-                    {affiliation.title}
-                  </Button>
-                </div>
-              )}
+              <div className="grid grid-cols-2 gap-10">
+                {node.su_person_affiliations.map((affiliation, i) =>
+                  <div key={`${node.id}-affiliation-${i}`}>
+                    <Button href={affiliation.url}>
+                      {affiliation.title}
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
           }
 
@@ -126,18 +130,21 @@ const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
               <MapPinIcon width={30} className="shrink-0"/>
               <div>
                 <h2 className="text-m1">Location</h2>
-                <Wysiwyg html={node.su_person_location_address}/>
+                {node.su_person_location_address &&
+                  <Wysiwyg html={node.su_person_location_address}/>
+                }
 
                 {node.su_person_map_url &&
                   <div>
-                    Map URL: <Link href={node.su_person_map_url.url}>{node.su_person_map_url.title || node.su_person_map_url.url}</Link>
+                    Map URL: <Link
+                    href={node.su_person_map_url.url}>{node.su_person_map_url.title || node.su_person_map_url.url}</Link>
                   </div>
                 }
               </div>
             </div>
           }
 
-          {node.su_person_links &&
+          {node.su_person_links?.length > 0 &&
             <div className="flex items-start gap-10 mb-20">
               <LinkIcon width={30} className="shrink-0"/>
               <div>

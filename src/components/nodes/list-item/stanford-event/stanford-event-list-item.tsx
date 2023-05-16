@@ -101,7 +101,7 @@ const StanfordEventListItem = ({node}: { node: EventNodeType }) => {
   const goToPath = node.su_event_source?.url ?? node.path as string
 
   return (
-    <div className="max-w-[500px] w-full mx-auto shadow-lg p-10 flex flex-col gap-10">
+    <div className="w-full mx-auto py-10 flex gap-10">
       <div aria-hidden className="flex flex-col items-start w-fit">
         <div className="text-m0 font-semibold mb-4 w-full text-center">
           {startMonth.toUpperCase()}
@@ -110,30 +110,31 @@ const StanfordEventListItem = ({node}: { node: EventNodeType }) => {
           {startDay}
         </div>
       </div>
+      <div>
+        {node.su_event_type?.length > 0 &&
+          <div className="su-digital-red">
+            {node.su_event_type.at(0).name}
+          </div>
+        }
 
-      {node.su_event_type?.length > 0 &&
-        <div className="su-digital-red">
-          {node.su_event_type.at(0).name}
-        </div>
-      }
-
-      <Link href={goToPath}
-            className="text-black no-underline hocus:text-digital-red hocus:underline">
-        <h3 className="text-m2">{node.title}</h3>
-      </Link>
+        <Link href={goToPath}
+              className="text-digital-red no-underline hocus:text-black hocus:underline">
+          <h3 className="text-m2">{node.title}</h3>
+        </Link>
 
 
-      <div className="flex items-center gap-5">
-        <CalendarDaysIcon width={30} className="shrink-0"/>
-        {dateTimeString}
-      </div>
-
-      {node.su_event_alt_loc &&
         <div className="flex items-center gap-5">
-          <MapPinIcon width={30} className="shrink-0"/>
-          {node.su_event_alt_loc}
+          <CalendarDaysIcon width={30} className="shrink-0"/>
+          {dateTimeString}
         </div>
-      }
+
+        {node.su_event_alt_loc &&
+          <div className="flex items-center gap-5">
+            <MapPinIcon width={30} className="shrink-0"/>
+            {node.su_event_alt_loc}
+          </div>
+        }
+      </div>
     </div>
   )
 }

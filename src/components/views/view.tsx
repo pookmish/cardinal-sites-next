@@ -5,6 +5,7 @@ import {getResources} from "@/lib/drupal/get-resource";
 import NewsCardView from "@/components/views/stanford-news/NewsCardView";
 import EventsCardView from "@/components/views/stanford-events/EventsCardView";
 import PageCardView from "@/components/views/stanford-page/PageCardView";
+import EventsListView from "@/components/views/stanford-events/EventsListView";
 
 const View = async ({viewId, displayId, items}) => {
   items = await getResources(items);
@@ -25,6 +26,9 @@ const View = async ({viewId, displayId, items}) => {
 
     case 'stanford_events--cards':
       return <EventsCardView items={items}/>
+
+    case 'stanford_events--list_page':
+      return <EventsListView items={items}/>
 
     case 'stanford_basic_pages--viewfield_block_1':
       return <PageCardView items={items}/>

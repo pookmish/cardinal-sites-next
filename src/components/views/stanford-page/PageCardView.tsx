@@ -5,7 +5,7 @@ const PageCardView = ({items}) => {
     <div className="@container">
       <div className="grid @3xl:grid-cols-2 @6xl:grid-cols-3 gap-20">
         {items.map(item =>
-          <StanfordPageCard node={item}/>
+          <StanfordPageCard node={item} key={item.id}/>
         )}
       </div>
     </div>
