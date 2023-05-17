@@ -39,7 +39,6 @@ const ListParagraph = async ({paragraph}: { paragraph: ListParagraphType }) => {
 
   return (
     <div className="w-full max-w-[980px] mx-auto">
-
       {paragraph.su_list_headline &&
         <h2>{paragraph.su_list_headline}</h2>
       }

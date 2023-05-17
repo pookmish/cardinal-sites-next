@@ -5,7 +5,7 @@ import Rows from "@/components/paragraphs/rows/rows";
 import SocialIcons from "@/components/nodes/pages/stanford-news/social-icons";
 
 const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {
-  if(node.su_news_source?.url) redirect(node.su_news_source.url)
+  if (node.su_news_source?.url) redirect(node.su_news_source.url)
   const publishDate = node.su_news_publishing_date ? new Date(node.su_news_publishing_date).toLocaleDateString("en-us", {
     month: "long",
     day: "numeric",
