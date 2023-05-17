@@ -23,20 +23,20 @@ const Page = async ({params: {filename}}) => {
 
   return (
     <InterceptionModal>
-      <div className="h-full w-full">
+      <figure className="h-full w-fit mx-auto table">
 
         <img
           src={file.image_style_uri.responsive_large}
           alt={media.su_gallery_image.resourceIdObjMeta?.alt}
-          className="max-w-full h-auto"
+          className="max-w-full h-auto m-0 p-0"
         />
 
         {media.su_gallery_caption &&
-          <figcaption>
+          <figcaption className="bg-white text-right p-5 m-0 table-caption caption-bottom">
             {media.su_gallery_caption}
           </figcaption>
         }
-      </div>
+      </figure>
     </InterceptionModal>
   )
 }
