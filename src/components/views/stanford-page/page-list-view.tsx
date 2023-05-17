@@ -12,11 +12,7 @@ interface Props {
 const PageListView = async ({view,args, itemsToDisplay, emptyMessage}: Props) => {
   args = args ? args + '/0/0/0' : '0/0/0/0';
 
-  const items = await getViewItems<DrupalNode[]>({
-    view: view,
-    itemsToDisplay: itemsToDisplay,
-    args: args.split('/')
-  });
+  const items = await getViewItems<DrupalNode[]>(view, itemsToDisplay, args.split('/'));
   if (items.length === 0) {
     if (emptyMessage) {
       return (

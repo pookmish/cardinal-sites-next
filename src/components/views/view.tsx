@@ -124,10 +124,10 @@ const View = async ({viewId, displayId, args, itemsToDisplay, emptyMessage}) => 
   )
 }
 
-export const getViewItems = async <T>({view, args = [], itemsToDisplay}: { view: string, args?: string[], itemsToDisplay?: number }): Promise<T[]> => {
+export async function getViewItems<T>(view: string, itemsToDisplay?: number, args?: string[]): Promise<T[]> {
   const drupalParams = new DrupalJsonApiParams();
 
-  if (args.length > 0) {
+  if (args && args.length > 0) {
     drupalParams.addCustomParam({'views-argument': args});
   }
 

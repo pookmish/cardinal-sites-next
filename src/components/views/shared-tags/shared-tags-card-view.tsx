@@ -12,11 +12,7 @@ interface Props {
 const SharedTagsCardView = async ({view, args, itemsToDisplay, emptyMessage}: Props) => {
   args = args ? args : '';
 
-  const items = await getViewItems<DrupalNode[]>({
-    view: view,
-    itemsToDisplay: itemsToDisplay,
-    args: args.split('/')
-  });
+  const items = await getViewItems<DrupalNode[]>(view, itemsToDisplay, args.split('/'));
 
   if (items.length === 0) {
     if (emptyMessage) {
