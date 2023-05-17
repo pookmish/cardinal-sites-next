@@ -36,6 +36,7 @@ export async function getView<T>(
     options.params
   )
 
+  console.log(url.toString());
   const response = await fetch(url.toString(), {
     headers: await buildHeaders(options),
   })

@@ -1,12 +1,22 @@
 import {CourseNodeType} from "@/lib/types";
 import Link from "@/components/elements/link";
 
-const StanfordCourseListItem = ({node}: {node:CourseNodeType}) => {
+const StanfordCourseListItem = ({node}: { node: CourseNodeType }) => {
   return (
-    <div className="max-w-[500px] w-full mx-auto shadow-xl border border-black-20 p-10">
-      <Link href={node.path} className="text-black no-underline hocus:text-black hocus:underline">
+    <div className="">
+      <Link href={node.path}
+            className="text-digital-red no-underline hocus:text-black hocus:underline">
         <h3 className=" text-m2">{node.title}</h3>
       </Link>
+      {node.su_course_instructors &&
+        <div>
+          <span className="font-bold">Instructor(s): </span>
+          {node.su_course_instructors.map((instructor, i) =>
+            <span key={`${node.id}-instructor-${i}`}>{instructor}</span>
+          )}
+        </div>
+
+      }
     </div>
   )
 }
