@@ -17,6 +17,7 @@ const SharedTagsCardView = async ({view, args, itemsToDisplay, emptyMessage}: Pr
     itemsToDisplay: itemsToDisplay,
     args: args.split('/')
   });
+
   if (items.length === 0) {
     if (emptyMessage) {
       return (
