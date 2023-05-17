@@ -4,6 +4,13 @@ import {notFound} from "next/navigation";
 import {DrupalFile} from "next-drupal";
 import {DrupalGalleryImageMediaType} from "@/lib/types";
 
+export const metadata = {
+  title: 'Gallery Image',
+  robots: {
+    index: false
+  }
+}
+
 const Page = async ({params: {filename}}) => {
 
   const fileParams = new DrupalJsonApiParams();
