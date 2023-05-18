@@ -10,13 +10,20 @@ import Link from "@/components/elements/link";
 
 const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
   const imageUrl = node.su_person_photo?.field_media_image.image_style_uri.square_956
-
+  const imagePlaceholder = node.su_person_photo?.field_media_image.uri.base64;
   return (
     <div className="cc mt-32">
       <div className="flex gap-20 mb-32">
         {imageUrl &&
           <div className="relative aspect-[1/1] w-[250px] shrink-0">
-            <Image src={imageUrl} alt="" fill className="rounded-full"/>
+            <Image
+              src={imageUrl}
+              alt=""
+              fill
+              className="rounded-full"
+              placeholder={imagePlaceholder ? 'blur' : 'empty'}
+              blurDataURL={imagePlaceholder}
+            />
           </div>
         }
 

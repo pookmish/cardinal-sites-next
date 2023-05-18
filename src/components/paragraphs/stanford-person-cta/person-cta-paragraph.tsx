@@ -6,7 +6,7 @@ const PersonCtaParagraph = ({paragraph}: { paragraph: SpeakerParagraphType }) =>
   const imageUrl = paragraph.su_person_cta_image?.field_media_image?.image_style_uri?.square_478;
   const imageAlt = paragraph.su_person_cta_image?.field_media_image?.resourceIdObjMeta?.alt ?? '';
   return (
-    <div className="flex gap-10">
+    <div className="cc flex gap-10">
       {imageUrl &&
         <div className="relative aspect-[1/1] w-[200px]">
           <Image

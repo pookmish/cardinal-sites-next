@@ -22,24 +22,22 @@ const ListParagraph = async ({paragraph}: { paragraph: ListParagraphType }) => {
   }
 
   return (
-    <div className="cc lg:max-w-[980px] mx-auto">
+    <div className="cc lg:max-w-[980px] flex flex-col gap-10 mb-20">
       {paragraph.su_list_headline &&
         <h2>{paragraph.su_list_headline}</h2>
       }
       {paragraph.su_list_description &&
-        <Wysiwyg html={paragraph.su_list_description} className="mb-20"/>
+        <Wysiwyg html={paragraph.su_list_description}/>
       }
 
-      {(viewId && displayId) &&
-        <div className="mb-20">
-          {view}
-        </div>
-      }
+      {view}
 
       {paragraph.su_list_button &&
-        <Button centered href={paragraph.su_list_button.url}>
-          {paragraph.su_list_button.title}
-        </Button>
+        <div>
+          <Button centered href={paragraph.su_list_button.url}>
+            {paragraph.su_list_button.title}
+          </Button>
+        </div>
       }
     </div>
   )

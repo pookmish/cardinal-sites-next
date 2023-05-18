@@ -25,7 +25,7 @@ const Rows = async ({components}: {components: DrupalParagraphWithBehaviors[]}) 
   })
 
   return (
-    <div className="grid gap-10 mb-10">
+    <div className="grid gap-32 mb-10">
       {Object.keys(layouts).map(layoutId =>
         <Row
           key={layoutId}

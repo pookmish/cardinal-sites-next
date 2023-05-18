@@ -133,6 +133,7 @@ export interface PolicyChangeLogType extends JsonApiResource {
 // Paragraph Types.
 export interface LayoutParagraphsBehaviorsType {
   layout_paragraphs: {
+    layout?: string
     parent_uuid: string
     region: string
   }
@@ -239,7 +240,7 @@ export interface DrupalImageFileType extends DrupalFile {
   uri: {
     value: string
     url: string
-    base64: string
+    base64?: string
   }
   image_style_uri: {[key: string]: string}
 }

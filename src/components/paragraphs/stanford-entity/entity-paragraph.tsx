@@ -12,11 +12,10 @@ const EntityParagraph = async ({paragraph}: { paragraph: EntityTeaserParagraphTy
     'lg:grid-cols-1',
     'lg:grid-cols-2',
   ];
-  const gridClass = gridCols[entities.length >=3 ? 0: entities.length % 3]
+  const gridClass = gridCols[entities.length >= 3 ? 0 : entities.length % 3]
 
   return (
-    <div
-      className="@container cc lg:max-w-[980px] w-full">
+    <div className="cc lg:max-w-[980px] flex flex-col gap-10 mb-20">
       {paragraph.su_entity_headline && <h2>{paragraph.su_entity_headline}</h2>}
 
       {paragraph.su_entity_description &&
@@ -30,9 +29,11 @@ const EntityParagraph = async ({paragraph}: { paragraph: EntityTeaserParagraphTy
       </div>
 
       {paragraph.su_entity_button &&
-        <Button href={paragraph.su_entity_button.url}>
-          {paragraph.su_entity_button.title}
-        </Button>
+        <div>
+          <Button href={paragraph.su_entity_button.url}>
+            {paragraph.su_entity_button.title}
+          </Button>
+        </div>
       }
     </div>
   )

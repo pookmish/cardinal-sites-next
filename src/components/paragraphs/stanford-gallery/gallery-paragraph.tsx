@@ -6,17 +6,17 @@ import Link from "next/link";
 
 const GalleryParagraph = ({paragraph}: { paragraph: ImageGalleryParagraphType }) => {
   return (
-    <div className="@container cc lg:max-w-[980px] w-full">
+    <div className="@container cc lg:max-w-[980px] flex flex-col gap-10 mb-20">
       {paragraph.su_gallery_headline &&
         <h2>{paragraph.su_gallery_headline}</h2>
       }
 
       {paragraph.su_gallery_description &&
-        <Wysiwyg html={paragraph.su_gallery_description} className="mb-10"/>
+        <Wysiwyg html={paragraph.su_gallery_description}/>
       }
 
       {paragraph.su_gallery_images &&
-        <div className="grid @3xl:grid-cols-2 @6xl:grid-cols-3 gap-20 mb-10">
+        <div className="grid @3xl:grid-cols-2 @6xl:grid-cols-3 gap-20">
           {paragraph.su_gallery_images.map(image =>
             <GalleryImage image={image} key={image.id}/>
           )}
@@ -24,9 +24,11 @@ const GalleryParagraph = ({paragraph}: { paragraph: ImageGalleryParagraphType })
       }
 
       {paragraph.su_gallery_button &&
-        <Button href={paragraph.su_gallery_button.url}>
-          {paragraph.su_gallery_button.title}
-        </Button>
+        <div>
+          <Button href={paragraph.su_gallery_button.url}>
+            {paragraph.su_gallery_button.title}
+          </Button>
+        </div>
       }
     </div>
   )

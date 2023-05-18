@@ -10,6 +10,7 @@ import WysiwygParagraph from "@/components/paragraphs/stanford-wysiwyg/wysiwyg-p
 import BannerParagraph from "@/components/paragraphs/stanford-banner/banner-paragraph";
 import {getResource} from "@/lib/drupal/get-resource";
 import ListParagraph from "@/components/paragraphs/stanford-lists/list-paragraph";
+import {BannerParagraphType, CardParagraphType, EntityTeaserParagraphType, EventScheduleParagraphType, ImageGalleryParagraphType, ListParagraphType, MediaCaptionParagraphType, SpeakerParagraphType, WysiwygParagraphType} from "@/lib/types";
 
 interface Props {
   paragraph: DrupalParagraph
@@ -20,25 +21,25 @@ const Paragraph = async ({paragraph}: Props) => {
 
   switch (paragraph.type) {
     case 'paragraph--stanford_banner':
-      return <BannerParagraph paragraph={paragraph}/>
+      return <BannerParagraph paragraph={paragraph as BannerParagraphType}/>
     case 'paragraph--stanford_card':
-      return <CardParagraph paragraph={paragraph}/>
+      return <CardParagraph paragraph={paragraph as CardParagraphType}/>
     case 'paragraph--stanford_entity':
-      return <EntityParagraph paragraph={paragraph}/>
+      return <EntityParagraph paragraph={paragraph as EntityTeaserParagraphType}/>
     case 'paragraph--stanford_gallery':
-      return <GalleryParagraph paragraph={paragraph}/>
+      return <GalleryParagraph paragraph={paragraph as ImageGalleryParagraphType}/>
     case 'paragraph--stanford_lists':
-      return <ListParagraph paragraph={paragraph}/>
+      return <ListParagraph paragraph={paragraph as ListParagraphType}/>
     case 'paragraph--stanford_media_caption':
-      return <MediaCaptionParagraph paragraph={paragraph}/>
+      return <MediaCaptionParagraph paragraph={paragraph as MediaCaptionParagraphType}/>
     case 'paragraph--stanford_person_cta':
-      return <PersonCtaParagraph paragraph={paragraph}/>
+      return <PersonCtaParagraph paragraph={paragraph as SpeakerParagraphType}/>
     case 'paragraph--stanford_schedule':
-      return <ScheduleParagraph paragraph={paragraph}/>
+      return <ScheduleParagraph paragraph={paragraph as EventScheduleParagraphType}/>
     case 'paragraph--stanford_spacer':
       return <SpacerParagraph paragraph={paragraph}/>
     case 'paragraph--stanford_wysiwyg':
-      return <WysiwygParagraph paragraph={paragraph}/>
+      return <WysiwygParagraph paragraph={paragraph as WysiwygParagraphType}/>
   }
 }
 export default Paragraph;

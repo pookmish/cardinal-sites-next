@@ -14,6 +14,7 @@ const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {
 
   const bannerImageUrl = node.su_news_banner?.field_media_image?.image_style_uri?.breakpoint_2xl_2x;
   const bannerImageAlt = node.su_news_banner?.field_media_image?.resourceIdObjMeta?.alt;
+  const imagePlaceholder = node.su_news_banner?.field_media_image?.uri.base64;
   return (
     <div className="cc mt-32">
       <div className="lg:w-3/4 mx-auto mb-20">
@@ -51,6 +52,8 @@ const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {
               alt={bannerImageAlt}
               fill
               className="object-cover"
+              placeholder={imagePlaceholder ? 'blur' : 'empty'}
+              blurDataURL={imagePlaceholder}
             />
           </div>
           {node.su_news_banner_media_caption &&

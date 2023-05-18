@@ -8,7 +8,7 @@ const StanfordPersonCard = ({node}: { node: PersonNodeType }) => {
   return (
     <div className="max-w-[500px] w-full mx-auto text-center overflow-hidden">
       {imageUrl &&
-        <div className="relative aspect-[1/1] w-full mx-auto mb-20 w-3/5">
+        <div className="relative aspect-[1/1] mx-auto mb-20 w-3/5">
           <Image
             src={imageUrl}
             alt=""

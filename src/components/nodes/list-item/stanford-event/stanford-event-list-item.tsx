@@ -1,6 +1,7 @@
 import {EventNodeType} from "@/lib/types";
 import Link from "@/components/elements/link";
 import {CalendarDaysIcon, MapPinIcon} from "@heroicons/react/20/solid";
+import Address from "@/components/elements/address";
 
 export const getEventTimeString = (start: Date, end: Date, timezone: string): string => {
   const startHour = parseInt(start.toLocaleTimeString("en-US", {
@@ -50,7 +51,13 @@ export const getEventTimeString = (start: Date, end: Date, timezone: string): st
     endHour === 23 &&
     endMinute === 59
   ) {
-    return 'All Day';
+    return start.toLocaleDateString('en-us',{
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+      timeZone: timezone
+    });
   }
 
 
@@ -117,16 +124,32 @@ const StanfordEventListItem = ({node}: { node: EventNodeType }) => {
           </div>
         }
 
-        <Link href={goToPath}
-              className="text-digital-red no-underline hocus:text-black hocus:underline">
+        <Link
+          href={goToPath}
+          className="text-digital-red no-underline hocus:text-black hocus:underline"
+        >
           <h3 className="text-m2">{node.title}</h3>
         </Link>
 
+        {node.su_event_subheadline &&
+          <div className="text-m1 font-bold mb-5">
+            {node.su_event_subheadline}
+          </div>
+        }
 
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-5 mb-5">
           <CalendarDaysIcon width={30} className="shrink-0"/>
           {dateTimeString}
         </div>
+
+        {node.su_event_location &&
+          <div>
+            <div className="flex items-center gap-5">
+              <MapPinIcon width={30} className="shrink-0"/>
+              <Address {...node.su_event_location}/>
+            </div>
+          </div>
+        }
 
         {node.su_event_alt_loc &&
           <div className="flex items-center gap-5">

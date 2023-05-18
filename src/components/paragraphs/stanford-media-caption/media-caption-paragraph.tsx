@@ -12,7 +12,7 @@ const MediaCaptionParagraph = ({paragraph}: { paragraph: MediaCaptionParagraphTy
 
   return (
     <figure
-      className="cc lg:max-w-[980px] w-full">
+      className="cc lg:max-w-[980px]">
       {imageUrl &&
         <div className="relative aspect-[16/9] w-full">
           <Image
