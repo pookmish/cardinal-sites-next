@@ -13,7 +13,10 @@ export async function getResources(items: { type: string, id: string }[]) {
   const requests: PromiseLike<any>[] = [];
   items.map(item => requests.push(getResource(item.type, item.id)));
   // @ts-ignore
-  return Promise.all(requests.map((p, i) => p.catch((e) => {console.error(`Failed Fetching (probably unpublished) component ${items[i].type}-${items[i].id}`, e); return null})));
+  return Promise.all(requests.map((p, i) => p.catch((e) => {
+    console.error(`Failed Fetching (probably unpublished) component ${items[i].type}-${items[i].id}`, e);
+    return null
+  })));
 }
 
 export async function getResourceFromContext<T extends JsonApiResource>(
@@ -79,13 +82,13 @@ export async function getResourceByPath<T extends JsonApiResource>(
   ) {
     path = path === "/" ? path : path.replace(/^\/+/, "")
     path = getPathFromContext({
-      params: { slug: [path] },
+      params: {slug: [path]},
       locale: options.locale,
       defaultLocale: options.defaultLocale,
     })
   }
 
-  const { resourceVersion = "rel:latest-version", ...params } = options.params
+  const {resourceVersion = "rel:latest-version", ...params} = options.params
 
   if (options.isVersionable) {
     params.resourceVersion = resourceVersion
@@ -98,7 +101,7 @@ export async function getResourceByPath<T extends JsonApiResource>(
       requestId: "router",
       action: "view",
       uri: `/router/translate-path?path=${path}&_format=json`,
-      headers: { Accept: "application/vnd.api+json" },
+      headers: {Accept: "application/vnd.api+json"},
     },
     {
       requestId: "resolvedResource",
@@ -227,10 +230,15 @@ export async function getResource<T extends JsonApiResource>(
   return options.deserialize ? deserialize(json) : json
 }
 
-export async function getConfigPageResource<T extends JsonApiResource>(name: string): Promise<T> {
+export async function getConfigPageResource<T extends JsonApiResource>(
+  name: string,
+  options?: {
+    deserialize?: boolean
+    accessToken?: AccessToken
+  } & JsonApiWithLocaleOptions): Promise<T> {
   let response;
   try {
-    response = await getResourceCollection<JsonApiResource>(`config_pages--${name}`);
+    response = await getResourceCollection<JsonApiResource>(`config_pages--${name}`, options);
     if (response.length === 0) {
       return null;
     }

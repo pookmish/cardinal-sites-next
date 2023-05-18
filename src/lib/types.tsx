@@ -286,6 +286,18 @@ export interface SiteSettingsConfigPageType extends JsonApiResource {
   su_site_name?: string
 }
 
+export interface LockupSettingsConfigPageType extends JsonApiResource {
+  su_lockup_enabled?: boolean
+  su_line_1?: string
+  su_line_2?: string
+  su_line_3?: string
+  su_line_4?: string
+  su_line_5?: string
+  su_lockup_options?: string
+  su_upload_logo_image?: DrupalImageFileType
+  su_use_theme_logo?: boolean
+}
+
 export interface LocalFooterConfigPageType extends JsonApiResource {
   su_footer_enabled?: boolean
   su_local_foot_action?: DrupalLinkFieldType[]

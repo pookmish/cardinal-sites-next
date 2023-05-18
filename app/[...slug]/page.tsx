@@ -8,7 +8,7 @@ import {ReactNode} from "react";
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getPathsFromContext} from "@/lib/drupal/get-paths";
 
-export const revalidate = 300;
+export const revalidate = 1800;
 
 export const generateMetadata = async (context): Promise<Metadata> => {
   let node: DrupalNode;

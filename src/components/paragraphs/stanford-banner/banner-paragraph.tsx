@@ -15,15 +15,15 @@ const BannerParagraph: React.FC<Props> = ({paragraph}) => {
   const placeholder = paragraph.su_banner_image?.field_media_image?.uri.base64
 
   return (
-    <div className="@container relative min-h-[520px]">
+    <div className="@container md:min-h-[400px]">
       <div
-        className="relative @6xl:absolute w-full @6xl:h-full min-h-[320px] bg-cool-grey">
+        className="aspect-[16/9] @6xl:aspect-auto relative @6xl:absolute w-full @6xl:h-full bg-cool-grey">
         {imageUrl &&
           <Image
             src={imageUrl}
             alt={imageAlt}
             fill
-            className="object-cover object-center"
+            className="object-cover"
             placeholder={placeholder ? 'blur': 'empty'}
             blurDataURL={placeholder}
           />
@@ -32,7 +32,7 @@ const BannerParagraph: React.FC<Props> = ({paragraph}) => {
 
       {hasCard &&
         <div
-          className="w-full relative shadow-lg flex flex-col gap-10 py-20 px-10 @6xl:bg-white @6xl:max-w-[450px] @6xl:my-20 @6xl:ml-20 @6xl:z-10">
+          className="w-full relative shadow-lg flex flex-col gap-10 py-20 px-10 @6xl:bg-white @6xl:max-w-[550px] @6xl:my-20 @6xl:ml-20 @6xl:z-10">
 
           {paragraph.su_banner_header &&
             <h2 className="order-2 text-m2 p-0 m-0">

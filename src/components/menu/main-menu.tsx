@@ -93,7 +93,7 @@ const MenuItem = ({id, url, title, items, activeTrail, level = 0}) => {
     <OutsideClickHandler
       component="li"
       onClickOutside={() => setSubmenuOpen(false)}
-      className={"m-0 py-2 lg:py-0 relative  border-b border-cool-grey lg:border-black-20 lg:relative lg:mr-5 last:lg:mr-0 " + (level === 0 ? "lg:border-b-0" : "")}
+      className={"m-0 py-2 lg:py-0 relative border-b last:border-0 border-cool-grey lg:border-black-20 lg:relative lg:mr-5 last:lg:mr-0 " + (level === 0 ? "lg:border-b-0" : "")}
     >
       <div className="flex items-center justify-between lg:justify-end">
         <Link
