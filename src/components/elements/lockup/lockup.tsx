@@ -46,8 +46,6 @@ export const Lockup = async () => {
     )
   }
 
-  lockupSettings.su_lockup_options = 't';
-
   switch (lockupSettings?.su_lockup_options) {
     case 'none':
       return (

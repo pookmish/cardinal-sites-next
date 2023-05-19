@@ -1,6 +1,6 @@
 import StanfordWordMark from "@/components/images/stanford-wordmark";
 
-const LockupLogo = ({logoUrl, siteName}) => {
+const LockupLogo = ({logoUrl, siteName = ''}) => {
   return (
     <>
       {logoUrl &&

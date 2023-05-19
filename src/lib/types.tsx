@@ -326,6 +326,7 @@ export interface LocalFooterConfigPageType extends JsonApiResource {
   su_local_foot_tr_co?: string
   su_local_foot_use_loc?: boolean
   su_local_foot_use_logo?: boolean
+  su_local_foot_loc_op?: string
 }
 export interface SuperFooterConfigPageType extends JsonApiResource {
   su_super_foot_enabled?: boolean
