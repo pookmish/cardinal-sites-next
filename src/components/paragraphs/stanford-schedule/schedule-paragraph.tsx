@@ -6,7 +6,7 @@ import Paragraph from "@/components/paragraphs/paragraph";
 const ScheduleParagraph = ({paragraph}: { paragraph: EventScheduleParagraphType }) => {
   let start
   if (paragraph.su_schedule_date_time?.value) {
-    console.log(paragraph.su_schedule_date_time);
+
     start = new Date(paragraph.su_schedule_date_time.value).toLocaleDateString('en-us', {
       weekday: 'long',
       month: 'long',

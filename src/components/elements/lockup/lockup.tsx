@@ -20,7 +20,7 @@ export const Lockup = async () => {
   const siteSettings = await getConfigPageResource<SiteSettingsConfigPageType>('stanford_basic_site_settings')
   const lockupSettings = await getConfigPageResource<LockupSettingsConfigPageType>('lockup_settings')
 
-  const logoUrl = !lockupSettings.su_use_theme_logo ? lockupSettings.su_upload_logo_image?.image_style_uri?.card_2x_956x636 : null;
+  const logoUrl = !lockupSettings.su_use_theme_logo ? lockupSettings.su_upload_logo_image?.image_style_uri?.responsive_medium : null;
   const lockupProps = {
     line1: lockupSettings?.su_line_1,
     line2: lockupSettings?.su_line_2,

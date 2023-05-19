@@ -7,7 +7,7 @@ const LockupLogo = ({logoUrl, siteName = ''}) => {
         <img
           src={logoUrl}
           alt={`${siteName} Logo`}
-          className="object-contain max-w-[400px] max-h-[35px] w-full h-auto"
+          className="object-contain max-w-[400px] max-h-[35px] h-auto"
         />
       }
       {!logoUrl &&

@@ -31,7 +31,7 @@ const LocalFooter = async () => {
     line3: configPage?.su_local_foot_line_3,
     line4: configPage?.su_local_foot_line_4,
     line5: configPage?.su_local_foot_line_5,
-    logoUrl: configPage?.su_local_foot_loc_img?.image_style_uri?.card_2x_956x636 ?? null,
+    logoUrl: !configPage?.su_local_foot_use_logo ? configPage?.su_local_foot_loc_img?.image_style_uri?.responsive_medium : null,
   }
 
   return (
