@@ -210,7 +210,7 @@ const cleanMediaMarkup = async (node: Element) => {
       />
     )
   }
-  return <></>;
+  let NodeName: string = node.name
   return <NodeName {...nodeProps}>{domToReact(node.children, options)}</NodeName>
 }
 
