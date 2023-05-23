@@ -22,7 +22,7 @@ const ListParagraph = async ({paragraph}: { paragraph: ListParagraphType }) => {
   }
 
   return (
-    <div className="cc lg:max-w-[980px] flex flex-col gap-10 mb-20">
+    <div className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20">
       {paragraph.su_list_headline &&
         <h2>{paragraph.su_list_headline}</h2>
       }

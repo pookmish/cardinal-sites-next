@@ -12,7 +12,7 @@ const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
   const imageUrl = node.su_person_photo?.field_media_image.image_style_uri.square_956
   const imagePlaceholder = node.su_person_photo?.field_media_image.uri.base64;
   return (
-    <div className="cc mt-32">
+    <div className="centered mt-32">
       <div className="flex flex-col lg:flex-row gap-20 mb-32">
         {imageUrl &&
           <div className="relative aspect-[1/1] w-[250px] shrink-0 mx-auto lg:mx-0">

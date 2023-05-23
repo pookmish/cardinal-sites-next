@@ -10,20 +10,22 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  variants: {
+    colors: {
+      buttonPrimaryBg: 'blue',
+    }
+  },
   theme: {
     fontFamily: decanter.theme.fontFamily,
-    fontSize: decanter.theme.fontSize,
     lineHeight: decanter.theme.lineHeight,
     maxWidth: decanter.theme.maxWidth,
     decanter: decanter.theme.decanter,
     screens: decanter.theme.screens,
     extend: {
+      fontSize: decanter.theme.fontSize,
       fontWeight: decanter.theme.extend.fontWeight,
       lineClamp: decanter.theme.extend.lineClamp,
       colors: decanter.theme.colors,
-      screens: {
-        '3xl': '1550px',
-      },
       containers: {
         '9xl': '90rem',
         '10xl': '100rem',
@@ -41,8 +43,8 @@ module.exports = {
   plugins: [
     ...decanter.plugins,
     require('@tailwindcss/container-queries'),
-    require(`${dir}/centered-container.tsx`)(),
     require(`${dir}/typography/local-footer.tsx`)(),
     require(`${dir}/typography/global-message.tsx`)(),
+    require(`${dir}/centered-container.tsx`)()
   ],
 };

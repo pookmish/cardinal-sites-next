@@ -16,7 +16,7 @@ const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {
   const bannerImageAlt = node.su_news_banner?.field_media_image?.resourceIdObjMeta?.alt;
   const imagePlaceholder = node.su_news_banner?.field_media_image?.uri.base64;
   return (
-    <div className="cc mt-32">
+    <div className="centered mt-32">
       <div className="lg:w-3/4 mx-auto mb-20">
         <div className="flex flex-col">
           <h1 className="order-2">{node.title}</h1>

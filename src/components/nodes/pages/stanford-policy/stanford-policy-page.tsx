@@ -7,7 +7,7 @@ const StanfordPolicyPage = async ({node}: { node: PolicyNodeType }) => {
   const relatedPolicies: PolicyNodeType[] = await getResources(node.su_policy_related ?? [])
 
   return (
-    <div className="cc pt-32">
+    <div className="centered pt-32">
       <h1>{node.title}</h1>
       <div className="flex flex-col gap-5">
       {node.su_policy_effective &&

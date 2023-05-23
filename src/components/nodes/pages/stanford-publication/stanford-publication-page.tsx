@@ -5,7 +5,7 @@ import Button from "@/components/elements/button";
 
 const StanfordPublicationPage = ({node}: { node: PublicationNodeType }) => {
   return (
-    <div className="cc pt-32">
+    <div className="centered pt-32">
       <div className="flex flex-col gap-10">
         <h1 className="order-2">{node.title}</h1>
         {node.su_publication_topics &&

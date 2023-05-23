@@ -142,7 +142,7 @@ export async function getViewItems<T>(view: string, itemsToDisplay?: number, arg
   } catch (e) {
     console.log(`Unable to fetch view ${view}: ${e.message}`)
   }
-  return await getResources<T>(items);
+  return getResources<T>(items);
 }
 
 export default View;

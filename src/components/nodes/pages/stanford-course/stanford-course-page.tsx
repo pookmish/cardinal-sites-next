@@ -5,7 +5,7 @@ import Wysiwyg from "@/components/elements/wysiwyg";
 const StanfordCoursePage = ({node}: { node: CourseNodeType }) => {
   if (node.su_course_link?.url) redirect(node.su_course_link.url);
   return (
-    <div className="cc my-32">
+    <div className="centered my-32">
       <h1>{node.title}</h1>
       <div className="flex flex-col gap-10">
         {node.su_course_subject &&

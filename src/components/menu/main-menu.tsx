@@ -19,7 +19,7 @@ const MainMenu = ({menuItems}) => {
     <OutsideClickHandler
       component="nav"
       onClickOutside={() => setMenuOpen(false)}
-      className="lg:cc"
+      className="lg:centered"
     >
       <button
         className="flex flex-col items-center lg:hidden absolute top-10 right-10"

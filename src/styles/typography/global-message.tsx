@@ -1,5 +1,5 @@
 module.exports = function () {
-  return function ({addComponents, theme}) {
+  return function ({addUtilities, theme}) {
     const components = {
       '.global-message': {
         'a': {
@@ -10,6 +10,6 @@ module.exports = function () {
         }
       },
     };
-    addComponents(components);
+    addUtilities(components);
   };
 };

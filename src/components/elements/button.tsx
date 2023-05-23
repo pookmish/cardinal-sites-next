@@ -1,13 +1,19 @@
 import Link from "@/components/elements/link";
-import {PropsWithoutRef} from "react";
+import {PropsWithChildren} from "react";
 
-interface Props extends PropsWithoutRef<any> {
+interface Props {
+  href: string
+  centered?: boolean
 }
 
-export const Button = ({href, centered = false, children, ...props}: Props) => {
+export const Button = ({href, centered = false, children, className = "", ...props}: PropsWithChildren<Props>) => {
+  const centeredClass = centered ? " mx-auto block w-fit" : " inline-block"
   return (
-    <Link href={href} {...props}
-          className={"bg-digital-red hocus:bg-black text-white hocus:text-white px-10 py-5 no-underline hocus:underline transition" + (centered ? " mx-auto block w-fit" : " inline-block")}>
+    <Link
+      href={href}
+      {...props}
+      className={`${className} bg-digital-red text-white hocus:bg-black hocus:text-white px-10 py-5 no-underline hocus:underline transition ${centeredClass}`.trim()}
+    >
       {children}
     </Link>
   )

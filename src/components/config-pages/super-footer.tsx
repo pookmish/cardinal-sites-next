@@ -12,7 +12,7 @@ const SuperFooter = async () => {
 
   return (
     <div className="py-20 bg-foggy-light border-b border-black-20">
-      <div className="cc flex justify-between">
+      <div className="centered flex justify-between">
         <div>
           {configPage.su_super_foot_title &&
             <h2 className="text-m2">{configPage.su_super_foot_title}</h2>

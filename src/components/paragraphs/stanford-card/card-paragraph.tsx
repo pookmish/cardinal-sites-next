@@ -14,7 +14,7 @@ const CardParagraph = ({paragraph}: { paragraph: CardParagraphType }) => {
 
   return (
     <div
-      className="cc lg:max-w-[980px] w-full shadow-lg border border-black-10">
+      className="centered lg:max-w-[980px] w-full shadow-lg border border-black-10">
       {imageUrl &&
         <div className="relative aspect-[16/9] w-full">
           <Image

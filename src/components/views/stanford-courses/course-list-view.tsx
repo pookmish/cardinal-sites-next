@@ -13,7 +13,7 @@ const CourseListView = async ({view,args, itemsToDisplay, emptyMessage}: Props) 
 
   args = args ? args + '/0/0/0' : '0/0/0/0';
 
-  const items = await getViewItems<CourseNodeType[]>(view, itemsToDisplay, args.split('/'));
+  const items = await getViewItems<CourseNodeType>(view, itemsToDisplay, args.split('/'));
   if (items.length === 0) {
     if (emptyMessage) {
       return (

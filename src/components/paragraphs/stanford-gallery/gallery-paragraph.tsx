@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const GalleryParagraph = ({paragraph}: { paragraph: ImageGalleryParagraphType }) => {
   return (
-    <div className="@container cc lg:max-w-[980px] flex flex-col gap-10 mb-20">
+    <div className="@container centered lg:max-w-[980px] flex flex-col gap-10 mb-20">
       {paragraph.su_gallery_headline &&
         <h2>{paragraph.su_gallery_headline}</h2>
       }

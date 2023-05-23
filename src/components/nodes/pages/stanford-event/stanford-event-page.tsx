@@ -16,7 +16,7 @@ const StanfordEventPage = ({node}: { node: EventNodeType }) => {
   const timezone = node.su_event_date_time?.timezone ?? 'America/Los_Angeles';
 
   return (
-    <div className="cc mt-32">
+    <div className="centered mt-32">
       <div className="flex flex-col">
         <h1 className="order-2">{node.title}</h1>
 

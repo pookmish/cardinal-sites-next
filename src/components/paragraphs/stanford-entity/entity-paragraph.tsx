@@ -15,7 +15,7 @@ const EntityParagraph = async ({paragraph}: { paragraph: EntityTeaserParagraphTy
   const gridClass = gridCols[entities.length >= 3 ? 0 : entities.length % 3]
 
   return (
-    <div className="cc lg:max-w-[980px] flex flex-col gap-10 mb-20">
+    <div className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20">
       {paragraph.su_entity_headline && <h2>{paragraph.su_entity_headline}</h2>}
 
       {paragraph.su_entity_description &&

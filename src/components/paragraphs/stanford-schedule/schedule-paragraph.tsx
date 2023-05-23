@@ -17,7 +17,7 @@ const ScheduleParagraph = ({paragraph}: { paragraph: EventScheduleParagraphType 
   }
 
   return (
-    <div className="cc">
+    <div className="centered">
       {start &&
         <h3>{start}</h3>
       }

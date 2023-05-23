@@ -1,6 +1,6 @@
 const NotFound = () => {
   return (
-    <div className="cc mt-32">
+    <div className="centered mt-32">
       <h1>Page not found</h1>
       <p>
         Unable to find the page you were looking for.

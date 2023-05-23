@@ -7,6 +7,9 @@ const nextConfig = {
     ignoreBuildErrors: true
   },
   async headers() {
+    if (process.env.NEXT_PUBLIC_DOMAIN) {
+      return [];
+    }
     return [
       {
         source: '/:path*',

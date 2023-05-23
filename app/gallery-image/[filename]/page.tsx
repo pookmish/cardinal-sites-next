@@ -29,7 +29,7 @@ const Page = async ({params: {filename}}) => {
   const media = mediaList.at(0)
 
   return (
-    <div className="cc mt-32">
+    <div className="centered mt-32">
       <h1>{media.name}</h1>
 
       <figure className="h-full w-fit mx-auto table">

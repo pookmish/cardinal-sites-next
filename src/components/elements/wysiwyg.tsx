@@ -50,6 +50,9 @@ const options: HTMLReactParserOptions = {
           nodeProps.className = nodeProps.className.trim()
           return <NodeName {...nodeProps}>{domToReact(domNode.children, options)}</NodeName>
 
+        case 'script':
+          return <></>;
+
         case "h2":
         case "h3":
         case "h4":
@@ -119,7 +122,7 @@ const fixClasses = (classes) => {
   return classes;
 }
 
-const cleanMediaMarkup = (node: Element) => {
+const cleanMediaMarkup = async (node: Element) => {
   const nodeProps = attributesToProps(node.attribs);
   nodeProps.className = fixClasses(nodeProps.className ?? '').trim();
 
@@ -207,8 +210,8 @@ const cleanMediaMarkup = (node: Element) => {
       />
     )
   }
-
-  return <>{domToReact(node.children, options)}</>
+  return <></>;
+  return <NodeName {...nodeProps}>{domToReact(node.children, options)}</NodeName>
 }
 
 const WysiwygImage = ({src, alt, height, width, className}) => {

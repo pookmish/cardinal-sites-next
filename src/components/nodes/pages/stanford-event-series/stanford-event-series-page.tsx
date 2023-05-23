@@ -3,7 +3,7 @@ import StanfordEventListItem from "@/components/nodes/list-item/stanford-event/s
 
 const StanfordEventSeriesPage = ({node}: { node: EventSeriesNodeType }) => {
   return (
-    <div className="cc">
+    <div className="centered">
       <h1 className="mt-32">{node.title}</h1>
 
       {node.su_event_series_dek &&

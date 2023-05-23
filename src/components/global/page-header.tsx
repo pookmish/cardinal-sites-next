@@ -10,7 +10,7 @@ const PageHeader = async () => {
   return (
     <header className="shadow-lg">
       <div className="bg-cardinal-red">
-        <div className="cc py-3">
+        <div className="centered py-3">
           <a
             className="font-stanford no-underline hocus:underline text-white hocus:text-white leading-none"
             href="https://www.stanford.edu">
@@ -22,7 +22,7 @@ const PageHeader = async () => {
       <GlobalMessage/>
 
       <div className="relative shadow">
-        <div className="cc min-h-50">
+        <div className="centered min-h-50">
           <div className="flex w-full justify-between">
             <Lockup/>
             <SiteSearchForm className="hidden lg:block"/>
