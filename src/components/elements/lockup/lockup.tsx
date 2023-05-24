@@ -34,12 +34,15 @@ export const Lockup = async () => {
   if (lockupSettings?.su_lockup_enabled) {
     return (
       <div className="py-10">
-        <Link href="/" className="flex flex-col lg:flex-row gap-4 no-underline">
-          <LockupLogo {...lockupProps}/>
-
-          <div className="w-[1px] bg-black shrink-0"/>
-          <div className="font-normal text-black text-m2 leading-none">
-            {siteSettings?.su_site_name || "University"}
+        <Link href="/" className="flex no-underline">
+          <div className="self-end">
+            <div className="lg:inline-block pr-2 mr-2 lg:border-r border-black">
+              <LockupLogo {...lockupProps}/>
+            </div>
+            <div
+              className="lg:inline-block font-normal text-black text-m2">
+              {siteSettings?.su_site_name || "University"}
+            </div>
           </div>
         </Link>
       </div>

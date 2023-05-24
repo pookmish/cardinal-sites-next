@@ -4,23 +4,22 @@ import {DrupalNode} from "next-drupal";
 import {notFound, redirect} from "next/navigation";
 import NodePage from "@/components/nodes/pages/node-page";
 import {GetStaticPathsResult, GetStaticPropsContext, Metadata} from "next";
-import {ReactNode} from "react";
+import type { PageComponent } from '../../.next/types/app/page';
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getPathsFromContext} from "@/lib/drupal/get-paths";
+import {getNodeMetadata} from "./metadata";
 
 export const revalidate = 1800;
 
-export const generateMetadata = async (context): Promise<Metadata> => {
+export const generateMetadata = async (context: GetStaticPropsContext): Promise<Metadata> => {
   let node: DrupalNode;
   try {
     node = await getPageData(context);
+    return getNodeMetadata(node);
   } catch (e) {
-    return {};
-  }
 
-  return {
-    title: node.title,
   }
+  return {}
 }
 
 class RedirectError extends Error {
@@ -49,25 +48,7 @@ const getPageData = async (context: GetStaticPropsContext) => {
   return getResourceFromContext<DrupalNode>(path.jsonapi.resourceName, context)
 }
 
-
-const Page = async (context: GetStaticPropsContext): Promise<ReactNode> => {
-  let node;
-
-  try {
-    node = await getPageData(context);
-  } catch (e) {
-    if (e instanceof RedirectError) {
-      redirect(e.message);
-    }
-    notFound();
-  }
-
-  return (
-    <NodePage node={node}/>
-  )
-}
-
-export const generateStaticParams = async () => {
+export const generateStaticParams  = async () => {
   const params = new DrupalJsonApiParams();
   params.addPageLimit(50);
 
@@ -99,5 +80,21 @@ export const generateStaticParams = async () => {
   return paths.map(path => typeof path !== "string" ? path?.params : path).slice(0, (process.env.BUILD_COMPLETE ? -1 : 20));
 }
 
+const Page: PageComponent = async (context: GetStaticPropsContext) => {
+  let node;
+
+  try {
+    node = await getPageData(context);
+  } catch (e) {
+    if (e instanceof RedirectError) {
+      redirect(e.message);
+    }
+    notFound();
+  }
+
+  return (
+    <NodePage node={node}/>
+  )
+}
 
 export default Page;

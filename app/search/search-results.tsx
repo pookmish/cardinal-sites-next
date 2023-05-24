@@ -18,6 +18,7 @@ const SearchResults = ({search}: { search: (search: string) => Promise<DrupalNod
   const onClick = async () => {
     setResults(await search(searchString));
   }
+
   return (
     <div>
       <div className="mb-20 max-w-[500px]">
@@ -46,8 +47,12 @@ const SearchResults = ({search}: { search: (search: string) => Promise<DrupalNod
           {results.map(result =>
             <li key={result.id}
                 className="border-b border-black-20 last:border-0 py-20">
-              <Link href={result.path}
-                    className="text-m2 font-bold">{result.title}</Link>
+              <Link href={result.path} className="text-m2 font-bold">
+                {result.title}
+              </Link>
+              <p>
+                {result.description}
+              </p>
               <div>Last
                 Updated: {new Date(result.changed).toLocaleDateString('en-us', {month: 'long', day: 'numeric', year: 'numeric'})}</div>
             </li>

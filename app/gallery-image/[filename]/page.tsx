@@ -11,7 +11,7 @@ export const metadata = {
   }
 }
 
-const Page = async ({params: {filename}}) => {
+const Page = async ({params: {filename}}: { params: { filename: string } }) => {
 
   const fileParams = new DrupalJsonApiParams();
   fileParams.addFilter('filename', filename);
@@ -41,7 +41,8 @@ const Page = async ({params: {filename}}) => {
         />
 
         {media.su_gallery_caption &&
-          <figcaption className="bg-white text-right p-5 m-0 table-caption caption-bottom">
+          <figcaption
+            className="bg-white text-right p-5 m-0 table-caption caption-bottom">
             {media.su_gallery_caption}
           </figcaption>
         }

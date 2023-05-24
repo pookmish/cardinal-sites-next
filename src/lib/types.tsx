@@ -127,7 +127,10 @@ export interface PolicyNodeType extends DrupalNode {
 }
 
 export interface PolicyChangeLogType extends JsonApiResource {
-
+  su_policy_public: boolean
+  su_policy_date: string
+  su_policy_notes: string
+  su_policy_title: string
 }
 
 // Paragraph Types.
@@ -242,7 +245,7 @@ export interface DrupalImageFileType extends DrupalFile {
     url: string
     base64?: string
   }
-  image_style_uri: {[key: string]: string}
+  image_style_uri: { [key: string]: string }
 }
 
 // Media Types.
@@ -328,6 +331,7 @@ export interface LocalFooterConfigPageType extends JsonApiResource {
   su_local_foot_use_logo?: boolean
   su_local_foot_loc_op?: string
 }
+
 export interface SuperFooterConfigPageType extends JsonApiResource {
   su_super_foot_enabled?: boolean
   su_super_foot_intranet?: DrupalLinkFieldType
@@ -390,7 +394,7 @@ export interface DrupalNameFieldType {
   title?: string
 }
 
-export interface DrupalViewFieldType{
+export interface DrupalViewFieldType {
   id: string
   resourceIdObjMeta: {
     arguments?: string

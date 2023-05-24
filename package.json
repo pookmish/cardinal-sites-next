@@ -21,6 +21,7 @@
     "drupal-jsonapi-params": "^2.2.0",
     "eslint": "^8.40.0",
     "eslint-config-next": "^13.4.1",
+    "html-entities": "^2.3.3",
     "html-react-parser": "^3.0.16",
     "next": "^13.4.1",
     "next-drupal": "^1.6.0",

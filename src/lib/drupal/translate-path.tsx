@@ -1,5 +1,3 @@
-
-
 import {GetStaticPropsContext} from "next";
 import {AccessToken, DrupalTranslatedPath} from "next-drupal";
 import {buildHeaders, buildUrl, getPathFromContext} from "./utils";

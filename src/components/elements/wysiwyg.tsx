@@ -1,4 +1,3 @@
-
 import Link from "@/components/elements/link";
 import parse, {HTMLReactParserOptions, Element, domToReact, attributesToProps} from "html-react-parser"
 import Image from "next/image";
@@ -122,7 +121,7 @@ const fixClasses = (classes) => {
   return classes;
 }
 
-const cleanMediaMarkup = async (node: Element) => {
+const cleanMediaMarkup = (node: Element) => {
   const nodeProps = attributesToProps(node.attribs);
   nodeProps.className = fixClasses(nodeProps.className ?? '').trim();
 
