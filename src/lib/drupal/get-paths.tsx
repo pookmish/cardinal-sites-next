@@ -59,9 +59,9 @@ export const getPathsFromContext = async (
 function buildPathsFromResources(resources, locale?: Locale) {
   return resources?.flatMap((resource) => {
     const slug =
-      resource?.path === process.env.DRUPAL_FRONT_PAGE
+      resource?.path?.alias === process.env.DRUPAL_FRONT_PAGE
         ? "/"
-        : resource?.path
+        : resource?.path?.alias
 
     const path = {
       params: {

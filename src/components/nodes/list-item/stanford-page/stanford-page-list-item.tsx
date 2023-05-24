@@ -10,7 +10,7 @@ const StanfordPageListItem = ({node}: { node: BasicPageNodeType }) => {
     <div className="@container py-10 ">
       <div className="flex flex-col @4xl:flex-row gap-20">
         <div className="order-2 @4xl:order-1">
-          <Link href={node.path}
+          <Link href={node.path?.alias}
                 className="text-digital-red no-underline hocus:text-black hocus:underline">
             <h3 className=" text-m2">{node.title}</h3>
           </Link>

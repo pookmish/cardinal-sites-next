@@ -2,6 +2,7 @@ import {getSearchIndex} from "@/lib/drupal/get-search-index";
 import {DrupalNode} from "next-drupal";
 import SearchResults from "./search-results";
 import {getNodeMetadata} from "../[...slug]/metadata";
+
 export const metadata = {
   title: "Search",
   description: "Search the site",
@@ -20,8 +21,7 @@ const Page = () => {
     return searchResults.map(node => ({
       id: node.id,
       type: node.type,
-      title: node.title,
-      path: node.path,
+      path: node.path.alias,
       changed: node.changed,
       ...getNodeMetadata(node)
     })).slice(0, 20)
@@ -29,6 +29,7 @@ const Page = () => {
   return (
     <div className="centered mt-32">
       <h1>Search</h1>
+
       <SearchResults search={search}/>
 
     </div>

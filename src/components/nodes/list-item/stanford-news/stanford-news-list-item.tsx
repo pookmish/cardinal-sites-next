@@ -12,7 +12,7 @@ const StanfordNewsListItem = ({node}: { node: NewsNodeType }) => {
       <div className="flex w-full justify-between flex-col @3xl:flex-row py-10">
         <div className="order-2 @3xl::order-1 flex flex-col">
           <Link
-            href={node.path}
+            href={node.path?.alias}
             className="text-digital-red no-underline hocus:text-black hocus:underline order-2"
           >
             <h3 className="font-bold text-m2">{node.title}</h3>

@@ -19,7 +19,7 @@ const StanfordPersonCard = ({node}: { node: PersonNodeType }) => {
           />
         </div>
       }
-      <Link href={node.path} className="text-digital-red no-underline hocus:no-underline hocus:text-black">
+      <Link href={node.path?.alias} className="text-digital-red no-underline hocus:no-underline hocus:text-black">
         <h3 className="text-m2">{node.title}</h3>
       </Link>
 

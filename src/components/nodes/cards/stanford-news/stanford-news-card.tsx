@@ -19,7 +19,7 @@ const StanfordNewsCard = ({node}: { node: NewsNodeType }) => {
         </div>
       }
       <div className="p-20">
-        <Link href={node.path}
+        <Link href={node.path?.alias}
               className="text-black no-underline hocus:text-black hocus:underline">
           <h3 className="text-m2">{node.title}</h3>
         </Link>

@@ -1,14 +1,23 @@
 "use client";
 
-import {DrupalNode} from "next-drupal";
 import {useEffect, useId, useState} from "react";
 import Link from "@/components/elements/link";
 import {useSearchParams} from "next/navigation";
+import {Metadata} from "next";
 
-const SearchResults = ({search}: { search: (search: string) => Promise<DrupalNode[]> }) => {
+interface Result extends Metadata {
+  id: string;
+  type: string;
+  path: string;
+  changed: string;
+  title: string;
+  description?: string;
+}
+
+const SearchResults = ({search}: { search: (search: string) => Promise<Result[]> }) => {
   const inputId = useId();
   const params = useSearchParams();
-  const [results, setResults] = useState<DrupalNode[]>([])
+  const [results, setResults] = useState<Result[]>([])
   const [searchString, setSearchString] = useState<string>(params.get('q') ?? '')
 
   useEffect(() => {

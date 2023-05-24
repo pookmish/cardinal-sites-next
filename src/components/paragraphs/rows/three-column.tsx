@@ -8,15 +8,15 @@ const ThreeColumn = ({items}: { items: DrupalParagraph[] }) => {
 
   return (
     <div className="w-full max-w-[calc(100vw-5rem)] mx-auto grid md:grid-cols-3 w-full gap-20">
-      <div className="">
+      <div className="flex flex-col gap-40">
         {leftItems.map(item => <Paragraph key={item.id} paragraph={item}/>)}
       </div>
 
-      <div className="">
+      <div className="flex flex-col gap-40">
         {mainItems.map(item => <Paragraph key={item.id} paragraph={item}/>)}
       </div>
 
-      <div className="">
+      <div className="flex flex-col gap-40">
         {rightItems.map(item => <Paragraph key={item.id} paragraph={item}/>)}
       </div>
     </div>

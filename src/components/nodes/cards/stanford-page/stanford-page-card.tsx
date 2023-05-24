@@ -20,7 +20,7 @@ const StanfordPageCard = ({node}: { node: BasicPageNodeType }) => {
         </div>
       }
       <div className="p-10">
-        <Link href={node.path}
+        <Link href={node.path?.alias}
               className="text-black no-underline hocus:text-black hocus:underline">
           <h3 className=" text-m2">{node.title}</h3>
         </Link>

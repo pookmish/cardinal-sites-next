@@ -4,7 +4,6 @@ import {DrupalNode} from "next-drupal";
 import {notFound, redirect} from "next/navigation";
 import NodePage from "@/components/nodes/pages/node-page";
 import {GetStaticPathsResult, GetStaticPropsContext, Metadata} from "next";
-import type { PageComponent } from '../../.next/types/app/page';
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getPathsFromContext} from "@/lib/drupal/get-paths";
 import {getNodeMetadata} from "./metadata";
@@ -37,7 +36,7 @@ const getPageData = async (context: GetStaticPropsContext) => {
 
   // Check for redirect.
   if (path.redirect?.[0].to) {
-    const currentPath = '/' + (typeof context.params.slug === 'object' ? context.params.slug.join('/') : context.params.slug);
+    const currentPath = '/' + (typeof context?.params?.slug === 'object' ? context.params.slug.join('/') : context?.params?.slug);
     const [destination] = path.redirect;
 
     if (destination.to != currentPath) {
@@ -80,7 +79,7 @@ export const generateStaticParams  = async () => {
   return paths.map(path => typeof path !== "string" ? path?.params : path).slice(0, (process.env.BUILD_COMPLETE ? -1 : 20));
 }
 
-const Page: PageComponent = async (context: GetStaticPropsContext) => {
+const Page = async (context: GetStaticPropsContext) => {
   let node;
 
   try {
@@ -93,6 +92,7 @@ const Page: PageComponent = async (context: GetStaticPropsContext) => {
   }
 
   return (
+    /* @ts-expect-error Async Server Component */
     <NodePage node={node}/>
   )
 }

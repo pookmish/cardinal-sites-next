@@ -105,7 +105,7 @@ const StanfordEventListItem = ({node}: { node: EventNodeType }) => {
 
   // Fix difference between server side render and client side render. Replace any strange characters.
   const dateTimeString = getEventTimeString(start, end, timezone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
-  const goToPath = node.su_event_source?.url ?? node.path as string
+  const goToPath = node.su_event_source?.url ?? node.path?.alias as string
 
   return (
     <div className="w-full mx-auto py-10 flex gap-10">

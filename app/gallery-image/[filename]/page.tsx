@@ -20,13 +20,13 @@ const Page = async ({params: {filename}}: { params: { filename: string } }) => {
     notFound();
   }
 
-  const file: DrupalFile = files.at(0);
+  const file = files[0];
 
   const mediaParams = new DrupalJsonApiParams();
   mediaParams.addFilter('su_gallery_image.id', file.id);
 
   const mediaList = await getResourceCollection<DrupalGalleryImageMediaType[]>('media--stanford_gallery_images', {params: mediaParams.getQueryObject()})
-  const media = mediaList.at(0)
+  const media = mediaList[0]
 
   return (
     <div className="centered mt-32">
