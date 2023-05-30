@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {AccessToken, DrupalMenuLinkContent, JsonApiWithLocaleOptions} from "next-drupal/src/types";
 import {buildUrl, buildHeaders} from "./utils";
 import {deserialize} from "@/lib/drupal/deserialize";

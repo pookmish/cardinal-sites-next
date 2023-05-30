@@ -8,8 +8,9 @@ import {XCircleIcon} from "@heroicons/react/24/outline";
 import useNavigationEvent from "@/lib/hooks/useNavigationEvent";
 import SiteSearchForm from "@/components/search/site-search-form";
 import useActiveTrail from "@/lib/hooks/useActiveTrail";
+import {DrupalMenuLinkContent} from "next-drupal";
 
-const MainMenu = ({menuItems}) => {
+const MainMenu = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const browserUrl = useNavigationEvent()
   const activeTrail = useActiveTrail(menuItems);
@@ -49,7 +50,17 @@ const MainMenu = ({menuItems}) => {
     </OutsideClickHandler>
   )
 }
-const MenuItem = ({id, url, title, items, activeTrail, level = 0}) => {
+
+interface MenuItemProps {
+  id: string
+  url: string
+  title: string
+  items?: DrupalMenuLinkContent[]
+  activeTrail: string[]
+  level?: number
+}
+
+const MenuItem = ({id, url, title, items = [], activeTrail, level = 0}: MenuItemProps) => {
   const [submenuOpen, setSubmenuOpen] = useState(false)
   const browserUrl = useNavigationEvent()
   useEffect(() => setSubmenuOpen(false), [browserUrl]);

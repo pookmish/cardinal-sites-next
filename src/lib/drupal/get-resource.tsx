@@ -1,6 +1,5 @@
 // @ts-nocheck
 
-
 import {AccessToken, JsonApiResource, JsonApiWithLocaleOptions} from "next-drupal/src/types";
 import {stringify} from "qs"
 
@@ -9,7 +8,7 @@ import {deserialize} from "@/lib/drupal/deserialize";
 import {GetStaticPropsContext} from "next";
 import {JsonApiParams} from "next-drupal";
 
-export async function getResources(items: { type: string, id: string }[]) {
+export async function getResources<T>(items: { type: string, id: string }[]): Promise<T[]> {
   const requests: PromiseLike<any>[] = [];
   items.map(item => requests.push(getResource(item.type, item.id)));
   // @ts-ignore

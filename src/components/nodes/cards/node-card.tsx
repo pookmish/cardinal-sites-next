@@ -7,25 +7,37 @@ import StanfordPageCard from "@/components/nodes/cards/stanford-page/stanford-pa
 import StanfordPersonCard from "@/components/nodes/cards/stanford-person/stanford-person-card";
 import StanfordPolicyCard from "@/components/nodes/cards/stanford-policy/stanford-policy-card";
 import StanfordPublicationCard from "@/components/nodes/cards/stanford-publication/stanford-publication-card";
+import {
+  BasicPageNodeType,
+  CourseNodeType,
+  EventNodeType,
+  EventSeriesNodeType,
+  NewsNodeType,
+  PersonNodeType,
+  PolicyNodeType,
+  PublicationNodeType
+} from "@/lib/types";
+import {JSX} from "react";
 
-const NodeCard = ({node}: { node: DrupalNode }) => {
+const NodeCard = ({node}: { node: DrupalNode }): JSX.Element | null => {
   switch (node.type) {
     case 'node--stanford_course':
-      return <StanfordCourseCard node={node}/>
+      return <StanfordCourseCard node={node as CourseNodeType}/>
     case 'node--stanford_event':
-      return <StanfordEventCard node={node}/>
+      return <StanfordEventCard node={node as EventNodeType}/>
     case 'node--stanford_event_series':
-      return <StanfordEventSeriesCard node={node}/>
+      return <StanfordEventSeriesCard node={node as EventSeriesNodeType}/>
     case 'node--stanford_news':
-      return <StanfordNewsCard node={node}/>
+      return <StanfordNewsCard node={node as NewsNodeType}/>
     case 'node--stanford_page':
-      return <StanfordPageCard node={node}/>
+      return <StanfordPageCard node={node as BasicPageNodeType}/>
     case 'node--stanford_person':
-      return <StanfordPersonCard node={node}/>
+      return <StanfordPersonCard node={node as PersonNodeType}/>
     case 'node--stanford_policy':
-      return <StanfordPolicyCard node={node}/>
+      return <StanfordPolicyCard node={node as PolicyNodeType}/>
     case 'node--stanford_publication':
-      return <StanfordPublicationCard node={node}/>
+      return <StanfordPublicationCard node={node as PublicationNodeType}/>
   }
+  return null;
 }
 export default NodeCard;

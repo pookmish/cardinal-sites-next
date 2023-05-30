@@ -32,9 +32,9 @@
     "react-dom": "^18.2.0",
     "react-focus-lock": "^2.9.4",
     "react-intersection-observer": "^9.4.3",
-    "react-obfuscate": "^3.6.9",
     "react-tiny-oembed": "^1.1.0",
     "sharp": "^0.32.1",
+    "tailwind-merge": "^1.12.0",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.0.4",
     "xml2js": "^0.5.0"

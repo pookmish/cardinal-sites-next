@@ -5,6 +5,19 @@ const decanter = require('decanter');
 const path = require('path');
 const dir = path.resolve(__dirname, 'src/styles');
 
+let twoColumn = {}, threeColumn = {}, i;
+for (i = 1; i <= 4; i++) {
+  twoColumn[`1-${i}`] = `1fr ${i}fr`;
+  twoColumn[`${i}-1`] = `${i}fr 1fr`;
+}
+
+for (i = 1; i <= 4; i++) {
+  threeColumn[`${i}-1-1`] = `${i}fr 1fr 1fr`;
+  threeColumn[`1-${i}-1`] = `1fr ${i}fr 1fr`;
+  threeColumn[`1-1-${i}`] = `1fr 1fr ${i}fr`;
+}
+
+
 module.exports = {
   content: [
     './src/**/*.{js,ts,jsx,tsx,mdx}',
@@ -22,6 +35,7 @@ module.exports = {
     decanter: decanter.theme.decanter,
     screens: decanter.theme.screens,
     extend: {
+      gridTemplateColumns: {...twoColumn, ...threeColumn},
       fontSize: decanter.theme.fontSize,
       fontWeight: decanter.theme.extend.fontWeight,
       lineClamp: decanter.theme.extend.lineClamp,
@@ -45,6 +59,6 @@ module.exports = {
     require('@tailwindcss/container-queries'),
     require(`${dir}/typography/local-footer.tsx`)(),
     require(`${dir}/typography/global-message.tsx`)(),
-    require(`${dir}/centered-container.tsx`)()
+    require(`${dir}/centered-container.tsx`)(),
   ],
 };

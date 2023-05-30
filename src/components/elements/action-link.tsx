@@ -1,7 +1,12 @@
 import Link from "@/components/elements/link";
 import {ArrowUpRightIcon} from "@heroicons/react/20/solid";
+import {PropsWithChildren} from "react";
 
-const ActionLink = ({href, children, ...props}) => {
+interface Props {
+  href: string;
+}
+
+const ActionLink = ({href, children, ...props}: PropsWithChildren<Props>) => {
   return (
     <Link href={href} {...props} className="relative">
       {children}

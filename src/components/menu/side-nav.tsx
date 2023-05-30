@@ -3,21 +3,23 @@
 import {useMemo} from "react";
 import useActiveTrail from "@/lib/hooks/useActiveTrail";
 import Link from "@/components/elements/link";
+import {DrupalMenuLinkContent} from "next-drupal";
 
-const getCurrentPageTitle = (activeTrail, items, trail) => {
+const getCurrentPageTitle = (activeTrail: string[], items: DrupalMenuLinkContent[], trail: string[]): string | undefined => {
   const currentItem = items.find(item => item.id === trail.at(0));
-  if(currentItem === undefined) return null;
+  if (!currentItem || currentItem === undefined) return;
+
   if (currentItem.id === activeTrail.at(-1)) {
     return currentItem.title;
   }
 
-  if (currentItem.items?.length > 0 && trail.length > 1) {
+  if (currentItem.items && currentItem.items.length > 0 && trail.length > 1) {
     return getCurrentPageTitle(activeTrail, currentItem.items, trail.slice(1));
   }
 }
 
 
-const SideNav = ({menuItems}) => {
+const SideNav = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
   const activeTrail = useActiveTrail(menuItems);
 
   // Peel off the menu items from the parent.
@@ -41,7 +43,16 @@ const SideNav = ({menuItems}) => {
   )
 }
 
-const MenuItem = ({id, url, title, items, activeTrail, level = 0}) => {
+interface MenuItemProps {
+  id: string
+  url: string
+  title: string
+  items?: DrupalMenuLinkContent[]
+  activeTrail: string[]
+  level?: number
+}
+
+const MenuItem = ({id, url, title, items, activeTrail, level = 0}: MenuItemProps) => {
   const leftPadding = [
     'pl-10',
     'pl-20',
@@ -83,10 +94,10 @@ const MenuItem = ({id, url, title, items, activeTrail, level = 0}) => {
       >
         {title}
       </Link>
-      {(items?.length > 0 && activeTrail.includes(id)) &&
+      {(items && items.length > 0 && activeTrail.includes(id)) &&
         <ul className={`border-t list-unstyled ${leftPadding[level]}`}>
           {items.map(item =>
-            <MenuItem key={item.id} {...item} level={level+1} activeTrail={activeTrail}/>
+            <MenuItem key={item.id} {...item} level={level + 1} activeTrail={activeTrail}/>
           )}
         </ul>
       }

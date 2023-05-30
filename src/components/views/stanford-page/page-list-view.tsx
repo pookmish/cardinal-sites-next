@@ -9,7 +9,7 @@ interface Props {
   emptyMessage?: string
 }
 
-const PageListView = async ({view,args, itemsToDisplay, emptyMessage}: Props) => {
+const PageListView = async ({view, args, itemsToDisplay, emptyMessage}: Props) => {
   args = args ? args + '/0/0/0' : '0/0/0/0';
 
   const items = await getViewItems<DrupalNode>(view, itemsToDisplay, args.split('/'));
@@ -25,16 +25,16 @@ const PageListView = async ({view,args, itemsToDisplay, emptyMessage}: Props) =>
   }
 
   return (
-    <div>
+    <ul className="list-unstyled mb-20">
       {items.map(item =>
-        <div
+        <li
           key={item.id}
           className="border-b border-black-20 last:border-0 pb-10 last:pb-0 pt-10 first:pt-0"
         >
           <StanfordPageListItem node={item}/>
-        </div>
+        </li>
       )}
-    </div>
+    </ul>
   )
 }
 export default PageListView;

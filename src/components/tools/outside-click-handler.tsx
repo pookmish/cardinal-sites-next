@@ -5,23 +5,23 @@ interface OutsideClickHandlerProps extends PropsWithChildren<any> {
   onFocusOutside?: Function
   children: ReactNode
   className?: string
-  component?: string | ReactNode
+  component?: React.ElementType
   render?: Function
 }
 
-const OutsideClickHandler = ({component, onClickOutside, onFocusOutside = onClickOutside, children, ...props}: OutsideClickHandlerProps) => {
+const OutsideClickHandler = ({component = 'div', onClickOutside, onFocusOutside = onClickOutside, children, ...props}: OutsideClickHandlerProps) => {
   const clickCaptured = useRef(false)
   const focusCaptured = useRef(false)
   const Element = component || "div"
 
-  const documentClick = (event) => {
+  const documentClick = (event: Event) => {
     if (!clickCaptured.current && onClickOutside) {
       onClickOutside(event);
     }
     clickCaptured.current = false;
   }
 
-  const documentFocus = (event) => {
+  const documentFocus = (event: Event) => {
     if (!focusCaptured.current && onFocusOutside) {
       onFocusOutside(event);
     }

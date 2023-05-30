@@ -1,6 +1,7 @@
 import NodeCard from "@/components/nodes/cards/node-card";
 import {getViewItems} from "@/components/views/view";
 import {DrupalNode} from "next-drupal";
+import CardViewGrid from "@/components/views/card-view-grid";
 
 interface Props {
   view: string
@@ -26,13 +27,7 @@ const SharedTagsCardView = async ({view, args, itemsToDisplay, emptyMessage}: Pr
   }
 
   return (
-    <div className="flex flex-wrap justify-between gap-20">
-      {items.map(item =>
-        <div key={item.id} className="flex-1 min-w-[250px]">
-          <NodeCard node={item} key={item.id}/>
-        </div>
-      )}
-    </div>
+    <CardViewGrid items={items}/>
   )
 }
 export default SharedTagsCardView;

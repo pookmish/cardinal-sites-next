@@ -12,7 +12,7 @@ const ScheduleParagraph = ({paragraph}: { paragraph: EventScheduleParagraphType 
       month: 'long',
       day: 'numeric',
       year: 'numeric',
-      timeZone: paragraph.su_schedule_date_time.timezone?.length > 0 ? paragraph.su_schedule_date_time.timezone.length : 'America/Los_Angeles',
+      timeZone: paragraph.su_schedule_date_time.timezone || 'America/Los_Angeles',
     })
   }
 
@@ -37,6 +37,7 @@ const ScheduleParagraph = ({paragraph}: { paragraph: EventScheduleParagraphType 
       {paragraph.su_schedule_speaker &&
         <div>
           {paragraph.su_schedule_speaker.map(speaker =>
+            /* @ts-expect-error Async Server Component */
             <Paragraph paragraph={speaker} key={speaker.id}/>
           )}
         </div>

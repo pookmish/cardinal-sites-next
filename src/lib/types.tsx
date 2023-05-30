@@ -135,20 +135,21 @@ export interface PolicyChangeLogType extends JsonApiResource {
 
 // Paragraph Types.
 export interface LayoutParagraphsBehaviorsType {
-  layout_paragraphs: {
-    layout?: string
-    parent_uuid: string
-    region: string
+  layout?: string
+  parent_uuid: string
+  region: string
+  config?: {
+    [key: string]: any
   }
 }
 
 export interface DrupalParagraphWithBehaviors extends DrupalParagraph {
-  behavior_settings?: LayoutParagraphsBehaviorsType
+  behavior_settings?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
 }
 
 export interface BannerParagraphType extends DrupalParagraph {
   behavior_settings?: {
-    layout_paragraphs?: LayoutParagraphsBehaviorsType
+    layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
     hero_pattern?: {
       overlay_position?: string
     }
@@ -163,7 +164,10 @@ export interface BannerParagraphType extends DrupalParagraph {
 
 export interface CardParagraphType extends DrupalParagraph {
   behavior_settings?: {
-    layout_paragraphs?: LayoutParagraphsBehaviorsType
+    layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
+    su_card_styles?: {
+      link_style?: string
+    }
   }
   su_card_body?: string
   su_card_header?: string
@@ -175,7 +179,7 @@ export interface CardParagraphType extends DrupalParagraph {
 
 export interface ImageGalleryParagraphType extends DrupalParagraph {
   behavior_settings?: {
-    layout_paragraphs?: LayoutParagraphsBehaviorsType
+    layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
   }
   su_gallery_button?: DrupalLinkFieldType
   su_gallery_description?: string
@@ -185,7 +189,7 @@ export interface ImageGalleryParagraphType extends DrupalParagraph {
 
 export interface ListParagraphType extends DrupalParagraph {
   behavior_settings?: {
-    layout_paragraphs?: LayoutParagraphsBehaviorsType
+    layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
     list_paragraph?: {
       hide_empty?: boolean
       empty_message?: string
@@ -199,7 +203,7 @@ export interface ListParagraphType extends DrupalParagraph {
 
 export interface EntityTeaserParagraphType extends DrupalParagraph {
   behavior_settings?: {
-    layout_paragraphs?: LayoutParagraphsBehaviorsType
+    layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
   }
   su_entity_button?: DrupalLinkFieldType
   su_entity_description?: string
@@ -209,7 +213,7 @@ export interface EntityTeaserParagraphType extends DrupalParagraph {
 
 export interface MediaCaptionParagraphType extends DrupalParagraph {
   behavior_settings?: {
-    layout_paragraphs?: LayoutParagraphsBehaviorsType
+    layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
   }
   su_media_caption_caption?: string
   su_media_caption_link?: DrupalLinkFieldType
@@ -218,7 +222,7 @@ export interface MediaCaptionParagraphType extends DrupalParagraph {
 
 export interface WysiwygParagraphType extends DrupalParagraph {
   behavior_settings?: {
-    layout_paragraphs?: LayoutParagraphsBehaviorsType
+    layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
   }
   su_wysiwyg_text?: string
 }

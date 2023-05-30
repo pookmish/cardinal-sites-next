@@ -2,10 +2,15 @@ import OneColumn from "@/components/paragraphs/rows/one-column";
 import TwoColumn from "@/components/paragraphs/rows/two-column";
 import ThreeColumn from "@/components/paragraphs/rows/three-column";
 import {getResources} from "@/lib/drupal/get-resource";
-import {DrupalParagraphWithBehaviors} from "@/lib/types";
+import {DrupalParagraphWithBehaviors, LayoutParagraphsBehaviorsType} from "@/lib/types";
+import {DrupalParagraph} from "next-drupal";
 
-const Rows = async ({components}: {components: DrupalParagraphWithBehaviors[]}) => {
-  const layouts = {};
+interface LayoutsProps {
+  [key: string]: DrupalParagraphWithBehaviors
+}
+
+const Rows = async ({components}: { components: DrupalParagraphWithBehaviors[] }) => {
+  const layouts: LayoutsProps = {};
   components = await getResources(components);
 
   // Set the layouts first.
@@ -29,7 +34,7 @@ const Rows = async ({components}: {components: DrupalParagraphWithBehaviors[]}) 
       {Object.keys(layouts).map(layoutId =>
         <Row
           key={layoutId}
-          layoutSettings={layouts[layoutId].behavior_settings.layout_paragraphs}
+          layoutSettings={layouts[layoutId].behavior_settings?.layout_paragraphs}
           items={layouts[layoutId].children}
         />
       )}
@@ -37,15 +42,15 @@ const Rows = async ({components}: {components: DrupalParagraphWithBehaviors[]}) 
   )
 }
 
-const Row = ({layoutSettings, items}) => {
+const Row = ({layoutSettings, items}: { layoutSettings: LayoutParagraphsBehaviorsType | undefined, items: DrupalParagraphWithBehaviors[] }) => {
   return (
     <>
-      {layoutSettings.layout === 'layout_paragraphs_1_column' &&
-        <OneColumn config={layoutSettings.config} items={items}/>}
-      {layoutSettings.layout === 'layout_paragraphs_2_column' &&
+      {layoutSettings?.layout === 'layout_paragraphs_1_column' &&
+        <OneColumn items={items}/>}
+      {layoutSettings?.layout === 'layout_paragraphs_2_column' &&
         <TwoColumn config={layoutSettings.config} items={items}/>}
-      {layoutSettings.layout === 'layout_paragraphs_3_column' &&
-        <ThreeColumn config={layoutSettings.config} items={items}/>}
+      {layoutSettings?.layout === 'layout_paragraphs_3_column' &&
+        <ThreeColumn items={items}/>}
     </>
   )
 }

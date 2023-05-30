@@ -1,9 +1,11 @@
 import Link from "@/components/elements/link";
 import {PropsWithChildren} from "react";
+import {twMerge} from 'tailwind-merge'
 
 interface Props {
   href: string
   centered?: boolean
+  className?: string
 }
 
 export const Button = ({href, centered = false, children, className = "", ...props}: PropsWithChildren<Props>) => {
@@ -12,7 +14,7 @@ export const Button = ({href, centered = false, children, className = "", ...pro
     <Link
       href={href}
       {...props}
-      className={`${className} bg-digital-red text-white hocus:bg-black hocus:text-white px-10 py-5 no-underline hocus:underline transition ${centeredClass}`.trim()}
+      className={twMerge(`bg-digital-red text-white hocus:bg-black hocus:text-white px-10 py-5 no-underline hocus:underline transition ${centeredClass}`.trim(), className)}
     >
       {children}
     </Link>

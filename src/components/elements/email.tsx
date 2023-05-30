@@ -1,10 +1,18 @@
 "use client"
 
-import Obfuscate from 'react-obfuscate';
+import {PropsWithoutRef, useEffect, useState} from "react";
 
-const Email = ({email}: { email: string }) => {
+const Email = ({email, ...props}: PropsWithoutRef<{ email: string }>) => {
+  const [display, setDisplay] = useState<boolean>(false)
+  useEffect(() => setDisplay(true), [])
   return (
-    <Obfuscate email={email}/>
+    <>
+      {display &&
+        <a href={`mailto:${email}`} {...props}>
+          {email}
+        </a>
+      }
+    </>
   )
 }
 export default Email

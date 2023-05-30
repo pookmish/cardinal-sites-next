@@ -1,6 +1,7 @@
 import StanfordEventCard from "@/components/nodes/cards/stanford-event/stanford-event-card";
 import {EventNodeType} from "@/lib/types";
 import {getViewItems} from "@/components/views/view";
+import CardViewGrid from "@/components/views/card-view-grid";
 
 interface Props {
   view: string
@@ -9,7 +10,7 @@ interface Props {
   emptyMessage?: string
 }
 
-const EventsCardView = async ({view,args, itemsToDisplay, emptyMessage}: Props) => {
+const EventsCardView = async ({view, args, itemsToDisplay, emptyMessage}: Props) => {
 
   args = args ? args + '/0/0/0' : '0/0/0/0';
 
@@ -26,13 +27,7 @@ const EventsCardView = async ({view,args, itemsToDisplay, emptyMessage}: Props) 
   }
 
   return (
-    <div className="flex flex-wrap justify-between gap-20">
-      {items.map(item =>
-        <div key={item.id} className="flex-1 min-w-[250px]">
-          <StanfordEventCard node={item} key={item.id}/>
-        </div>
-      )}
-    </div>
+    <CardViewGrid items={items}/>
   )
 }
 export default EventsCardView;

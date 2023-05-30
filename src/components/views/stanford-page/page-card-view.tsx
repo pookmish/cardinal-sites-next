@@ -1,6 +1,7 @@
 import {BasicPageNodeType} from "@/lib/types";
 import {getViewItems} from "@/components/views/view";
 import StanfordPageCard from "@/components/nodes/cards/stanford-page/stanford-page-card";
+import CardViewGrid from "@/components/views/card-view-grid";
 
 interface Props {
   view: string
@@ -9,7 +10,7 @@ interface Props {
   emptyMessage?: string
 }
 
-const PageCardView = async ({view,args, itemsToDisplay, emptyMessage}: Props) => {
+const PageCardView = async ({view, args, itemsToDisplay, emptyMessage}: Props) => {
   args = args ? args + '/0/0/0' : '0/0/0/0';
 
   const items = await getViewItems<BasicPageNodeType>(view, itemsToDisplay, args.split('/'));
@@ -25,13 +26,7 @@ const PageCardView = async ({view,args, itemsToDisplay, emptyMessage}: Props) =>
   }
 
   return (
-    <div className="flex flex-wrap justify-between gap-20">
-      {items.map(item =>
-        <div key={item.id} className="flex-1 min-w-[250px]">
-          <StanfordPageCard node={item} key={item.id}/>
-        </div>
-      )}
-    </div>
+    <CardViewGrid items={items}/>
   )
 }
 export default PageCardView;

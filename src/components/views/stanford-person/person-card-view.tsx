@@ -1,6 +1,7 @@
 import StanfordPersonCard from "@/components/nodes/cards/stanford-person/stanford-person-card";
 import {PersonNodeType} from "@/lib/types";
 import {getViewItems} from "@/components/views/view";
+import CardViewGrid from "@/components/views/card-view-grid";
 
 interface Props {
   view: string
@@ -9,7 +10,7 @@ interface Props {
   emptyMessage?: string
 }
 
-const PersonCardView = async ({view,args, itemsToDisplay, emptyMessage}: Props) => {
+const PersonCardView = async ({view, args, itemsToDisplay, emptyMessage}: Props) => {
   args = args ? args + '/0/0/0' : '0/0/0/0';
 
   const items = await getViewItems<PersonNodeType>(view, itemsToDisplay, args.split('/'));
@@ -24,13 +25,7 @@ const PersonCardView = async ({view,args, itemsToDisplay, emptyMessage}: Props) 
     return null;
   }
   return (
-    <div className="flex flex-wrap justify-between gap-20">
-      {items.map(item =>
-        <div key={item.id} className="flex-1 min-w-[250px]">
-          <StanfordPersonCard node={item} key={item.id}/>
-        </div>
-      )}
-    </div>
+    <CardViewGrid items={items}/>
   )
 }
 export default PersonCardView;

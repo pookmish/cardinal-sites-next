@@ -5,7 +5,7 @@ module.exports = function () {
   return function ({addComponents, theme}) {
     // Find and set the padding based on the screen margins
     const screens = theme('screens');
-    const maxWdiths = {};
+    const maxWidths = {};
     let largestScreen = 0;
     let largestGutter = 0;
     let smallestGutter = 999999;
@@ -21,7 +21,7 @@ module.exports = function () {
         if (largestGutter < gutterWidth) largestGutter = gutterWidth;
         if (smallestGutter > gutterWidth) smallestGutter = gutterWidth;
 
-        maxWdiths[`@screen ${key}`] = {
+        maxWidths[`@screen ${key}`] = {
           maxWidth: 'calc(100vw - ' + (gutterWidth * 2) + 'px)',
         };
       }
@@ -35,7 +35,7 @@ module.exports = function () {
         width: '100%',
         marginLeft: 'auto',
         marginRight: 'auto',
-        ...maxWdiths,
+        ...maxWidths,
         [key]: {
           maxWidth: `${largestScreen}px`,
         },

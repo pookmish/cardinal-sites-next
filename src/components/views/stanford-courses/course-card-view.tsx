@@ -1,6 +1,7 @@
 import {CourseNodeType} from "@/lib/types";
 import StanfordCourseCard from "@/components/nodes/cards/stanford-course/stanford-course-card";
 import {getViewItems} from "@/components/views/view";
+import CardViewGrid from "@/components/views/card-view-grid";
 
 interface Props {
   view: string
@@ -25,13 +26,7 @@ const CourseCardView = async ({view, args, itemsToDisplay, emptyMessage}: Props)
   }
 
   return (
-    <div className="flex flex-wrap justify-between gap-20">
-      {items.map(item =>
-        <div key={item.id} className="flex-1 min-w-[250px]">
-          <StanfordCourseCard node={item} key={item.id}/>
-        </div>
-      )}
-    </div>
+    <CardViewGrid items={items}/>
   )
 }
 export default CourseCardView;

@@ -16,6 +16,7 @@ import LockupP from "@/components/elements/lockup/lockup-p";
 import LockupR from "@/components/elements/lockup/lockup-r";
 import LockupS from "@/components/elements/lockup/lockup-s";
 import LockupT from "@/components/elements/lockup/lockup-t";
+import {JSX} from "react";
 
 const LocalFooter = async () => {
   const configPage = await getConfigPageResource<LocalFooterConfigPageType>('stanford_local_footer')
@@ -31,7 +32,7 @@ const LocalFooter = async () => {
     line3: configPage?.su_local_foot_line_3,
     line4: configPage?.su_local_foot_line_4,
     line5: configPage?.su_local_foot_line_5,
-    logoUrl: !configPage?.su_local_foot_use_logo ? configPage?.su_local_foot_loc_img?.image_style_uri?.responsive_medium : null,
+    logoUrl: !configPage?.su_local_foot_use_logo ? configPage?.su_local_foot_loc_img?.image_style_uri?.responsive_medium : undefined,
   }
 
   return (
@@ -121,25 +122,24 @@ const LocalFooter = async () => {
   )
 }
 
-const FooterLockup = ({useDefault = true, siteName, lockupOption, ...props}) => {
+export interface FooterLockupProps {
+  useDefault?: boolean
+  siteName?: string
+  lockupOption?: string
+  line1?: string
+  line2?: string
+  line3?: string
+  line4?: string
+  line5?: string
+  logoUrl?: string
+}
+
+const FooterLockup = ({useDefault = true, siteName, lockupOption, ...props}: FooterLockupProps): JSX.Element => {
   const lockupProps = {
     ...props
   }
 
-  if (useDefault) {
-    return (
-      <div className="py-10">
-        <Link href="/" className="flex flex-col lg:flex-row gap-4 no-underline">
-          <LockupLogo {...lockupProps}/>
-
-          <div className="w-[1px] bg-black shrink-0"/>
-          <div className="font-normal text-black text-m2 leading-none">
-            {siteName || "University"}
-          </div>
-        </Link>
-      </div>
-    )
-  }
+  lockupOption = useDefault ? 'default' : lockupOption
 
   switch (lockupOption) {
     case 'none':
@@ -188,5 +188,20 @@ const FooterLockup = ({useDefault = true, siteName, lockupOption, ...props}) => 
     case 't':
       return <LockupT {...lockupProps}/>;
   }
+
+
+  return (
+    <div className="py-10">
+      <Link href="/" className="flex flex-col lg:flex-row gap-4 no-underline">
+        <LockupLogo {...lockupProps}/>
+
+        <div className="w-[1px] bg-black shrink-0"/>
+        <div className="font-normal text-black text-m2 leading-none">
+          {siteName || "University"}
+        </div>
+      </Link>
+    </div>
+  )
+
 }
 export default LocalFooter;

@@ -1,11 +1,7 @@
 import {PropsWithoutRef, useId} from "react";
 import {MagnifyingGlassIcon} from "@heroicons/react/20/solid";
 
-interface Props {
-
-}
-
-const SiteSearchForm = ({...props}: PropsWithoutRef<Props>) => {
+const SiteSearchForm = ({...props}: PropsWithoutRef<any>) => {
   const inputId = useId();
   return (
     <form action="/search" {...props}>

@@ -1,5 +1,4 @@
 import Link from "@/components/elements/link";
-import StanfordWordMark from "@/components/images/stanford-wordmark";
 import {getConfigPageResource} from "@/lib/drupal/get-resource";
 import {LockupSettingsConfigPageType, SiteSettingsConfigPageType} from "@/lib/types";
 import LockupA from "@/components/elements/lockup/lockup-a";
@@ -20,7 +19,7 @@ export const Lockup = async () => {
   const siteSettings = await getConfigPageResource<SiteSettingsConfigPageType>('stanford_basic_site_settings')
   const lockupSettings = await getConfigPageResource<LockupSettingsConfigPageType>('lockup_settings')
 
-  const logoUrl = !lockupSettings.su_use_theme_logo ? lockupSettings.su_upload_logo_image?.image_style_uri?.responsive_medium : null;
+  const logoUrl = !lockupSettings.su_use_theme_logo ? lockupSettings.su_upload_logo_image?.image_style_uri?.responsive_medium : undefined;
   const lockupProps = {
     line1: lockupSettings?.su_line_1,
     line2: lockupSettings?.su_line_2,

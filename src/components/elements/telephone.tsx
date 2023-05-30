@@ -1,15 +1,18 @@
 "use client"
 
-import Obfuscate from 'react-obfuscate';
+import {PropsWithoutRef, useEffect, useState} from "react";
 
-const Telephone = ({tel}: { tel: string }) => {
+const Telephone = ({tel, ...props}: PropsWithoutRef<{ tel: string }>) => {
+  const [display, setDisplay] = useState<boolean>(false)
+  useEffect(() => setDisplay(true), [])
   return (
-    <Obfuscate
-      tel={tel.replace(/[^\d]+/g, '')}
-      className="foobar"
-    >
-      {tel}
-    </Obfuscate>
+    <>
+      {display &&
+        <a href={`tel:${tel.replace(/[^\d]+/g, '')}`} {...props}>
+          {tel}
+        </a>
+      }
+    </>
   )
 }
 export default Telephone

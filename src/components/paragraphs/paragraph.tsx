@@ -10,13 +10,24 @@ import WysiwygParagraph from "@/components/paragraphs/stanford-wysiwyg/wysiwyg-p
 import BannerParagraph from "@/components/paragraphs/stanford-banner/banner-paragraph";
 import {getResource} from "@/lib/drupal/get-resource";
 import ListParagraph from "@/components/paragraphs/stanford-lists/list-paragraph";
-import {BannerParagraphType, CardParagraphType, EntityTeaserParagraphType, EventScheduleParagraphType, ImageGalleryParagraphType, ListParagraphType, MediaCaptionParagraphType, SpeakerParagraphType, WysiwygParagraphType} from "@/lib/types";
+import {
+  BannerParagraphType,
+  CardParagraphType,
+  EntityTeaserParagraphType,
+  EventScheduleParagraphType,
+  ImageGalleryParagraphType,
+  ListParagraphType,
+  MediaCaptionParagraphType,
+  SpeakerParagraphType,
+  WysiwygParagraphType
+} from "@/lib/types";
+import {JSX} from "react";
 
 interface Props {
   paragraph: DrupalParagraph
 }
 
-const Paragraph = async ({paragraph}: Props) => {
+const Paragraph = async ({paragraph}: Props): Promise<JSX.Element | undefined> => {
   paragraph = await getResource(paragraph.type, paragraph.id);
 
   switch (paragraph.type) {
@@ -25,10 +36,12 @@ const Paragraph = async ({paragraph}: Props) => {
     case 'paragraph--stanford_card':
       return <CardParagraph paragraph={paragraph as CardParagraphType}/>
     case 'paragraph--stanford_entity':
+      /* @ts-expect-error Async Server Component */
       return <EntityParagraph paragraph={paragraph as EntityTeaserParagraphType}/>
     case 'paragraph--stanford_gallery':
       return <GalleryParagraph paragraph={paragraph as ImageGalleryParagraphType}/>
     case 'paragraph--stanford_lists':
+      /* @ts-expect-error Async Server Component */
       return <ListParagraph paragraph={paragraph as ListParagraphType}/>
     case 'paragraph--stanford_media_caption':
       return <MediaCaptionParagraph paragraph={paragraph as MediaCaptionParagraphType}/>

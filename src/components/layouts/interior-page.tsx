@@ -1,7 +1,8 @@
 import {getMenu} from "@/lib/drupal/get-menu";
 import SideNav from "@/components/menu/side-nav";
+import {PropsWithChildren} from "react";
 
-const InteriorPage = async ({children}) => {
+const InteriorPage = async ({children}: PropsWithChildren<any>) => {
   const {tree} = await getMenu('main');
 
   return (

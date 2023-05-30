@@ -2,11 +2,12 @@
 
 import {usePathname} from "next/navigation";
 import {useMemo} from "react";
+import {DrupalMenuLinkContent} from "next-drupal";
 
-const useActiveTrail = (menuItems) => {
+const useActiveTrail = (menuItems: DrupalMenuLinkContent[]) => {
   const currentPath = usePathname();
 
-  const getActiveTrail = (menuItems, trail: string[] = []) => {
+  const getActiveTrail = (menuItems: DrupalMenuLinkContent[], trail: string[] = []): string[] => {
     let childTrail, currentTrail;
     for (let i = 0; i < menuItems.length; i++) {
       currentTrail = [...trail];
@@ -16,8 +17,10 @@ const useActiveTrail = (menuItems) => {
         return currentTrail;
       }
 
-      if (typeof menuItems[i].items === 'object') {
-        childTrail = getActiveTrail(menuItems[i].items, [...currentTrail]);
+      const childrenItems = menuItems[i].items;
+
+      if (childrenItems) {
+        childTrail = getActiveTrail(childrenItems, [...currentTrail]);
         if (childTrail.length > 0) {
           return childTrail;
         }

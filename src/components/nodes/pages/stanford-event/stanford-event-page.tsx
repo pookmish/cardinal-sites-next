@@ -11,9 +11,10 @@ import Rows from "@/components/paragraphs/rows/rows";
 
 const StanfordEventPage = ({node}: { node: EventNodeType }) => {
   if (node.su_event_source?.url) redirect(node.su_event_source.url)
-  const startTime = new Date(node.su_event_date_time?.value as string);
-  const endTime = new Date(node.su_event_date_time?.end_value as string);
-  const timezone = node.su_event_date_time?.timezone ?? 'America/Los_Angeles';
+
+  const startTime = new Date(node.su_event_date_time.value);
+  const endTime = new Date(node.su_event_date_time.end_value);
+  const timezone = node.su_event_date_time.timezone ?? 'America/Los_Angeles';
 
   return (
     <div className="centered mt-32">
@@ -22,7 +23,7 @@ const StanfordEventPage = ({node}: { node: EventNodeType }) => {
 
         {node.su_event_type &&
           <div className="order-1">
-            {node.su_event_type.at(0).name}
+            {node.su_event_type[0].name}
           </div>
         }
 
@@ -131,6 +132,7 @@ const StanfordEventPage = ({node}: { node: EventNodeType }) => {
 
       {node.su_event_components &&
         <div>
+          {/* @ts-expect-error Async Server Component */}
           <Rows components={node.su_event_components}/>
         </div>
       }
@@ -138,6 +140,7 @@ const StanfordEventPage = ({node}: { node: EventNodeType }) => {
       {node.su_event_schedule &&
         <div>
           {node.su_event_schedule.map(scheduleInstance =>
+            /* @ts-expect-error Async Server Component */
             <Paragraph paragraph={scheduleInstance} key={scheduleInstance.id}/>
           )}
         </div>

@@ -1,6 +1,8 @@
 import {PublicationNodeType} from "@/lib/types";
-import StanfordPublicationListItem from "@/components/nodes/list-item/stanford-publication/stanford-publication-list-item";
+import StanfordPublicationListItem
+  from "@/components/nodes/list-item/stanford-publication/stanford-publication-list-item";
 import {getViewItems} from "@/components/views/view";
+import CardViewGrid from "@/components/views/card-view-grid";
 
 interface Props {
   view: string
@@ -9,7 +11,7 @@ interface Props {
   emptyMessage?: string
 }
 
-const PublicationsApaView = async ({view,args, itemsToDisplay, emptyMessage}: Props) => {
+const PublicationsApaView = async ({view, args, itemsToDisplay, emptyMessage}: Props) => {
   args = args ? args + '/0/0/0' : '0/0/0/0';
 
   const items = await getViewItems<PublicationNodeType>(view, itemsToDisplay, args.split('/'));
@@ -24,13 +26,7 @@ const PublicationsApaView = async ({view,args, itemsToDisplay, emptyMessage}: Pr
     return null;
   }
   return (
-    <div className="flex flex-wrap justify-between gap-20">
-      {items.map(item =>
-        <div key={item.id} className="flex-1 min-w-[250px]">
-          <StanfordPublicationListItem node={item} key={item.id}/>
-        </div>
-      )}
-    </div>
+    <CardViewGrid items={items}/>
   )
 }
 export default PublicationsApaView;

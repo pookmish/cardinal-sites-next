@@ -5,11 +5,11 @@ import {useInView} from "react-intersection-observer";
 import Embed from "react-tiny-oembed";
 import {PropsWithoutRef} from "react";
 
-interface Props extends PropsWithoutRef<any> {
+interface Props {
   url: string
 }
 
-const Oembed = ({url}: Props) => {
+const Oembed = ({url}: PropsWithoutRef<Props>) => {
   const {ref, inView} = useInView({triggerOnce:true})
 
   return (

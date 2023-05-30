@@ -10,7 +10,7 @@ const StanfordPublicationPage = ({node}: { node: PublicationNodeType }) => {
         <h1 className="order-2">{node.title}</h1>
         {node.su_publication_topics &&
           <div className="order-1">
-            {node.su_publication_topics.at(0).name}
+            {node.su_publication_topics[0].name}
           </div>
         }
       </div>
@@ -18,6 +18,7 @@ const StanfordPublicationPage = ({node}: { node: PublicationNodeType }) => {
       <div className="flex flex-col lg:flex-row gap-20">
         {node.su_publication_components &&
           <div className="order-2 lg:order-1 flex-grow">
+            {/* @ts-expect-error Async Server Component */}
             <Rows components={node.su_publication_components}/>
           </div>
         }

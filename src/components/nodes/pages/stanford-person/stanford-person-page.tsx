@@ -48,6 +48,7 @@ const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
           {node.body && <Wysiwyg html={node.body}/>}
 
           {node.su_person_components &&
+            /* @ts-expect-error Async Server Component */
             <Rows components={node.su_person_components}/>
           }
 
@@ -151,7 +152,7 @@ const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
             </div>
           }
 
-          {node.su_person_links?.length > 0 &&
+          {node.su_person_links &&
             <div className="flex items-start gap-10 mb-20">
               <LinkIcon width={30} className="shrink-0"/>
               <div>

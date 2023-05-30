@@ -3,6 +3,7 @@ import {redirect} from "next/navigation";
 import Image from "next/image";
 import Rows from "@/components/paragraphs/rows/rows";
 import SocialIcons from "@/components/nodes/pages/stanford-news/social-icons";
+import {DrupalTaxonomyTerm} from "next-drupal";
 
 const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {
   if (node.su_news_source?.url) redirect(node.su_news_source.url)
@@ -15,17 +16,20 @@ const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {
   const bannerImageUrl = node.su_news_banner?.field_media_image?.image_style_uri?.breakpoint_2xl_2x;
   const bannerImageAlt = node.su_news_banner?.field_media_image?.resourceIdObjMeta?.alt;
   const imagePlaceholder = node.su_news_banner?.field_media_image?.uri.base64;
+
+  const topics: DrupalTaxonomyTerm[] | undefined = (node.su_news_topics && node.su_news_topics.length > 0) ? node.su_news_topics.slice(0, 3) : undefined;
+
   return (
     <div className="centered mt-32">
       <div className="lg:w-3/4 mx-auto mb-20">
         <div className="flex flex-col">
           <h1 className="order-2">{node.title}</h1>
-          {node.su_news_topics &&
+          {topics &&
             <div className="order-1 flex gap-2">
-              {node.su_news_topics.slice(0, 3).map((topic, i) =>
+              {topics.map((topic, i) =>
                 <div key={topic.id}>
                   {topic.name}
-                  {i != 2 && i != node.su_news_topics?.length - 1 ? ',' : ''}
+                  {i != 2 && i != topics.length - 1 ? ',' : ''}
                 </div>
               )}
             </div>
@@ -65,6 +69,7 @@ const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {
       }
 
       {node.su_news_components &&
+        /* @ts-expect-error Async Server Component */
         <Rows components={node.su_news_components}/>
       }
 

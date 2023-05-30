@@ -90,8 +90,8 @@ export const getEventTimeString = (start: Date, end: Date, timezone: string): st
 const StanfordEventCard = ({node}: { node: EventNodeType }) => {
 
   const timezone: string = node.su_event_date_time?.timezone ?? 'America/Los_Angeles';
-  const start = new Date(node.su_event_date_time?.value as string);
-  const end = new Date(node.su_event_date_time?.end_value as string);
+  const start = new Date(node.su_event_date_time.value);
+  const end = new Date(node.su_event_date_time.end_value);
 
   const startMonth = start.toLocaleDateString("en-US", {month: "short", timeZone: timezone})
   const startDay = parseInt(start.toLocaleDateString("en-US", {day: "numeric", timeZone: timezone}))
@@ -111,9 +111,9 @@ const StanfordEventCard = ({node}: { node: EventNodeType }) => {
         </div>
       </div>
 
-      {node.su_event_type?.length > 0 &&
+      {(node.su_event_type && node.su_event_type?.length > 0) &&
         <div className="su-digital-red">
-          {node.su_event_type.at(0).name}
+          {node.su_event_type[0].name}
         </div>
       }
 

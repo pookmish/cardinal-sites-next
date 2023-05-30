@@ -19,11 +19,13 @@ const PageHeader = async () => {
         </div>
       </div>
 
+      {/* @ts-expect-error Async Server Component */}
       <GlobalMessage/>
 
       <div className="relative shadow">
         <div className="centered min-h-50">
           <div className="flex w-full justify-between">
+            {/* @ts-expect-error Async Server Component */}
             <Lockup/>
             <SiteSearchForm className="hidden lg:block"/>
           </div>

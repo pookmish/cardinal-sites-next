@@ -3,8 +3,9 @@ import Wysiwyg from "@/components/elements/wysiwyg";
 import StanfordPolicyCard from "@/components/nodes/cards/stanford-policy/stanford-policy-card";
 import {getResources} from "@/lib/drupal/get-resource";
 import StringWithLines from "@/components/elements/string-with-lines";
+import {JSX} from "react";
 
-const StanfordPolicyPage = async ({node}: { node: PolicyNodeType }) => {
+const StanfordPolicyPage = async ({node}: { node: PolicyNodeType }): Promise<JSX.Element> => {
   const relatedPolicies: PolicyNodeType[] = await getResources(node.su_policy_related ?? [])
   const changeLog = node.su_policy_changelog?.filter((change: PolicyChangeLogType) => change.su_policy_public) ?? []
 

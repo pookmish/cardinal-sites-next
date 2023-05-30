@@ -2,13 +2,15 @@ import Link from "@/components/elements/link";
 import parse, {HTMLReactParserOptions, Element, domToReact, attributesToProps} from "html-react-parser"
 import Image from "next/image";
 import Oembed from "@/components/elements/ombed";
-import {PropsWithoutRef} from "react";
+import React, {PropsWithoutRef} from "react";
+import {ChildNode} from "domhandler";
 
-interface Props extends PropsWithoutRef<any> {
-  html: string;
+interface Props {
+  html: string
+  className?: string
 }
 
-const Wysiwyg = ({html, className = "", ...props}: Props) => {
+const Wysiwyg = ({html, className = "", ...props}: PropsWithoutRef<Props>) => {
   className += " wysiwyg"
 
   return (
@@ -24,7 +26,7 @@ const options: HTMLReactParserOptions = {
     if (domNode instanceof Element) {
       const nodeProps = attributesToProps(domNode.attribs);
       nodeProps.className = fixClasses(nodeProps.className ?? '').trim();
-      let NodeName: string = domNode.name
+      let NodeName: React.ElementType = domNode.name as React.ElementType
 
       switch (domNode.name) {
         case "a":
@@ -95,7 +97,7 @@ const options: HTMLReactParserOptions = {
   }
 }
 
-const fixClasses = (classes) => {
+const fixClasses = (classes: string = '') => {
   classes = ` ${classes} `;
   classes = classes.replace(' su-', ' ')
     .replace(' text-align-center ', ' text-center ')
@@ -125,7 +127,7 @@ const cleanMediaMarkup = (node: Element) => {
   const nodeProps = attributesToProps(node.attribs);
   nodeProps.className = fixClasses(nodeProps.className ?? '').trim();
 
-  const getImage = (node: Element) => {
+  const getImage = (node: Element): PropsWithoutRef<any> | undefined => {
     let img;
     if (node.name === 'img') {
       const attribs = node.attribs;
@@ -142,7 +144,7 @@ const cleanMediaMarkup = (node: Element) => {
       }
     }
   }
-  const getFigCaption = (node: Element) => {
+  const getFigCaption = (node: Element): ChildNode[] | undefined => {
     let caption;
     if (node.name === 'figcaption') {
       return node.children;
@@ -157,7 +159,7 @@ const cleanMediaMarkup = (node: Element) => {
     }
   }
 
-  const getOembedUrl = (node:Element) => {
+  const getOembedUrl = (node: Element): string | undefined => {
     const src = node.attribs?.src;
     if (src?.startsWith('/media/oembed')) {
       return decodeURIComponent(src as string).replace(/^.*url=(.*)?&.*$/, '$1');
@@ -165,7 +167,7 @@ const cleanMediaMarkup = (node: Element) => {
     if (node.children.length > 0) {
       for (let child of node.children) {
         if (child instanceof Element) {
-          const url = getOembedUrl(child);
+          const url: string | undefined = getOembedUrl(child);
           if (url) return url;
         }
       }
@@ -191,6 +193,7 @@ const cleanMediaMarkup = (node: Element) => {
 
     if (figCaption) {
       nodeProps.className += ' table';
+      delete nodeProps.role;
       return (
         <figure {...nodeProps}>
           <WysiwygImage src={src} alt={alt} height={height} width={width}/>
@@ -209,11 +212,11 @@ const cleanMediaMarkup = (node: Element) => {
       />
     )
   }
-  let NodeName: string = node.name
+  let NodeName: React.ElementType = node.name as React.ElementType
   return <NodeName {...nodeProps}>{domToReact(node.children, options)}</NodeName>
 }
 
-const WysiwygImage = ({src, alt, height, width, className}) => {
+const WysiwygImage = ({src, alt, height, width, className = ''}: { src: string, alt?: string, height?: string, width?: string, className?: string }) => {
   if (width && height) {
     return (
       <Image
@@ -238,7 +241,7 @@ const WysiwygImage = ({src, alt, height, width, className}) => {
 }
 
 
-const formatHtml = (html) => parse(html ?? '', options);
+const formatHtml = (html: string) => parse(html ?? '', options);
 
 
 export default Wysiwyg;

@@ -1,11 +1,14 @@
 import {NewsNodeType} from "@/lib/types";
 import Image from "next/image";
 import Link from "@/components/elements/link";
+import {DrupalTaxonomyTerm} from "next-drupal";
 
 const StanfordNewsListItem = ({node}: { node: NewsNodeType }) => {
   const imageUrl = node.su_news_featured_media?.field_media_image?.image_style_uri.card_1900x950;
   const imageAlt = node.su_news_featured_media?.field_media_image?.resourceIdObjMeta?.alt ?? '';
   const publishDate = node.su_news_publishing_date ? new Date(node.su_news_publishing_date) : null;
+
+  const topics: DrupalTaxonomyTerm[] | undefined = (node.su_news_topics && node.su_news_topics.length > 0) ? node.su_news_topics.slice(0, 3) : undefined;
 
   return (
     <div className="@container">
@@ -24,11 +27,12 @@ const StanfordNewsListItem = ({node}: { node: NewsNodeType }) => {
             </div>
           }
 
-          {node.su_news_topics &&
+          {topics &&
             <div className="order-3">
-              {node.su_news_topics.slice(0, 3).map((topic, index) =>
-                <span
-                  key={topic.id}>{topic.name}{(index != 2 && index != node.su_news_topics.length - 1) ? ", " : ""}</span>
+              {topics.map((topic, index) =>
+                <span key={topic.id}>
+                  {topic.name}{(index != 2 && index != topics.length - 1) ? ", " : ""}
+                </span>
               )}
             </div>
           }
