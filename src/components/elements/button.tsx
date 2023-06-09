@@ -9,11 +9,12 @@ interface Props {
   secondary?: boolean
   centered?: boolean
   className?: string
+  onClick?: () => void
 }
 
 export const Button = ({href = '#', buttonElem = false, big = false, secondary = false, centered = false, children, className = "", ...props}: PropsWithChildren<Props>) => {
 
-  className = twMerge(className, centered ? " mx-auto block w-fit" : " inline-block")
+  className = twMerge(className, twMerge("flex items-center text-center font-semibold", (centered ? "mx-auto block w-fit" : "")))
 
   if (big) {
     className = twMerge(`transition text-5xl text-white hocus:text-white bg-digital-red hocus:bg-black no-underline hocus:underline py-6 px-12 font-normal`, className)
@@ -27,17 +28,19 @@ export const Button = ({href = '#', buttonElem = false, big = false, secondary =
     return (
       <button
         className={className}
+        type="button"
         {...props}
       >
         {children}
       </button>
     )
   }
+
   return (
     <Link
       href={href}
-      {...props}
       className={className}
+      {...props}
     >
       {children}
     </Link>

@@ -25,7 +25,7 @@ const DrupalLink = ({href, className = '', children, ...props}: PropsWithChildre
 
   if (href.startsWith('#')) {
     return (
-      <a href={href} {...props}>
+      <a href={href} className={className} {...props}>
         {children}
       </a>
     )

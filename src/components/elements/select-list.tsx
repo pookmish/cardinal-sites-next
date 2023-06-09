@@ -1,9 +1,9 @@
-import {MutableRefObject, PropsWithChildren, ReactElement, useId} from "react";
+import {PropsWithChildren, ReactNode, useId} from "react";
 
 interface Props {
   label: string
-  inputRef?: MutableRefObject<any>
-  children: ReactElement | ReactElement[]
+  inputRef?: any
+  children: ReactNode | ReactNode[]
 }
 
 const SelectList = ({label, inputRef, children, ...props}: PropsWithChildren<Props>) => {
