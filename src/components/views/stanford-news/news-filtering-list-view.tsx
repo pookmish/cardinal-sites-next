@@ -13,8 +13,6 @@ const NewsFilteringListView = ({items}: { items: NewsNodeType[] }) => {
   const [page, setPage] = useState<number>(1);
   const [animationParent] = useAutoAnimate();
 
-  const current = displayedItems.length;
-  const total = items.length;
   const filterItems = () => {
     setPage(1);
     if (inputRef.current.value === 'All') return setDisplayedItems(items);
@@ -37,6 +35,8 @@ const NewsFilteringListView = ({items}: { items: NewsNodeType[] }) => {
   })
   topics = topics.sort((a, b) => a.name.localeCompare(b.name));
 
+  const current = displayedItems.slice(0, page * 10).length;
+  const total = items.length;
   return (
     <div>
       <form className="flex gap-20">
