@@ -1,12 +1,13 @@
 import {redirect} from "next/navigation";
 import {CourseNodeType} from "@/lib/types";
 import Wysiwyg from "@/components/elements/wysiwyg";
+import {H1} from "@/components/elements/headers";
 
 const StanfordCoursePage = ({node}: { node: CourseNodeType }) => {
   if (node.su_course_link?.url) redirect(node.su_course_link.url);
   return (
     <div className="centered my-32">
-      <h1>{node.title}</h1>
+      <H1>{node.title}</H1>
       <div className="flex flex-col gap-10">
         {node.su_course_subject &&
           <div>{node.su_course_subject.name}</div>

@@ -4,6 +4,7 @@ import Wysiwyg from "@/components/elements/wysiwyg";
 import Button from "@/components/elements/button";
 import Oembed from "@/components/elements/ombed";
 import ActionLink from "@/components/elements/action-link";
+import {H2} from "@/components/elements/headers";
 
 const CardParagraph = ({paragraph}: { paragraph: CardParagraphType }) => {
   const imageUrl = paragraph.su_card_media?.field_media_image?.image_style_uri.breakpoint_2xl_2x;
@@ -34,7 +35,7 @@ const CardParagraph = ({paragraph}: { paragraph: CardParagraphType }) => {
 
       <div className="py-20 px-10 lg:px-20 flex flex-col gap-5">
         {paragraph.su_card_header &&
-          <h2 className="order-2 text-m2">{paragraph.su_card_header}</h2>
+          <H2 className="order-2 text-m2">{paragraph.su_card_header}</H2>
         }
 
         {paragraph.su_card_super_header &&

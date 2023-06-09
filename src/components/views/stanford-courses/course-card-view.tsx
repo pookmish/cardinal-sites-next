@@ -1,5 +1,4 @@
 import {CourseNodeType} from "@/lib/types";
-import StanfordCourseCard from "@/components/nodes/cards/stanford-course/stanford-course-card";
 import {getViewItems} from "@/components/views/view";
 import CardViewGrid from "@/components/views/card-view-grid";
 

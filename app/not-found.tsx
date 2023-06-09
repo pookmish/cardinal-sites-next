@@ -1,7 +1,9 @@
+import {H1} from "@/components/elements/headers";
+
 const NotFound = () => {
   return (
     <div className="centered mt-32">
-      <h1>Page not found</h1>
+      <H1>Page not found</H1>
       <p>
         Unable to find the page you were looking for.
       </p>

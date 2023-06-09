@@ -3,6 +3,7 @@ import {getResourceCollection} from "@/lib/drupal/get-resource";
 import {notFound} from "next/navigation";
 import {DrupalFile} from "next-drupal";
 import {DrupalGalleryImageMediaType} from "@/lib/types";
+import {H1} from "@/components/elements/headers";
 
 export const metadata = {
   title: 'Gallery Image',
@@ -30,7 +31,7 @@ const Page = async ({params: {filename}}: { params: { filename: string } }) => {
 
   return (
     <div className="centered mt-32">
-      <h1>{media.name}</h1>
+      <H1>{media.name}</H1>
 
       <figure className="h-full w-fit mx-auto table">
 

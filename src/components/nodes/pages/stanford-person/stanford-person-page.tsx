@@ -7,6 +7,7 @@ import {LinkIcon, MapPinIcon, PhoneIcon} from "@heroicons/react/20/solid";
 import Telephone from "@/components/elements/telephone";
 import Email from "@/components/elements/email";
 import Link from "@/components/elements/link";
+import {H1, H2} from "@/components/elements/headers";
 
 const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
   const imageUrl = node.su_person_photo?.field_media_image.image_style_uri.square_956
@@ -28,7 +29,7 @@ const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
         }
 
         <div className="flex flex-col">
-          <h1 className="order-2">{node.title}</h1>
+          <H1 className="order-2">{node.title}</H1>
 
           {node.su_person_short_title &&
             <div className="order-1 mb-10">
@@ -48,13 +49,12 @@ const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
           {node.body && <Wysiwyg html={node.body}/>}
 
           {node.su_person_components &&
-            /* @ts-expect-error Async Server Component */
             <Rows components={node.su_person_components}/>
           }
 
           {node.su_person_education &&
             <div className="mb-10">
-              <h2 className="text-m1">Education</h2>
+              <H2 className="text-m1">Education</H2>
               {node.su_person_education.map((education, i) =>
                 <div key={`${node.id}-education-${i}`}>
                   {education}
@@ -65,7 +65,7 @@ const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
 
           {node.su_person_research &&
             <div className="mb-10">
-              <h2 className="text-m1">Research</h2>
+              <H2 className="text-m1">Research</H2>
               <div className="grid grid-cols-2 gap-10">
                 {node.su_person_research.map((research, i) =>
                   <div key={`${node.id}-research-${i}`}>
@@ -78,7 +78,7 @@ const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
 
           {node.su_person_affiliations &&
             <div className="mb-10">
-              <h2 className="text-m1">Stanford Affiliations</h2>
+              <H2 className="text-m1">Stanford Affiliations</H2>
               <div className="grid grid-cols-2 gap-10">
                 {node.su_person_affiliations.map((affiliation, i) =>
                   <div key={`${node.id}-affiliation-${i}`}>
@@ -98,7 +98,7 @@ const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
             <div className="flex items-start gap-10 mb-20">
               <PhoneIcon width={30} className="shrink-0"/>
               <div>
-                <h2 className="text-m1">Contact</h2>
+                <H2 className="text-m1">Contact</H2>
 
                 {node.su_person_telephone &&
                   <div className="mb-10">
@@ -137,7 +137,7 @@ const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
             <div className="flex items-start gap-10 mb-20">
               <MapPinIcon width={30} className="shrink-0"/>
               <div>
-                <h2 className="text-m1">Location</h2>
+                <H2 className="text-m1">Location</H2>
                 {node.su_person_location_address &&
                   <Wysiwyg html={node.su_person_location_address}/>
                 }
@@ -156,7 +156,7 @@ const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
             <div className="flex items-start gap-10 mb-20">
               <LinkIcon width={30} className="shrink-0"/>
               <div>
-                <h2 className="text-m1">Links</h2>
+                <H2 className="text-m1">Links</H2>
                 {node.su_person_links.map((link, i) =>
 
                   <Link key={`${node.id}-link-${i}`} href={link.url}>

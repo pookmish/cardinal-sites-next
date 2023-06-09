@@ -4,6 +4,7 @@ import Image from "next/image";
 import Rows from "@/components/paragraphs/rows/rows";
 import SocialIcons from "@/components/nodes/pages/stanford-news/social-icons";
 import {DrupalTaxonomyTerm} from "next-drupal";
+import {H1} from "@/components/elements/headers";
 
 const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {
   if (node.su_news_source?.url) redirect(node.su_news_source.url)
@@ -23,7 +24,8 @@ const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {
     <div className="centered mt-32">
       <div className="lg:w-3/4 mx-auto mb-20">
         <div className="flex flex-col">
-          <h1 className="order-2">{node.title}</h1>
+          <H1 className="order-2">{node.title}</H1>
+
           {topics &&
             <div className="order-1 flex gap-2">
               {topics.map((topic, i) =>
@@ -69,7 +71,6 @@ const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {
       }
 
       {node.su_news_components &&
-        /* @ts-expect-error Async Server Component */
         <Rows components={node.su_news_components}/>
       }
 

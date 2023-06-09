@@ -1,10 +1,11 @@
 import {EventNodeType, EventSeriesNodeType} from "@/lib/types";
 import StanfordEventListItem from "@/components/nodes/list-item/stanford-event/stanford-event-list-item";
+import {H1} from "@/components/elements/headers";
 
 const StanfordEventSeriesPage = ({node}: { node: EventSeriesNodeType }) => {
   return (
     <div className="centered">
-      <h1 className="mt-32">{node.title}</h1>
+      <H1 className="mt-32">{node.title}</H1>
 
       {node.su_event_series_dek &&
         <div className="text-m3 font-bold mb-20">

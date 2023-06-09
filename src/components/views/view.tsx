@@ -29,7 +29,7 @@ const View = async ({viewId, displayId, args, itemsToDisplay, emptyMessage}: Pro
 
   switch (component) {
     case 'stanford_basic_pages--basic_page_type_list':
-      /* @ts-expect-error Async Server Component */
+
       return <PageListView
         view={component}
         args={args}
@@ -38,7 +38,6 @@ const View = async ({viewId, displayId, args, itemsToDisplay, emptyMessage}: Pro
       />
 
     case 'stanford_news--vertical_cards':
-      /* @ts-expect-error Async Server Component */
       return <NewsCardView
         view={component}
         args={args}
@@ -47,7 +46,6 @@ const View = async ({viewId, displayId, args, itemsToDisplay, emptyMessage}: Pro
       />
 
     case 'stanford_news--block_1':
-      /* @ts-expect-error Async Server Component */
       return <NewsListView
         view={component}
         args={args}
@@ -56,7 +54,6 @@ const View = async ({viewId, displayId, args, itemsToDisplay, emptyMessage}: Pro
       />
 
     case 'stanford_person--grid_list_all':
-      /* @ts-expect-error Async Server Component */
       return <PersonCardView
         view={component}
         args={args}
@@ -65,7 +62,6 @@ const View = async ({viewId, displayId, args, itemsToDisplay, emptyMessage}: Pro
       />
 
     case 'stanford_events--cards':
-      /* @ts-expect-error Async Server Component */
       return <EventsCardView
         view={component}
         args={args}
@@ -75,7 +71,6 @@ const View = async ({viewId, displayId, args, itemsToDisplay, emptyMessage}: Pro
 
     case 'stanford_events--past_events_list_block':
     case 'stanford_events--list_page':
-      /* @ts-expect-error Async Server Component */
       return <EventsListView
         view={component}
         args={args}
@@ -84,7 +79,6 @@ const View = async ({viewId, displayId, args, itemsToDisplay, emptyMessage}: Pro
       />
 
     case 'stanford_basic_pages--viewfield_block_1':
-      /* @ts-expect-error Async Server Component */
       return <PageCardView
         view={component}
         args={args}
@@ -93,7 +87,6 @@ const View = async ({viewId, displayId, args, itemsToDisplay, emptyMessage}: Pro
       />
 
     case 'stanford_shared_tags--card_grid':
-      /* @ts-expect-error Async Server Component */
       return <SharedTagsCardView
         view={component}
         args={args}
@@ -102,7 +95,6 @@ const View = async ({viewId, displayId, args, itemsToDisplay, emptyMessage}: Pro
       />
 
     case 'stanford_courses--default_list_viewfield_block':
-      /* @ts-expect-error Async Server Component */
       return <CourseListView
         view={component}
         args={args}
@@ -111,7 +103,6 @@ const View = async ({viewId, displayId, args, itemsToDisplay, emptyMessage}: Pro
       />
 
     case 'stanford_courses--vertical_teaser_viewfield_block':
-      /* @ts-expect-error Async Server Component */
       return <CourseCardView
         view={component}
         args={args}
@@ -120,7 +111,6 @@ const View = async ({viewId, displayId, args, itemsToDisplay, emptyMessage}: Pro
       />
 
     case 'stanford_publications--apa_list':
-      /* @ts-expect-error Async Server Component */
       return <PublicationsApaView
         view={component}
         args={args}
@@ -129,7 +119,6 @@ const View = async ({viewId, displayId, args, itemsToDisplay, emptyMessage}: Pro
       />
 
     case 'stanford_publications--chicago_list':
-      /* @ts-expect-error Async Server Component */
       return <PublicationsChicagoView
         view={component}
         args={args}

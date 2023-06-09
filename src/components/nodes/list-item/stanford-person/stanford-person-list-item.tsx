@@ -1,6 +1,7 @@
 import {PersonNodeType} from "@/lib/types";
 import Image from "next/image";
 import Link from "@/components/elements/link";
+import {H3} from "@/components/elements/headers";
 
 const StanfordPersonListItem = ({node}: { node: PersonNodeType }) => {
   const imageUrl = node.su_person_photo?.field_media_image?.image_style_uri.square_956
@@ -17,7 +18,7 @@ const StanfordPersonListItem = ({node}: { node: PersonNodeType }) => {
         </div>
       }
       <Link href={node.path?.alias} className="no-underline hocus:no-underline hocus:text-black">
-        <h3 className="text-m2">{node.title}</h3>
+        <H3 className="text-m2">{node.title}</H3>
       </Link>
 
       {node.su_person_full_title &&

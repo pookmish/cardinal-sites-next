@@ -15,12 +15,10 @@ const TwoColumn = ({items, config}: { items: DrupalParagraph[], config: { [key: 
   return (
     <div className={`w-full max-w-[calc(100vw-5rem)] mx-auto grid ${gridCols} w-full gap-20`}>
       <div className="flex flex-col gap-40">
-        {/* @ts-expect-error Async Server Component */}
         {leftItems.map(item => <Paragraph key={item.id} paragraph={item}/>)}
       </div>
 
       <div className="flex flex-col gap-40">
-        {/* @ts-expect-error Async Server Component */}
         {rightItems.map(item => <Paragraph key={item.id} paragraph={item}/>)}
       </div>
     </div>

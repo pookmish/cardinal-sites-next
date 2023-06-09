@@ -4,9 +4,7 @@ import SuperFooter from "@/components/config-pages/super-footer";
 const PageFooter = async () => {
   return (
     <footer>
-      {/* @ts-expect-error Async Server Component */}
       <SuperFooter/>
-      {/* @ts-expect-error Async Server Component */}
       <LocalFooter/>
 
       <div className="bg-cardinal-red py-10">

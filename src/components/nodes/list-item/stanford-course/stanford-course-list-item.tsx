@@ -1,12 +1,13 @@
 import {CourseNodeType} from "@/lib/types";
 import Link from "@/components/elements/link";
+import {H3} from "@/components/elements/headers";
 
 const StanfordCourseListItem = ({node}: { node: CourseNodeType }) => {
   return (
     <div className="">
       <Link href={node.path?.alias}
             className="text-digital-red no-underline hocus:text-black hocus:underline">
-        <h3 className=" text-m2">{node.title}</h3>
+        <H3 className=" text-m2">{node.title}</H3>
       </Link>
       {node.su_course_instructors &&
         <div>

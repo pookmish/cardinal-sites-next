@@ -4,6 +4,7 @@ import Image from "next/image";
 import Oembed from "@/components/elements/ombed";
 import React, {PropsWithoutRef} from "react";
 import {ChildNode} from "domhandler";
+import {H2, H3, H4, H5, H6} from "@/components/elements/headers";
 
 interface Props {
   html: string
@@ -55,9 +56,15 @@ const options: HTMLReactParserOptions = {
           return <></>;
 
         case "h2":
+          return <H2 {...nodeProps}>{domToReact(domNode.children, options)}</H2>
         case "h3":
+          return <H3 {...nodeProps}>{domToReact(domNode.children, options)}</H3>
         case "h4":
+          return <H4 {...nodeProps}>{domToReact(domNode.children, options)}</H4>
         case "h5":
+          return <H5 {...nodeProps}>{domToReact(domNode.children, options)}</H5>
+        case "h6":
+          return <H6 {...nodeProps}>{domToReact(domNode.children, options)}</H6>
         case "b":
         case "cite":
         case "dt":
@@ -104,8 +111,6 @@ const fixClasses = (classes: string = '') => {
     .replace(' text-align-right ', ' text-right ')
     .replace(' align-left ', ' float-left mr-10 mb-10 ')
     .replace(' align-right ', ' float-right ml-10 mb-10 ')
-    .replace(' button ', ' inline-block bg-digital-red hocus:bg-black text-white hocus:text-white mx-3 px-10 py-5 no-underline hocus:underline transition ')
-    .replace(' button--big ', ' inline-block bg-digital-red hocus:bg-black text-white hocus:text-white px-20 py-10 no-underline hocus:underline transition text-center text-m2 font-normal ')
     .replace(' visually-hidden ', ' sr-only ')
     .replace(' font-splash ', ' splash-text text-m4 ')
     .replace(' callout-text ', ' font-bold text-m2 ')

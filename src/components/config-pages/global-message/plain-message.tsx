@@ -2,6 +2,7 @@ import Wysiwyg from "@/components/elements/wysiwyg";
 import Link from "@/components/elements/link";
 import {DrupalLinkFieldType} from "@/lib/types";
 import {CheckCircleIcon} from "@heroicons/react/20/solid";
+import {H2} from "@/components/elements/headers";
 
 interface Props {
   header?: string
@@ -20,7 +21,7 @@ const PlainMessage = ({header, label, message, link}: Props) => {
           {label}:
         </div>
         <div>
-          {header && <h2>{header}</h2>}
+          {header && <H2>{header}</H2>}
           {message &&
             <Wysiwyg html={message}/>
           }

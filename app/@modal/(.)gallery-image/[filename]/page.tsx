@@ -3,9 +3,10 @@ import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getResourceCollection} from "@/lib/drupal/get-resource";
 import {DrupalFile} from "next-drupal";
 import {DrupalGalleryImageMediaType} from "@/lib/types";
+import {useId} from "react";
 
 const Page = async ({params: {filename}}: { params: { filename: string } }) => {
-
+  const captionId = useId();
   const fileParams = new DrupalJsonApiParams();
   fileParams.addFilter('filename', filename);
   const files = await getResourceCollection<DrupalFile[]>('file--file', {params: fileParams.getQueryObject()});
@@ -22,7 +23,7 @@ const Page = async ({params: {filename}}: { params: { filename: string } }) => {
   const media = mediaList[0]
 
   return (
-    <InterceptionModal>
+    <InterceptionModal aria-labelledby={captionId}>
       <figure className="h-full w-fit mx-auto table">
 
         <img
@@ -33,6 +34,7 @@ const Page = async ({params: {filename}}: { params: { filename: string } }) => {
 
         {media.su_gallery_caption &&
           <figcaption
+            id={captionId}
             className="bg-white text-right p-5 m-0 table-caption caption-bottom">
             {media.su_gallery_caption}
           </figcaption>

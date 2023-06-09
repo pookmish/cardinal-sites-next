@@ -8,6 +8,7 @@ import Button from "@/components/elements/button";
 import Wysiwyg from "@/components/elements/wysiwyg";
 import Paragraph from "@/components/paragraphs/paragraph";
 import Rows from "@/components/paragraphs/rows/rows";
+import {H1, H2, H3} from "@/components/elements/headers";
 
 const StanfordEventPage = ({node}: { node: EventNodeType }) => {
   if (node.su_event_source?.url) redirect(node.su_event_source.url)
@@ -19,7 +20,7 @@ const StanfordEventPage = ({node}: { node: EventNodeType }) => {
   return (
     <div className="centered mt-32">
       <div className="flex flex-col">
-        <h1 className="order-2">{node.title}</h1>
+        <H1 className="order-2">{node.title}</H1>
 
         {node.su_event_type &&
           <div className="order-1">
@@ -47,7 +48,7 @@ const StanfordEventPage = ({node}: { node: EventNodeType }) => {
 
 
       <div className="border border-black-40 py-20 px-10 lg:px-48 lg:w-3/4 mx-auto mb-32">
-        <h2 className="text-m2">Event Details:</h2>
+        <H2 className="text-m2">Event Details:</H2>
         <div className="grid items-start lg:grid-cols-2 gap-20">
           <div className="flex items-center gap-5">
             <CalendarDaysIcon width={30} className="shrink-0"/>
@@ -59,7 +60,7 @@ const StanfordEventPage = ({node}: { node: EventNodeType }) => {
             <div className="flex flex-col-2 gap-lg items-start">
               <PhoneIcon width={30} className="shrink-0"/>
               <div>
-                <h3 className="text-m1">Contact</h3>
+                <H3 className="text-m1">Contact</H3>
 
                 {node.su_event_email &&
                   <Link href={`mailto:${node.su_event_email}`}
@@ -81,7 +82,7 @@ const StanfordEventPage = ({node}: { node: EventNodeType }) => {
             <div className="flex flex-col-2 items-start gap-5">
               <MapPinIcon width={30} className="shrink-0"/>
               <div>
-                <h3 className="text-m1">Location</h3>
+                <H3 className="text-m1">Location</H3>
 
                 <div>
                   {node.su_event_location &&
@@ -103,7 +104,7 @@ const StanfordEventPage = ({node}: { node: EventNodeType }) => {
             <div className="flex flex-col-2 items-start gap-5">
               <UserGroupIcon width={30} className="shrink-0"/>
               <div>
-                <h3 className="text-m1">This event is open to:</h3>
+                <H3 className="text-m1">This event is open to:</H3>
                 {node.su_event_audience.map(audience =>
                   <div key={audience.id}>
                     {audience.name}
@@ -132,7 +133,6 @@ const StanfordEventPage = ({node}: { node: EventNodeType }) => {
 
       {node.su_event_components &&
         <div>
-          {/* @ts-expect-error Async Server Component */}
           <Rows components={node.su_event_components}/>
         </div>
       }
@@ -140,7 +140,6 @@ const StanfordEventPage = ({node}: { node: EventNodeType }) => {
       {node.su_event_schedule &&
         <div>
           {node.su_event_schedule.map(scheduleInstance =>
-            /* @ts-expect-error Async Server Component */
             <Paragraph paragraph={scheduleInstance} key={scheduleInstance.id}/>
           )}
         </div>

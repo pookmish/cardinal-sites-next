@@ -2,6 +2,7 @@ import {EventNodeType} from "@/lib/types";
 import Link from "@/components/elements/link";
 import {CalendarDaysIcon, MapPinIcon} from "@heroicons/react/20/solid";
 import Address from "@/components/elements/address";
+import {H3} from "@/components/elements/headers";
 
 export const getEventTimeString = (start: Date, end: Date, timezone: string): string => {
   const startHour = parseInt(start.toLocaleTimeString("en-US", {
@@ -128,7 +129,7 @@ const StanfordEventListItem = ({node}: { node: EventNodeType }) => {
           href={goToPath}
           className="text-digital-red no-underline hocus:text-black hocus:underline"
         >
-          <h3 className="text-m2">{node.title}</h3>
+          <H3 className="text-m2">{node.title}</H3>
         </Link>
 
         {node.su_event_subheadline &&

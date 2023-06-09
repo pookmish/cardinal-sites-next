@@ -32,7 +32,6 @@ const NodePage = ({node}: { node: DrupalNode }) => {
     case 'node--stanford_person':
       return <StanfordPersonPage node={node as PersonNodeType}/>
     case 'node--stanford_policy':
-      /* @ts-expect-error Async Server Component */
       return <StanfordPolicyPage node={node as PolicyNodeType}/>
     case 'node--stanford_publication':
       return <StanfordPublicationPage node={node as PublicationNodeType}/>

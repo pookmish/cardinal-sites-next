@@ -36,12 +36,10 @@ const Paragraph = async ({paragraph}: Props): Promise<JSX.Element | undefined> =
     case 'paragraph--stanford_card':
       return <CardParagraph paragraph={paragraph as CardParagraphType}/>
     case 'paragraph--stanford_entity':
-      /* @ts-expect-error Async Server Component */
       return <EntityParagraph paragraph={paragraph as EntityTeaserParagraphType}/>
     case 'paragraph--stanford_gallery':
       return <GalleryParagraph paragraph={paragraph as ImageGalleryParagraphType}/>
     case 'paragraph--stanford_lists':
-      /* @ts-expect-error Async Server Component */
       return <ListParagraph paragraph={paragraph as ListParagraphType}/>
     case 'paragraph--stanford_media_caption':
       return <MediaCaptionParagraph paragraph={paragraph as MediaCaptionParagraphType}/>

@@ -1,5 +1,5 @@
 import Link from "@/components/elements/link";
-import {ArrowUpRightIcon} from "@heroicons/react/20/solid";
+import {ChevronRightIcon} from "@heroicons/react/20/solid";
 import {PropsWithChildren} from "react";
 
 interface Props {
@@ -10,7 +10,7 @@ const ActionLink = ({href, children, ...props}: PropsWithChildren<Props>) => {
   return (
     <Link href={href} {...props} className="relative">
       {children}
-      <ArrowUpRightIcon height={25} className="ml-2 inline-block"/>
+      <ChevronRightIcon height={25} className="ml-2 inline-block"/>
     </Link>
   )
 }

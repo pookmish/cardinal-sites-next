@@ -1,6 +1,7 @@
 import {BasicPageNodeType} from "@/lib/types";
 import Link from "@/components/elements/link";
 import Image from "next/image";
+import {H3} from "@/components/elements/headers";
 
 const StanfordPageCard = ({node}: { node: BasicPageNodeType }) => {
   const imageUrl = node.su_page_image?.field_media_image?.image_style_uri.card_1900x950 || node.su_page_banner?.su_banner_image?.field_media_image?.image_style_uri?.card_1900x950
@@ -22,7 +23,7 @@ const StanfordPageCard = ({node}: { node: BasicPageNodeType }) => {
       <div className="p-10">
         <Link href={node.path?.alias}
               className="text-black no-underline hocus:text-black hocus:underline">
-          <h3 className=" text-m2">{node.title}</h3>
+          <H3 className=" text-m2">{node.title}</H3>
         </Link>
 
         {node.su_page_description &&

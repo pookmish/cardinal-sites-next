@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "@/components/elements/link";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import OutsideClickHandler from "@/components/tools/outside-click-handler";
 import {Bars3Icon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import {XCircleIcon} from "@heroicons/react/24/outline";
@@ -11,11 +11,26 @@ import useActiveTrail from "@/lib/hooks/useActiveTrail";
 import {DrupalMenuLinkContent} from "next-drupal";
 
 const MainMenu = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const browserUrl = useNavigationEvent()
   const activeTrail = useActiveTrail(menuItems);
 
+  const handleEscape = useCallback((event: KeyboardEvent) => {
+    if (event.key === "Escape" && menuOpen) {
+      setMenuOpen(false);
+      buttonRef.current?.focus();
+    }
+  }, [menuOpen]);
+
   useEffect(() => setMenuOpen(false), [browserUrl]);
+  useEffect(() => {
+    // Add keydown listener for escape button if the submenu is open.
+    if (menuOpen) document.addEventListener("keydown", handleEscape);
+    if (!menuOpen) document.removeEventListener("keydown", handleEscape);
+  }, [menuOpen]);
+
+
   return (
     <OutsideClickHandler
       component="nav"
@@ -23,7 +38,8 @@ const MainMenu = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
       className="lg:centered"
     >
       <button
-        className="flex flex-col items-center lg:hidden absolute top-10 right-10"
+        ref={buttonRef}
+        className="flex flex-col items-center lg:hidden absolute top-10 right-10 group"
         onClick={() => setMenuOpen(!menuOpen)}
         aria-expanded={menuOpen}
       >
@@ -33,8 +49,7 @@ const MainMenu = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
         {!menuOpen &&
           <Bars3Icon height={40}/>
         }
-        <span aria-hidden>{menuOpen ? "Close" : "Menu"}</span>
-        <span className="sr-only">{menuOpen ? "Close" : "Open"} Menu</span>
+        <span className="group-hocus:underline">{menuOpen ? "Close" : "Menu"}</span>
       </button>
 
       <div
@@ -60,10 +75,25 @@ interface MenuItemProps {
   level?: number
 }
 
-const MenuItem = ({id, url, title, items = [], activeTrail, level = 0}: MenuItemProps) => {
+const MenuItem = ({id, url, title, items, activeTrail, level = 0}: MenuItemProps) => {
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const [submenuOpen, setSubmenuOpen] = useState(false)
   const browserUrl = useNavigationEvent()
   useEffect(() => setSubmenuOpen(false), [browserUrl]);
+
+  const handleEscape = useCallback((event: KeyboardEvent) => {
+    if (event.key === "Escape" && submenuOpen) {
+      setSubmenuOpen(false);
+      buttonRef.current?.focus();
+    }
+  }, [submenuOpen]);
+
+
+  useEffect(() => {
+    // Add keydown listener for escape button if the submenu is open.
+    if (submenuOpen) document.addEventListener("keydown", handleEscape);
+    if (!submenuOpen) document.removeEventListener("keydown", handleEscape);
+  }, [submenuOpen]);
 
   const zIndexes = [
     "z-[1]",
@@ -119,13 +149,14 @@ const MenuItem = ({id, url, title, items = [], activeTrail, level = 0}: MenuItem
           <>
             {level === 0 && <div className="block ml-5 w-[1px] h-[30px] bg-archway-light shrink-0"/>}
             <button
-              className="shrink-0 relative right-10 lg:right-0 text-white lg:text-cardinal-red bg-cardinal-red lg:bg-transparent rounded-full group"
+              ref={buttonRef}
+              className="shrink-0 relative right-10 lg:right-0 text-white lg:text-cardinal-red bg-cardinal-red lg:bg-transparent rounded-full lg:rounded-none group border-b border-transparent hocus:border-black hocus:bg-white"
               onClick={() => setSubmenuOpen(!submenuOpen)}
               aria-expanded={submenuOpen}
             >
               <ChevronDownIcon
                 height={40}
-                className={(submenuOpen ? "rotate-180" : "") + " transition group-hocus:scale-150 ease-in-out duration-150"}
+                className={(submenuOpen ? "rotate-180" : "") + " transition group-hocus:scale-150 group-hocus:text-black ease-in-out duration-150"}
               />
               <span className="sr-only">{submenuOpen ? "Close" : "Open"} {title} Submenu</span>
             </button>

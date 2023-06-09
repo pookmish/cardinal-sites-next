@@ -2,6 +2,7 @@ import {ListParagraphType} from "@/lib/types";
 import Wysiwyg from "@/components/elements/wysiwyg";
 import Button from "@/components/elements/button";
 import View from "@/components/views/view";
+import {H2} from "@/components/elements/headers";
 
 const ListParagraph = async ({paragraph}: { paragraph: ListParagraphType }) => {
   const viewId: string = paragraph.su_list_view?.resourceIdObjMeta?.drupal_internal__target_id;
@@ -9,7 +10,6 @@ const ListParagraph = async ({paragraph}: { paragraph: ListParagraphType }) => {
   let args: string = paragraph.su_list_view?.resourceIdObjMeta?.arguments ?? '';
   const itemsToDisplay: number = paragraph.su_list_view?.resourceIdObjMeta?.items_to_display ?? -1;
 
-  {/* @ts-expect-error Async Server Component */}
   const view = <View
     viewId={viewId}
     displayId={displayId}
@@ -25,7 +25,7 @@ const ListParagraph = async ({paragraph}: { paragraph: ListParagraphType }) => {
   return (
     <div className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20">
       {paragraph.su_list_headline &&
-        <h2>{paragraph.su_list_headline}</h2>
+        <H2>{paragraph.su_list_headline}</H2>
       }
       {paragraph.su_list_description &&
         <Wysiwyg html={paragraph.su_list_description}/>

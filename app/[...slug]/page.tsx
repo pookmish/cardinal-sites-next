@@ -92,7 +92,6 @@ const Page = async (context: GetStaticPropsContext) => {
   }
 
   return (
-    /* @ts-expect-error Async Server Component */
     <NodePage node={node}/>
   )
 }

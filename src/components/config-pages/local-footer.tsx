@@ -17,6 +17,7 @@ import LockupR from "@/components/elements/lockup/lockup-r";
 import LockupS from "@/components/elements/lockup/lockup-s";
 import LockupT from "@/components/elements/lockup/lockup-t";
 import {JSX} from "react";
+import {H2} from "@/components/elements/headers";
 
 const LocalFooter = async () => {
   const configPage = await getConfigPageResource<LocalFooterConfigPageType>('stanford_local_footer')
@@ -69,7 +70,7 @@ const LocalFooter = async () => {
 
           <div>
             {configPage.su_local_foot_prime_h &&
-              <h2 className="text-m1">{configPage.su_local_foot_prime_h}</h2>}
+              <H2 className="text-m1">{configPage.su_local_foot_prime_h}</H2>}
             {configPage.su_local_foot_primary &&
               <ul className="list-unstyled">
                 {configPage.su_local_foot_primary.map((link, index) =>
@@ -90,7 +91,7 @@ const LocalFooter = async () => {
 
           <div>
             {configPage.su_local_foot_second_h &&
-              <h2 className="text-m1">{configPage.su_local_foot_second_h}</h2>}
+              <H2 className="text-m1">{configPage.su_local_foot_second_h}</H2>}
 
             {configPage.su_local_foot_second &&
               <ul className="list-unstyled">

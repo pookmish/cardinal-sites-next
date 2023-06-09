@@ -4,6 +4,7 @@ import Wysiwyg from "@/components/elements/wysiwyg";
 import NodeCard from "@/components/nodes/cards/node-card";
 import Button from "@/components/elements/button";
 import {DrupalNode} from "next-drupal";
+import {H2} from "@/components/elements/headers";
 
 const EntityParagraph = async ({paragraph}: { paragraph: EntityTeaserParagraphType }) => {
   const items = await getResources<DrupalNode>(paragraph.su_entity_item ?? []);
@@ -17,7 +18,7 @@ const EntityParagraph = async ({paragraph}: { paragraph: EntityTeaserParagraphTy
 
   return (
     <div className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20">
-      {paragraph.su_entity_headline && <h2>{paragraph.su_entity_headline}</h2>}
+      {paragraph.su_entity_headline && <H2>{paragraph.su_entity_headline}</H2>}
 
       {paragraph.su_entity_description &&
         <Wysiwyg html={paragraph.su_entity_description}/>

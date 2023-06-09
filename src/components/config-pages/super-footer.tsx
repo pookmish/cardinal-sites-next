@@ -3,6 +3,7 @@ import {SuperFooterConfigPageType} from "@/lib/types";
 import Wysiwyg from "@/components/elements/wysiwyg";
 import Link from "@/components/elements/link";
 import {LockClosedIcon} from "@heroicons/react/24/outline";
+import {H2} from "@/components/elements/headers";
 
 const SuperFooter = async () => {
   const configPage = await getConfigPageResource<SuperFooterConfigPageType>('stanford_super_footer');
@@ -15,7 +16,7 @@ const SuperFooter = async () => {
       <div className="centered flex justify-between">
         <div>
           {configPage.su_super_foot_title &&
-            <h2 className="text-m2">{configPage.su_super_foot_title}</h2>
+            <H2 className="text-m2">{configPage.su_super_foot_title}</H2>
           }
           {configPage.su_super_foot_text &&
             <Wysiwyg html={configPage.su_super_foot_text}/>

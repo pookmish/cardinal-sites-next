@@ -2,6 +2,7 @@ import {EventScheduleParagraphType} from "@/lib/types";
 import Wysiwyg from "@/components/elements/wysiwyg";
 import Address from "@/components/elements/address";
 import Paragraph from "@/components/paragraphs/paragraph";
+import {H3} from "@/components/elements/headers";
 
 const ScheduleParagraph = ({paragraph}: { paragraph: EventScheduleParagraphType }) => {
   let start
@@ -19,7 +20,7 @@ const ScheduleParagraph = ({paragraph}: { paragraph: EventScheduleParagraphType 
   return (
     <div className="centered">
       {start &&
-        <h3>{start}</h3>
+        <H3>{start}</H3>
       }
       {paragraph.su_schedule_headline &&
         <div>
@@ -37,7 +38,6 @@ const ScheduleParagraph = ({paragraph}: { paragraph: EventScheduleParagraphType 
       {paragraph.su_schedule_speaker &&
         <div>
           {paragraph.su_schedule_speaker.map(speaker =>
-            /* @ts-expect-error Async Server Component */
             <Paragraph paragraph={speaker} key={speaker.id}/>
           )}
         </div>

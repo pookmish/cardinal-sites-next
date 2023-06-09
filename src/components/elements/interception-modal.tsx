@@ -1,11 +1,15 @@
 "use client";
 
-import {PropsWithChildren, useCallback, useEffect, useRef} from "react";
+import React, {PropsWithChildren, ReactElement, useCallback, useEffect, useRef} from "react";
 import {useRouter} from "next/navigation";
 import ReactFocusLock from "react-focus-lock";
 import {XMarkIcon} from "@heroicons/react/20/solid";
 
-const InterceptionModal = ({children}: PropsWithChildren<null>) => {
+interface Props {
+  children: ReactElement;
+}
+
+const InterceptionModal = ({children, ...props}: PropsWithChildren<Props>) => {
   const overlay = useRef(null);
   const wrapper = useRef(null);
   const router = useRouter();
@@ -15,7 +19,7 @@ const InterceptionModal = ({children}: PropsWithChildren<null>) => {
   }, [router]);
 
   const onClick = useCallback(
-    (e) => {
+    (e: React.MouseEvent) => {
       if (e.target === overlay.current || e.target === wrapper.current) {
         if (onDismiss) onDismiss();
       }
@@ -24,7 +28,7 @@ const InterceptionModal = ({children}: PropsWithChildren<null>) => {
   );
 
   const onKeyDown = useCallback(
-    (e) => {
+    (e: KeyboardEvent) => {
       if (e.key === "Escape") onDismiss();
     },
     [onDismiss]
@@ -47,6 +51,7 @@ const InterceptionModal = ({children}: PropsWithChildren<null>) => {
       ref={overlay}
       className="modal fixed w-screen h-full overscroll-contain overflow-y-scroll overflow-x-hidden top-0 left-0 items-center justify-center z-[10000] bg-black-true bg-opacity-[90%] flex"
       onClick={onClick}
+      {...props}
     >
       <ReactFocusLock returnFocus>
         <div

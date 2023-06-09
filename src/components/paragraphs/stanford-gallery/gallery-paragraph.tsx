@@ -3,12 +3,13 @@ import Wysiwyg from "@/components/elements/wysiwyg";
 import Button from "@/components/elements/button";
 import Image from "next/image";
 import Link from "next/link";
+import {H2} from "@/components/elements/headers";
 
 const GalleryParagraph = ({paragraph}: { paragraph: ImageGalleryParagraphType }) => {
   return (
     <div className="@container centered lg:max-w-[980px] flex flex-col gap-10 mb-20">
       {paragraph.su_gallery_headline &&
-        <h2>{paragraph.su_gallery_headline}</h2>
+        <H2>{paragraph.su_gallery_headline}</H2>
       }
 
       {paragraph.su_gallery_description &&

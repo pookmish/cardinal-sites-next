@@ -2,6 +2,7 @@ import {NewsNodeType} from "@/lib/types";
 import Image from "next/image";
 import Link from "@/components/elements/link";
 import {DrupalTaxonomyTerm} from "next-drupal";
+import {H3} from "@/components/elements/headers";
 
 const StanfordNewsCard = ({node}: { node: NewsNodeType }) => {
   const imageUrl = node.su_news_featured_media?.field_media_image?.image_style_uri.card_1900x950;
@@ -25,7 +26,7 @@ const StanfordNewsCard = ({node}: { node: NewsNodeType }) => {
       <div className="p-20">
         <Link href={node.path?.alias}
               className="text-black no-underline hocus:text-black hocus:underline">
-          <h3 className="text-m2">{node.title}</h3>
+          <H3 className="text-m2">{node.title}</H3>
         </Link>
         {topics &&
           <div>
