@@ -1,13 +1,14 @@
 "use client";
 
 import StanfordNewsListItem from "@/components/nodes/list-item/stanford-news/stanford-news-list-item";
-import {useRef, useState} from "react";
+import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import SelectList from "@/components/elements/select-list";
 import Button from "@/components/elements/button";
 import {NewsNodeType} from "@/lib/types";
 
 const NewsFilteringListView = ({items}: { items: NewsNodeType[] }) => {
+  const focusRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [displayedItems, setDisplayedItems] = useState<NewsListItem[]>(items);
   const [page, setPage] = useState<number>(1);
@@ -24,6 +25,8 @@ const NewsFilteringListView = ({items}: { items: NewsNodeType[] }) => {
     setDisplayedItems(filteredItems);
   }
 
+  useLayoutEffect(() => focusRef.current?.focus(), [page])
+
   let topics = [];
   items.map(item => {
     item.su_news_topics.map(topic => {
@@ -37,6 +40,7 @@ const NewsFilteringListView = ({items}: { items: NewsNodeType[] }) => {
 
   const current = displayedItems.slice(0, page * 10).length;
   const total = items.length;
+
   return (
     <div>
       <form className="flex gap-20">
@@ -54,7 +58,9 @@ const NewsFilteringListView = ({items}: { items: NewsNodeType[] }) => {
         {displayedItems.slice(0, page * 10).map(item =>
           <li
             key={item.id}
+            tabIndex={(page > 1 && item.id === displayedItems[((page - 1) * 10)]?.id)? 0 : -1}
             className="border-b border-black-20 last:border-0 pb-10 last:pb-0 pt-10 first:pt-0"
+            ref={(page > 1 && item.id === displayedItems[((page - 1) * 10)]?.id) ? focusRef : undefined}
           >
             <StanfordNewsListItem node={item}/>
           </li>
@@ -73,4 +79,6 @@ const NewsFilteringListView = ({items}: { items: NewsNodeType[] }) => {
     </div>
   )
 }
+
+
 export default NewsFilteringListView;
