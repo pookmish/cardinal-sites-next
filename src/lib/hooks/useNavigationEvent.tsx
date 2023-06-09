@@ -15,7 +15,7 @@ const useNavigationEvent = () => {
       return;
     }
 
-    if (pathname !== url && !(pathname?.startsWith('/calendar/') || pathname?.startsWith('/study-place/'))) {
+    if (pathname !== url && !(pathname?.startsWith('/gallery-image/'))) {
       setUrl(pathname ? pathname : null);
     }
   }, [url, pathname]);
