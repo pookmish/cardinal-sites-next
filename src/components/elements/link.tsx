@@ -1,8 +1,8 @@
 "use client";
+
 import {PropsWithChildren} from "react";
 import Link from "next/link";
 import {EnvelopeIcon} from "@heroicons/react/24/outline";
-import {ArrowUpRightIcon} from "@heroicons/react/20/solid";
 import ActionLink from "@/components/elements/action-link";
 import Button from "@/components/elements/button";
 
@@ -22,15 +22,6 @@ const DrupalLink = ({href, className = '', children, ...props}: PropsWithChildre
   if (href && !href.includes('/files/')) {
     href = href.replace(drupalBase, '').replace('<front>', '/');
   }
-
-  if (href.startsWith('#')) {
-    return (
-      <a href={href} className={className} {...props}>
-        {children}
-      </a>
-    )
-  }
-
 
   let afterIcon;
 

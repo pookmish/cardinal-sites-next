@@ -14,13 +14,16 @@ interface Props {
 
 export const Button = ({href = '#', buttonElem = false, big = false, secondary = false, centered = false, children, className = "", ...props}: PropsWithChildren<Props>) => {
 
-  className = twMerge(className, twMerge("flex items-center text-center font-semibold", (centered ? "mx-auto block w-fit" : "")))
+  className = twMerge(className, (centered ? "flex items-center w-fit mx-auto" : "inline-block text-center w-fit"))
 
   if (big) {
+    // Big button styles.
     className = twMerge(`transition text-5xl text-white hocus:text-white bg-digital-red hocus:bg-black no-underline hocus:underline py-6 px-12 font-normal`, className)
   } else if (secondary) {
+    // Secondary button styles.
     className = twMerge(`transition text-digital-red border-2 border-digital-red hocus:border-black no-underline hocus:underline py-4 px-8 font-normal`, className)
   } else {
+    // Regular button styles.
     className = twMerge(`bg-digital-red text-white hocus:bg-black hocus:text-white py-4 px-8 no-underline hocus:underline transition`, className)
   }
 

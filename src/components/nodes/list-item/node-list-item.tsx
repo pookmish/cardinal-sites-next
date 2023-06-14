@@ -18,24 +18,24 @@ import {
   PersonNodeType, PolicyNodeType, PublicationNodeType
 } from "@/lib/types";
 
-const NodeListItem = ({node}: { node: DrupalNode }) => {
+const NodeListItem = ({node, headingLevel}: { node: DrupalNode, headingLevel?: string }) => {
   switch (node.type) {
     case 'node--stanford_course':
-      return <StanfordCourseListItem node={node as CourseNodeType}/>
+      return <StanfordCourseListItem node={node as CourseNodeType} headingLevel={headingLevel}/>
     case 'node--stanford_event':
-      return <StanfordEventListItem node={node as EventNodeType}/>
+      return <StanfordEventListItem node={node as EventNodeType} headingLevel={headingLevel}/>
     case 'node--stanford_event_series':
-      return <StanfordEventSeriesListItem node={node as EventSeriesNodeType}/>
+      return <StanfordEventSeriesListItem node={node as EventSeriesNodeType} headingLevel={headingLevel}/>
     case 'node--stanford_news':
-      return <StanfordNewsListItem node={node as NewsNodeType}/>
+      return <StanfordNewsListItem node={node as NewsNodeType} headingLevel={headingLevel}/>
     case 'node--stanford_page':
-      return <StanfordPageListItem node={node as BasicPageNodeType}/>
+      return <StanfordPageListItem node={node as BasicPageNodeType} headingLevel={headingLevel}/>
     case 'node--stanford_person':
-      return <StanfordPersonListItem node={node as PersonNodeType}/>
+      return <StanfordPersonListItem node={node as PersonNodeType} headingLevel={headingLevel}/>
     case 'node--stanford_policy':
-      return <StanfordPolicyListItem node={node as PolicyNodeType}/>
+      return <StanfordPolicyListItem node={node as PolicyNodeType} headingLevel={headingLevel}/>
     case 'node--stanford_publication':
-      return <StanfordPublicationListItem node={node as PublicationNodeType}/>
+      return <StanfordPublicationListItem node={node as PublicationNodeType} headingLevel={headingLevel}/>
   }
 }
 export default NodeListItem;

@@ -8,7 +8,7 @@ interface Props {
 
 export const H1 = ({children, className = '', ...props}: PropsWithChildren<Props>) => {
   return (
-    <h1 className={twMerge("", className)} {...props}>
+    <h1 className={twMerge("[&>a]:", className)} {...props}>
       {children}
     </h1>
   )
@@ -16,7 +16,7 @@ export const H1 = ({children, className = '', ...props}: PropsWithChildren<Props
 
 export const H2 = ({children, className = '', ...props}: PropsWithChildren<Props>) => {
   return (
-    <h2 className={twMerge("", className)} {...props}>
+    <h2 className={twMerge("[&>a]:text-digital-red [&>a]:hocus:text-black", className)} {...props}>
       {children}
     </h2>
   )
@@ -24,7 +24,7 @@ export const H2 = ({children, className = '', ...props}: PropsWithChildren<Props
 
 export const H3 = ({children, className = '', ...props}: PropsWithChildren<Props>) => {
   return (
-    <h3 className={twMerge("", className)} {...props}>
+    <h3 className={twMerge("[&>a]:text-digital-red [&>a]:hocus:text-black", className)} {...props}>
       {children}
     </h3>
   )
@@ -32,7 +32,7 @@ export const H3 = ({children, className = '', ...props}: PropsWithChildren<Props
 
 export const H4 = ({children, className = '', ...props}: PropsWithChildren<Props>) => {
   return (
-    <h4 className={twMerge("", className)} {...props}>
+    <h4 className={twMerge("[&>a]:text-digital-red [&>a]:hocus:text-black", className)} {...props}>
       {children}
     </h4>
   )
@@ -40,7 +40,7 @@ export const H4 = ({children, className = '', ...props}: PropsWithChildren<Props
 
 export const H5 = ({children, className = '', ...props}: PropsWithChildren<Props>) => {
   return (
-    <h5 className={twMerge("", className)} {...props}>
+    <h5 className={twMerge("[&>a]:text-digital-red [&>a]:hocus:text-black", className)} {...props}>
       {children}
     </h5>
   )
@@ -48,7 +48,7 @@ export const H5 = ({children, className = '', ...props}: PropsWithChildren<Props
 
 export const H6 = ({children, className = '', ...props}: PropsWithChildren<Props>) => {
   return (
-    <h6 className={twMerge("", className)} {...props}>
+    <h6 className={twMerge("[&>a]:text-digital-red [&>a]:hocus:text-black", className)} {...props}>
       {children}
     </h6>
   )

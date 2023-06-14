@@ -3,7 +3,6 @@ import TwoColumn from "@/components/paragraphs/rows/two-column";
 import ThreeColumn from "@/components/paragraphs/rows/three-column";
 import {getResources} from "@/lib/drupal/get-resource";
 import {DrupalParagraphWithBehaviors, LayoutParagraphsBehaviorsType} from "@/lib/types";
-import {DrupalParagraph} from "next-drupal";
 
 interface LayoutsProps {
   [key: string]: DrupalParagraphWithBehaviors

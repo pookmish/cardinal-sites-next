@@ -24,7 +24,9 @@ const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {
     <div className="centered mt-32">
       <div className="lg:w-3/4 mx-auto mb-20">
         <div className="flex flex-col">
-          <H1 className="order-2">{node.title}</H1>
+          <H1 className="order-2">
+            {node.title}
+          </H1>
 
           {topics &&
             <div className="order-1 flex gap-2">

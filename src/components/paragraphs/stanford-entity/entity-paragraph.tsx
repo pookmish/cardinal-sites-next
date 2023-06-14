@@ -18,7 +18,7 @@ const EntityParagraph = async ({paragraph}: { paragraph: EntityTeaserParagraphTy
 
   return (
     <div className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20">
-      {paragraph.su_entity_headline && <H2>{paragraph.su_entity_headline}</H2>}
+      {paragraph.su_entity_headline && <H2 className="text-center">{paragraph.su_entity_headline}</H2>}
 
       {paragraph.su_entity_description &&
         <Wysiwyg html={paragraph.su_entity_description}/>
@@ -26,13 +26,13 @@ const EntityParagraph = async ({paragraph}: { paragraph: EntityTeaserParagraphTy
 
       <div className={`grid ${gridClass} gap-20 mb-20`}>
         {entities.map(entity =>
-          <NodeCard key={entity.id} node={entity}/>
+          <NodeCard key={entity.id} node={entity} headingLevel={paragraph.su_entity_headline ? "h3" : "h2"}/>
         )}
       </div>
 
       {paragraph.su_entity_button &&
         <div>
-          <Button href={paragraph.su_entity_button.url}>
+          <Button href={paragraph.su_entity_button.url} centered>
             {paragraph.su_entity_button.title}
           </Button>
         </div>

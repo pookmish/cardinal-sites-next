@@ -20,7 +20,9 @@ const StanfordEventPage = ({node}: { node: EventNodeType }) => {
   return (
     <div className="centered mt-32">
       <div className="flex flex-col">
-        <H1 className="order-2">{node.title}</H1>
+        <H1 className="order-2">
+          {node.title}
+        </H1>
 
         {node.su_event_type &&
           <div className="order-1">

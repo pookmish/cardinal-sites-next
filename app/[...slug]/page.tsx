@@ -30,12 +30,8 @@ class RedirectError extends Error {
 const getPageData = async (context: GetStaticPropsContext) => {
   const path = await translatePathFromContext(context);
 
-  if (!path || !path.jsonapi) {
-    throw new Error('Unable to translate path: ' + JSON.stringify(context));
-  }
-
   // Check for redirect.
-  if (path.redirect?.[0].to) {
+  if (path?.redirect?.[0].to) {
     const currentPath = '/' + (typeof context?.params?.slug === 'object' ? context.params.slug.join('/') : context?.params?.slug);
     const [destination] = path.redirect;
 
@@ -44,6 +40,9 @@ const getPageData = async (context: GetStaticPropsContext) => {
     }
   }
 
+  if (!path || !path.jsonapi) {
+    throw new Error('Unable to translate path: ' + JSON.stringify(context));
+  }
   return getResourceFromContext<DrupalNode>(path.jsonapi.resourceName, context)
 }
 

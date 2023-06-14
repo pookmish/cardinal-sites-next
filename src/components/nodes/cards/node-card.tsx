@@ -19,24 +19,24 @@ import {
 } from "@/lib/types";
 import {JSX} from "react";
 
-const NodeCard = ({node}: { node: DrupalNode }): JSX.Element | null => {
+const NodeCard = ({node, headingLevel}: { node: DrupalNode, headingLevel?: string }): JSX.Element | null => {
   switch (node.type) {
     case 'node--stanford_course':
-      return <StanfordCourseCard node={node as CourseNodeType}/>
+      return <StanfordCourseCard node={node as CourseNodeType} headingLevel={headingLevel}/>
     case 'node--stanford_event':
-      return <StanfordEventCard node={node as EventNodeType}/>
+      return <StanfordEventCard node={node as EventNodeType} headingLevel={headingLevel}/>
     case 'node--stanford_event_series':
-      return <StanfordEventSeriesCard node={node as EventSeriesNodeType}/>
+      return <StanfordEventSeriesCard node={node as EventSeriesNodeType} headingLevel={headingLevel}/>
     case 'node--stanford_news':
-      return <StanfordNewsCard node={node as NewsNodeType}/>
+      return <StanfordNewsCard node={node as NewsNodeType} headingLevel={headingLevel}/>
     case 'node--stanford_page':
-      return <StanfordPageCard node={node as BasicPageNodeType}/>
+      return <StanfordPageCard node={node as BasicPageNodeType} headingLevel={headingLevel}/>
     case 'node--stanford_person':
-      return <StanfordPersonCard node={node as PersonNodeType}/>
+      return <StanfordPersonCard node={node as PersonNodeType} headingLevel={headingLevel}/>
     case 'node--stanford_policy':
-      return <StanfordPolicyCard node={node as PolicyNodeType}/>
+      return <StanfordPolicyCard node={node as PolicyNodeType} headingLevel={headingLevel}/>
     case 'node--stanford_publication':
-      return <StanfordPublicationCard node={node as PublicationNodeType}/>
+      return <StanfordPublicationCard node={node as PublicationNodeType} headingLevel={headingLevel}/>
   }
   return null;
 }

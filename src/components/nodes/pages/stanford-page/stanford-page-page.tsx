@@ -11,7 +11,9 @@ const StanfordPagePage = ({node}: { node: BasicPageNodeType }) => {
       {node.su_page_banner &&
         <Paragraph paragraph={node.su_page_banner}/>
       }
-      <H1 className="mt-32 max-w-1500 w-full mx-auto px-10 3xl:px-0">{node.title}</H1>
+      <H1 className="mt-32 max-w-1500 w-full mx-auto px-10 3xl:px-0">
+        {node.title}
+      </H1>
 
       {!fullWidth &&
         <InteriorPage>

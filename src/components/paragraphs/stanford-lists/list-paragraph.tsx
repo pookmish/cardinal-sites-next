@@ -16,6 +16,7 @@ const ListParagraph = async ({paragraph}: { paragraph: ListParagraphType }) => {
     itemsToDisplay={itemsToDisplay}
     args={args}
     emptyMessage={paragraph.behavior_settings?.list_paragraph?.empty_message}
+    headingLevel={paragraph.su_list_headline ? 'h3': 'h2'}
   />
 
   if (paragraph.behavior_settings?.list_paragraph?.hide_empty && view.type() === null) {

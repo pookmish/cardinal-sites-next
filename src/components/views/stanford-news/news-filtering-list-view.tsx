@@ -8,7 +8,7 @@ import Button from "@/components/elements/button";
 import {NewsNodeType} from "@/lib/types";
 import {DrupalTaxonomyTerm} from "next-drupal";
 
-const NewsFilteringListView = ({items}: { items: NewsNodeType[] }) => {
+const NewsFilteringListView = ({items, topics}: { items: NewsNodeType[], topics: DrupalTaxonomyTerm[] }) => {
   const focusRef = useRef<HTMLLIElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [displayedItems, setDisplayedItems] = useState<NewsNodeType[]>(items);
@@ -28,17 +28,6 @@ const NewsFilteringListView = ({items}: { items: NewsNodeType[] }) => {
 
   useLayoutEffect(() => focusRef.current?.focus(), [page])
 
-  let topics: DrupalTaxonomyTerm[] = [];
-  items.map(item => {
-    item.su_news_topics?.map(topic => {
-      // Add the topic to the list if it's not already there.
-      if (!topics.find(t => t.id === topic.id)) {
-        topics.push(topic);
-      }
-    })
-  })
-  topics = topics.sort((a, b) => a.name.localeCompare(b.name));
-
   const current = displayedItems.slice(0, page * 10).length;
   const total = items.length;
 
@@ -47,7 +36,7 @@ const NewsFilteringListView = ({items}: { items: NewsNodeType[] }) => {
       <form className="flex gap-20">
         <SelectList inputRef={inputRef} label="Topic">
           <option>All</option>
-          {topics.map(topic => <option key={topic.id} value={topic.id}>{topic.name}</option>)}
+          <SelectOptions terms={topics}/>
         </SelectList>
         <Button buttonElem onClick={filterItems}>
           Submit
@@ -78,6 +67,20 @@ const NewsFilteringListView = ({items}: { items: NewsNodeType[] }) => {
         }
       </ul>
     </div>
+  )
+}
+
+const SelectOptions = ({terms, level = 0}: { terms: DrupalTaxonomyTerm[], level?: number }) => {
+  return (
+    <>
+      {terms.map(term =>
+        <>
+          <option value={term.id}>{`-`.repeat(level)} {term.name}</option>
+          {term.below && <SelectOptions terms={term.below} level={level + 1}/>}
+        </>
+      )}
+
+    </>
   )
 }
 

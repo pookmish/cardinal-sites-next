@@ -12,7 +12,9 @@ const StanfordPolicyPage = async ({node}: { node: PolicyNodeType }): Promise<JSX
 
   return (
     <div className="centered pt-32">
-      <H1>{node.title}</H1>
+      <H1>
+        {node.title}
+      </H1>
       <div className="flex flex-col gap-5">
         {node.su_policy_effective &&
           <div>

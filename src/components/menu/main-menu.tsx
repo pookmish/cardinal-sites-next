@@ -108,39 +108,43 @@ const MenuItem = ({id, url, title, items, activeTrail, level = 0}: MenuItemProps
     'pl-28',
     'pl-48',
   ]
-  const currentPage = (level === 0 ? [
-    'lg:text-black',
-    'after:content-[""]',
-    'after:absolute',
-    'after:block',
-    'after:w-full',
-    'after:bottom-0',
-    'after:left-0',
-    'after:h-2',
-    'after:bg-black'
-  ] : []).join(' ')
-  const inTrail = (level === 0 ? [
-    'lg:text-black',
-    'lg:after:content-[""]',
-    'lg:after:absolute',
-    'lg:after:block',
-    'lg:after:w-full',
-    'lg:after:bottom-0',
-    'lg:after:left-0',
-    'lg:after:h-2',
-    'lg:after:bg-foggy-dark',
-  ] : []).join(' ')
+
+  const isCurrent = activeTrail.at(-1) === id;
+  const inTrail = activeTrail.includes(id) && !isCurrent;
+
+  const topItem: string[] = [
+    'border-l-[6px]',
+    'lg:border-l-0',
+    'lg:border-b-[6px]',
+    isCurrent ? "border-digital-red lg:border-black" : (inTrail ? "border-transparent lg:border-foggy-dark": "border-transparent"),
+    'hocus:border-white',
+    'lg:hocus:border-transprent',
+    'ml-5',
+    'lg:ml-0',
+    leftPadding[level]
+  ]
+  const childItem: string[] = [
+    'border-l-[6px]',
+    isCurrent ? "border-digital-red" : "border-transparent",
+    'ml-5',
+    'lg:ml-0',
+    'lg:pl-5',
+    leftPadding[level]
+  ];
+
+  const itemStyles: string = level === 0 ? topItem.join(' ') : childItem.join(' ');
+
   return (
     <OutsideClickHandler
       component="li"
       onClickOutside={() => setSubmenuOpen(false)}
-      className={"m-0 py-2 lg:py-0 relative border-b last:border-0 border-cool-grey lg:border-black-20 lg:relative lg:mr-5 last:lg:mr-0 " + (level === 0 ? "lg:border-b-0" : "")}
+      className={"m-0 py-2 lg:py-0 relative border-b first:border-t last:border-0 border-cool-grey lg:border-black-20 lg:relative lg:mr-5 last:lg:mr-0 " + (level === 0 ? "lg:border-b-0 first:border-t-0" : "")}
     >
       <div className="flex items-center justify-between lg:justify-end">
         <Link
           href={url}
-          className={`w-full relative inline-block text-white lg:text-cardinal-red hocus:text-white lg:hocus:text-black no-underline hocus:underline py-5 ${leftPadding[level]} ` + (activeTrail.includes(id) ? inTrail : "") + (level > 0 ? " lg:pl-5" : " lg:pl-0")}
-          aria-current={activeTrail.at(-1) === id ? "true" : undefined}
+          className={`w-full relative inline-block text-white lg:text-cardinal-red hocus:text-white lg:hocus:text-black no-underline hocus:underline py-5 lg:pl-0 ${itemStyles}`}
+          aria-current={isCurrent ? "true" : undefined}
         >
           {title}
         </Link>
@@ -168,7 +172,7 @@ const MenuItem = ({id, url, title, items, activeTrail, level = 0}: MenuItemProps
 
       {items &&
         <ul
-          className={(submenuOpen ? "block" : "hidden") + " list-unstyled w-full min-w-[300px] lg:absolute lg:bg-white lg:shadow-2xl px-0 " + (level >= 1 ? "lg:left-full lg:top-0 " : "lg:left-0 lg:top-full ") + zIndexes[level]}>
+          className={(submenuOpen ? "block" : "hidden") + " list-unstyled w-full min-w-[300px] lg:bg-white lg:shadow-2xl px-0 " + (level === 0 ? "lg:absolute lg:top-full lg:left-0 " : "") + zIndexes[level]}>
           {items.map(item =>
             <MenuItem
               key={item.id}

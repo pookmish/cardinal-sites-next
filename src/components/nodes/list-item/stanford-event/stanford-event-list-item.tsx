@@ -2,7 +2,7 @@ import {EventNodeType} from "@/lib/types";
 import Link from "@/components/elements/link";
 import {CalendarDaysIcon, MapPinIcon} from "@heroicons/react/20/solid";
 import Address from "@/components/elements/address";
-import {H3} from "@/components/elements/headers";
+import {H2, H3} from "@/components/elements/headers";
 
 export const getEventTimeString = (start: Date, end: Date, timezone: string): string => {
   const startHour = parseInt(start.toLocaleTimeString("en-US", {
@@ -52,7 +52,7 @@ export const getEventTimeString = (start: Date, end: Date, timezone: string): st
     endHour === 23 &&
     endMinute === 59
   ) {
-    return start.toLocaleDateString('en-us',{
+    return start.toLocaleDateString('en-us', {
       weekday: "long",
       month: "long",
       day: "numeric",
@@ -95,7 +95,7 @@ export const getEventTimeString = (start: Date, end: Date, timezone: string): st
   })
 }
 
-const StanfordEventListItem = ({node}: { node: EventNodeType }) => {
+const StanfordEventListItem = ({node, headingLevel}: { node: EventNodeType, headingLevel?: string }) => {
 
   const timezone: string = node.su_event_date_time.timezone ?? 'America/Los_Angeles';
   const start = new Date(node.su_event_date_time.value);
@@ -107,7 +107,7 @@ const StanfordEventListItem = ({node}: { node: EventNodeType }) => {
   // Fix difference between server side render and client side render. Replace any strange characters.
   const dateTimeString = getEventTimeString(start, end, timezone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
   const goToPath = node.su_event_source?.url ?? node.path?.alias as string
-
+  const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <div className="w-full mx-auto py-10 flex gap-10">
       <div aria-hidden className="flex flex-col items-start w-fit">
@@ -125,12 +125,15 @@ const StanfordEventListItem = ({node}: { node: EventNodeType }) => {
           </div>
         }
 
-        <Link
-          href={goToPath}
-          className="text-digital-red no-underline hocus:text-black hocus:underline"
-        >
-          <H3 className="text-m2">{node.title}</H3>
-        </Link>
+
+        <Heading className="text-m2">
+          <Link
+            href={goToPath}
+            className="text-digital-red no-underline hocus:text-black hocus:underline"
+          >
+            {node.title}
+          </Link>
+        </Heading>
 
         {node.su_event_subheadline &&
           <div className="text-m1 font-bold mb-5">

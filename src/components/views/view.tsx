@@ -22,113 +22,62 @@ interface Props {
   args?: string;
   itemsToDisplay?: number;
   emptyMessage?: string;
+  headingLevel?: string
 }
 
-const View = async ({viewId, displayId, args, itemsToDisplay, emptyMessage}: Props): Promise<JSX.Element | undefined> => {
+const View = async ({viewId, displayId, args, itemsToDisplay = -1, emptyMessage, headingLevel = 'h3'}: Props): Promise<JSX.Element | undefined> => {
   const component = `${viewId}--${displayId}`;
+
+  const viewProps = {
+    view: component,
+    args,
+    itemsToDisplay,
+    emptyMessage,
+    headingLevel,
+  }
 
   switch (component) {
     case 'stanford_basic_pages--basic_page_type_list':
 
-      return <PageListView
-        view={component}
-        args={args}
-        itemsToDisplay={itemsToDisplay}
-        emptyMessage={emptyMessage}
-      />
+      return <PageListView {...viewProps}/>
 
     case 'stanford_news--vertical_cards':
-      return <NewsCardView
-        view={component}
-        args={args}
-        itemsToDisplay={itemsToDisplay}
-        emptyMessage={emptyMessage}
-      />
+      return <NewsCardView {...viewProps} />
 
     case 'stanford_news--block_1':
-      return <NewsListView
-        view={component}
-        args={args}
-        itemsToDisplay={itemsToDisplay}
-        emptyMessage={emptyMessage}
-      />
+      return <NewsListView {...viewProps}/>
 
     case 'stanford_person--grid_list_all':
-      return <PersonCardView
-        view={component}
-        args={args}
-        itemsToDisplay={itemsToDisplay}
-        emptyMessage={emptyMessage}
-      />
+      return <PersonCardView {...viewProps}/>
 
     case 'stanford_events--cards':
-      return <EventsCardView
-        view={component}
-        args={args}
-        itemsToDisplay={itemsToDisplay}
-        emptyMessage={emptyMessage}
-      />
+      return <EventsCardView {...viewProps}/>
 
     case 'stanford_events--past_events_list_block':
     case 'stanford_events--list_page':
-      return <EventsListView
-        view={component}
-        args={args}
-        itemsToDisplay={itemsToDisplay}
-        emptyMessage={emptyMessage}
-      />
+      return <EventsListView {...viewProps}/>
 
     case 'stanford_basic_pages--viewfield_block_1':
-      return <PageCardView
-        view={component}
-        args={args}
-        itemsToDisplay={itemsToDisplay}
-        emptyMessage={emptyMessage}
-      />
+      return <PageCardView {...viewProps}/>
 
     case 'stanford_shared_tags--card_grid':
-      return <SharedTagsCardView
-        view={component}
-        args={args}
-        itemsToDisplay={itemsToDisplay}
-        emptyMessage={emptyMessage}
-      />
+      return <SharedTagsCardView {...viewProps}/>
 
     case 'stanford_courses--default_list_viewfield_block':
-      return <CourseListView
-        view={component}
-        args={args}
-        itemsToDisplay={itemsToDisplay}
-        emptyMessage={emptyMessage}
-      />
+      return <CourseListView {...viewProps}/>
 
     case 'stanford_courses--vertical_teaser_viewfield_block':
-      return <CourseCardView
-        view={component}
-        args={args}
-        itemsToDisplay={itemsToDisplay}
-        emptyMessage={emptyMessage}
-      />
+      return <CourseCardView {...viewProps}/>
 
     case 'stanford_publications--apa_list':
-      return <PublicationsApaView
-        view={component}
-        args={args}
-        itemsToDisplay={itemsToDisplay}
-        emptyMessage={emptyMessage}
-      />
+      return <PublicationsApaView {...viewProps}/>
 
     case 'stanford_publications--chicago_list':
-      return <PublicationsChicagoView
-        view={component}
-        args={args}
-        itemsToDisplay={itemsToDisplay}
-        emptyMessage={emptyMessage}
-      />
+      return <PublicationsChicagoView {...viewProps}/>
   }
 }
 
-export async function getViewItems<T>(view: string, itemsToDisplay?: number, args?: string[]): Promise<T[]> {
+export async function getViewItems<T>(view: string, itemsToDisplay: number, args?: string[]): Promise<T[]> {
   const drupalParams = new DrupalJsonApiParams();
 
   if (args && args.length > 0) {

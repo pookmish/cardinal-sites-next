@@ -6,11 +6,12 @@ import CardViewGrid from "@/components/views/card-view-grid";
 interface Props {
   view: string
   args?: string
-  itemsToDisplay?: number
+  itemsToDisplay: number
   emptyMessage?: string
+  headingLevel: string
 }
 
-const EventsCardView = async ({view, args, itemsToDisplay, emptyMessage}: Props) => {
+const EventsCardView = async ({view, args, itemsToDisplay, emptyMessage, headingLevel}: Props) => {
 
   args = args ? args + '/0/0/0' : '0/0/0/0';
 
@@ -27,7 +28,7 @@ const EventsCardView = async ({view, args, itemsToDisplay, emptyMessage}: Props)
   }
 
   return (
-    <CardViewGrid items={items}/>
+    <CardViewGrid items={items} headingLevel={headingLevel}/>
   )
 }
 export default EventsCardView;

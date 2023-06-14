@@ -7,7 +7,9 @@ const StanfordCoursePage = ({node}: { node: CourseNodeType }) => {
   if (node.su_course_link?.url) redirect(node.su_course_link.url);
   return (
     <div className="centered my-32">
-      <H1>{node.title}</H1>
+      <H1>
+        {node.title}
+      </H1>
       <div className="flex flex-col gap-10">
         {node.su_course_subject &&
           <div>{node.su_course_subject.name}</div>

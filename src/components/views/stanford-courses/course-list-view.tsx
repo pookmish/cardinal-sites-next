@@ -5,11 +5,12 @@ import {getViewItems} from "@/components/views/view";
 interface Props {
   view: string
   args?: string
-  itemsToDisplay?: number
+  itemsToDisplay: number
   emptyMessage?: string
+  headingLevel: string
 }
 
-const CourseListView = async ({view, args, itemsToDisplay, emptyMessage}: Props) => {
+const CourseListView = async ({view, args, itemsToDisplay, emptyMessage, headingLevel}: Props) => {
 
   args = args ? args + '/0/0/0' : '0/0/0/0';
 
@@ -32,7 +33,7 @@ const CourseListView = async ({view, args, itemsToDisplay, emptyMessage}: Props)
           key={item.id}
           className="border-b border-black-20 last:border-0 pb-10 last:pb-0 pt-10 first:pt-0"
         >
-          <StanfordCourseListItem node={item}/>
+          <StanfordCourseListItem node={item} headingLevel={headingLevel}/>
         </li>
       )}
     </ul>

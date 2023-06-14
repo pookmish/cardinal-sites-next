@@ -8,7 +8,9 @@ const StanfordPublicationPage = ({node}: { node: PublicationNodeType }) => {
   return (
     <div className="centered pt-32">
       <div className="flex flex-col gap-10">
-        <H1 className="order-2">{node.title}</H1>
+        <H1 className="order-2">
+          {node.title}
+        </H1>
 
         {node.su_publication_topics &&
           <div className="order-1">

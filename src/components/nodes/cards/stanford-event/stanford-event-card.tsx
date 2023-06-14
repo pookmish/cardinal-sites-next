@@ -1,7 +1,7 @@
 import {EventNodeType} from "@/lib/types";
 import Link from "@/components/elements/link";
 import {CalendarDaysIcon, MapPinIcon} from "@heroicons/react/20/solid";
-import {H3} from "@/components/elements/headers";
+import {H2, H3} from "@/components/elements/headers";
 
 export const getEventTimeString = (start: Date, end: Date, timezone: string): string => {
   const startHour = parseInt(start.toLocaleTimeString("en-US", {
@@ -88,7 +88,7 @@ export const getEventTimeString = (start: Date, end: Date, timezone: string): st
   })
 }
 
-const StanfordEventCard = ({node}: { node: EventNodeType }) => {
+const StanfordEventCard = ({node, headingLevel}: { node: EventNodeType, headingLevel?: string }) => {
 
   const timezone: string = node.su_event_date_time?.timezone ?? 'America/Los_Angeles';
   const start = new Date(node.su_event_date_time.value);
@@ -100,9 +100,10 @@ const StanfordEventCard = ({node}: { node: EventNodeType }) => {
   // Fix difference between server side render and client side render. Replace any strange characters.
   const dateTimeString = getEventTimeString(start, end, timezone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
   const goToPath = node.su_event_source?.url ?? node.path?.alias as string
-
+  const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
-    <div className="max-w-[500px] w-full mx-auto shadow-lg border border-black-20 p-10 flex flex-col gap-10 overflow-hidden">
+    <div
+      className="max-w-[500px] w-full mx-auto shadow-lg border border-black-20 p-10 flex flex-col gap-10 overflow-hidden">
       <div aria-hidden className="flex flex-col items-start w-fit">
         <div className="text-m0 font-semibold mb-4 w-full text-center">
           {startMonth.toUpperCase()}
@@ -118,10 +119,12 @@ const StanfordEventCard = ({node}: { node: EventNodeType }) => {
         </div>
       }
 
-      <Link href={goToPath}
-            className="text-black no-underline hocus:text-digital-red hocus:underline">
-        <H3 className="text-m2">{node.title}</H3>
-      </Link>
+
+      <Heading className="text-m2">
+        <Link href={goToPath} className="text-black no-underline hocus:text-digital-red hocus:underline">
+          {node.title}
+        </Link>
+      </Heading>
 
 
       <div className="flex items-center gap-5">
