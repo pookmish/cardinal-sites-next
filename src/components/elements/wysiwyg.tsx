@@ -1,10 +1,10 @@
-import Link from "@/components/elements/link";
+import Link from "@components/elements/link";
 import parse, {HTMLReactParserOptions, Element, domToReact, attributesToProps} from "html-react-parser"
 import Image from "next/image";
-import Oembed from "@/components/elements/ombed";
+import Oembed from "@components/elements/ombed";
 import React, {PropsWithoutRef} from "react";
 import {ChildNode} from "domhandler";
-import {H2, H3, H4, H5, H6} from "@/components/elements/headers";
+import {H2, H3, H4, H5, H6} from "@components/elements/headers";
 
 interface Props {
   html: string

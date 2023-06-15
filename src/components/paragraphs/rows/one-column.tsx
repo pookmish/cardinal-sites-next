@@ -1,5 +1,5 @@
 import {DrupalParagraph} from "next-drupal";
-import Paragraph from "@/components/paragraphs/paragraph";
+import Paragraph from "@components/paragraphs/paragraph";
 
 const OneColumn = ({items}: { items: DrupalParagraph[] }) => {
   return (

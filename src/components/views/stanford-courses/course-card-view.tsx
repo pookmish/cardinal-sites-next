@@ -1,6 +1,6 @@
-import {CourseNodeType} from "@/lib/types";
-import {getViewItems} from "@/components/views/view";
-import CardViewGrid from "@/components/views/card-view-grid";
+import {CourseNodeType} from "@lib/types";
+import {getViewItems} from "@components/views/view";
+import CardViewGrid from "@components/views/card-view-grid";
 
 interface Props {
   view: string

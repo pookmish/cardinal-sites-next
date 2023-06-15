@@ -1,4 +1,4 @@
-import StanfordWordMark from "@/components/images/stanford-wordmark";
+import StanfordWordMark from "@components/images/stanford-wordmark";
 
 const LockupLogo = ({logoUrl, siteName = ''}: { logoUrl?: string, siteName?: string }) => {
   return (

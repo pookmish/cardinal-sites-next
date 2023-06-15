@@ -1,8 +1,5 @@
-import {MediaCaptionParagraphType} from "@/lib/types";
-import Image from "next/image";
-import Oembed from "@/components/elements/ombed";
-import Link from "@/components/elements/link";
-import Wysiwyg from "@/components/elements/wysiwyg";
+import {MediaCaptionParagraphType} from "@lib/types";
+import MediaCaptionParagraphDisplay from "@components/paragraphs/stanford-media-caption/media-caption-paragraph-display";
 
 const MediaCaptionParagraph = ({paragraph}: { paragraph: MediaCaptionParagraphType }) => {
   const imageUrl = paragraph.su_media_caption_media?.field_media_image?.image_style_uri?.breakpoint_2xl_1x;
@@ -11,33 +8,11 @@ const MediaCaptionParagraph = ({paragraph}: { paragraph: MediaCaptionParagraphTy
   const placeholder = paragraph.su_media_caption_media?.field_media_image?.uri.base64;
 
   return (
-    <figure
-      className="centered lg:max-w-[980px]">
-      {imageUrl &&
-        <div className="relative aspect-[16/9] w-full">
-          <Image
-            src={imageUrl}
-            alt={imageAlt}
-            fill={true}
-            placeholder={placeholder ? 'blur': 'empty'}
-            blurDataURL={placeholder}
-          />
-        </div>
-      }
-      {videoUrl && <Oembed url={videoUrl}/>}
-
-      <figcaption className="text-right">
-        {paragraph.su_media_caption_link &&
-          <Link href={paragraph.su_media_caption_link.url} className="">
-            {paragraph.su_media_caption_link.title}
-          </Link>
-        }
-
-        {paragraph.su_media_caption_caption &&
-          <Wysiwyg html={paragraph.su_media_caption_caption}/>
-        }
-      </figcaption>
-    </figure>
+    <MediaCaptionParagraphDisplay
+      media={imageUrl || videoUrl ? {imageUrl, imageAlt, videoUrl, placeholder} : undefined}
+      link={paragraph.su_media_caption_link}
+      caption={paragraph.su_media_caption_caption}
+    />
   )
 }
 export default MediaCaptionParagraph

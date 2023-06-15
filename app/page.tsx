@@ -1,7 +1,7 @@
-import {getResourceByPath} from "@/lib/drupal/get-resource";
-import Rows from "@/components/paragraphs/rows/rows";
-import {BasicPageNodeType} from "@/lib/types";
-import Paragraph from "@/components/paragraphs/paragraph";
+import {getResourceByPath} from "@lib/drupal/get-resource";
+import Rows from "@components/paragraphs/rows/rows";
+import {BasicPageNodeType} from "@lib/types";
+import Paragraph from "@components/paragraphs/paragraph";
 
 export const revalidate = 300;
 

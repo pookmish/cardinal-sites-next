@@ -1,11 +1,16 @@
-import SiteSearchForm from "@/components/search/site-search-form";
-import MainMenu from "@/components/menu/main-menu";
-import {getMenu} from "@/lib/drupal/get-menu";
-import GlobalMessage from "@/components/config-pages/global-message/global-message";
-import Lockup from "@/components/elements/lockup/lockup";
+import SiteSearchForm from "@components/search/site-search-form";
+import MainMenu from "@components/menu/main-menu";
+import {getMenu} from "@lib/drupal/get-menu";
+import GlobalMessage from "@components/config-pages/global-message/global-message";
+import Lockup from "@components/elements/lockup/lockup";
+import {getConfigPageResource} from "@lib/drupal/get-resource";
+import {GlobalMessageConfigPageType, LockupSettingsConfigPageType, SiteSettingsConfigPageType} from "@lib/types";
 
 const PageHeader = async () => {
   const {tree} = await getMenu('main')
+  const globalMessage  = await getConfigPageResource<GlobalMessageConfigPageType>('stanford_global_message');
+  const siteSettings = await getConfigPageResource<SiteSettingsConfigPageType>('stanford_basic_site_settings')
+  const lockupSettings = await getConfigPageResource<LockupSettingsConfigPageType>('lockup_settings')
 
   return (
     <header className="shadow-lg">
@@ -19,12 +24,21 @@ const PageHeader = async () => {
         </div>
       </div>
 
-      <GlobalMessage/>
+      {globalMessage &&
+        <GlobalMessage
+          type={globalMessage.su_global_msg_type}
+          message={globalMessage.su_global_msg_message}
+          label={globalMessage.su_global_msg_label}
+          link={globalMessage.su_global_msg_link}
+          header={globalMessage.su_global_msg_header}
+          enabled={globalMessage.su_global_msg_enabled}
+        />
+      }
 
       <div className="relative shadow">
         <div className="centered min-h-50">
           <div className="flex w-full justify-between">
-            <Lockup/>
+            <Lockup siteSettings={siteSettings} lockupSettings={lockupSettings}/>
             <SiteSearchForm className="hidden lg:block"/>
           </div>
         </div>

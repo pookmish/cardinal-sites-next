@@ -1,8 +1,8 @@
-import OneColumn from "@/components/paragraphs/rows/one-column";
-import TwoColumn from "@/components/paragraphs/rows/two-column";
-import ThreeColumn from "@/components/paragraphs/rows/three-column";
-import {getResources} from "@/lib/drupal/get-resource";
-import {DrupalParagraphWithBehaviors, LayoutParagraphsBehaviorsType} from "@/lib/types";
+import OneColumn from "@components/paragraphs/rows/one-column";
+import TwoColumn from "@components/paragraphs/rows/two-column";
+import ThreeColumn from "@components/paragraphs/rows/three-column";
+import {getResources} from "@lib/drupal/get-resource";
+import {DrupalParagraphWithBehaviors, LayoutParagraphsBehaviorsType} from "@lib/types";
 
 interface LayoutsProps {
   [key: string]: DrupalParagraphWithBehaviors

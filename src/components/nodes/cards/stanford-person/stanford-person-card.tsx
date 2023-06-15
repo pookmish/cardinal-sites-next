@@ -1,7 +1,7 @@
-import {PersonNodeType} from "@/lib/types";
+import {PersonNodeType} from "@lib/types";
 import Image from "next/image";
-import Link from "@/components/elements/link";
-import {H2, H3} from "@/components/elements/headers";
+import Link from "@components/elements/link";
+import {H2, H3} from "@components/elements/headers";
 
 const StanfordPersonCard = ({node, headingLevel}: { node: PersonNodeType, headingLevel?: string }) => {
   const imageUrl = node.su_person_photo?.field_media_image?.image_style_uri.square_956

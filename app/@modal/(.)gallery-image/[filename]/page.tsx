@@ -1,8 +1,8 @@
-import InterceptionModal from "@/components/elements/interception-modal";
+import InterceptionModal from "@components/elements/interception-modal";
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
-import {getResourceCollection} from "@/lib/drupal/get-resource";
+import {getResourceCollection} from "@lib/drupal/get-resource";
 import {DrupalFile} from "next-drupal";
-import {DrupalGalleryImageMediaType} from "@/lib/types";
+import {DrupalGalleryImageMediaType} from "@lib/types";
 import {useId} from "react";
 
 const Page = async ({params: {filename}}: { params: { filename: string } }) => {

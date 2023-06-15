@@ -1,8 +1,8 @@
-import {NewsNodeType} from "@/lib/types";
+import {NewsNodeType} from "@lib/types";
 import Image from "next/image";
-import Link from "@/components/elements/link";
+import Link from "@components/elements/link";
 import {DrupalTaxonomyTerm} from "next-drupal";
-import {H2, H3} from "@/components/elements/headers";
+import {H2, H3} from "@components/elements/headers";
 
 const StanfordNewsListItem = ({node, headingLevel}: { node: NewsNodeType, headingLevel?: string }) => {
   const imageUrl = node.su_news_featured_media?.field_media_image?.image_style_uri.card_1900x950;

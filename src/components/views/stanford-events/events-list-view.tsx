@@ -1,6 +1,6 @@
-import StanfordEventListItem from "@/components/nodes/list-item/stanford-event/stanford-event-list-item";
-import {EventNodeType} from "@/lib/types";
-import {getViewItems} from "@/components/views/view";
+import StanfordEventListItem from "@components/nodes/list-item/stanford-event/stanford-event-list-item";
+import {EventNodeType} from "@lib/types";
+import {getViewItems} from "@components/views/view";
 
 interface Props {
   view: string

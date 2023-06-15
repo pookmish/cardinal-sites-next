@@ -1,27 +1,25 @@
-import {getConfigPageResource} from "@/lib/drupal/get-resource";
-import {LocalFooterConfigPageType} from "@/lib/types";
-import Address from "@/components/elements/address";
-import Link from "@/components/elements/link";
-import Wysiwyg from "@/components/elements/wysiwyg";
-import LockupLogo from "@/components/elements/lockup/lockup-logo";
-import LockupA from "@/components/elements/lockup/lockup-a";
-import LockupB from "@/components/elements/lockup/lockup-b";
-import LockupD from "@/components/elements/lockup/lockup-d";
-import LockupE from "@/components/elements/lockup/lockup-e";
-import LockupH from "@/components/elements/lockup/lockup-h";
-import LockupI from "@/components/elements/lockup/lockup-i";
-import LockupM from "@/components/elements/lockup/lockup-m";
-import LockupO from "@/components/elements/lockup/lockup-o";
-import LockupP from "@/components/elements/lockup/lockup-p";
-import LockupR from "@/components/elements/lockup/lockup-r";
-import LockupS from "@/components/elements/lockup/lockup-s";
-import LockupT from "@/components/elements/lockup/lockup-t";
+import {DrupalLinkFieldType, LocalFooterConfigPageType} from "@lib/types";
+import Address from "@components/elements/address";
+import Link from "@components/elements/link";
+import Wysiwyg from "@components/elements/wysiwyg";
+import LockupLogo from "@components/elements/lockup/lockup-logo";
+import LockupA from "@components/elements/lockup/lockup-a";
+import LockupB from "@components/elements/lockup/lockup-b";
+import LockupD from "@components/elements/lockup/lockup-d";
+import LockupE from "@components/elements/lockup/lockup-e";
+import LockupH from "@components/elements/lockup/lockup-h";
+import LockupI from "@components/elements/lockup/lockup-i";
+import LockupM from "@components/elements/lockup/lockup-m";
+import LockupO from "@components/elements/lockup/lockup-o";
+import LockupP from "@components/elements/lockup/lockup-p";
+import LockupR from "@components/elements/lockup/lockup-r";
+import LockupS from "@components/elements/lockup/lockup-s";
+import LockupT from "@components/elements/lockup/lockup-t";
 import {JSX} from "react";
-import {H2} from "@/components/elements/headers";
+import {H2} from "@components/elements/headers";
 
-const LocalFooter = async () => {
-  const configPage = await getConfigPageResource<LocalFooterConfigPageType>('stanford_local_footer')
-  if (!configPage || !configPage.su_footer_enabled) {
+const LocalFooter = ({configPage}: {configPage: LocalFooterConfigPageType}) => {
+  if (!configPage.su_footer_enabled) {
     return null;
   }
 

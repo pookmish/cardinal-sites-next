@@ -2,7 +2,7 @@
 
 import {usePathname} from 'next/navigation';
 import {useEffect, useRef, useState} from "react";
-import {syncDrupalPreviewRoutes} from "@/lib/drupal/sync-drupal-preview-path";
+import {syncDrupalPreviewRoutes} from "@lib/drupal/sync-drupal-preview-path";
 
 const useNavigationEvent = () => {
   const isInitialMount = useRef(true);

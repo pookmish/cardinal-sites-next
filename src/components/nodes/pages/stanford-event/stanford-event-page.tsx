@@ -1,14 +1,14 @@
-import {EventNodeType} from "@/lib/types";
+import {EventNodeType} from "@lib/types";
 import {redirect} from "next/navigation";
-import {getEventTimeString} from "@/components/nodes/cards/stanford-event/stanford-event-card";
+import {getEventTimeString} from "@components/nodes/cards/stanford-event/stanford-event-card";
 import {CalendarDaysIcon, MapPinIcon, PhoneIcon, UserGroupIcon} from "@heroicons/react/20/solid";
-import Address from "@/components/elements/address";
+import Address from "@components/elements/address";
 import Link from "next/link";
-import Button from "@/components/elements/button";
-import Wysiwyg from "@/components/elements/wysiwyg";
-import Paragraph from "@/components/paragraphs/paragraph";
-import Rows from "@/components/paragraphs/rows/rows";
-import {H1, H2, H3} from "@/components/elements/headers";
+import Button from "@components/elements/button";
+import Wysiwyg from "@components/elements/wysiwyg";
+import Paragraph from "@components/paragraphs/paragraph";
+import Rows from "@components/paragraphs/rows/rows";
+import {H1, H2, H3} from "@components/elements/headers";
 
 const StanfordEventPage = ({node}: { node: EventNodeType }) => {
   if (node.su_event_source?.url) redirect(node.su_event_source.url)

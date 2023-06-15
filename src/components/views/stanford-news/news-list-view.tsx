@@ -1,10 +1,10 @@
-import StanfordNewsListItem from "@/components/nodes/list-item/stanford-news/stanford-news-list-item";
-import {NewsNodeType} from "@/lib/types";
-import {getViewItems} from "@/components/views/view";
-import NewsFilteringListView from "@/components/views/stanford-news/news-filtering-list-view";
-import {getResourceCollection} from "@/lib/drupal/get-resource";
+import StanfordNewsListItem from "@components/nodes/list-item/stanford-news/stanford-news-list-item";
+import {NewsNodeType} from "@lib/types";
+import {getViewItems} from "@components/views/view";
+import NewsFilteringListView from "@components/views/stanford-news/news-filtering-list-view";
+import {getResourceCollection} from "@lib/drupal/get-resource";
 import {DrupalTaxonomyTerm} from "next-drupal";
-import {getTaxonomyTree} from "@/lib/drupal/get-taxonomy-tree";
+import {getTaxonomyTree} from "@lib/drupal/get-taxonomy-tree";
 
 interface Props {
   view: string

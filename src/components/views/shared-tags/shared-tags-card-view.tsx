@@ -1,6 +1,6 @@
-import {getViewItems} from "@/components/views/view";
+import {getViewItems} from "@components/views/view";
 import {DrupalNode} from "next-drupal";
-import CardViewGrid from "@/components/views/card-view-grid";
+import CardViewGrid from "@components/views/card-view-grid";
 
 interface Props {
   view: string

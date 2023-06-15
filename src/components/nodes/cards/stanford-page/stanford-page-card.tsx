@@ -1,7 +1,7 @@
-import {BasicPageNodeType} from "@/lib/types";
-import Link from "@/components/elements/link";
+import {BasicPageNodeType} from "@lib/types";
+import Link from "@components/elements/link";
 import Image from "next/image";
-import {H2, H3} from "@/components/elements/headers";
+import {H2, H3} from "@components/elements/headers";
 
 const StanfordPageCard = ({node, headingLevel}: { node: BasicPageNodeType, headingLevel?: string }) => {
   const imageUrl = node.su_page_image?.field_media_image?.image_style_uri.card_1900x950 || node.su_page_banner?.su_banner_image?.field_media_image?.image_style_uri?.card_1900x950

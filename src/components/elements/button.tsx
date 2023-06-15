@@ -1,8 +1,8 @@
-import Link from "@/components/elements/link";
+import Link from "@components/elements/link";
 import {PropsWithChildren} from "react";
 import {twMerge} from 'tailwind-merge'
 
-interface Props {
+export interface ButtonProps {
   href?: string
   buttonElem?: boolean
   big?: boolean
@@ -12,7 +12,7 @@ interface Props {
   onClick?: () => void
 }
 
-export const Button = ({href = '#', buttonElem = false, big = false, secondary = false, centered = false, children, className = "", ...props}: PropsWithChildren<Props>) => {
+export const Button = ({href = '#', buttonElem = false, big = false, secondary = false, centered = false, children, className = "", ...props}: PropsWithChildren<ButtonProps>) => {
 
   className = twMerge(className, (centered ? "flex items-center w-fit mx-auto" : "inline-block text-center w-fit"))
 

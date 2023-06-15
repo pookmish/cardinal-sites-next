@@ -1,8 +1,8 @@
 "use client";
 
 import {useMemo} from "react";
-import useActiveTrail from "@/lib/hooks/useActiveTrail";
-import Link from "@/components/elements/link";
+import useActiveTrail from "@lib/hooks/useActiveTrail";
+import Link from "@components/elements/link";
 import {DrupalMenuLinkContent} from "next-drupal";
 
 const getCurrentPageTitle = (activeTrail: string[], items: DrupalMenuLinkContent[], trail: string[]): string | undefined => {

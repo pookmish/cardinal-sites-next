@@ -3,8 +3,8 @@
 import {PropsWithChildren} from "react";
 import Link from "next/link";
 import {EnvelopeIcon} from "@heroicons/react/24/outline";
-import ActionLink from "@/components/elements/action-link";
-import Button from "@/components/elements/button";
+import ActionLink from "@components/elements/action-link";
+import Button from "@components/elements/button";
 
 interface Props {
   href: string

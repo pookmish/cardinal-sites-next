@@ -1,8 +1,8 @@
-import Wysiwyg from "@/components/elements/wysiwyg";
-import Link from "@/components/elements/link";
-import {DrupalLinkFieldType} from "@/lib/types";
+import Wysiwyg from "@components/elements/wysiwyg";
+import Link from "@components/elements/link";
+import {DrupalLinkFieldType} from "@lib/types";
 import {CheckCircleIcon} from "@heroicons/react/20/solid";
-import {H2} from "@/components/elements/headers";
+import {H2} from "@components/elements/headers";
 
 interface Props {
   header?: string

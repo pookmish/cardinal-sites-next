@@ -1,5 +1,5 @@
-import {WysiwygParagraphType} from "@/lib/types";
-import Wysiwyg from "@/components/elements/wysiwyg";
+import {WysiwygParagraphType} from "@lib/types";
+import Wysiwyg from "@components/elements/wysiwyg";
 import {JSX} from "react";
 
 const WysiwygParagraph = ({paragraph}: { paragraph: WysiwygParagraphType }): JSX.Element => {

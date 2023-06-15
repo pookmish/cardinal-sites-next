@@ -1,4 +1,4 @@
-import {DrupalPublicationCitationType} from "@/lib/types";
+import {DrupalPublicationCitationType} from "@lib/types";
 
 const Citation = ({citation}: { citation: DrupalPublicationCitationType }) => {
   return (

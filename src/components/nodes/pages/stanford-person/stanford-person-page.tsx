@@ -1,13 +1,13 @@
-import {PersonNodeType} from "@/lib/types";
+import {PersonNodeType} from "@lib/types";
 import Image from "next/image";
-import Wysiwyg from "@/components/elements/wysiwyg";
-import Rows from "@/components/paragraphs/rows/rows";
-import Button from "@/components/elements/button";
+import Wysiwyg from "@components/elements/wysiwyg";
+import Rows from "@components/paragraphs/rows/rows";
+import Button from "@components/elements/button";
 import {LinkIcon, MapPinIcon, PhoneIcon} from "@heroicons/react/20/solid";
-import Telephone from "@/components/elements/telephone";
-import Email from "@/components/elements/email";
-import Link from "@/components/elements/link";
-import {H1, H2} from "@/components/elements/headers";
+import Telephone from "@components/elements/telephone";
+import Email from "@components/elements/email";
+import Link from "@components/elements/link";
+import {H1, H2} from "@components/elements/headers";
 
 const StanfordPersonPage = ({node}: { node: PersonNodeType }) => {
   const imageUrl = node.su_person_photo?.field_media_image.image_style_uri.square_956

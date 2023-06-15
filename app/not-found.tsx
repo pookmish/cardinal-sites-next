@@ -1,4 +1,4 @@
-import {H1} from "@/components/elements/headers";
+import {H1} from "@components/elements/headers";
 
 const NotFound = () => {
   return (

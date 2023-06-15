@@ -2,7 +2,7 @@
 
 import {AccessToken, DrupalMenuLinkContent, JsonApiWithLocaleOptions} from "next-drupal/src/types";
 import {buildUrl, buildHeaders} from "./utils";
-import {deserialize} from "@/lib/drupal/deserialize";
+import {deserialize} from "@lib/drupal/deserialize";
 
 export async function getMenu<T extends DrupalMenuLinkContent>(
   name: string,

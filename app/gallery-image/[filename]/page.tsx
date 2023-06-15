@@ -1,9 +1,9 @@
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
-import {getResourceCollection} from "@/lib/drupal/get-resource";
+import {getResourceCollection} from "@lib/drupal/get-resource";
 import {notFound} from "next/navigation";
 import {DrupalFile} from "next-drupal";
-import {DrupalGalleryImageMediaType} from "@/lib/types";
-import {H1} from "@/components/elements/headers";
+import {DrupalGalleryImageMediaType} from "@lib/types";
+import {H1} from "@components/elements/headers";
 
 export const metadata = {
   title: 'Gallery Image',

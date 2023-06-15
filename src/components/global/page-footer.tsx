@@ -1,11 +1,16 @@
-import LocalFooter from "@/components/config-pages/local-footer";
-import SuperFooter from "@/components/config-pages/super-footer";
+import LocalFooter from "@components/config-pages/local-footer";
+import SuperFooter from "@components/config-pages/super-footer";
+import {getConfigPageResource} from "@lib/drupal/get-resource";
+import {LocalFooterConfigPageType, SuperFooterConfigPageType} from "@lib/types";
 
 const PageFooter = async () => {
+  const localFooter = await getConfigPageResource<LocalFooterConfigPageType>('stanford_local_footer')
+  const superFooter = await getConfigPageResource<SuperFooterConfigPageType>('stanford_super_footer');
+
   return (
     <footer>
-      <SuperFooter/>
-      <LocalFooter/>
+      <SuperFooter configPage={superFooter}/>
+      <LocalFooter configPage={localFooter}/>
 
       <div className="bg-cardinal-red py-10">
         <div className="centered lg:flex lg:items-start lg:gap-20">

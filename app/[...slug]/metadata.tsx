@@ -1,5 +1,5 @@
 import {DrupalNode, DrupalParagraph} from "next-drupal";
-import {BasicPageNodeType, EventNodeType, NewsNodeType, PersonNodeType, PolicyNodeType, WysiwygParagraphType} from "@/lib/types";
+import {BasicPageNodeType, EventNodeType, NewsNodeType, PersonNodeType, PolicyNodeType, WysiwygParagraphType} from "@lib/types";
 import { decode } from 'html-entities';
 
 export const getNodeMetadata = (node: DrupalNode) => {

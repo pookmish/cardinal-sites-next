@@ -1,4 +1,4 @@
-import Link from "@/components/elements/link";
+import Link from "@components/elements/link";
 import {ChevronRightIcon} from "@heroicons/react/20/solid";
 import {PropsWithChildren} from "react";
 

@@ -1,10 +1,10 @@
-import {NewsNodeType} from "@/lib/types";
+import {NewsNodeType} from "@lib/types";
 import {redirect} from "next/navigation";
 import Image from "next/image";
-import Rows from "@/components/paragraphs/rows/rows";
-import SocialIcons from "@/components/nodes/pages/stanford-news/social-icons";
+import Rows from "@components/paragraphs/rows/rows";
+import SocialIcons from "@components/nodes/pages/stanford-news/social-icons";
 import {DrupalTaxonomyTerm} from "next-drupal";
-import {H1} from "@/components/elements/headers";
+import {H1} from "@components/elements/headers";
 
 const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {
   if (node.su_news_source?.url) redirect(node.su_news_source.url)

@@ -1,6 +1,6 @@
-import {SpeakerParagraphType} from "@/lib/types";
+import {SpeakerParagraphType} from "@lib/types";
 import Image from "next/image";
-import Link from "@/components/elements/link";
+import Link from "@components/elements/link";
 
 const PersonCtaParagraph = ({paragraph}: { paragraph: SpeakerParagraphType }) => {
   const imageUrl = paragraph.su_person_cta_image?.field_media_image?.image_style_uri?.square_478;

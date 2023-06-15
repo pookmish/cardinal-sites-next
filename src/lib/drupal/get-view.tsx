@@ -2,7 +2,7 @@
 
 import {AccessToken, JsonApiWithLocaleOptions} from "next-drupal";
 import {buildHeaders, buildUrl} from "./utils";
-import {deserialize} from "@/lib/drupal/deserialize";
+import {deserialize} from "@lib/drupal/deserialize";
 
 export async function getView<T>(
   name: string,

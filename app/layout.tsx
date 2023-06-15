@@ -1,6 +1,6 @@
 import '../src/styles/index.css';
-import PageHeader from "@/components/global/page-header";
-import PageFooter from "@/components/global/page-footer";
+import PageHeader from "@components/global/page-header";
+import PageFooter from "@components/global/page-footer";
 import {sourceSansPro} from "../src/styles/fonts";
 
 export const metadata = {

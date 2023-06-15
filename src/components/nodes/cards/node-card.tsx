@@ -1,12 +1,12 @@
 import {DrupalNode} from "next-drupal";
-import StanfordCourseCard from "@/components/nodes/cards/stanford-course/stanford-course-card";
-import StanfordEventCard from "@/components/nodes/cards/stanford-event/stanford-event-card";
-import StanfordEventSeriesCard from "@/components/nodes/cards/stanford-event-series/stanford-event-series-card";
-import StanfordNewsCard from "@/components/nodes/cards/stanford-news/stanford-news-card";
-import StanfordPageCard from "@/components/nodes/cards/stanford-page/stanford-page-card";
-import StanfordPersonCard from "@/components/nodes/cards/stanford-person/stanford-person-card";
-import StanfordPolicyCard from "@/components/nodes/cards/stanford-policy/stanford-policy-card";
-import StanfordPublicationCard from "@/components/nodes/cards/stanford-publication/stanford-publication-card";
+import StanfordCourseCard from "@components/nodes/cards/stanford-course/stanford-course-card";
+import StanfordEventCard from "@components/nodes/cards/stanford-event/stanford-event-card";
+import StanfordEventSeriesCard from "@components/nodes/cards/stanford-event-series/stanford-event-series-card";
+import StanfordNewsCard from "@components/nodes/cards/stanford-news/stanford-news-card";
+import StanfordPageCard from "@components/nodes/cards/stanford-page/stanford-page-card";
+import StanfordPersonCard from "@components/nodes/cards/stanford-person/stanford-person-card";
+import StanfordPolicyCard from "@components/nodes/cards/stanford-policy/stanford-policy-card";
+import StanfordPublicationCard from "@components/nodes/cards/stanford-publication/stanford-publication-card";
 import {
   BasicPageNodeType,
   CourseNodeType,
@@ -16,7 +16,7 @@ import {
   PersonNodeType,
   PolicyNodeType,
   PublicationNodeType
-} from "@/lib/types";
+} from "@lib/types";
 import {JSX} from "react";
 
 const NodeCard = ({node, headingLevel}: { node: DrupalNode, headingLevel?: string }): JSX.Element | null => {

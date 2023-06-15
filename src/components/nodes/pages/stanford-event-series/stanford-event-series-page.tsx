@@ -1,6 +1,6 @@
-import {EventNodeType, EventSeriesNodeType} from "@/lib/types";
-import StanfordEventListItem from "@/components/nodes/list-item/stanford-event/stanford-event-list-item";
-import {H1} from "@/components/elements/headers";
+import {EventNodeType, EventSeriesNodeType} from "@lib/types";
+import StanfordEventListItem from "@components/nodes/list-item/stanford-event/stanford-event-list-item";
+import {H1} from "@components/elements/headers";
 
 const StanfordEventSeriesPage = ({node}: { node: EventSeriesNodeType }) => {
   return (

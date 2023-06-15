@@ -1,5 +1,5 @@
 import {DrupalNode} from "next-drupal";
-import NodeCard from "@/components/nodes/cards/node-card";
+import NodeCard from "@components/nodes/cards/node-card";
 
 const CardViewGrid = ({items, headingLevel}: { items: DrupalNode[], headingLevel: string }) => {
   return (

@@ -1,8 +1,8 @@
-import Wysiwyg from "@/components/elements/wysiwyg";
-import Link from "@/components/elements/link";
-import {DrupalLinkFieldType} from "@/lib/types";
+import Wysiwyg from "@components/elements/wysiwyg";
+import Link from "@components/elements/link";
+import {DrupalLinkFieldType} from "@lib/types";
 import {CheckCircleIcon} from "@heroicons/react/20/solid";
-import {H2} from "@/components/elements/headers";
+import {H2} from "@components/elements/headers";
 
 interface Props {
   header?: string
@@ -14,7 +14,7 @@ interface Props {
 const ErrorMessage = ({header, label, message, link}: Props) => {
 
   return (
-    <div className="bg-digital-green text-white">
+    <div className="bg-digital-red text-white">
       <div className="max-w-1500 w-full mx-auto flex gap-20">
         <div className="flex items-center leading-none shrink-0">
           <CheckCircleIcon width={40}/>

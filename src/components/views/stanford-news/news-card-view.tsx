@@ -1,7 +1,7 @@
-import StanfordNewsCard from "@/components/nodes/cards/stanford-news/stanford-news-card";
-import {NewsNodeType} from "@/lib/types";
-import {getViewItems} from "@/components/views/view";
-import CardViewGrid from "@/components/views/card-view-grid";
+import StanfordNewsCard from "@components/nodes/cards/stanford-news/stanford-news-card";
+import {NewsNodeType} from "@lib/types";
+import {getViewItems} from "@components/views/view";
+import CardViewGrid from "@components/views/card-view-grid";
 
 interface Props {
   view: string

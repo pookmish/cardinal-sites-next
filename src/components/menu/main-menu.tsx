@@ -1,13 +1,13 @@
 "use client";
 
-import Link from "@/components/elements/link";
+import Link from "@components/elements/link";
 import {useCallback, useEffect, useRef, useState} from "react";
-import OutsideClickHandler from "@/components/tools/outside-click-handler";
+import OutsideClickHandler from "@components/tools/outside-click-handler";
 import {Bars3Icon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import {XCircleIcon} from "@heroicons/react/24/outline";
-import useNavigationEvent from "@/lib/hooks/useNavigationEvent";
-import SiteSearchForm from "@/components/search/site-search-form";
-import useActiveTrail from "@/lib/hooks/useActiveTrail";
+import useNavigationEvent from "@lib/hooks/useNavigationEvent";
+import SiteSearchForm from "@components/search/site-search-form";
+import useActiveTrail from "@lib/hooks/useActiveTrail";
 import {DrupalMenuLinkContent} from "next-drupal";
 
 const MainMenu = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {

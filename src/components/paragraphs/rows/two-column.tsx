@@ -1,5 +1,5 @@
 import {DrupalParagraph} from "next-drupal";
-import OneColumn from "@/components/paragraphs/rows/one-column";
+import OneColumn from "@components/paragraphs/rows/one-column";
 
 const TwoColumn = ({items, config}: { items: DrupalParagraph[], config: { [key: string]: any } | undefined }) => {
   const leftItems = items.filter(item => item.behavior_settings.layout_paragraphs.region === 'left');

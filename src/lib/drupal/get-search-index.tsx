@@ -2,8 +2,8 @@
 
 import {AccessToken, JsonApiResource, JsonApiWithLocaleOptions} from "next-drupal";
 import {GetStaticPropsContext} from "next";
-import {buildHeaders, buildUrl} from "@/lib/drupal/utils";
-import {deserialize} from "@/lib/drupal/deserialize";
+import {buildHeaders, buildUrl} from "@lib/drupal/utils";
+import {deserialize} from "@lib/drupal/deserialize";
 
 export async function getSearchIndex<T = JsonApiResource[]>(
   name: string,

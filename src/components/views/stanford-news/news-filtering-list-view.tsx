@@ -1,11 +1,11 @@
 "use client";
 
-import StanfordNewsListItem from "@/components/nodes/list-item/stanford-news/stanford-news-list-item";
+import StanfordNewsListItem from "@components/nodes/list-item/stanford-news/stanford-news-list-item";
 import {useLayoutEffect, useRef, useState} from "react";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
-import SelectList from "@/components/elements/select-list";
-import Button from "@/components/elements/button";
-import {NewsNodeType} from "@/lib/types";
+import SelectList from "@components/elements/select-list";
+import Button from "@components/elements/button";
+import {NewsNodeType} from "@lib/types";
 import {DrupalTaxonomyTerm} from "next-drupal";
 
 const NewsFilteringListView = ({items, topics}: { items: NewsNodeType[], topics: DrupalTaxonomyTerm[] }) => {

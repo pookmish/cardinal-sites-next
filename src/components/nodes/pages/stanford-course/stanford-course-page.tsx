@@ -1,7 +1,7 @@
 import {redirect} from "next/navigation";
-import {CourseNodeType} from "@/lib/types";
-import Wysiwyg from "@/components/elements/wysiwyg";
-import {H1} from "@/components/elements/headers";
+import {CourseNodeType} from "@lib/types";
+import Wysiwyg from "@components/elements/wysiwyg";
+import {H1} from "@components/elements/headers";
 
 const StanfordCoursePage = ({node}: { node: CourseNodeType }) => {
   if (node.su_course_link?.url) redirect(node.su_course_link.url);

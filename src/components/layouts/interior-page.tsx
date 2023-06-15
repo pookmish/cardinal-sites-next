@@ -1,5 +1,5 @@
-import {getMenu} from "@/lib/drupal/get-menu";
-import SideNav from "@/components/menu/side-nav";
+import {getMenu} from "@lib/drupal/get-menu";
+import SideNav from "@components/menu/side-nav";
 import {PropsWithChildren} from "react";
 
 const InteriorPage = async ({children}: PropsWithChildren<any>) => {

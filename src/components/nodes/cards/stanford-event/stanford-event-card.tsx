@@ -1,7 +1,7 @@
-import {EventNodeType} from "@/lib/types";
-import Link from "@/components/elements/link";
+import {EventNodeType} from "@lib/types";
+import Link from "@components/elements/link";
 import {CalendarDaysIcon, MapPinIcon} from "@heroicons/react/20/solid";
-import {H2, H3} from "@/components/elements/headers";
+import {H2, H3} from "@components/elements/headers";
 
 export const getEventTimeString = (start: Date, end: Date, timezone: string): string => {
   const startHour = parseInt(start.toLocaleTimeString("en-US", {

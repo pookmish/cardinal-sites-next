@@ -1,7 +1,7 @@
-import Link from "@/components/elements/link";
-import {PolicyNodeType} from "@/lib/types";
-import Wysiwyg from "@/components/elements/wysiwyg";
-import {H2, H3} from "@/components/elements/headers";
+import Link from "@components/elements/link";
+import {PolicyNodeType} from "@lib/types";
+import Wysiwyg from "@components/elements/wysiwyg";
+import {H2, H3} from "@components/elements/headers";
 
 const StanfordPolicyCard = ({node, headingLevel}: { node: PolicyNodeType, headingLevel?: string }) => {
   const Heading = headingLevel === 'h3' ? H3 : H2;

@@ -4,7 +4,7 @@ import {AccessToken, JsonApiResource, JsonApiWithLocaleOptions} from "next-drupa
 import {stringify} from "qs"
 
 import {buildUrl, buildHeaders, getJsonApiPathForResourceType, getPathFromContext} from "./utils";
-import {deserialize} from "@/lib/drupal/deserialize";
+import {deserialize} from "@lib/drupal/deserialize";
 import {GetStaticPropsContext} from "next";
 import {JsonApiParams} from "next-drupal";
 

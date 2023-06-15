@@ -1,10 +1,10 @@
-import {EntityTeaserParagraphType} from "@/lib/types";
-import {getResources} from "@/lib/drupal/get-resource";
-import Wysiwyg from "@/components/elements/wysiwyg";
-import NodeCard from "@/components/nodes/cards/node-card";
-import Button from "@/components/elements/button";
+import {EntityTeaserParagraphType} from "@lib/types";
+import {getResources} from "@lib/drupal/get-resource";
+import Wysiwyg from "@components/elements/wysiwyg";
+import NodeCard from "@components/nodes/cards/node-card";
+import Button from "@components/elements/button";
 import {DrupalNode} from "next-drupal";
-import {H2} from "@/components/elements/headers";
+import {H2} from "@components/elements/headers";
 
 const EntityParagraph = async ({paragraph}: { paragraph: EntityTeaserParagraphType }) => {
   const items = await getResources<DrupalNode>(paragraph.su_entity_item ?? []);

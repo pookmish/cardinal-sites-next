@@ -1,8 +1,8 @@
-import {PublicationNodeType} from "@/lib/types";
+import {PublicationNodeType} from "@lib/types";
 import StanfordPublicationListItem
-  from "@/components/nodes/list-item/stanford-publication/stanford-publication-list-item";
-import {getViewItems} from "@/components/views/view";
-import CardViewGrid from "@/components/views/card-view-grid";
+  from "@components/nodes/list-item/stanford-publication/stanford-publication-list-item";
+import {getViewItems} from "@components/views/view";
+import CardViewGrid from "@components/views/card-view-grid";
 
 interface Props {
   view: string

@@ -1,6 +1,6 @@
-import Link from "@/components/elements/link";
-import {EventSeriesNodeType} from "@/lib/types";
-import {H2, H3} from "@/components/elements/headers";
+import Link from "@components/elements/link";
+import {EventSeriesNodeType} from "@lib/types";
+import {H2, H3} from "@components/elements/headers";
 
 const StanfordEventSeriesCard = ({node, headingLevel}: { node: EventSeriesNodeType, headingLevel?: string }) => {
   const Heading = headingLevel === 'h3' ? H3 : H2;

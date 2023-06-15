@@ -1,11 +1,11 @@
-import {getResourceFromContext} from "@/lib/drupal/get-resource";
-import {translatePathFromContext} from "@/lib/drupal/translate-path";
+import {getResourceFromContext} from "@lib/drupal/get-resource";
+import {translatePathFromContext} from "@lib/drupal/translate-path";
 import {DrupalNode} from "next-drupal";
 import {notFound, redirect} from "next/navigation";
-import NodePage from "@/components/nodes/pages/node-page";
+import NodePage from "@components/nodes/pages/node-page";
 import {GetStaticPathsResult, GetStaticPropsContext, Metadata} from "next";
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
-import {getPathsFromContext} from "@/lib/drupal/get-paths";
+import {getPathsFromContext} from "@lib/drupal/get-paths";
 import {getNodeMetadata} from "./metadata";
 
 export const revalidate = 1800;

@@ -1,9 +1,9 @@
-import {DrupalGalleryImageMediaType, ImageGalleryParagraphType} from "@/lib/types";
-import Wysiwyg from "@/components/elements/wysiwyg";
-import Button from "@/components/elements/button";
+import {DrupalGalleryImageMediaType, ImageGalleryParagraphType} from "@lib/types";
+import Wysiwyg from "@components/elements/wysiwyg";
+import Button from "@components/elements/button";
 import Image from "next/image";
 import Link from "next/link";
-import {H2} from "@/components/elements/headers";
+import {H2} from "@components/elements/headers";
 
 const GalleryParagraph = ({paragraph}: { paragraph: ImageGalleryParagraphType }) => {
   return (

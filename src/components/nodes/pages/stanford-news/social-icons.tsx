@@ -1,9 +1,9 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import FacebookIcon from "@/components/elements/icons/FacebookIcon";
-import LinkedInIcon from "@/components/elements/icons/LinkedInIcon";
-import TwitterIcon from "@/components/elements/icons/TwitterIcon";
+import FacebookIcon from "@components/elements/icons/FacebookIcon";
+import LinkedInIcon from "@components/elements/icons/LinkedInIcon";
+import TwitterIcon from "@components/elements/icons/TwitterIcon";
 import {EnvelopeIcon} from "@heroicons/react/24/outline";
 import {PrinterIcon} from "@heroicons/react/20/solid";
 

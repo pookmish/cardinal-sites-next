@@ -1,8 +1,8 @@
-import {PublicationNodeType} from "@/lib/types";
-import Rows from "@/components/paragraphs/rows/rows";
-import Citation from "@/components/nodes/pages/stanford-publication/citation";
-import Button from "@/components/elements/button";
-import {H1} from "@/components/elements/headers";
+import {PublicationNodeType} from "@lib/types";
+import Rows from "@components/paragraphs/rows/rows";
+import Citation from "@components/nodes/pages/stanford-publication/citation";
+import Button from "@components/elements/button";
+import {H1} from "@components/elements/headers";
 
 const StanfordPublicationPage = ({node}: { node: PublicationNodeType }) => {
   return (

@@ -1,10 +1,10 @@
-import {PolicyChangeLogType, PolicyNodeType} from "@/lib/types";
-import Wysiwyg from "@/components/elements/wysiwyg";
-import StanfordPolicyCard from "@/components/nodes/cards/stanford-policy/stanford-policy-card";
-import {getResources} from "@/lib/drupal/get-resource";
-import StringWithLines from "@/components/elements/string-with-lines";
+import {PolicyChangeLogType, PolicyNodeType} from "@lib/types";
+import Wysiwyg from "@components/elements/wysiwyg";
+import StanfordPolicyCard from "@components/nodes/cards/stanford-policy/stanford-policy-card";
+import {getResources} from "@lib/drupal/get-resource";
+import StringWithLines from "@components/elements/string-with-lines";
 import {JSX} from "react";
-import {H1, H2, H3} from "@/components/elements/headers";
+import {H1, H2, H3} from "@components/elements/headers";
 
 const StanfordPolicyPage = async ({node}: { node: PolicyNodeType }): Promise<JSX.Element> => {
   const relatedPolicies: PolicyNodeType[] = await getResources(node.su_policy_related ?? [])

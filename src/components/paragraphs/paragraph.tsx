@@ -1,15 +1,15 @@
 import {DrupalParagraph} from "next-drupal";
-import CardParagraph from "@/components/paragraphs/stanford-card/card-paragraph";
-import EntityParagraph from "@/components/paragraphs/stanford-entity/entity-paragraph";
-import GalleryParagraph from "@/components/paragraphs/stanford-gallery/gallery-paragraph";
-import MediaCaptionParagraph from "@/components/paragraphs/stanford-media-caption/media-caption-paragraph";
-import PersonCtaParagraph from "@/components/paragraphs/stanford-person-cta/person-cta-paragraph";
-import ScheduleParagraph from "@/components/paragraphs/stanford-schedule/schedule-paragraph";
-import SpacerParagraph from "@/components/paragraphs/stanford-spacer/spacer-paragraph";
-import WysiwygParagraph from "@/components/paragraphs/stanford-wysiwyg/wysiwyg-paragraph";
-import BannerParagraph from "@/components/paragraphs/stanford-banner/banner-paragraph";
-import {getResource} from "@/lib/drupal/get-resource";
-import ListParagraph from "@/components/paragraphs/stanford-lists/list-paragraph";
+import CardParagraph from "@components/paragraphs/stanford-card/card-paragraph";
+import EntityParagraph from "@components/paragraphs/stanford-entity/entity-paragraph";
+import GalleryParagraph from "@components/paragraphs/stanford-gallery/gallery-paragraph";
+import MediaCaptionParagraph from "@components/paragraphs/stanford-media-caption/media-caption-paragraph";
+import PersonCtaParagraph from "@components/paragraphs/stanford-person-cta/person-cta-paragraph";
+import ScheduleParagraph from "@components/paragraphs/stanford-schedule/schedule-paragraph";
+import SpacerParagraph from "@components/paragraphs/stanford-spacer/spacer-paragraph";
+import WysiwygParagraph from "@components/paragraphs/stanford-wysiwyg/wysiwyg-paragraph";
+import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph";
+import {getResource} from "@lib/drupal/get-resource";
+import ListParagraph from "@components/paragraphs/stanford-lists/list-paragraph";
 import {
   BannerParagraphType,
   CardParagraphType,
@@ -20,7 +20,7 @@ import {
   MediaCaptionParagraphType,
   SpeakerParagraphType,
   WysiwygParagraphType
-} from "@/lib/types";
+} from "@lib/types";
 import {JSX} from "react";
 
 interface Props {

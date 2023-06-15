@@ -1,6 +1,6 @@
-import Link from "@/components/elements/link";
-import {PublicationNodeType} from "@/lib/types";
-import {H2, H3} from "@/components/elements/headers";
+import Link from "@components/elements/link";
+import {PublicationNodeType} from "@lib/types";
+import {H2, H3} from "@components/elements/headers";
 
 const StanfordPublicationListItem = ({node, headingLevel}: { node: PublicationNodeType, headingLevel?: string }) => {
   const Heading = headingLevel === 'h3' ? H3 : H2;

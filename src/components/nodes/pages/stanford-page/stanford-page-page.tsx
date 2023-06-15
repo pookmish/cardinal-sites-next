@@ -1,8 +1,8 @@
-import {BasicPageNodeType} from "@/lib/types";
-import Rows from "@/components/paragraphs/rows/rows";
-import InteriorPage from "@/components/layouts/interior-page";
-import Paragraph from "@/components/paragraphs/paragraph";
-import {H1} from "@/components/elements/headers";
+import {BasicPageNodeType} from "@lib/types";
+import Rows from "@components/paragraphs/rows/rows";
+import InteriorPage from "@components/layouts/interior-page";
+import Paragraph from "@components/paragraphs/paragraph";
+import {H1} from "@components/elements/headers";
 
 const StanfordPagePage = ({node}: { node: BasicPageNodeType }) => {
   const fullWidth = node.layout_selection?.resourceIdObjMeta.drupal_internal__target_id === 'stanford_basic_page_full';

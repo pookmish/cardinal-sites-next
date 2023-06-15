@@ -166,13 +166,12 @@ export interface CardParagraphType extends DrupalParagraph {
   behavior_settings?: {
     layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
     su_card_styles?: {
-      link_style?: string
+      link_style?: 'action' | 'button'
     }
   }
   su_card_body?: string
   su_card_header?: string
   su_card_link?: DrupalLinkFieldType
-  su_card_link_display?: string
   su_card_media?: DrupalImageMediaType | DrupalVideoMediaType
   su_card_super_header?: string
 }
@@ -277,7 +276,7 @@ export interface DrupalEmbeddableMediaType extends DrupalMedia {
 
 // Config Pages
 export interface GlobalMessageConfigPageType extends JsonApiResource {
-  su_global_msg_type: string
+  su_global_msg_type: 'error' | 'plain' | 'warning' | 'info' | 'success'
   su_global_msg_enabled: boolean
   su_global_msg_link?: DrupalLinkFieldType
   su_global_msg_header?: string
@@ -300,7 +299,7 @@ export interface LockupSettingsConfigPageType extends JsonApiResource {
   su_line_3?: string
   su_line_4?: string
   su_line_5?: string
-  su_lockup_options?: string
+  su_lockup_options?: 'a' | 'b' | 'd' | 'e' | 'h' | 'i' | 'm' | 'o' | 'p' | 'r' | 's' | 't' | 'none'
   su_upload_logo_image?: DrupalImageFileType
   su_use_theme_logo?: boolean
 }
@@ -320,7 +319,6 @@ export interface LocalFooterConfigPageType extends JsonApiResource {
   su_local_foot_line_5?: string
   su_local_foot_loc_img?: DrupalImageFileType
   su_local_foot_loc_link?: DrupalLinkFieldType
-  su_local_foot_loc_open?: string
   su_local_foot_pr_co?: string
   su_local_foot_primary?: DrupalLinkFieldType[]
   su_local_foot_prime_h?: string
@@ -360,7 +358,7 @@ export interface DrupalWysiwygFieldType {
 }
 
 export interface DrupalLinkFieldType {
-  options: object
+  options?: object
   title: string
   uri: string;
   url: string

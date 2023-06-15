@@ -1,8 +1,8 @@
-import {EventScheduleParagraphType} from "@/lib/types";
-import Wysiwyg from "@/components/elements/wysiwyg";
-import Address from "@/components/elements/address";
-import Paragraph from "@/components/paragraphs/paragraph";
-import {H3} from "@/components/elements/headers";
+import {EventScheduleParagraphType} from "@lib/types";
+import Wysiwyg from "@components/elements/wysiwyg";
+import Address from "@components/elements/address";
+import Paragraph from "@components/paragraphs/paragraph";
+import {H3} from "@components/elements/headers";
 
 const ScheduleParagraph = ({paragraph}: { paragraph: EventScheduleParagraphType }) => {
   let start

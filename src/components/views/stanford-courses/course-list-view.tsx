@@ -1,6 +1,6 @@
-import {CourseNodeType} from "@/lib/types";
-import StanfordCourseListItem from "@/components/nodes/list-item/stanford-course/stanford-course-list-item";
-import {getViewItems} from "@/components/views/view";
+import {CourseNodeType} from "@lib/types";
+import StanfordCourseListItem from "@components/nodes/list-item/stanford-course/stanford-course-list-item";
+import {getViewItems} from "@components/views/view";
 
 interface Props {
   view: string

@@ -1,8 +1,8 @@
-import {ListParagraphType} from "@/lib/types";
-import Wysiwyg from "@/components/elements/wysiwyg";
-import Button from "@/components/elements/button";
-import View from "@/components/views/view";
-import {H2} from "@/components/elements/headers";
+import {ListParagraphType} from "@lib/types";
+import Wysiwyg from "@components/elements/wysiwyg";
+import Button from "@components/elements/button";
+import View from "@components/views/view";
+import {H2} from "@components/elements/headers";
 
 const ListParagraph = async ({paragraph}: { paragraph: ListParagraphType }) => {
   const viewId: string = paragraph.su_list_view?.resourceIdObjMeta?.drupal_internal__target_id;

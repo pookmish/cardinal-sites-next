@@ -1,5 +1,5 @@
-import StanfordPageListItem from "@/components/nodes/list-item/stanford-page/stanford-page-list-item";
-import {getViewItems} from "@/components/views/view";
+import StanfordPageListItem from "@components/nodes/list-item/stanford-page/stanford-page-list-item";
+import {getViewItems} from "@components/views/view";
 import {DrupalNode} from "next-drupal";
 
 interface Props {

@@ -1,12 +1,10 @@
-import {getConfigPageResource} from "@/lib/drupal/get-resource";
-import {SuperFooterConfigPageType} from "@/lib/types";
-import Wysiwyg from "@/components/elements/wysiwyg";
-import Link from "@/components/elements/link";
+import {SuperFooterConfigPageType} from "@lib/types";
+import Wysiwyg from "@components/elements/wysiwyg";
+import Link from "@components/elements/link";
 import {LockClosedIcon} from "@heroicons/react/24/outline";
-import {H2} from "@/components/elements/headers";
+import {H2} from "@components/elements/headers";
 
-const SuperFooter = async () => {
-  const configPage = await getConfigPageResource<SuperFooterConfigPageType>('stanford_super_footer');
+const SuperFooter = ({configPage}: {configPage?: SuperFooterConfigPageType}) => {
   if (!configPage || !configPage.su_super_foot_enabled) {
     return null;
   }

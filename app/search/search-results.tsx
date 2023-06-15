@@ -1,7 +1,7 @@
 "use client";
 
 import {useEffect, useId, useState} from "react";
-import Link from "@/components/elements/link";
+import Link from "@components/elements/link";
 import {useSearchParams} from "next/navigation";
 import {Metadata} from "next";
 

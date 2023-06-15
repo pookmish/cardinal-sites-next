@@ -1,13 +1,12 @@
-
 const nextConfig = {
   images: {
     domains: [process.env.NEXT_IMAGE_DOMAIN],
   },
-  experimental:{
-    serverActions: true
+  experimental: {
+    serverActions: true,
   },
   typescript: {
-    ignoreBuildErrors: true
+    ignoreBuildErrors: true,
   },
   async headers() {
     if (process.env.NEXT_PUBLIC_DOMAIN) {
@@ -26,17 +25,26 @@ const nextConfig = {
     ];
   },
   async redirects() {
+    const devRedirects = [];
+    if (process.env.DEV === 'true') {
+      devRedirects.push({
+        source: '/style-guide',
+        destination: 'http://localhost:6006',
+        permanent: false
+      });
+    }
     return [
       {
         source: '/home',
         destination: '/',
-        permanent: true
-      }
-    ]
-  }
-}
+        permanent: true,
+      },
+      ...devRedirects
+    ];
+  },
+};
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
-})
-module.exports = withBundleAnalyzer(nextConfig)
+});
+module.exports = withBundleAnalyzer(nextConfig);

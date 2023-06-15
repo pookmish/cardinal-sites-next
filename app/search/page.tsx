@@ -1,8 +1,8 @@
-import {getSearchIndex} from "@/lib/drupal/get-search-index";
+import {getSearchIndex} from "@lib/drupal/get-search-index";
 import {DrupalNode} from "next-drupal";
 import SearchResults from "./search-results";
 import {getNodeMetadata} from "../[...slug]/metadata";
-import {H1} from "@/components/elements/headers";
+import {H1} from "@components/elements/headers";
 
 export const metadata = {
   title: "Search",

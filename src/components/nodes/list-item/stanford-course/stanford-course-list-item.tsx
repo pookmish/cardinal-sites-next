@@ -1,6 +1,6 @@
-import {CourseNodeType} from "@/lib/types";
-import Link from "@/components/elements/link";
-import {H2, H3} from "@/components/elements/headers";
+import {CourseNodeType} from "@lib/types";
+import Link from "@components/elements/link";
+import {H2, H3} from "@components/elements/headers";
 
 const StanfordCourseListItem = ({node, headingLevel}: { node: CourseNodeType, headingLevel?: string }) => {
   const Heading = headingLevel === 'h3' ? H3 : H2;
