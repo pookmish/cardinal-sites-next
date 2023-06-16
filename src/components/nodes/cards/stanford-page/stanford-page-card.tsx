@@ -22,8 +22,8 @@ const StanfordPageCard = ({node, headingLevel}: { node: BasicPageNodeType, headi
       }
       <div className="p-10">
 
-        <Heading className=" text-m2">
-          <Link href={node.path?.alias} className="text-black no-underline hocus:text-black hocus:underline">
+        <Heading className="text-m2 [&>a]:text-black">
+          <Link href={node.path?.alias} >
             {node.title}
           </Link>
         </Heading>

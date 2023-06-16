@@ -20,7 +20,7 @@ const StanfordPersonListItem = ({node, headingLevel}: { node: PersonNodeType, he
       }
 
       <Heading className="text-m2">
-        <Link href={node.path?.alias} className="no-underline hocus:no-underline hocus:text-black">
+        <Link href={node.path?.alias} >
           {node.title}
         </Link>
       </Heading>

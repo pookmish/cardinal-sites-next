@@ -120,8 +120,8 @@ const StanfordEventCard = ({node, headingLevel}: { node: EventNodeType, headingL
       }
 
 
-      <Heading className="text-m2">
-        <Link href={goToPath} className="text-black no-underline hocus:text-digital-red hocus:underline">
+      <Heading className="text-m2 [&>a]:text-black [&>a]:hocus:text-digital-red">
+        <Link href={goToPath} >
           {node.title}
         </Link>
       </Heading>

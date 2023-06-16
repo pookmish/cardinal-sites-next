@@ -7,14 +7,14 @@ const StanfordCourseListItem = ({node, headingLevel}: { node: CourseNodeType, he
   return (
     <div className="">
 
-      <Heading className=" text-m2">
-        <Link href={node.path?.alias} className="text-digital-red no-underline hocus:text-black hocus:underline">
+      <Heading className="text-m2">
+        <Link href={node.path?.alias} >
           {node.title}
         </Link>
       </Heading>
       {node.su_course_instructors &&
         <div>
-          <span className="font-bold">Instructor(s): </span>
+          <span className="font-bold">Instructor{node.su_course_instructors.length > 1 ? "s": ""}: </span>
           {node.su_course_instructors.map((instructor, i) =>
             <span key={`${node.id}-instructor-${i}`}>{instructor}</span>
           )}

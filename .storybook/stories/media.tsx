@@ -2,7 +2,8 @@ export const ImageMedia = () => {
   return {
     field_media_image: {
       image_style_uri: {
-        breakpoint_2xl_2x: "https://placekitten.com/1500/1500"
+        breakpoint_2xl_2x: "https://placekitten.com/1500/1500",
+        card_1900x950: "https://placekitten.com/1900/950",
       },
       resourceIdObjMeta:{
         alt: "Kittens"

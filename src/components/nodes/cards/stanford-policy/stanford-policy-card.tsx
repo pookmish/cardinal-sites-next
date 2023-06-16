@@ -11,7 +11,7 @@ const StanfordPolicyCard = ({node, headingLevel}: { node: PolicyNodeType, headin
       className="max-w-[500px] w-full mx-auto shadow-xl border border-black-20 p-10 overflow-hidden">
 
       <Heading className="text-m2">
-        <Link href={node.path?.alias} className="text-digital-red no-underline hocus:text-black hocus:underline">
+        <Link href={node.path?.alias} >
           {node.title}
         </Link>
       </Heading>

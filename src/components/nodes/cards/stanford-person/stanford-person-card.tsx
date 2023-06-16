@@ -23,7 +23,7 @@ const StanfordPersonCard = ({node, headingLevel}: { node: PersonNodeType, headin
       }
 
       <Heading className="text-m2">
-        <Link href={node.path?.alias} className="text-digital-red no-underline hocus:no-underline hocus:text-black">
+        <Link href={node.path?.alias} >
           {node.title}
         </Link>
       </Heading>

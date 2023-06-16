@@ -8,8 +8,8 @@ const StanfordPolicyListItem = ({node, headingLevel}: { node: PolicyNodeType, he
     <div
       className="max-w-[500px] w-full mx-auto shadow-xl border border-black-20 p-10">
 
-      <Heading className=" text-m2">
-        <Link href={node.path?.alias} className="text-black no-underline hocus:text-black hocus:underline">
+      <Heading className="text-m2">
+        <Link href={node.path?.alias} >
           {node.title}
         </Link>
       </Heading>

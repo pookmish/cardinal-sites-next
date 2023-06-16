@@ -8,7 +8,7 @@ export interface BasicPageNodeType extends DrupalNode {
   su_page_components?: DrupalParagraph[]
   su_page_description?: string
   su_page_image?: DrupalImageMediaType
-  su_shared_tabs?: DrupalTaxonomyTerm[]
+  su_shared_tags?: DrupalTaxonomyTerm[]
   layout_selection?: DrupalLayoutSelectionType
 }
 
