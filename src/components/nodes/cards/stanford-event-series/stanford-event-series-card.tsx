@@ -6,7 +6,7 @@ const StanfordEventSeriesCard = ({node, headingLevel}: { node: EventSeriesNodeTy
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <div className="max-w-[500px] w-full mx-auto shadow-xl border border-black-20 p-10 overflow-hidden">
-      <Heading className="text-m2 [&>a]:text-black [&>a]:hocus:text-digital-red">
+      <Heading className="text-m2 [&_a]:text-black [&_a]:hocus:text-digital-red">
         <Link href={node.path?.alias} >
           {node.title}
         </Link>

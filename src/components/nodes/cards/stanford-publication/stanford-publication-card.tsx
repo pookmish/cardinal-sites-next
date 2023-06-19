@@ -9,7 +9,7 @@ const StanfordPublicationCard = ({node, headingLevel}: { node: PublicationNodeTy
       className="max-w-[500px] w-full mx-auto shadow-xl border border-black-20 p-10 overflow-hidden">
 
       <div className="flex flex-col">
-        <Heading className="text-m2 order-last [&>a]:text-black [&>a]:hocus:text-digital-red">
+        <Heading className="text-m2 order-last [&_a]:text-black [&_a]:hocus:text-digital-red">
           <Link href={node.path?.alias} >
             {node.title}
           </Link>

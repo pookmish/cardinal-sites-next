@@ -43,6 +43,9 @@ const getPageData = async (context: GetStaticPropsContext) => {
   if (!path || !path.jsonapi) {
     throw new Error('Unable to translate path: ' + JSON.stringify(context));
   }
+  if (context?.params?.slug?.[0] === 'node' && path?.entity?.path) {
+    throw new RedirectError(path.entity.path);
+  }
   return getResourceFromContext<DrupalNode>(path.jsonapi.resourceName, context)
 }
 
