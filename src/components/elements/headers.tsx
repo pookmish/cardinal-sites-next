@@ -6,7 +6,7 @@ interface Props {
   children: ReactElement | ReactElement[] | string
 }
 
-const headingLinkClasses = "[&_a]:text-digital-red [&_a]:hocus:text-black hocus:underline";
+const headingLinkClasses = "[&_a]:text-digital-red [&_a]:hocus:text-black [&_a]:hocus:underline";
 
 export const H1 = ({children, ...props}: PropsWithChildren<Props>) => {
   return (

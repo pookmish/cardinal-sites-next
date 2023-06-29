@@ -30,7 +30,7 @@ const nextConfig = {
       devRedirects.push({
         source: '/style-guide',
         destination: 'http://localhost:6006',
-        permanent: false
+        permanent: false,
       });
     }
     return [
@@ -39,7 +39,7 @@ const nextConfig = {
         destination: '/',
         permanent: true,
       },
-      ...devRedirects
+      ...devRedirects,
     ];
   },
 };

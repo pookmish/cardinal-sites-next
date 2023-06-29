@@ -21,7 +21,7 @@ const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   try {
     const drupalSitemap: DrupalSitemapItem[] = await fetch(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + '/sitemap.xml')
       .then(response => response.text())
-      .then<Promise<DrupalSitemap>>(result => xmlParser.parseStringPromise(result))
+      .then<DrupalSitemap>(result => xmlParser.parseStringPromise(result))
       .then(sitemap => sitemap['urlset'].url);
 
     const publicDomain = process.env.NEXT_PUBLIC_DOMAIN ?? '';

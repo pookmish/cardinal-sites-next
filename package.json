@@ -22,7 +22,7 @@
     "@types/react-dom": "^18.2.4",
     "autoprefixer": "^10.4.14",
     "axios": "^1.4.0",
-    "decanter": "^7.0.0-rc.4",
+    "decanter": "^7.0.0",
     "drupal-jsonapi-params": "^2.2.0",
     "eslint": "^8.40.0",
     "eslint-config-next": "^13.4.1",
@@ -53,7 +53,7 @@
     "@storybook/blocks": "^7.0.20",
     "@storybook/nextjs": "^7.0.20",
     "@storybook/react": "^7.0.20",
-    "@storybook/testing-library": "^0.1.0",
+    "@storybook/testing-library": "^0.2.0",
     "concurrently": "^8.2.0",
     "eslint-plugin-storybook": "^0.6.12",
     "storybook": "^7.0.20"

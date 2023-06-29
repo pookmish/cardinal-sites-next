@@ -1,6 +1,13 @@
 import {DrupalNode, DrupalParagraph} from "next-drupal";
-import {BasicPageNodeType, EventNodeType, NewsNodeType, PersonNodeType, PolicyNodeType, WysiwygParagraphType} from "@lib/types";
-import { decode } from 'html-entities';
+import {
+  BasicPageNodeType,
+  EventNodeType,
+  NewsNodeType,
+  PersonNodeType,
+  PolicyNodeType,
+  WysiwygParagraphType
+} from "@lib/types";
+import {decode} from 'html-entities';
 
 export const getNodeMetadata = (node: DrupalNode) => {
   const defaultData = {
@@ -131,9 +138,9 @@ const getFirstText = (components: DrupalParagraph[] = []) => {
   }
 }
 
-const getCleanDescription = (description: string = '') => {
+const getCleanDescription = (description: string = ''): string | undefined => {
   const text = description.replace(/(<([^>]+)>)/gi, " ").replace('/ +/', ' ').split('.').slice(0, 1).join('.') + '.';
-  return decode(text);
+  return text.length > 1 ? decode(text) : undefined;
 }
 
 

@@ -1,6 +1,6 @@
 "use client";
 
-import {PropsWithChildren} from "react";
+import {PropsWithChildren, ReactNode} from "react";
 import Link from "next/link";
 import {EnvelopeIcon} from "@heroicons/react/24/outline";
 import ActionLink from "@components/elements/action-link";
@@ -8,11 +8,11 @@ import Button from "@components/elements/button";
 
 interface Props {
   href: string
-  children: React.ReactNode
+  children: ReactNode | ReactNode[]
   className?: string
 }
 
-const DrupalLink = ({href, className = '', children, ...props}: PropsWithChildren<Props>) => {
+const DrupalLink = ({href, className, children, ...props}: PropsWithChildren<Props>) => {
   if (!href || href === '') {
     href = '#';
   }
@@ -25,11 +25,11 @@ const DrupalLink = ({href, className = '', children, ...props}: PropsWithChildre
 
   let afterIcon;
 
-  if (className.includes('link--action')) {
+  if (className && className.includes('link--action')) {
     return <ActionLink href={href} {...props}>{children}</ActionLink>
   }
 
-  if (className.includes('button')) {
+  if (className && className.includes('button')) {
     return (
       <Button
         href={href}
@@ -44,11 +44,14 @@ const DrupalLink = ({href, className = '', children, ...props}: PropsWithChildre
 
   if (href.startsWith('mailto')) afterIcon = <EnvelopeIcon width={20} className="ml-4 inline-block"/>
 
+  const LinkElement = href.startsWith('/') ? Link : 'a';
+  className = className && className.length > 0 ? className : undefined;
+
   return (
-    <Link href={href} className={className} {...props}>
+    <LinkElement href={href} className={className} {...props}>
       {children}
       {afterIcon}
-    </Link>
+    </LinkElement>
   )
 }
 export default DrupalLink as typeof Link;

@@ -23,23 +23,13 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  variants: {
-    colors: {
-      buttonPrimaryBg: 'blue',
-    }
-  },
   theme: {
     fontFamily: decanter.theme.fontFamily,
-    lineHeight: decanter.theme.lineHeight,
-    maxWidth: decanter.theme.maxWidth,
     decanter: decanter.theme.decanter,
     screens: decanter.theme.screens,
     extend: {
+      ...decanter.theme.extend,
       gridTemplateColumns: {...twoColumn, ...threeColumn},
-      fontSize: decanter.theme.fontSize,
-      fontWeight: decanter.theme.extend.fontWeight,
-      lineClamp: decanter.theme.extend.lineClamp,
-      colors: decanter.theme.colors,
       containers: {
         '9xl': '90rem',
         '10xl': '100rem',
