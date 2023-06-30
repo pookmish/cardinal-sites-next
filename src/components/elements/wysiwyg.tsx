@@ -5,6 +5,7 @@ import Oembed from "@components/elements/ombed";
 import React, {PropsWithoutRef} from "react";
 import {ChildNode} from "domhandler";
 import {H2, H3, H4, H5, H6} from "@components/elements/headers";
+import {twMerge} from "tailwind-merge";
 
 interface Props {
   html: string
@@ -12,10 +13,10 @@ interface Props {
 }
 
 const Wysiwyg = ({html, className = "", ...props}: PropsWithoutRef<Props>) => {
-  className += " wysiwyg"
+  className = twMerge(className, 'wysiwyg');
 
   return (
-    <div className={className.trim()} {...props}>
+    <div className={className} {...props}>
       {formatHtml(html)}
     </div>
   )
@@ -32,7 +33,7 @@ const options: HTMLReactParserOptions = {
       switch (domNode.name) {
         case "a":
           return (
-            <Link href={nodeProps.href} {...nodeProps}>
+            <Link href={nodeProps.href} prefetch={false} {...nodeProps}>
               {domToReact(domNode.children, options)}
             </Link>
           )

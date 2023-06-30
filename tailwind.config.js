@@ -29,6 +29,9 @@ module.exports = {
     screens: decanter.theme.screens,
     extend: {
       ...decanter.theme.extend,
+      screens: {
+        "3xl": "1600px",
+      },
       gridTemplateColumns: {...twoColumn, ...threeColumn},
       containers: {
         '9xl': '90rem',

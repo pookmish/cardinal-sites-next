@@ -14,13 +14,13 @@ interface Props {
 const SuccessMessage = ({header, label, message, link}: Props) => {
 
   return (
-    <div className="global-message bg-digital-green text-white">
-      <div className="max-w-1500 w-full mx-auto py-10 px-10 3xl:px-0 flex flex-col lg:flex-row gap-10">
+    <div className="global-message bg-digital-green text-white py-10">
+      <div className="centered flex flex-col lg:flex-row gap-10">
         <div className="flex items-center leading-none shrink-0">
           <CheckCircleIcon width={40}/>
           {label?.trim()}:
         </div>
-        <div>
+        <div className="[&_a]:text-white">
           {header && <H2>{header}</H2>}
           {message &&
             <Wysiwyg html={message}/>

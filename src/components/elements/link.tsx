@@ -1,6 +1,6 @@
 "use client";
 
-import {PropsWithChildren, ReactNode} from "react";
+import {ElementType, PropsWithChildren, ReactNode} from "react";
 import Link from "next/link";
 import {EnvelopeIcon} from "@heroicons/react/24/outline";
 import ActionLink from "@components/elements/action-link";
@@ -44,7 +44,7 @@ const DrupalLink = ({href, className, children, ...props}: PropsWithChildren<Pro
 
   if (href.startsWith('mailto')) afterIcon = <EnvelopeIcon width={20} className="ml-4 inline-block"/>
 
-  const LinkElement = href.startsWith('/') ? Link : 'a';
+  const LinkElement: ElementType = href.startsWith('/') ? Link : 'a';
   className = className && className.length > 0 ? className : undefined;
 
   return (

@@ -34,10 +34,21 @@ export const H2HeadingElement: Story = {
     level: 2,
   },
 };
-
+export const LinkedH2HeadingElement: Story = {
+  args: {
+    children: <a href="#">Nulla scelerisque vivamus commodo</a>,
+    level: 2,
+  },
+};
 export const H3HeadingElement: Story = {
   args: {
     children: 'Nulla scelerisque vivamus commodo',
+    level: 3,
+  },
+};
+export const LinkedHH3HeadingElement: Story = {
+  args: {
+    children: <a href="#">Nulla scelerisque vivamus commodo</a>,
     level: 3,
   },
 };
@@ -48,6 +59,12 @@ export const H4HeadingElement: Story = {
     level: 4,
   },
 };
+export const LinkedHH4HeadingElement: Story = {
+  args: {
+    children: <a href="#">Nulla scelerisque vivamus commodo</a>,
+    level: 4,
+  },
+};
 
 export const H5HeadingElement: Story = {
   args: {
@@ -55,10 +72,22 @@ export const H5HeadingElement: Story = {
     level: 5,
   },
 };
+export const LinkedHH5HeadingElement: Story = {
+  args: {
+    children: <a href="#">Nulla scelerisque vivamus commodo</a>,
+    level: 5,
+  },
+};
 
 export const H6HeadingElement: Story = {
   args: {
     children: 'Nulla scelerisque vivamus commodo',
+    level: 6,
+  },
+};
+export const LinkedHH6HeadingElement: Story = {
+  args: {
+    children: <a href="#">Nulla scelerisque vivamus commodo</a>,
     level: 6,
   },
 };

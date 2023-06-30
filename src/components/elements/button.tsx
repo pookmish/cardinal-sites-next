@@ -1,5 +1,5 @@
 import Link from "@components/elements/link";
-import {PropsWithChildren} from "react";
+import {ElementType, PropsWithChildren} from "react";
 import {twMerge} from 'tailwind-merge'
 
 export interface ButtonProps {
@@ -39,14 +39,15 @@ export const Button = ({href = '#', buttonElem = false, big = false, secondary =
     )
   }
 
+  const LinkElement: ElementType = href.startsWith('/') ? Link : 'a';
   return (
-    <Link
+    <LinkElement
       href={href}
       className={className}
       {...props}
     >
       {children}
-    </Link>
+    </LinkElement>
   )
 }
 

@@ -44,21 +44,19 @@ type Story = StoryObj<typeof GlobalMessage>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const SuccessMessage: Story = {
-  render: (args) => {
-    if(!args.link && args.linkUrl && args.linkTitle) {
+  render: ({linkUrl, linkText, ...args}) => {
+    if(linkUrl && linkText) {
       args.link = {
-        title: args.linkText,
-        url: args.linkUrl,
-        uri: args.linkUri,
+        title: linkText,
+        url: linkUrl,
+        uri: linkUrl,
       }
-      delete args.linkUrl;
-      delete args.linkTitle;
     }
     return <GlobalMessage {...args}/>
   },
   args: {
     type: 'success',
-    message: 'Rutrum nec ipsum lacus portaest cursus orci dolor gravida gravida eget nulla ipsum elementum leo enim vivamus quam lorem tempus quis cursus sem nec pellentesque.',
+    message: '<p>Rutrum nec ipsum lacus portaest cursus orci dolor gravida gravida eget nulla ipsum elementum leo enim vivamus quam lorem tempus quis cursus sem nec pellentesque. <a href="#">Link text</a></p><p><a class="su-button" href="#">Button text</a></p><p><a class="su-button--secondary" href="#">Secondary text</a></p>',
     label: 'Placerat lacus ut eget leo.',
     header: 'Accumsan eget amet id sollicitudin.',
     linkText: 'Sem quisque placerat quis suspendisse.',
