@@ -20,7 +20,7 @@ const PlainMessage = ({header, label, message, link}: Props) => {
           <BellIcon width={40}/>
           {label}:
         </div>
-        <div className="[&_a]:text-black">
+        <div className="[&_a]:text-black [&_a.btn]:bg-transparent [&_a.btn]:border-2 [&_a.btn]:border-black">
           {header && <H2>{header}</H2>}
           {message &&
             <Wysiwyg html={message}/>

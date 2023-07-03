@@ -20,7 +20,7 @@ const SuccessMessage = ({header, label, message, link}: Props) => {
           <CheckCircleIcon width={40}/>
           {label?.trim()}:
         </div>
-        <div className="[&_a]:text-white">
+        <div className="[&_a]:text-white [&_a.btn]:bg-transparent [&_a.btn]:border-2 [&_a.btn]:border-white">
           {header && <H2>{header}</H2>}
           {message &&
             <Wysiwyg html={message}/>

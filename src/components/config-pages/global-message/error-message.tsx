@@ -20,7 +20,7 @@ const ErrorMessage = ({header, label, message, link}: Props) => {
           <ExclamationTriangleIcon width={40}/>
           {label}:
         </div>
-        <div className="[&_a]:text-white">
+        <div className="[&_a]:text-white [&_a.btn]:bg-transparent [&_a.btn]:border-2 [&_a.btn]:border-white">
           {header && <H2>{header}</H2>}
           {message &&
             <Wysiwyg html={message}/>
