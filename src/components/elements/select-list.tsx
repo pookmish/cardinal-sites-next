@@ -1,5 +1,5 @@
-import useSelect, {SelectOptionDefinition, SelectProvider, SelectValue} from '@mui/base/useSelect';
-import useOption from '@mui/base/useOption';
+import {useSelect, SelectOptionDefinition, SelectProvider, SelectValue} from '@mui/base/useSelect';
+import {useOption} from '@mui/base/useOption';
 import {
   FocusEvent,
   KeyboardEvent,

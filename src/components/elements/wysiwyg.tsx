@@ -6,6 +6,7 @@ import React, {PropsWithoutRef} from "react";
 import {ChildNode} from "domhandler";
 import {H2, H3, H4, H5, H6} from "@components/elements/headers";
 import {twMerge} from "tailwind-merge";
+import Script from "next/script";
 
 interface Props {
   html: string
@@ -14,9 +15,12 @@ interface Props {
 
 const Wysiwyg = ({html, className = "", ...props}: PropsWithoutRef<Props>) => {
   className = twMerge(className, 'wysiwyg');
-
+  const addMathJax = html.match(/\$\$.*\$\$/) || html.match(/\\\[.*\\\]/) || html.match(/\\\(.*\\\)/);
   return (
     <div className={className} {...props}>
+      {addMathJax &&
+        <Script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" strategy="lazyOnload"/>
+      }
       {formatHtml(html)}
     </div>
   )
