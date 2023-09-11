@@ -6,7 +6,7 @@ const InteriorPage = async ({children}: PropsWithChildren<any>) => {
   const {tree} = await getMenu('main');
 
   return (
-    <div className="max-w-1500 w-full mx-auto px-10 3xl:px-0 flex gap-20">
+    <div className="centered flex gap-20">
       <SideNav menuItems={tree}/>
       <article className="flex-grow">
         {children}

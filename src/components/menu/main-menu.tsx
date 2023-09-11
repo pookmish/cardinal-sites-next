@@ -39,7 +39,7 @@ const MainMenu = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
     >
       <button
         ref={buttonRef}
-        className="flex flex-col items-center lg:hidden absolute top-10 right-10 group"
+        className="flex flex-col items-center lg:hidden absolute top-5 right-10 group"
         onClick={() => setMenuOpen(!menuOpen)}
         aria-expanded={menuOpen}
       >
@@ -117,8 +117,6 @@ const MenuItem = ({id, url, title, items, activeTrail, level = 0}: MenuItemProps
     'lg:border-l-0',
     'lg:border-b-[6px]',
     isCurrent ? "border-digital-red lg:border-black" : (inTrail ? "border-transparent lg:border-foggy-dark": "border-transparent"),
-    'hocus:border-white',
-    'lg:hocus:border-transprent',
     'ml-5',
     'lg:ml-0',
     leftPadding[level]

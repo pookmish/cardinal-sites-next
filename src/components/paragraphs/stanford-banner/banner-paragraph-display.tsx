@@ -22,7 +22,7 @@ const BannerParagraphDisplay: React.FC<Props> = ({media, header, supHeader, body
 
   const {imageUrl, imageAlt, placeholder} = media ?? {};
   return (
-    <div className="@container md:min-h-[400px]">
+    <div className="@container md:min-h-[400px] mb-20">
       <div
         className="aspect-[16/9] @6xl:aspect-auto relative @6xl:absolute w-full @6xl:h-full bg-cool-grey">
         {imageUrl &&

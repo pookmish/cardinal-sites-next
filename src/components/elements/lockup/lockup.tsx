@@ -52,16 +52,6 @@ export const Lockup = ({siteSettings, lockupSettings}: Props) => {
   }
 
   switch (lockupSettings?.su_lockup_options) {
-    case 'none':
-      return (
-        <div className="py-10">
-          <Link href="/"
-                className="flex flex-col lg:flex-row gap-4 no-underline">
-            <LockupLogo {...lockupProps}/>
-          </Link>
-        </div>
-      )
-
     case 'a':
       return <LockupA {...lockupProps}/>;
 
@@ -98,6 +88,16 @@ export const Lockup = ({siteSettings, lockupSettings}: Props) => {
     case 't':
       return <LockupT {...lockupProps}/>;
 
+    case 'none':
+    default:
+      return (
+        <div className="py-10">
+          <Link href="/"
+                className="flex flex-col lg:flex-row gap-4 no-underline">
+            <LockupLogo {...lockupProps}/>
+          </Link>
+        </div>
+      )
   }
 }
 export default Lockup;
