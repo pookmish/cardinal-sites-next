@@ -25,13 +25,13 @@ const Page = async ({params: {filename}}: { params: { filename: string } }) => {
   return (
     <InterceptionModal aria-labelledby={captionId}>
       <figure className="h-full w-fit mx-auto table">
-
-        <img
-          src={file.image_style_uri.responsive_large}
-          alt={media.su_gallery_image.resourceIdObjMeta?.alt ?? ''}
-          className="max-w-full h-auto m-0 p-0"
-        />
-
+        <picture>
+          <img
+            src={file.image_style_uri.responsive_large}
+            alt={media.su_gallery_image.resourceIdObjMeta?.alt ?? ''}
+            className="max-w-full h-auto m-0 p-0"
+          />
+        </picture>
         {media.su_gallery_caption &&
           <figcaption
             id={captionId}

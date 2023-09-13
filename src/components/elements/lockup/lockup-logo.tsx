@@ -1,10 +1,12 @@
 import StanfordWordMark from "@components/images/stanford-wordmark";
+import Image from "next/image";
 
 const LockupLogo = ({logoUrl, siteName = ''}: { logoUrl?: string, siteName?: string }) => {
   return (
     <>
       {logoUrl &&
-        <img
+        <Image
+          unoptimized={true}
           src={logoUrl}
           alt={`${siteName} Logo`}
           className="object-contain max-w-[400px] max-h-[35px] h-auto"
