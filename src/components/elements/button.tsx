@@ -1,18 +1,19 @@
 import Link from "@components/elements/link";
 import {twMerge} from 'tailwind-merge'
-import {LinkProps} from "next/link";
-import {PropsWithChildren} from "react";
+import {MouseEventHandler, PropsWithChildren} from "react";
 
-export interface ButtonProps extends LinkProps {
-  href: string
+export interface ButtonProps {
+  href?: string
   buttonElem?: boolean
   big?: boolean
   secondary?: boolean
   centered?: boolean
   className?: string
+  onClick?: MouseEventHandler
+  prefetch?: boolean
 }
 
-export const Button = ({href = '#', buttonElem = false, big = false, secondary = false, centered = false, children, className = "", ...props}: PropsWithChildren<ButtonProps>) => {
+export const Button = ({href, buttonElem = false, big = false, secondary = false, centered = false, children, className = "", ...props}: PropsWithChildren<ButtonProps>) => {
 
   className = twMerge(className, (centered ? "flex items-center w-fit mx-auto" : "inline-block text-center w-fit"))
 
@@ -27,7 +28,7 @@ export const Button = ({href = '#', buttonElem = false, big = false, secondary =
     className = twMerge(`btn bg-digital-red text-white hocus:bg-black hocus:text-white py-4 px-8 no-underline hocus:underline transition`, className)
   }
 
-  if (buttonElem) {
+  if (!href || buttonElem) {
     return (
       <button
         className={className}

@@ -402,7 +402,7 @@ export interface DrupalViewFieldType {
     arguments?: string
     display_id: string
     drupal_internal__target_id: string
-    items_to_display?: number
+    items_to_display?: string | number
   }
 }
 

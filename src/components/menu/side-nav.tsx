@@ -21,7 +21,7 @@ const getCurrentPageTitle = (activeTrail: string[], items: DrupalMenuLinkContent
 
 const SideNav = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
   const activeTrail = useActiveTrail(menuItems);
-console.log(activeTrail);
+
   // Peel off the menu items from the parent.
   const topMenuItem = activeTrail.length > 0 ? menuItems.find(item => item.id === activeTrail[0]) : false;
   const subTree = useMemo(() => topMenuItem && topMenuItem.items ? topMenuItem.items : [], [activeTrail, topMenuItem]);

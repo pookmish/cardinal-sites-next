@@ -33,7 +33,7 @@ export const Lockup = ({siteSettings, lockupSettings}: Props) => {
     logoUrl: logoUrl,
   }
 
-  if (lockupSettings?.su_lockup_enabled) {
+  if (!lockupSettings || lockupSettings?.su_lockup_enabled) {
     return (
       <div className="py-10">
         <Link href="/" className="flex no-underline">

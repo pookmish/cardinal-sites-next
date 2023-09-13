@@ -1,6 +1,7 @@
 import {PublicationNodeType} from "@lib/types";
 import StanfordCourseListItem from "@components/nodes/list-item/stanford-course/stanford-course-list-item";
 import {getViewItems} from "@components/views/view";
+import PagedList from "@components/views/paged-list";
 
 interface Props {
   view: string
@@ -26,14 +27,11 @@ const PublicationsChicagoView = async ({view, args, itemsToDisplay, emptyMessage
   }
   return (
     <ul className="list-unstyled mb-20">
-      {items.map(item =>
-        <li
-          key={item.id}
-          className="border-b border-black-20 last:border-0 pb-10 last:pb-0 pt-10 first:pt-0"
-        >
-          <StanfordCourseListItem node={item} headingLevel={headingLevel}/>
-        </li>
-      )}
+      <PagedList itemProps={{className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0"}}>
+        {items.map(item =>
+          <StanfordCourseListItem key={item.id} node={item} headingLevel={headingLevel}/>
+        )}
+      </PagedList>
     </ul>
   )
 }
