@@ -5,12 +5,13 @@ const LockupLogo = ({logoUrl, siteName = ''}: { logoUrl?: string, siteName?: str
   return (
     <>
       {logoUrl &&
-        <Image
-          unoptimized={true}
-          src={logoUrl}
-          alt={`${siteName} Logo`}
-          className="object-contain max-w-[400px] max-h-[35px] h-auto"
-        />
+        <picture>
+          <img
+            src={logoUrl}
+            alt={`${siteName} Logo`}
+            className="object-contain max-w-[400px] max-h-[35px] h-auto"
+          />
+        </picture>
       }
       {!logoUrl &&
         <StanfordWordMark

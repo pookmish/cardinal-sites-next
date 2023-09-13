@@ -3,10 +3,10 @@ import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getResourceCollection} from "@lib/drupal/get-resource";
 import {DrupalFile} from "next-drupal";
 import {DrupalGalleryImageMediaType} from "@lib/types";
-import {useId} from "react";
+import {randomUUID} from "crypto";
 
 const Page = async ({params: {filename}}: { params: { filename: string } }) => {
-  const captionId = useId();
+  const captionId = randomUUID();
   const fileParams = new DrupalJsonApiParams();
   fileParams.addFilter('filename', filename);
   const files = await getResourceCollection<DrupalFile[]>('file--file', {params: fileParams.getQueryObject()});
