@@ -1,7 +1,7 @@
 import StanfordEventListItem from "@components/nodes/list-item/stanford-event/stanford-event-list-item";
 import {EventNodeType} from "@lib/types";
 import {getViewItems} from "@components/views/view";
-import PagedList from "@components/views/paged-list";
+import LoadMoreList from "@components/elements/load-more-list";
 
 interface Props {
   view: string
@@ -17,26 +17,18 @@ const EventsListView = async ({view, args, itemsToDisplay, emptyMessage, heading
   const items = await getViewItems<EventNodeType>(view, itemsToDisplay, args.split('/'));
 
   if (items.length === 0) {
-    if (emptyMessage) {
-      return (
-        <div>
-          {emptyMessage}
-        </div>
-      )
-    }
-    return null;
+    return emptyMessage ? <div>{emptyMessage}</div> : null;
   }
 
   return (
-    <ul className="list-unstyled mb-20">
-      <PagedList
-        itemProps={{className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0"}}
-      >
-        {items.map(item =>
-          <StanfordEventListItem key={item.id} node={item} headingLevel={headingLevel}/>
-        )}
-      </PagedList>
-    </ul>
+    <LoadMoreList
+      listProps={{className: "list-unstyled mb-20"}}
+      itemProps={{className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0"}}
+    >
+      {items.map(item =>
+        <StanfordEventListItem key={item.id} node={item} headingLevel={headingLevel}/>
+      )}
+    </LoadMoreList>
   )
 }
 export default EventsListView;

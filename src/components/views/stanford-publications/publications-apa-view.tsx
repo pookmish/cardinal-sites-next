@@ -17,14 +17,7 @@ const PublicationsApaView = async ({view, args, itemsToDisplay, emptyMessage, he
 
   const items = await getViewItems<PublicationNodeType>(view, itemsToDisplay, args.split('/'));
   if (items.length === 0) {
-    if (emptyMessage) {
-      return (
-        <div>
-          {emptyMessage}
-        </div>
-      )
-    }
-    return null;
+    return emptyMessage ? <div>{emptyMessage}</div> : null;
   }
   return (
     <CardViewGrid items={items} headingLevel={headingLevel}/>

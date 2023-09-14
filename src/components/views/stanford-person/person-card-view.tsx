@@ -16,14 +16,7 @@ const PersonCardView = async ({view, args, itemsToDisplay, emptyMessage, heading
 
   const items = await getViewItems<PersonNodeType>(view, itemsToDisplay, args.split('/'));
   if (items.length === 0) {
-    if (emptyMessage) {
-      return (
-        <div>
-          {emptyMessage}
-        </div>
-      )
-    }
-    return null;
+    return emptyMessage ? <div>{emptyMessage}</div> : null;
   }
   return (
     <CardViewGrid items={items} headingLevel={headingLevel}/>

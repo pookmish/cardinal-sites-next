@@ -3,8 +3,9 @@
 import {JSX, PropsWithoutRef, RefObject, useLayoutEffect, useRef, useState} from "react";
 import Button from "@components/elements/button";
 
-const PagedList = ({children, itemProps, itemsPerPage = 20}: {
+const LoadMoreList = ({children,listProps, itemProps, itemsPerPage = 20}: {
   children: JSX.Element[],
+  listProps?: PropsWithoutRef<any>
   itemProps?: PropsWithoutRef<any>,
   itemsPerPage?: number
 }) => {
@@ -17,14 +18,12 @@ const PagedList = ({children, itemProps, itemsPerPage = 20}: {
     setShownItems(shownItems + itemsPerPage);
   }
 
-  useLayoutEffect(() => {
-    ref.current?.focus();
-  }, [shownItems]);
+  useLayoutEffect(() => ref.current?.focus(), [shownItems]);
 
   const focusingItem = shownItems - itemsPerPage;
 
   return (
-    <>
+    <ul {...listProps}>
       {children.slice(0, shownItems).map((item, i) =>
         <li
           key={i}
@@ -42,7 +41,7 @@ const PagedList = ({children, itemProps, itemsPerPage = 20}: {
           Load More
         </Button>
       }
-    </>
+    </ul>
   )
 }
-export default PagedList
+export default LoadMoreList;

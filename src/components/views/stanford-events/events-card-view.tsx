@@ -17,14 +17,7 @@ const EventsCardView = async ({view, args, itemsToDisplay, emptyMessage, heading
 
   const items = await getViewItems<EventNodeType>(view, itemsToDisplay, args.split('/'));
   if (items.length === 0) {
-    if (emptyMessage) {
-      return (
-        <div>
-          {emptyMessage}
-        </div>
-      )
-    }
-    return null;
+    return emptyMessage ? <div>{emptyMessage}</div> : null;
   }
 
   return (

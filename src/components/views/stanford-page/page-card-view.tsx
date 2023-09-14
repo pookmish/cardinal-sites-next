@@ -16,14 +16,7 @@ const PageCardView = async ({view, args, itemsToDisplay, emptyMessage, headingLe
 
   const items = await getViewItems<BasicPageNodeType>(view, itemsToDisplay, args.split('/'));
   if (items.length === 0) {
-    if (emptyMessage) {
-      return (
-        <div>
-          {emptyMessage}
-        </div>
-      )
-    }
-    return null;
+    return emptyMessage ? <div>{emptyMessage}</div> : null;
   }
 
   return (

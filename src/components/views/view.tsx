@@ -38,7 +38,6 @@ const View = async ({viewId, displayId, args, itemsToDisplay = -1, emptyMessage,
 
   switch (component) {
     case 'stanford_basic_pages--basic_page_type_list':
-
       return <PageListView {...viewProps}/>
 
     case 'stanford_news--vertical_cards':

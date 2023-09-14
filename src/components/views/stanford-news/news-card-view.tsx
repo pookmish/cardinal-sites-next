@@ -16,14 +16,7 @@ const NewsCardView = async ({view, args, itemsToDisplay, emptyMessage, headingLe
 
   const items = await getViewItems<NewsNodeType>(view, itemsToDisplay, args.split('/'));
   if (items.length === 0) {
-    if (emptyMessage) {
-      return (
-        <div>
-          {emptyMessage}
-        </div>
-      )
-    }
-    return null;
+    return emptyMessage ? <div>{emptyMessage}</div> : null;
   }
 
   return (

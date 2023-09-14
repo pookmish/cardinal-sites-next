@@ -16,14 +16,7 @@ const SharedTagsCardView = async ({view, args, itemsToDisplay, emptyMessage, hea
   const items = await getViewItems<DrupalNode>(view, itemsToDisplay, args.split('/'));
 
   if (items.length === 0) {
-    if (emptyMessage) {
-      return (
-        <div>
-          {emptyMessage}
-        </div>
-      )
-    }
-    return null;
+    return emptyMessage ? <div>{emptyMessage}</div> : null;
   }
 
   return (

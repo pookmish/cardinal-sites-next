@@ -12,20 +12,27 @@ interface Props {
 const Address = ({address_line1, address_line2, administrative_area, country_code, locality, organization, postal_code, singleLine = false}: Props) => {
 
   if (singleLine) {
-    const string = `${organization}, ${address_line1}, ${locality}, ${administrative_area} ${postal_code}, ${country_code}`
+    const parts = [
+      organization,
+      address_line1,
+      address_line2,
+      locality,
+      `${administrative_area} ${postal_code}`,
+      country_code
+    ];
     return (
-      <address>{string}</address>
+      <address>{parts.filter(part => !!part).join(', ')}</address>
     )
   }
 
   return (
-    <div>
-      <address className="font-semibold">{organization}</address>
-      <div>{address_line1}</div>
-      <div>{address_line2}</div>
-      <div>{locality}, {administrative_area} {postal_code}</div>
-      <div>{country_code}</div>
-    </div>
+    <address>
+      {organization && <div className="font-semibold">{organization}</div>}
+      {address_line1 && <div>{address_line1}</div>}
+      {address_line2 && <div>{address_line2}</div>}
+      {locality && administrative_area && postal_code && <div>{locality}, {administrative_area} {postal_code}</div>}
+      {country_code && <div>{country_code}</div>}
+    </address>
   )
 }
 export default Address;
