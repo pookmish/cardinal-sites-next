@@ -23,6 +23,7 @@ const NewsListView = async ({view, args, itemsToDisplay = 999, emptyMessage, hea
 
   return (
     <LoadMoreList
+      buttonText={<>Load More<span className="sr-only">&nbsp;news</span></>}
       listProps={{className: "list-unstyled mb-20"}}
       itemProps={{className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0"}}
     >

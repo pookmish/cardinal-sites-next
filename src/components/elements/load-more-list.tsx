@@ -3,10 +3,11 @@
 import {JSX, PropsWithoutRef, RefObject, useLayoutEffect, useRef, useState} from "react";
 import Button from "@components/elements/button";
 
-const LoadMoreList = ({children,listProps, itemProps, itemsPerPage = 20}: {
+const LoadMoreList = ({buttonText, children, listProps, itemProps, props, itemsPerPage = 20}: {
   children: JSX.Element[],
   listProps?: PropsWithoutRef<any>
   itemProps?: PropsWithoutRef<any>,
+  props?: PropsWithoutRef<any>
   itemsPerPage?: number
 }) => {
   const [shownItems, setShownItems] = useState(itemsPerPage)
@@ -23,25 +24,26 @@ const LoadMoreList = ({children,listProps, itemProps, itemsPerPage = 20}: {
   const focusingItem = shownItems - itemsPerPage;
 
   return (
-    <ul {...listProps}>
-      {children.slice(0, shownItems).map((item, i) =>
-        <li
-          key={i}
-          ref={focusingItem === i ? ref : null}
-          tabIndex={focusingItem === i && allowFocus ? 0 : undefined}
-          onBlur={() => setAllowFocus(false)}
-          {...itemProps}
-        >
-          {item}
-        </li>
-      )}
-
+    <div {...props}>
+      <ul {...listProps}>
+        {children.slice(0, shownItems).map((item, i) =>
+          <li
+            key={i}
+            ref={focusingItem === i ? ref : null}
+            tabIndex={focusingItem === i && allowFocus ? 0 : undefined}
+            onBlur={() => setAllowFocus(false)}
+            {...itemProps}
+          >
+            {item}
+          </li>
+        )}
+      </ul>
       {children.length > shownItems &&
         <Button centered onClick={showMoreItems}>
-          Load More
+          {buttonText ? buttonText : "Load More"}
         </Button>
       }
-    </ul>
+    </div>
   )
 }
 export default LoadMoreList;
