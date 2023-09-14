@@ -8,7 +8,7 @@ import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getPathsFromContext} from "@lib/drupal/get-paths";
 import {getNodeMetadata} from "./metadata";
 
-export const revalidate = 1800;
+export const revalidate = 86400;
 
 export const generateMetadata = async (context: GetStaticPropsContext): Promise<Metadata> => {
   let node: DrupalNode;

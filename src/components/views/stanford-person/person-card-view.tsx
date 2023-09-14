@@ -1,4 +1,3 @@
-import StanfordPersonCard from "@components/nodes/cards/stanford-person/stanford-person-card";
 import {PersonNodeType} from "@lib/types";
 import {getViewItems} from "@components/views/view";
 import CardViewGrid from "@components/views/card-view-grid";
