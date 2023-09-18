@@ -2,6 +2,7 @@
 
 import {JSX, PropsWithoutRef, RefObject, useLayoutEffect, useRef, useState} from "react";
 import Button from "@components/elements/button";
+import {useAutoAnimate} from "@formkit/auto-animate/react";
 
 const LoadMoreList = ({buttonText, children, listProps, itemProps, props, itemsPerPage = 20}: {
   children: JSX.Element[],
@@ -13,6 +14,7 @@ const LoadMoreList = ({buttonText, children, listProps, itemProps, props, itemsP
   const [shownItems, setShownItems] = useState(itemsPerPage)
   const [allowFocus, setAllowFocus] = useState(false);
   const ref: RefObject<HTMLLIElement> = useRef(null);
+  const [animationParent] = useAutoAnimate();
 
   const showMoreItems = () => {
     setAllowFocus(true);
@@ -25,7 +27,7 @@ const LoadMoreList = ({buttonText, children, listProps, itemProps, props, itemsP
 
   return (
     <div {...props}>
-      <ul {...listProps}>
+      <ul {...listProps} ref={animationParent}>
         {children.slice(0, shownItems).map((item, i) =>
           <li
             key={i}

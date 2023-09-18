@@ -14,7 +14,6 @@ import {
 import {ChevronDownIcon} from "@heroicons/react/20/solid";
 import * as React from "react";
 
-
 interface OptionProps {
   rootRef: RefObject<HTMLUListElement>
   children?: ReactNode;

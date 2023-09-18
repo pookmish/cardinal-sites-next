@@ -4,6 +4,7 @@ import {stringify} from "qs"
 import {GetStaticPropsContext} from "next";
 import {AccessToken, Locale} from "next-drupal/src/types";
 import {getAccessToken} from "./get-access-token";
+import {DrupalNode} from "next-drupal";
 
 const JSONAPI_PREFIX = process.env.DRUPAL_JSONAPI_PREFIX || "/jsonapi"
 
@@ -117,4 +118,17 @@ export async function getJsonApiIndex(
   }
 
   return await response.json()
+}
+
+export const trimNodeData = <T,>(node: DrupalNode | DrupalNode[], desiredProperties: string[]): T => {
+  if (!Array.isArray(node)) {
+    const data = {id: node.id, title: node.title, path: node.path};
+    desiredProperties.map(property => data[property] = node[property]);
+    return data as T;
+  }
+  return node.map(entity => {
+    const data = {id: entity.id, title: entity.title, path: entity.path};
+    desiredProperties.map(property => data[property] = entity[property]);
+    return data;
+  }) as T
 }

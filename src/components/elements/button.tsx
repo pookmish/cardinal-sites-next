@@ -1,6 +1,6 @@
 import Link from "@components/elements/link";
 import {twMerge} from 'tailwind-merge'
-import {MouseEventHandler, PropsWithChildren} from "react";
+import {JSX, MouseEventHandler, PropsWithChildren} from "react";
 
 export interface ButtonProps {
   href?: string
@@ -13,7 +13,7 @@ export interface ButtonProps {
   prefetch?: boolean
 }
 
-export const Button = ({href, buttonElem = false, big = false, secondary = false, centered = false, children, className = "", ...props}: PropsWithChildren<ButtonProps>) => {
+export const Button = ({href, buttonElem = false, big = false, secondary = false, centered = false, children, className = "", ...props}: PropsWithChildren<ButtonProps>):JSX.Element => {
 
   className = twMerge(className, (centered ? "flex items-center w-fit mx-auto" : "inline-block text-center w-fit"))
 

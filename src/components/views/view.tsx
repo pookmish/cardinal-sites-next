@@ -83,16 +83,23 @@ export async function getViewItems<T>(view: string, itemsToDisplay: number, args
     drupalParams.addCustomParam({'views-argument': args});
   }
 
-  if (itemsToDisplay) {
-    drupalParams.addPageLimit(itemsToDisplay);
-  }
-  let items: DrupalNode[] = [];
+  let items: DrupalNode[] = [], viewData, fetchMore = true, page = 0;
 
-  try {
-    const viewData = await getView<DrupalNode[]>(view, {params: drupalParams.getQueryObject()});
-    items = viewData.results ?? [];
-  } catch (e:unknown) {
-    console.log(`Unable to fetch view ${view}` + (e instanceof Error ? e.message : ''));
+  while (fetchMore) {
+    try {
+      viewData = await getView<DrupalNode[]>(view, {params: drupalParams.getQueryObject()});
+      items = [...items, ...viewData.results];
+      fetchMore = !!viewData.links?.next?.href
+      page++;
+      drupalParams.addCustomParam({page});
+    } catch (e: unknown) {
+      console.log(`Unable to fetch view ${view} ` + (e instanceof Error ? e.message : ''));
+      fetchMore = false;
+    }
+  }
+
+  if (itemsToDisplay) {
+    return getResources<T>(items.slice(0, itemsToDisplay));
   }
   return getResources<T>(items);
 }

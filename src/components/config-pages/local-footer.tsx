@@ -1,4 +1,4 @@
-import {DrupalLinkFieldType, LocalFooterConfigPageType} from "@lib/types";
+import {LocalFooterConfigPageType} from "@lib/types";
 import Address from "@components/elements/address";
 import Link from "@components/elements/link";
 import Wysiwyg from "@components/elements/wysiwyg";
