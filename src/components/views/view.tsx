@@ -76,30 +76,23 @@ const View = async ({viewId, displayId, args, itemsToDisplay = -1, emptyMessage,
   }
 }
 
-export async function getViewItems<T>(view: string, itemsToDisplay: number, args?: string[]): Promise<T[]> {
+const getViewItems = async <T, >(view: string, itemsToDisplay: number = -1, args: string[] = []): Promise<T[]> => {
   const drupalParams = new DrupalJsonApiParams();
 
   if (args && args.length > 0) {
     drupalParams.addCustomParam({'views-argument': args});
   }
 
-  let items: DrupalNode[] = [], viewData, fetchMore = true, page = 0;
-
-  while (fetchMore) {
-    try {
-      viewData = await getView<DrupalNode[]>(view, {params: drupalParams.getQueryObject()});
-      items = [...items, ...viewData.results];
-      fetchMore = !!viewData.links?.next?.href
-      page++;
-      drupalParams.addCustomParam({page});
-    } catch (e: unknown) {
-      console.log(`Unable to fetch view ${view} ` + (e instanceof Error ? e.message : ''));
-      fetchMore = false;
-    }
+  if (itemsToDisplay > 0) {
+    drupalParams.addPageLimit(itemsToDisplay);
   }
+  let items: DrupalNode[] = [];
 
-  if (itemsToDisplay) {
-    return getResources<T>(items.slice(0, itemsToDisplay));
+  try {
+    const viewData = await getView<DrupalNode[]>(view, {params: drupalParams.getQueryObject()});
+    items = viewData.results ?? [];
+  } catch (e) {
+    console.log(`Unable to fetch view ${view}: ${e.message}`)
   }
   return getResources<T>(items);
 }
