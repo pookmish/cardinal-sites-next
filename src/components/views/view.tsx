@@ -76,7 +76,7 @@ const View = async ({viewId, displayId, args, itemsToDisplay = -1, emptyMessage,
   }
 }
 
-const getViewItems = async <T, >(view: string, itemsToDisplay: number = -1, args: string[] = []): Promise<T[]> => {
+export const getViewItems = async <T, >(view: string, itemsToDisplay: number = -1, args: string[] = []): Promise<T[]> => {
   const drupalParams = new DrupalJsonApiParams();
 
   if (args && args.length > 0) {
