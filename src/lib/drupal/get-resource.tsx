@@ -8,9 +8,9 @@ import {deserialize} from "@lib/drupal/deserialize";
 import {GetStaticPropsContext} from "next";
 import {JsonApiParams} from "next-drupal";
 
-export async function getResources<T>(items: { type: string, id: string }[]): Promise<T[]> {
+export async function getResources<T>(items: { type: string, id: string }[], draftDev:boolean = false): Promise<T[]> {
   const requests: PromiseLike<any>[] = [];
-  items.map(item => requests.push(getResource(item.type, item.id)));
+  items.map(item => requests.push(getResource(item.type, item.id, {}, draftDev)));
   // @ts-ignore
   return Promise.all(requests.map((p, i) => p.catch((e) => {
     console.error(`Failed Fetching (probably unpublished) component ${items[i].type}-${items[i].id}`, e);
@@ -27,7 +27,8 @@ export async function getResourceFromContext<T extends JsonApiResource>(
     params?: JsonApiParams
     accessToken?: AccessToken
     isVersionable?: boolean
-  }
+  },
+  draftMode: boolean = false
 ): Promise<T> {
   options = {
     deserialize: true,
@@ -50,7 +51,7 @@ export async function getResourceFromContext<T extends JsonApiResource>(
       resourceVersion: previewData?.resourceVersion,
       ...options?.params,
     },
-  })
+  }, draftMode)
 
   return resource
 }
@@ -61,7 +62,8 @@ export async function getResourceByPath<T extends JsonApiResource>(
     accessToken?: AccessToken
     deserialize?: boolean
     isVersionable?: boolean
-  } & JsonApiWithLocaleOptions
+  } & JsonApiWithLocaleOptions,
+  draftMode: boolean = false
 ): Promise<T> {
   options = {
     deserialize: true,
@@ -128,15 +130,13 @@ export async function getResourceByPath<T extends JsonApiResource>(
 
   const response = await fetch(url.toString(), {
     method: "POST",
-    headers: await buildHeaders(options),
+    headers: await buildHeaders(options, draftMode),
     redirect: "follow",
     body: JSON.stringify(payload),
   })
-
   if (!response.ok) {
     throw new Error(response.statusText)
   }
-
   const json = await response.json()
 
   if (!json["resolvedResource#uri{0}"]) {
@@ -157,7 +157,8 @@ export async function getResourceCollection<T = JsonApiResource[]>(
   options?: {
     deserialize?: boolean
     accessToken?: AccessToken
-  } & JsonApiWithLocaleOptions
+  } & JsonApiWithLocaleOptions,
+  draftMode: boolean = false
 ): Promise<T> {
   options = {
     deserialize: true,
@@ -178,7 +179,7 @@ export async function getResourceCollection<T = JsonApiResource[]>(
   })
 
   const response = await fetch(url.toString(), {
-    headers: await buildHeaders(options),
+    headers: await buildHeaders(options, draftMode),
   })
 
   if (!response.ok) {
@@ -196,7 +197,8 @@ export async function getResource<T extends JsonApiResource>(
   options?: {
     accessToken?: AccessToken
     deserialize?: boolean
-  } & JsonApiWithLocaleOptions
+  } & JsonApiWithLocaleOptions,
+  draftMode: boolean = false
 ): Promise<T> {
   options = {
     deserialize: true,
@@ -218,7 +220,7 @@ export async function getResource<T extends JsonApiResource>(
   })
 
   const response = await fetch(url.toString(), {
-    headers: await buildHeaders(options),
+    headers: await buildHeaders(options, draftMode),
   })
 
   if (!response.ok) {

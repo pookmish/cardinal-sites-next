@@ -1,5 +1,5 @@
 // @ts-nocheck
-
+// import { draftMode } from 'next/headers'
 import {cache} from "./get-cache"
 
 interface AccessToken {
@@ -11,9 +11,10 @@ interface AccessToken {
 
 const CACHE_KEY = "NEXT_DRUPAL_ACCESS_TOKEN"
 
-export async function getAccessToken(): Promise<AccessToken | null> {
-  if (!process.env.DRUPAL_CLIENT_ID || !process.env.DRUPAL_CLIENT_SECRET) {
-    return null
+export async function getAccessToken(draftMode: boolean = false): Promise<AccessToken | null> {
+
+  if (!process.env.DRUPAL_DRAFT_CLIENT || !process.env.DRUPAL_DRAFT_SECRET || !draftMode) {
+    return null;
   }
 
   const cached = cache.get<AccessToken>(CACHE_KEY)
@@ -22,7 +23,7 @@ export async function getAccessToken(): Promise<AccessToken | null> {
   }
 
   const basic = Buffer.from(
-    `${process.env.DRUPAL_CLIENT_ID}:${process.env.DRUPAL_CLIENT_SECRET}`
+    `${process.env.DRUPAL_DRAFT_CLIENT}:${process.env.DRUPAL_DRAFT_SECRET}`
   ).toString("base64")
 
   const response = await fetch(

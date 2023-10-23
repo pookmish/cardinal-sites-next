@@ -17,7 +17,21 @@ import {
 } from "@lib/types";
 
 const NodePage = ({node}: { node: DrupalNode }) => {
+  return (
+    <>
+      {!node.status &&
+        <div className="bg-illuminating text-4xl p-5">
+          <div className="centered-container">
+            Unpublished Page
+          </div>
+        </div>
+      }
+      <Node node={node}/>
+    </>
+  )
+}
 
+const Node = ({node}: { node: DrupalNode }) => {
   switch (node.type) {
     case 'node--stanford_course':
       return <StanfordCoursePage node={node as CourseNodeType}/>

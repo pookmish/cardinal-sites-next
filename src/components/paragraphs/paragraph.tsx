@@ -22,13 +22,15 @@ import {
   WysiwygParagraphType
 } from "@lib/types";
 import {JSX} from "react";
+import {isDraftMode} from "@lib/drupal/utils";
 
 interface Props {
   paragraph: DrupalParagraph
 }
 
 const Paragraph = async ({paragraph}: Props): Promise<JSX.Element | undefined> => {
-  paragraph = await getResource(paragraph.type, paragraph.id);
+  const draftDev = isDraftMode()
+  paragraph = await getResource(paragraph.type, paragraph.id, {}, draftDev);
 
   switch (paragraph.type) {
     case 'paragraph--stanford_banner':

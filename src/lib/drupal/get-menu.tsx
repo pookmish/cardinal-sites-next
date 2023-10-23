@@ -9,7 +9,8 @@ export async function getMenu<T extends DrupalMenuLinkContent>(
   options?: {
     deserialize?: boolean
     accessToken?: AccessToken
-  } & JsonApiWithLocaleOptions
+  } & JsonApiWithLocaleOptions,
+  draftMode: boolean = false
 ): Promise<{
   items: T[]
   tree: T[]
@@ -27,7 +28,7 @@ export async function getMenu<T extends DrupalMenuLinkContent>(
   const url = buildUrl(`${localePrefix}/jsonapi/menu_items/${name}`)
 
   const response = await fetch(url.toString(), {
-    headers: await buildHeaders(options),
+    headers: await buildHeaders(options, draftMode),
   })
 
   if (!response.ok) {

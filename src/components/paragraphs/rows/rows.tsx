@@ -3,6 +3,7 @@ import TwoColumn from "@components/paragraphs/rows/two-column";
 import ThreeColumn from "@components/paragraphs/rows/three-column";
 import {getResources} from "@lib/drupal/get-resource";
 import {DrupalParagraphWithBehaviors, LayoutParagraphsBehaviorsType} from "@lib/types";
+import {isDraftMode} from "@lib/drupal/utils";
 
 interface LayoutsProps {
   [key: string]: DrupalParagraphWithBehaviors
@@ -10,7 +11,9 @@ interface LayoutsProps {
 
 const Rows = async ({components}: { components: DrupalParagraphWithBehaviors[] }) => {
   const layouts: LayoutsProps = {};
-  components = await getResources(components);
+
+  const draftDev = isDraftMode();
+  components = await getResources(components, draftDev);
 
   // Set the layouts first.
   components.map(item => {

@@ -5,9 +5,11 @@ import GlobalMessage from "@components/config-pages/global-message/global-messag
 import Lockup from "@components/elements/lockup/lockup";
 import {getConfigPageResource} from "@lib/drupal/get-resource";
 import {GlobalMessageConfigPageType, LockupSettingsConfigPageType, SiteSettingsConfigPageType} from "@lib/types";
+import {isDraftMode} from "@lib/drupal/utils";
 
 const PageHeader = async () => {
-  const {tree} = await getMenu('main')
+  const draftDev = isDraftMode();
+  const {tree} = await getMenu('main', {}, draftDev)
   const globalMessage  = await getConfigPageResource<GlobalMessageConfigPageType>('stanford_global_message');
   const siteSettings = await getConfigPageResource<SiteSettingsConfigPageType>('stanford_basic_site_settings')
   const lockupSettings = await getConfigPageResource<LockupSettingsConfigPageType>('lockup_settings')

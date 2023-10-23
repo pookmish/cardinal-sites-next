@@ -2,12 +2,13 @@ import {getResourceByPath} from "@lib/drupal/get-resource";
 import Rows from "@components/paragraphs/rows/rows";
 import {BasicPageNodeType} from "@lib/types";
 import Paragraph from "@components/paragraphs/paragraph";
+import {isDraftMode} from "@lib/drupal/utils";
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 const Home = async () => {
-
-  const node = await getResourceByPath<BasicPageNodeType>('/');
+  const draftDev = isDraftMode()
+  const node = await getResourceByPath<BasicPageNodeType>('/', {}, draftDev);
 
   return (
     <>

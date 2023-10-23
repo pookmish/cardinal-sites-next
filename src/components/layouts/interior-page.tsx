@@ -1,9 +1,11 @@
 import {getMenu} from "@lib/drupal/get-menu";
 import SideNav from "@components/menu/side-nav";
 import {PropsWithChildren} from "react";
+import {isDraftMode} from "@lib/drupal/utils";
 
 const InteriorPage = async ({children}: PropsWithChildren<any>) => {
-  const {tree} = await getMenu('main');
+  const draftDev = isDraftMode();
+  const {tree} = await getMenu('main', {}, draftDev);
 
   return (
     <div className="centered flex gap-20">

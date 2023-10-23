@@ -5,8 +5,16 @@ import {GetStaticPropsContext} from "next";
 import {AccessToken, Locale} from "next-drupal/src/types";
 import {getAccessToken} from "./get-access-token";
 import {DrupalNode} from "next-drupal";
+import {draftMode} from "next/headers";
 
 const JSONAPI_PREFIX = process.env.DRUPAL_JSONAPI_PREFIX || "/jsonapi"
+
+/*
+ Draft mode works win in normal builds, use environment variable during development.
+ */
+export const isDraftMode = (): boolean => {
+  return process.env.NODE_ENV == 'development' || draftMode().isEnabled;
+}
 
 export const buildUrl = (
   path: string,
@@ -49,15 +57,11 @@ export function getPathFromContext(
 }
 
 
-export async function buildHeaders({
-                                     accessToken,
-                                     headers = {
-                                       "Content-Type": "application/json",
-                                     },
-                                   }: {
+export async function buildHeaders({accessToken, headers = {"Content-Type": "application/json",}}: {
   accessToken?: AccessToken
   headers?: RequestInit["headers"]
-} = {}): Promise<RequestInit["headers"]> {
+} = {}, draftMode: boolean = false): Promise<RequestInit["headers"]> {
+
   // This allows an access_token (preferrably long-lived) to be set directly on the env.
   // This reduces the number of OAuth call to the Drupal server.
   // Intentionally marked as unstable for now.
@@ -69,7 +73,7 @@ export async function buildHeaders({
     return headers
   }
 
-  const token = accessToken || (await getAccessToken())
+  const token = accessToken || (await getAccessToken(draftMode))
   if (token) {
     headers["Authorization"] = `Bearer ${token.access_token}`
   }

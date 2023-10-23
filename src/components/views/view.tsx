@@ -84,6 +84,7 @@ export const getViewItems = async <T, >(view: string, itemsToDisplay: number = -
   }
 
   if (itemsToDisplay > 0) {
+    // Find new way to add the item limit since this throws errors.
     drupalParams.addPageLimit(itemsToDisplay);
   }
   let items: DrupalNode[] = [];

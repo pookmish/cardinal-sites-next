@@ -7,6 +7,8 @@ import {GetStaticPathsResult, GetStaticPropsContext, Metadata} from "next";
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getPathsFromContext} from "@lib/drupal/get-paths";
 import {getNodeMetadata} from "./metadata";
+import {getAccessToken} from "@lib/drupal/get-access-token";
+import {isDraftMode} from "@lib/drupal/utils";
 
 export const revalidate = 86400;
 
@@ -28,8 +30,10 @@ class RedirectError extends Error {
 }
 
 const getPageData = async (context: GetStaticPropsContext) => {
-  const path = await translatePathFromContext(context);
+  const draftDev = isDraftMode()
+  const accessToken = draftDev ? await getAccessToken(true) : null;
 
+  const path = await translatePathFromContext(context, {accessToken});
   // Check for redirect.
   if (path?.redirect?.[0].to) {
     const currentPath = '/' + (typeof context?.params?.slug === 'object' ? context.params.slug.join('/') : context?.params?.slug);
@@ -43,10 +47,11 @@ const getPageData = async (context: GetStaticPropsContext) => {
   if (!path || !path.jsonapi) {
     throw new Error('Unable to translate path: ' + JSON.stringify(context));
   }
+
   if (context?.params?.slug?.[0] === 'node' && path?.entity?.path) {
     throw new RedirectError(path.entity.path);
   }
-  return getResourceFromContext<DrupalNode>(path.jsonapi.resourceName, context)
+  return getResourceFromContext<DrupalNode>(path.jsonapi.resourceName, context, {}, draftDev)
 }
 
 export const generateStaticParams  = async () => {
@@ -86,6 +91,7 @@ const Page = async (context: GetStaticPropsContext) => {
 
   try {
     node = await getPageData(context);
+    if (!node) throw new Error('not found')
   } catch (e) {
     if (e instanceof RedirectError) {
       redirect(e.message);
