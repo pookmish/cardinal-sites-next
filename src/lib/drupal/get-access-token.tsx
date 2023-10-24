@@ -39,7 +39,8 @@ export async function getAccessToken(draftMode: boolean = false): Promise<Access
   )
 
   if (!response.ok) {
-    throw new Error(response.statusText)
+    cache.set(CACHE_KEY, null, 30)
+    return null;
   }
 
   const result: AccessToken = await response.json()

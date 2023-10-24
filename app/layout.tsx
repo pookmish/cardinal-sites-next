@@ -5,6 +5,7 @@ import {sourceSansPro} from "../src/styles/fonts";
 import Editori11y from "@components/tools/editorially";
 import Script from "next/script";
 import GoogleAnalytics from "@components/tools/google-analytics";
+import {isDraftMode} from "@lib/drupal/utils";
 
 export const metadata = {
   title: 'Stanford University'
@@ -13,11 +14,11 @@ export const metadata = {
 export const revalidate = 3600;
 
 const RootLayout = ({children, modal}: { children: React.ReactNode, modal?: React.ReactNode }) => {
-
+  const draftDev = isDraftMode();
   return (
     <html lang="en" className={`${sourceSansPro.className} font-sans`}>
-    <Editori11y/>
-    {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID &&
+    {draftDev && <Editori11y/>}
+    {(!draftDev && process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) &&
       <>
         <Script async src="//siteimproveanalytics.com/js/siteanalyze_80352.js"/>
         <GoogleAnalytics/>

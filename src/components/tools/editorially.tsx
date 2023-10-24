@@ -1,14 +1,8 @@
 "use client"
 
 import Script from "next/script";
-import {useEffect, useState} from "react";
 
 const Editori11y = () => {
-  const [addTool, setAddTool] = useState(false)
-
-  useEffect(() => {
-    if (document.cookie.indexOf('addEditoria11y') != -1) setAddTool(true)
-  }, []);
 
   const startEditoria11y = () => {
     // @ts-ignore
@@ -20,12 +14,9 @@ const Editori11y = () => {
     }
   }
 
-  if (addTool) {
-    return (
-      <Script src="//cdn.jsdelivr.net/gh/itmaybejj/editoria11y@2/dist/editoria11y.min.js" onReady={startEditoria11y}/>
-    )
-  }
-  return null;
+  return (
+    <Script src="//cdn.jsdelivr.net/gh/itmaybejj/editoria11y@2/dist/editoria11y.min.js" onReady={startEditoria11y}/>
+  )
 }
 
 export default Editori11y;
