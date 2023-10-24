@@ -26,7 +26,7 @@ const nextConfig = {
   },
   async redirects() {
     const devRedirects = [];
-    if (process.env.DEV === 'true') {
+    if (process.env.NODE_ENV === 'development') {
       devRedirects.push({
         source: '/style-guide',
         destination: 'http://localhost:6006',
