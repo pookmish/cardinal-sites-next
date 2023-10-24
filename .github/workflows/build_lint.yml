@@ -1,0 +1,31 @@
+
+name: Build & Lint
+on: [push]
+jobs:
+  build-lint:
+    runs-on: ubuntu-latest
+    container:
+      image: node:18.10
+      env:
+        NODE_ENV: development
+        NEXT_PUBLIC_DRUPAL_BASE_URL: ${{ secrets.NEXT_PUBLIC_DRUPAL_BASE_URL }}
+        NEXT_IMAGE_DOMAIN: ${{ secrets.NEXT_IMAGE_DOMAIN }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Restore Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+          key: 1.x-${{ hashFiles('package.json') }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            1.x-${{ hashFiles('package.json') }}-${{ hashFiles('yarn.lock') }}
+            1.x-${{ hashFiles('package.json') }}-
+            1.x-
+      - name: Lint
+        run: |
+          yarn
+          yarn lint
+#      - name: Build
+#        run: |
+#          yarn build
