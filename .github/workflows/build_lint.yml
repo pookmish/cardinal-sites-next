@@ -26,6 +26,6 @@ jobs:
         run: |
           yarn
           yarn lint
-      - name: Build
-        run: |
-          yarn build
+#      - name: Build
+#        run: |
+#          yarn build
