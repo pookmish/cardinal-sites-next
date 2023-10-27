@@ -1,10 +1,12 @@
 const nextConfig = {
   images: {
-    domains: [process.env.NEXT_IMAGE_DOMAIN],
+    remotePatterns: [
+      {
+        hostname: process.env.NEXT_IMAGE_DOMAIN,
+      },
+    ],
   },
-  experimental: {
-    serverActions: true,
-  },
+  experimental: {},
   typescript: {
     ignoreBuildErrors: true,
   },

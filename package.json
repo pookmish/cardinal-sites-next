@@ -26,10 +26,10 @@
     "decanter": "^7.0.0",
     "drupal-jsonapi-params": "^2.2.0",
     "eslint": "^8.40.0",
-    "eslint-config-next": "^13.4.1",
+    "eslint-config-next": "^14.0.0",
     "html-entities": "^2.3.3",
     "html-react-parser": "^4.0.0",
-    "next": "^13.4.1",
+    "next": "^14.0.0",
     "next-drupal": "^1.6.0",
     "nextjs-google-analytics": "^2.3.3",
     "postcss": "^8.4.23",
@@ -46,7 +46,7 @@
     "xml2js": "^0.6.0"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^13.4.5",
+    "@next/bundle-analyzer": "^14.0.0",
     "@storybook/addon-essentials": "^7.0.20",
     "@storybook/addon-interactions": "^7.0.20",
     "@storybook/addon-links": "^7.0.20",
