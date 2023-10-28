@@ -138,9 +138,11 @@ const getFirstText = (components: DrupalParagraph[] = []) => {
   }
 }
 
-const getCleanDescription = (description: string = ''): string | undefined => {
-  const text = description.replace(/(<([^>]+)>)/gi, " ").replace('/ +/', ' ').split('.').slice(0, 1).join('.') + '.';
-  return text.length > 1 ? decode(text) : undefined;
+const getCleanDescription = (description: string | undefined): string | undefined => {
+  if (description) {
+    const text: string = description.replace(/(<([^>]+)>)/gi, " ").replace('/ +/', ' ').split('.').slice(0, 1).join('.') + '.';
+    return text?.length > 1 ? decode(text) : undefined;
+  }
 }
 
 
