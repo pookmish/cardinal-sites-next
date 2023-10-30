@@ -11,7 +11,7 @@ interface Props {
 
 const Oembed = ({url}: PropsWithoutRef<Props>) => {
   const {ref, inView} = useInView({triggerOnce:true})
-
+console.log(url);
   return (
     // @ts-ignore
     <div ref={ref} className="relative aspect-[16/9] w-full">

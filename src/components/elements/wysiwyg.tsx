@@ -1,5 +1,5 @@
 import Link from "@components/elements/link";
-import parse, {HTMLReactParserOptions, Element, domToReact, attributesToProps} from "html-react-parser"
+import parse, {HTMLReactParserOptions, Element, domToReact, attributesToProps, DOMNode} from "html-react-parser"
 import Image from "next/image";
 import Oembed from "@components/elements/ombed";
 import React, {PropsWithoutRef} from "react";
@@ -31,14 +31,15 @@ const options: HTMLReactParserOptions = {
 
     if (domNode instanceof Element) {
       const nodeProps = attributesToProps(domNode.attribs);
-      nodeProps.className = fixClasses(nodeProps.className ?? '').trim();
+      nodeProps.className = fixClasses(nodeProps.className) ?? '';
       let NodeName: React.ElementType = domNode.name as React.ElementType
+      const children: DOMNode[] = domNode.children as DOMNode[];
 
       switch (domNode.name) {
         case "a":
           return (
             <Link href={nodeProps.href} prefetch={false} {...nodeProps}>
-              {domToReact(domNode.children, options)}
+              {domToReact(children, options)}
             </Link>
           )
 
@@ -47,29 +48,28 @@ const options: HTMLReactParserOptions = {
           if (nodeProps.className?.indexOf('media-entity-wrapper') >= 0) {
             return cleanMediaMarkup(domNode);
           }
-          return <NodeName {...nodeProps}>{domToReact(domNode.children, options)}</NodeName>
+          return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
 
         case 'figure':
           return cleanMediaMarkup(domNode);
 
         case 'p':
-          nodeProps.className += ' max-w-[100ch]';
-          nodeProps.className = nodeProps.className.trim()
-          return <NodeName {...nodeProps}>{domToReact(domNode.children, options)}</NodeName>
+          nodeProps.className += twMerge(nodeProps.className, 'max-w-[100ch]');
+          return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
 
         case 'script':
           return <></>;
 
         case "h2":
-          return <H2 {...nodeProps}>{domToReact(domNode.children, options)}</H2>
+          return <H2 {...nodeProps}>{domToReact(children, options)}</H2>
         case "h3":
-          return <H3 {...nodeProps}>{domToReact(domNode.children, options)}</H3>
+          return <H3 {...nodeProps}>{domToReact(children, options)}</H3>
         case "h4":
-          return <H4 {...nodeProps}>{domToReact(domNode.children, options)}</H4>
+          return <H4 {...nodeProps}>{domToReact(children, options)}</H4>
         case "h5":
-          return <H5 {...nodeProps}>{domToReact(domNode.children, options)}</H5>
+          return <H5 {...nodeProps}>{domToReact(children, options)}</H5>
         case "h6":
-          return <H6 {...nodeProps}>{domToReact(domNode.children, options)}</H6>
+          return <H6 {...nodeProps}>{domToReact(children, options)}</H6>
         case "b":
         case "cite":
         case "dt":
@@ -98,7 +98,7 @@ const options: HTMLReactParserOptions = {
         case "thead":
         case "tfoot":
         case "caption":
-          return <NodeName {...nodeProps}>{domToReact(domNode.children, options)}</NodeName>
+          return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
 
         // Void element tags like <br>, <hr>, <source>, etc.
         // @see https://developer.mozilla.org/en-US/docs/Glossary/Void_element
@@ -109,7 +109,9 @@ const options: HTMLReactParserOptions = {
   }
 }
 
-const fixClasses = (classes: string = '') => {
+const fixClasses = (classes: string | boolean = ''): undefined | string => {
+  if (!classes) return undefined;
+  // Pass the classes so that we can easily replace a whole class instead of parts of them.
   classes = ` ${classes} `;
   classes = classes.replace(' su-', ' ')
     .replace(' text-align-center ', ' text-center ')
@@ -123,19 +125,18 @@ const fixClasses = (classes: string = '') => {
     .replace(' drop-cap ', ' text-m1 first-letter:font-bold first-letter:text-m5 first-letter:float-left first-letter:my-2 first-letter:mr-4 ')
     .replace(/tablesaw.*? /g, ' ')
     .replace(/ +/g, ' ')
-
     .trim();
 
   classes = classes.split(' ')
     .filter(className => className.trim().length >= 1)
     .filter((value, index, self) => self.indexOf(value) === index)
     .join(' ');
-  return classes;
+  return classes.trim();
 }
 
 const cleanMediaMarkup = (node: Element) => {
   const nodeProps = attributesToProps(node.attribs);
-  nodeProps.className = fixClasses(nodeProps.className ?? '').trim();
+  nodeProps.className = fixClasses(nodeProps.className) ?? '';
 
   const getImage = (node: Element): PropsWithoutRef<any> | undefined => {
     let img;
@@ -154,10 +155,10 @@ const cleanMediaMarkup = (node: Element) => {
       }
     }
   }
-  const getFigCaption = (node: Element): ChildNode[] | undefined => {
+  const getFigCaption = (node: Element): DOMNode[] | undefined => {
     let caption;
     if (node.name === 'figcaption') {
-      return node.children;
+      return node.children as DOMNode[];
     }
     if (node.children.length > 0) {
       for (let child of node.children) {
@@ -223,10 +224,16 @@ const cleanMediaMarkup = (node: Element) => {
     )
   }
   let NodeName: React.ElementType = node.name as React.ElementType
-  return <NodeName {...nodeProps}>{domToReact(node.children, options)}</NodeName>
+  return <NodeName {...nodeProps}>{domToReact(node.children as DOMNode[], options)}</NodeName>
 }
 
-const WysiwygImage = ({src, alt, height, width, className = ''}: { src: string, alt?: string, height?: string, width?: string, className?: string }) => {
+const WysiwygImage = ({src, alt, height, width, className = ''}: {
+  src: string,
+  alt?: string,
+  height?: string,
+  width?: string,
+  className?: string
+}) => {
   if (width && height) {
     return (
       <Image

@@ -2,8 +2,10 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: process.env.NEXT_IMAGE_DOMAIN,
-      },
+        // Allow any stanford domain for images, but require https.
+        protocol: 'https',
+        hostname: '**.stanford.edu',
+      }
     ],
   },
   experimental: {},
