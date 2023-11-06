@@ -70,9 +70,11 @@ const EventsFilteredListView = ({items, topics}: { items: EventNodeType[], topic
       </form>
       <div className="" aria-live="polite">Showing {displayedEvents.length} of {items.length} events.</div>
       <LoadMoreList
+        key={displayedEvents.map(event => event.id).join(',')}
         buttonText={<>Load More<span className="sr-only">&nbsp;Events</span></>}
         listProps={{className: "list-unstyled mb-20"}}
         itemProps={{className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0"}}
+        itemsPerPage={3}
       >
         {displayedEvents.map(event => <StanfordEventListItem key={event.id} node={event}/>)}
       </LoadMoreList>

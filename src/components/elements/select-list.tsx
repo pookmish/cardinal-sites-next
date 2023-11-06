@@ -10,11 +10,12 @@ import {
   RefObject,
   useEffect,
   useId,
+  useLayoutEffect,
   useRef,
   useState
 } from "react";
 import {ChevronDownIcon} from "@heroicons/react/20/solid";
-import * as React from "react";
+import { useIsClient } from "@uidotdev/usehooks";
 
 interface OptionProps {
   rootRef: RefObject<HTMLUListElement>
@@ -43,7 +44,8 @@ function CustomOption(props: OptionProps) {
 
   const {children, value, rootRef, disabled = false} = props;
   const {getRootProps, highlighted, selected} = useOption({rootRef: rootRef, value, disabled, label: children});
-  const {id, ...otherProps} = getRootProps();
+
+  const {id, ...otherProps}: { id: string } = getRootProps();
   const selectedStyles = "bg-archway text-white " + (highlighted ? "underline" : "")
   const highlightedStyles = "bg-black-10 text-black underline"
 
@@ -95,10 +97,12 @@ interface Props {
 
 const SelectList = ({options = [], label, multiple, ariaLabelledby, required, defaultValue, name, emptyValue, emptyLabel = "- None -", ...props}: Props) => {
   const labelId = useId();
-  const inputRef = useRef<HTMLInputElement>(null);
   const labeledBy = ariaLabelledby ?? labelId;
-  const listboxRef = useRef<HTMLUListElement>(null);
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const listboxRef = useRef<HTMLUListElement | null>(null);
   const [listboxVisible, setListboxVisible] = useState(false);
+  const isClient = useIsClient()
 
   const {getButtonProps, getListboxProps, contextValue, value} = useSelect<string, boolean>({
     listboxRef,
@@ -110,10 +114,10 @@ const SelectList = ({options = [], label, multiple, ariaLabelledby, required, de
   });
 
   useEffect(() => {
-    if (listboxVisible) listboxRef.current?.focus();
+    listboxVisible && listboxRef.current?.focus();
   }, [listboxVisible]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const parentContainer = listboxRef.current?.parentElement?.getBoundingClientRect();
     if (parentContainer && (parentContainer.bottom > window.innerHeight || parentContainer.top < 0)) {
       listboxRef.current?.parentElement?.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
@@ -121,6 +125,9 @@ const SelectList = ({options = [], label, multiple, ariaLabelledby, required, de
   }, [listboxVisible, value])
 
   const optionChosen = (multiple && value) ? value.length > 0 : !!value;
+
+  // With Mui and Nextjs 14, an error occurs on the server rendering. To avoid that issue, only render the component on the client.
+  if (!isClient) return null;
 
   return (
     <div className="relative h-fit">

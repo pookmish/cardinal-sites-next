@@ -1,21 +1,39 @@
-const remotePatterns = [
-  {
-    // Allow any stanford domain for images, but require https.
-    protocol: 'https',
-    hostname: '**.stanford.edu',
-  },
-];
-if (process.env.NODE_ENV === 'development') {
-  remotePatterns.push({ hostname: '**' });
-}
+const drupalUrl = new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL)
 
 const nextConfig = {
   images: {
-    remotePatterns: remotePatterns,
+    remotePatterns: [
+      {
+        // Allow any stanford domain for images, but require https.
+        protocol: 'https',
+        hostname: '**.stanford.edu',
+      },
+      {
+        protocol: drupalUrl.protocol.replace(':', ''),
+        hostname: drupalUrl.hostname
+      }
+    ]
   },
   experimental: {},
   typescript: {
     ignoreBuildErrors: true,
+  },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/_next/image',
+          destination: '/_next/image?url=/no-image.png',
+          has: [{type: 'query', key: 'url', value: (`${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}.*`)}],
+          missing: [{type: 'query', key: 'url', value: '(.*itok=([\\w|-]+))'}]
+        },
+        {
+          source: '/_next/image',
+          destination: '/_next/image?url=:url',
+          has: [{type: 'query', key: 'url', value: '(?<url>.*[jpg|png|jpeg|gif]\?itok=([\\w|-]+)).*'}]
+        },
+      ]
+    };
   },
   async headers() {
     if (process.env.NEXT_PUBLIC_DOMAIN) {
