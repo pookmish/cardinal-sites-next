@@ -1,12 +1,17 @@
+const remotePatterns = [
+  {
+    // Allow any stanford domain for images, but require https.
+    protocol: 'https',
+    hostname: '**.stanford.edu',
+  },
+];
+if (process.env.NODE_ENV === 'development') {
+  remotePatterns.push({ hostname: '**' });
+}
+
 const nextConfig = {
   images: {
-    remotePatterns: [
-      {
-        // Allow any stanford domain for images, but require https.
-        protocol: 'https',
-        hostname: '**.stanford.edu',
-      }
-    ],
+    remotePatterns: remotePatterns,
   },
   experimental: {},
   typescript: {

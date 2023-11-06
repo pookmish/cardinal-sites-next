@@ -3,20 +3,39 @@
 import {getTaxonomyTree} from "@lib/drupal/get-taxonomy-tree";
 import Button from "@components/elements/button";
 import SelectList from "@components/elements/select-list";
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import LoadMoreList from "@components/elements/load-more-list";
 import StanfordEventListItem from "@components/nodes/list-item/stanford-event/stanford-event-list-item";
+import {EventNodeType} from "@lib/types";
+import {DrupalTaxonomyTerm} from "next-drupal";
 
-
-const EventsFilteredListView = ({items, topics}) => {
-  const [chosenTopic, setChosenTopic] = useState('');
-  const [displayedEvents, setDisplayedEvents] = useState(items);
-
-  const topicTree = getTaxonomyTree(topics)
+const getTopicOptions = (eventItems: EventNodeType[] = [], topicTree: DrupalTaxonomyTerm[] = []) => {
   const topicOptions = [];
+
+  const cleanTopic = (topic) => {
+    if (topic.below) {
+      topic.below = topic.below.filter(childTopic => cleanTopic(childTopic));
+    }
+    if (topic.below?.length > 0) return true;
+
+    return !!eventItems.find(event => {
+      return event.su_event_type?.map(eventTerm => eventTerm.id).includes(topic.id);
+    });
+  }
+  topicTree = topicTree.filter(topic => cleanTopic(topic));
+
   topicTree.map(topic => {
     topicOptions.push({value: topic.id, label: topic.name})
   })
+  return topicOptions.sort((a, b) => a.label < b.label ? -1 : (a.label > b.label ? 1 : 0));
+}
+
+const EventsFilteredListView = ({items, topics}: { items: EventNodeType[], topics: DrupalTaxonomyTerm[] }) => {
+  const [chosenTopic, setChosenTopic] = useState('');
+  const [displayedEvents, setDisplayedEvents] = useState(items);
+
+  const topicTree = useMemo(() => getTaxonomyTree(topics), [topics]);
+  const topicOptions = useMemo(() => getTopicOptions(items, topicTree), [topics]);
 
   const filterEvents = () => {
 
@@ -31,8 +50,8 @@ const EventsFilteredListView = ({items, topics}) => {
     }
     getTopicIds(topicTree.find(term => term.id === chosenTopic));
     const matchingEvents = items.filter(event => {
-      const eventTopics = event.su_event_type.map(eventTerm => eventTerm.id)
-      return topicIds.filter(value => eventTopics.includes(value)).length > 0;
+      const eventTopics = event.su_event_type?.map(eventTerm => eventTerm.id)
+      return topicIds.filter(value => eventTopics?.includes(value)).length > 0;
     });
     setDisplayedEvents(matchingEvents);
   }
@@ -41,15 +60,15 @@ const EventsFilteredListView = ({items, topics}) => {
     <div>
       <form className="mb-10">
         <div className="mb-5">
-        <SelectList
-          options={topicOptions}
-          label="Event Topics"
-          onChange={(e, value) => setChosenTopic(value)}
-        />
+          <SelectList
+            options={topicOptions}
+            label="Event Topics"
+            onChange={(e, value) => setChosenTopic(value)}
+          />
         </div>
         <Button onClick={filterEvents}>Filter</Button>
       </form>
-      <div className="sr-only" aria-live="polite">Showing {displayedEvents.length} of {items.length} events.</div>
+      <div className="" aria-live="polite">Showing {displayedEvents.length} of {items.length} events.</div>
       <LoadMoreList
         buttonText={<>Load More<span className="sr-only">&nbsp;Events</span></>}
         listProps={{className: "list-unstyled mb-20"}}

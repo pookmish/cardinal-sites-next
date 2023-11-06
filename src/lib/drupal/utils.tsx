@@ -61,15 +61,14 @@ export async function buildHeaders({accessToken, headers = {"Content-Type": "app
   accessToken?: AccessToken
   headers?: RequestInit["headers"]
 } = {}, draftMode: boolean = false): Promise<RequestInit["headers"]> {
-
+  if (process.env.REQUEST_HEADERS) {
+    headers = {...headers, ...JSON.parse(process.env.REQUEST_HEADERS)};
+  }
   // This allows an access_token (preferrably long-lived) to be set directly on the env.
   // This reduces the number of OAuth call to the Drupal server.
   // Intentionally marked as unstable for now.
   if (process.env.UNSTABLE_DRUPAL_ACCESS_TOKEN) {
-    headers[
-      "Authorization"
-      ] = `Bearer ${process.env.UNSTABLE_DRUPAL_ACCESS_TOKEN}`
-
+    headers["Authorization"] = `Bearer ${process.env.UNSTABLE_DRUPAL_ACCESS_TOKEN}`
     return headers
   }
 
@@ -130,7 +129,7 @@ export const trimNodeData = <T,>(node: DrupalNode | DrupalNode[], desiredPropert
     desiredProperties.map(property => data[property] = node[property]);
     return data as T;
   }
-  return node.map(entity => {
+  return node.filter(node => !!node).map(entity => {
     const data = {id: entity.id, title: entity.title, path: entity.path};
     desiredProperties.map(property => data[property] = entity[property]);
     return data;

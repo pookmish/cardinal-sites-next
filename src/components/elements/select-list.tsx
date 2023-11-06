@@ -1,3 +1,5 @@
+"use client";
+
 import {useSelect, SelectOptionDefinition, SelectProvider, SelectValue} from '@mui/base/useSelect';
 import {useOption} from '@mui/base/useOption';
 import {

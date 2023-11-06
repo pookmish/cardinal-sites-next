@@ -4,7 +4,7 @@ import {useEffect, useRef, useState} from "react";
 import Link from "@components/elements/link";
 import {useSearchParams} from "next/navigation";
 import {Metadata} from "next";
-import {ArrowPathIcon, ArrowRightCircleIcon} from "@heroicons/react/20/solid";
+import {ArrowPathIcon} from "@heroicons/react/20/solid";
 
 interface Result extends Metadata {
   id: string;
