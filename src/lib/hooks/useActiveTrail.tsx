@@ -4,8 +4,9 @@ import {usePathname} from "next/navigation";
 import {useMemo} from "react";
 import {DrupalMenuLinkContent} from "next-drupal";
 
-const useActiveTrail = (menuItems: DrupalMenuLinkContent[]) => {
-  const currentPath = usePathname();
+const useActiveTrail = (menuItems: DrupalMenuLinkContent[], originalPath?: string) => {
+  const pathName = usePathname();
+  const currentPath = originalPath || pathName;
 
   const getActiveTrail = (menuItems: DrupalMenuLinkContent[], trail: string[] = []): string[] => {
     let childTrail, currentTrail;

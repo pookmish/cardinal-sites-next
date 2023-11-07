@@ -16,7 +16,7 @@ const StanfordPagePage = ({node}: { node: BasicPageNodeType }) => {
       </H1>
 
       {!fullWidth &&
-        <InteriorPage>
+        <InteriorPage currentPath={node.path.alias}>
           {node.su_page_components &&
             <Rows components={node.su_page_components}/>
           }

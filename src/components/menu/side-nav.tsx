@@ -5,22 +5,8 @@ import useActiveTrail from "@lib/hooks/useActiveTrail";
 import Link from "@components/elements/link";
 import {DrupalMenuLinkContent} from "next-drupal";
 
-const getCurrentPageTitle = (activeTrail: string[], items: DrupalMenuLinkContent[], trail: string[]): string | undefined => {
-  const currentItem = items.find(item => item.id === trail.at(0));
-  if (!currentItem || currentItem === undefined) return;
-
-  if (currentItem.id === activeTrail.at(-1)) {
-    return currentItem.title;
-  }
-
-  if (currentItem.items && currentItem.items.length > 0 && trail.length > 1) {
-    return getCurrentPageTitle(activeTrail, currentItem.items, trail.slice(1));
-  }
-}
-
-
-const SideNav = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
-  const activeTrail = useActiveTrail(menuItems);
+const SideNav = ({menuItems, currentPath}: { menuItems: DrupalMenuLinkContent[], currentPath?: string }) => {
+  const activeTrail = useActiveTrail(menuItems, currentPath);
 
   // Peel off the menu items from the parent.
   const topMenuItem = activeTrail.length > 0 ? menuItems.find(item => item.id === activeTrail[0]) : false;
