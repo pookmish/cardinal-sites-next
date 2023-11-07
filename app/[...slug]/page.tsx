@@ -24,7 +24,7 @@ export const generateMetadata = async (context: GetStaticPropsContext): Promise<
 }
 
 class RedirectError extends Error {
-  constructor(public message: string) {
+  constructor(message?: string) {
     super(message);
   }
 }
@@ -33,7 +33,7 @@ const getPageData = async (context: GetStaticPropsContext) => {
   const draftDev = isDraftMode()
   const accessToken = draftDev ? await getAccessToken(true) : null;
 
-  const path = await translatePathFromContext(context, {accessToken});
+  const path = await translatePathFromContext(context, accessToken ? {accessToken} : {});
   // Check for redirect.
   if (path?.redirect?.[0].to) {
     const currentPath = '/' + (typeof context?.params?.slug === 'object' ? context.params.slug.join('/') : context?.params?.slug);

@@ -4,46 +4,29 @@ import React, {PropsWithChildren, ReactElement, useCallback, useEffect, useRef} 
 import {useRouter} from "next/navigation";
 import ReactFocusLock from "react-focus-lock";
 import {XMarkIcon} from "@heroicons/react/20/solid";
+import {useLockedBody} from "usehooks-ts";
 
-interface Props {
-  children: ReactElement;
-}
-
-const InterceptionModal = ({children, ...props}: PropsWithChildren<Props>) => {
+const InterceptionModal = ({children, ...props}: PropsWithChildren<any>) => {
   const overlay = useRef(null);
   const wrapper = useRef(null);
   const router = useRouter();
+  useLockedBody(true)
 
-  const onDismiss = useCallback(() => {
-    router.back();
-  }, [router]);
+  const onDismiss = useCallback(() => router.back(), [router]);
 
-  const onClick = useCallback(
-    (e: React.MouseEvent) => {
-      if (e.target === overlay.current || e.target === wrapper.current) {
-        if (onDismiss) onDismiss();
-      }
-    },
-    [onDismiss, overlay, wrapper]
-  );
+  const onClick = useCallback((e: React.MouseEvent) => {
+    if (e.target === overlay.current || e.target === wrapper.current) {
+      if (onDismiss) onDismiss();
+    }
+  }, [onDismiss, overlay, wrapper]);
 
-  const onKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === "Escape") onDismiss();
-    },
-    [onDismiss]
-  );
+  const onKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === "Escape") onDismiss();
+  }, [onDismiss]);
 
   useEffect(() => {
     document.addEventListener("keydown", onKeyDown);
-    document.getElementsByTagName('body')[0].style.height = '100vh';
-    document.getElementsByTagName('body')[0].style.overflow = 'hidden';
-
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.getElementsByTagName('body')[0].style.height = 'auto';
-      document.getElementsByTagName('body')[0].style.overflow = 'auto';
-    }
+    return () => document.removeEventListener("keydown", onKeyDown)
   }, [onKeyDown]);
 
   return (

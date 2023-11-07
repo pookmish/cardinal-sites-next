@@ -15,7 +15,7 @@ import {
   useState
 } from "react";
 import {ChevronDownIcon} from "@heroicons/react/20/solid";
-import { useIsClient } from "@uidotdev/usehooks";
+import {useIsClient} from "usehooks-ts";
 
 interface OptionProps {
   rootRef: RefObject<HTMLUListElement>

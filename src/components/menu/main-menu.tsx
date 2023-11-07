@@ -2,19 +2,20 @@
 
 import Link from "@components/elements/link";
 import {useCallback, useEffect, useRef, useState} from "react";
-import OutsideClickHandler from "@components/tools/outside-click-handler";
 import {Bars3Icon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import {XCircleIcon} from "@heroicons/react/24/outline";
 import useNavigationEvent from "@lib/hooks/useNavigationEvent";
 import SiteSearchForm from "@components/search/site-search-form";
 import useActiveTrail from "@lib/hooks/useActiveTrail";
 import {DrupalMenuLinkContent} from "next-drupal";
+import useOutsideClick from "@lib/hooks/useOutsideClick";
 
 const MainMenu = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const browserUrl = useNavigationEvent()
   const activeTrail = useActiveTrail(menuItems);
+  const clickProps = useOutsideClick(() => setMenuOpen(false));
 
   const handleEscape = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape" && menuOpen) {
@@ -30,11 +31,9 @@ const MainMenu = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
     if (!menuOpen) document.removeEventListener("keydown", handleEscape);
   }, [menuOpen]);
 
-
   return (
-    <OutsideClickHandler
-      component="nav"
-      onClickOutside={() => setMenuOpen(false)}
+    <nav
+      {...clickProps}
       className="lg:centered"
     >
       <button
@@ -62,7 +61,7 @@ const MainMenu = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
           )}
         </ul>
       </div>
-    </OutsideClickHandler>
+    </nav>
   )
 }
 
@@ -116,7 +115,7 @@ const MenuItem = ({id, url, title, items, activeTrail, level = 0}: MenuItemProps
     'border-l-[6px]',
     'lg:border-l-0',
     'lg:border-b-[6px]',
-    isCurrent ? "border-digital-red lg:border-black" : (inTrail ? "border-transparent lg:border-foggy-dark": "border-transparent"),
+    isCurrent ? "border-digital-red lg:border-black" : (inTrail ? "border-transparent lg:border-foggy-dark" : "border-transparent"),
     'ml-5',
     'lg:ml-0',
     leftPadding[level]
@@ -131,11 +130,11 @@ const MenuItem = ({id, url, title, items, activeTrail, level = 0}: MenuItemProps
   ];
 
   const itemStyles: string = level === 0 ? topItem.join(' ') : childItem.join(' ');
+  const itemProps = useOutsideClick(() => setSubmenuOpen(false));
 
   return (
-    <OutsideClickHandler
-      component="li"
-      onClickOutside={() => setSubmenuOpen(false)}
+    <li
+      {...itemProps}
       className={"m-0 py-2 lg:py-0 relative border-b first:border-t last:border-0 border-cool-grey lg:border-black-20 lg:relative lg:mr-5 last:lg:mr-0 " + (level === 0 ? "lg:border-b-0 first:border-t-0" : "")}
     >
       <div className="flex items-center justify-between lg:justify-end">
@@ -181,7 +180,7 @@ const MenuItem = ({id, url, title, items, activeTrail, level = 0}: MenuItemProps
           )}
         </ul>
       }
-    </OutsideClickHandler>
+    </li>
   )
 }
 export default MainMenu;

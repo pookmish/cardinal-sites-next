@@ -242,14 +242,18 @@ export interface SpeakerParagraphType extends DrupalParagraph {
   su_person_cta_title?: string
 }
 
-export interface DrupalImageFileType extends DrupalFile {
+export interface DrupalImageFileType extends File {
   uri: {
     value: string
     url: string
     base64?: string
   }
+}
+
+export interface File extends DrupalFile {
   image_style_uri: { [key: string]: string }
 }
+
 
 // Media Types.
 export interface DrupalImageMediaType extends DrupalMedia {
