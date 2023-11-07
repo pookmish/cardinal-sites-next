@@ -27,14 +27,16 @@ const PageHeader = async () => {
       </div>
 
       {globalMessage &&
-        <GlobalMessage
-          type={globalMessage.su_global_msg_type}
-          message={globalMessage.su_global_msg_message}
-          label={globalMessage.su_global_msg_label}
-          link={globalMessage.su_global_msg_link}
-          header={globalMessage.su_global_msg_header}
-          enabled={globalMessage.su_global_msg_enabled}
-        />
+        <article>
+          <GlobalMessage
+            type={globalMessage.su_global_msg_type}
+            message={globalMessage.su_global_msg_message}
+            label={globalMessage.su_global_msg_label}
+            link={globalMessage.su_global_msg_link}
+            header={globalMessage.su_global_msg_header}
+            enabled={globalMessage.su_global_msg_enabled}
+          />
+        </article>
       }
 
       <div className="relative shadow">
