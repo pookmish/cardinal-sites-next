@@ -7,8 +7,8 @@ import {XMarkIcon} from "@heroicons/react/20/solid";
 import {useLockedBody} from "usehooks-ts";
 
 const InterceptionModal = ({children, ...props}: PropsWithChildren<any>) => {
-  const overlay = useRef(null);
-  const wrapper = useRef(null);
+  const overlay = useRef<HTMLDialogElement | null>(null);
+  const wrapper = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   useLockedBody(true)
 

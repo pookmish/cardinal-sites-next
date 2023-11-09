@@ -12,9 +12,9 @@ const LoadMoreList = ({buttonText, children, listProps, itemProps, props, itemsP
   props?: PropsWithoutRef<any>
   itemsPerPage?: number
 }) => {
-  const [shownItems, setShownItems] = useState(itemsPerPage)
-  const [allowFocus, setAllowFocus] = useState(false);
-  const ref: RefObject<HTMLLIElement> = useRef<HTMLLIElement>(null);
+  const [shownItems, setShownItems] = useState<number>(itemsPerPage)
+  const [allowFocus, setAllowFocus] = useState<boolean>(false);
+  const ref: RefObject<HTMLLIElement> = useRef<HTMLLIElement | null>(null);
   const [animationParent] = useAutoAnimate();
 
   const showMoreItems = () => {

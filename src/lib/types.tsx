@@ -3,9 +3,10 @@ import {
   DrupalMedia,
   DrupalNode,
   DrupalParagraph,
-  DrupalTaxonomyTerm as NextDrupalTaxonomyTerm
+  JsonApiResource,
+  DrupalTaxonomyTerm as NextDrupalTaxonomyTerm,
+  DrupalMenuLinkContent as NextDrupalMenuLinkContent
 } from "next-drupal";
-import {JsonApiResource} from "next-drupal/src/types";
 
 export interface Params {
   slug: string | string[]
@@ -100,7 +101,7 @@ export interface NewsNodeType extends DrupalNode {
   su_news_byline?: string
   su_news_components?: StanfordParagraph[]
   su_news_dek?: string
-  su_news_featured_media?: DrupalMedia
+  su_news_featured_media?: DrupalImageMediaType
   su_news_publishing_date?: string
   su_news_source?: DrupalLinkFieldType
   su_news_topics?: DrupalTaxonomyTerm[]
@@ -165,6 +166,7 @@ export interface PolicyNodeType extends DrupalNode {
 }
 
 export interface PolicyChangeLogType extends JsonApiResource {
+  type: 'su_policy_log--su_policy_log'
   su_policy_public: boolean
   su_policy_date: string
   su_policy_notes: string
@@ -192,10 +194,6 @@ export interface LayoutParagraphsBehaviorsType {
   config?: {
     [key: string]: any
   }
-}
-
-export interface DrupalParagraphWithBehaviors extends DrupalParagraph {
-  behavior_settings?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
 }
 
 export interface BannerParagraphType extends DrupalParagraph {
@@ -300,17 +298,18 @@ export interface SpeakerParagraphType extends DrupalParagraph {
   su_person_cta_title?: string
 }
 
-export interface SpacerParagraphType extends DrupalParagraphWithBehaviors {
+export interface SpacerParagraphType extends DrupalParagraph {
   type: "paragraph--stanford_spacer"
   behavior_settings?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
 }
 
-export interface LayoutParagraphType extends DrupalParagraphWithBehaviors {
+export interface LayoutParagraphType extends DrupalParagraph {
   type: "paragraph--stanford_layout"
   behavior_settings?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
 }
 
 export interface DrupalImageFileType extends DrupalFile {
+  type: 'file--file'
   uri: {
     value: string
     url: string
@@ -354,8 +353,14 @@ export type StanfordConfigPage = GlobalMessageConfigPageType
   | LocalFooterConfigPageType
   | SuperFooterConfigPageType
 
-export interface GlobalMessageConfigPageType extends JsonApiResource {
-  su_global_msg_type: 'error' | 'plain' | 'warning' | 'info' | 'success'
+export type GlobalMessageConfigPageType = ErrorMessageConfigPage
+  | PlainMessageConfigPage
+  | WarningMessageConfigPage
+  | InfoMessageConfigPage
+  | SuccessMessageConfigPage;
+
+interface GlobalMessageConfig extends JsonApiResource {
+  type: 'config_pages--stanford_global_message'
   su_global_msg_enabled: boolean
   su_global_msg_link?: DrupalLinkFieldType
   su_global_msg_header?: string
@@ -363,7 +368,28 @@ export interface GlobalMessageConfigPageType extends JsonApiResource {
   su_global_msg_message?: string
 }
 
+export interface ErrorMessageConfigPage extends GlobalMessageConfig {
+  su_global_msg_type: 'error'
+}
+
+export interface PlainMessageConfigPage extends GlobalMessageConfig {
+  su_global_msg_type: 'plain'
+}
+
+export interface WarningMessageConfigPage extends GlobalMessageConfig {
+  su_global_msg_type: 'warning'
+}
+
+export interface InfoMessageConfigPage extends GlobalMessageConfig {
+  su_global_msg_type: 'info'
+}
+
+export interface SuccessMessageConfigPage extends GlobalMessageConfig {
+  su_global_msg_type: 'success'
+}
+
 export interface SiteSettingsConfigPageType extends JsonApiResource {
+  type: 'config_pages--stanford_basic_site_settings'
   su_google_analytics?: string
   su_site_dropdowns?: boolean
   su_site_email?: string
@@ -372,6 +398,7 @@ export interface SiteSettingsConfigPageType extends JsonApiResource {
 }
 
 export interface LockupSettingsConfigPageType extends JsonApiResource {
+  type: 'config_pages--lockup_settings',
   su_lockup_enabled?: boolean
   su_line_1?: string
   su_line_2?: string
@@ -384,6 +411,7 @@ export interface LockupSettingsConfigPageType extends JsonApiResource {
 }
 
 export interface LocalFooterConfigPageType extends JsonApiResource {
+  type: 'config_pages--stanford_local_footer'
   su_footer_enabled?: boolean
   su_local_foot_action?: DrupalLinkFieldType[]
   su_local_foot_address?: DrupalAddressFieldType
@@ -414,6 +442,7 @@ export interface LocalFooterConfigPageType extends JsonApiResource {
 }
 
 export interface SuperFooterConfigPageType extends JsonApiResource {
+  type: 'config_pages--stanford_super_footer'
   su_super_foot_enabled?: boolean
   su_super_foot_intranet?: DrupalLinkFieldType
   su_super_foot_link?: DrupalLinkFieldType[]
@@ -486,27 +515,63 @@ export interface DrupalViewFieldType {
 }
 
 // Publication Citation entities.
-export interface DrupalPublicationCitationType extends JsonApiResource {
+export type DrupalPublicationCitationType = ArticlePublicationType
+  | NewspaperPublicationType
+  | BookPublicationType
+  | OtherPublicationType
+  | ThesisPublicationType
+
+export interface ArticlePublicationType extends PublicationCitationType {
+  type: 'citation--su_article_journal'
+  su_day?: number
+  su_doi?: string
+  su_issue?: string
+  su_month?: number
+  su_page?: string
+  su_volume?: string
+
+}
+
+export interface NewspaperPublicationType extends PublicationCitationType {
+  type: 'citation--su_article_newspaper'
+  su_day?: number
+  su_month?: number
+}
+
+export interface BookPublicationType extends PublicationCitationType {
+  type: 'citation--su_book'
+  su_doi?: string
+  su_edition?: number
+  su_page?: string
+  su_publisher_place?: string
+  su_subtitle?: string
+}
+
+export interface OtherPublicationType extends PublicationCitationType {
+  type: 'citation--su_other'
+  su_day?: number
+  su_month?: number
+  su_subtitle?: string
+}
+
+export interface ThesisPublicationType extends PublicationCitationType {
+  type: 'citation--su_thesis'
+  su_day?: number
+  su_doi?: string
+  su_genre?: any
+  su_month?: number
+}
+
+export interface PublicationCitationType extends JsonApiResource {
   changed: string
   created: string
   drupal_internal__id: string
   su_author?: DrupalNameFieldType[]
-  su_day?: number
-  su_doi?: string
-  su_edition?: number
-  su_genre?: any
-  su_issue?: string
-  su_month?: number
-  su_page?: string
   su_publisher?: string
-  su_publisher_place?: string
-  su_subtitle?: string
   su_url?: DrupalLinkFieldType
-  su_volume?: string
   su_year?: number
 }
 
-export interface Breadcrumb {
-  href: string
-  text: string
+export interface DrupalMenuLinkContent extends NextDrupalMenuLinkContent {
+  items?: NextDrupalMenuLinkContent[]
 }

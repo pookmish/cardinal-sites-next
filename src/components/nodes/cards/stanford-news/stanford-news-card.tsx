@@ -8,7 +8,7 @@ const StanfordNewsCard = ({node, headingLevel}: { node: NewsNodeType, headingLev
   const imageUrl = node.su_news_featured_media?.field_media_image?.image_style_uri.card_1900x950;
   const imageAlt = node.su_news_featured_media?.field_media_image?.resourceIdObjMeta?.alt ?? '';
 
-  const topics: DrupalTaxonomyTerm[] | undefined = (node.su_news_topics && node.su_news_topics.length > 0) ? node.su_news_topics.slice(0, 3) : undefined;
+  const topics: DrupalTaxonomyTerm[] = (node.su_news_topics && node.su_news_topics.length > 0) ? node.su_news_topics.slice(0, 3) : [];
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <div className="max-w-[500px] w-full mx-auto shadow-xl border border-black-20 overflow-hidden">

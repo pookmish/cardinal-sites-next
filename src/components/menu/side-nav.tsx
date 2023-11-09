@@ -3,14 +3,14 @@
 import {useMemo} from "react";
 import useActiveTrail from "@lib/hooks/useActiveTrail";
 import Link from "@components/elements/link";
-import {DrupalMenuLinkContent} from "next-drupal";
+import {DrupalMenuLinkContent} from "@lib/types";
 
 const SideNav = ({menuItems, currentPath}: { menuItems: DrupalMenuLinkContent[], currentPath?: string }) => {
   const activeTrail = useActiveTrail(menuItems, currentPath);
 
   // Peel off the menu items from the parent.
-  const topMenuItem = activeTrail.length > 0 ? menuItems.find(item => item.id === activeTrail[0]) : false;
-  const subTree = useMemo(() => topMenuItem && topMenuItem.items ? topMenuItem.items : [], [activeTrail, topMenuItem]);
+  const topMenuItem: DrupalMenuLinkContent | undefined = activeTrail.length > 0 ? menuItems.find(item => item.id === activeTrail[0]) : undefined;
+  const subTree = useMemo(() => topMenuItem && topMenuItem?.items ? topMenuItem.items : [], [activeTrail, topMenuItem]);
 
   if (typeof subTree === 'undefined' || (subTree.length <= 1 && typeof subTree[0]?.items == 'undefined')) {
     return null;

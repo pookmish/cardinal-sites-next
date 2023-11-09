@@ -9,7 +9,7 @@ const StanfordNewsListItem = ({node, headingLevel}: { node: NewsNodeType, headin
   const imageAlt = node.su_news_featured_media?.field_media_image?.resourceIdObjMeta?.alt ?? '';
   const publishDate = node.su_news_publishing_date ? new Date(node.su_news_publishing_date) : null;
 
-  const topics: DrupalTaxonomyTerm[] | undefined = (node.su_news_topics && node.su_news_topics.length > 0) ? node.su_news_topics.slice(0, 3) : undefined;
+  const topics: DrupalTaxonomyTerm[] = (node.su_news_topics && node.su_news_topics.length > 0) ? node.su_news_topics.slice(0, 3) : [];
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <div className="@container">

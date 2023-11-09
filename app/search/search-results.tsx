@@ -16,11 +16,11 @@ interface Result extends Metadata {
 }
 
 const SearchResults = ({search}: { search: (search: string) => Promise<Result[]> }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const params = useSearchParams();
   const [results, setResults] = useState<Result[]>([])
   const [searchString, setSearchString] = useState<string>(params.get('q') ?? '')
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     search(params.get('q') ?? '').then(nodes => setResults(nodes));

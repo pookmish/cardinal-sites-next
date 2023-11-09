@@ -8,8 +8,8 @@ import {EnvelopeIcon} from "@heroicons/react/24/outline";
 import {PrinterIcon} from "@heroicons/react/20/solid";
 
 const SocialIcons = ({...props}) => {
-  const [url, setUrl] = useState('#')
-  const [subject, setSubject] = useState('')
+  const [url, setUrl] = useState<string>('#')
+  const [subject, setSubject] = useState<string>('')
   useEffect(() => {
     setUrl(window.location.href)
     setSubject(document.title)

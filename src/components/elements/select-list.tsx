@@ -101,7 +101,7 @@ const SelectList = ({options = [], label, multiple, ariaLabelledby, required, de
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const listboxRef = useRef<HTMLUListElement | null>(null);
-  const [listboxVisible, setListboxVisible] = useState(false);
+  const [listboxVisible, setListboxVisible] = useState<boolean>(false);
   const isClient = useIsClient()
 
   const {getButtonProps, getListboxProps, contextValue, value} = useSelect<string, boolean>({

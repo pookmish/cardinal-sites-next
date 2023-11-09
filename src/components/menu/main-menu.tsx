@@ -7,13 +7,13 @@ import {XCircleIcon} from "@heroicons/react/24/outline";
 import useNavigationEvent from "@lib/hooks/useNavigationEvent";
 import SiteSearchForm from "@components/search/site-search-form";
 import useActiveTrail from "@lib/hooks/useActiveTrail";
-import {DrupalMenuLinkContent} from "next-drupal";
+import {DrupalMenuLinkContent} from "@lib/types";
 import useOutsideClick from "@lib/hooks/useOutsideClick";
 import {usePathname} from "next/navigation";
 
 const MainMenu = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const [menuOpen, setMenuOpen] = useState(false)
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
+  const [menuOpen, setMenuOpen] = useState<boolean>(false)
   const browserUrl = useNavigationEvent()
   const activeTrail = useActiveTrail(menuItems, usePathname());
   const clickProps = useOutsideClick(() => setMenuOpen(false));
@@ -21,6 +21,8 @@ const MainMenu = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
   const handleEscape = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape" && menuOpen) {
       setMenuOpen(false);
+
+      // @ts-ignore
       buttonRef.current?.focus();
     }
   }, [menuOpen]);
@@ -76,14 +78,16 @@ interface MenuItemProps {
 }
 
 const MenuItem = ({id, url, title, items, activeTrail, level = 0}: MenuItemProps) => {
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const [submenuOpen, setSubmenuOpen] = useState(false)
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
+  const [submenuOpen, setSubmenuOpen] = useState<boolean>(false)
   const browserUrl = useNavigationEvent()
   useEffect(() => setSubmenuOpen(false), [browserUrl]);
 
   const handleEscape = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape" && submenuOpen) {
       setSubmenuOpen(false);
+
+      // @ts-ignore
       buttonRef.current?.focus();
     }
   }, [submenuOpen]);
