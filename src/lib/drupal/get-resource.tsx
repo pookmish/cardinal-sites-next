@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import {AccessToken, JsonApiResource, JsonApiWithLocaleOptions} from "next-drupal/src/types";
+import {AccessToken, JsonApiResource, JsonApiWithLocaleOptions} from "next-drupal";
 import {stringify} from "qs"
 import {buildUrl, buildHeaders, getJsonApiPathForResourceType, getPathFromContext} from "./utils";
 import {deserialize} from "@lib/drupal/deserialize";

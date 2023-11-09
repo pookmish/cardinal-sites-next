@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import {stringify} from "qs"
-import {AccessToken, Locale} from "next-drupal/src/types";
+import {AccessToken, Locale} from "next-drupal";
 import {getAccessToken} from "./get-access-token";
 import {draftMode} from "next/headers";
 import {PageProps, StanfordNode} from "@lib/types";
