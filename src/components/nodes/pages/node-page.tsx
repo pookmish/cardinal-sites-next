@@ -1,4 +1,3 @@
-import {DrupalNode} from "next-drupal";
 import StanfordPagePage from "@components/nodes/pages/stanford-page/stanford-page-page";
 import StanfordPersonPage from "@components/nodes/pages/stanford-person/stanford-person-page";
 import StanfordEventPage from "@components/nodes/pages/stanford-event/stanford-event-page";
@@ -13,10 +12,10 @@ import {
   EventNodeType,
   EventSeriesNodeType,
   NewsNodeType,
-  PersonNodeType, PolicyNodeType, PublicationNodeType
+  PersonNodeType, PolicyNodeType, PublicationNodeType, StanfordNode
 } from "@lib/types";
 
-const NodePage = ({node}: { node: DrupalNode }) => {
+const NodePage = ({node}: { node: StanfordNode }) => {
   return (
     <>
       {!node.status &&
@@ -31,7 +30,7 @@ const NodePage = ({node}: { node: DrupalNode }) => {
   )
 }
 
-const Node = ({node}: { node: DrupalNode }) => {
+const Node = ({node}: { node: StanfordNode }) => {
   switch (node.type) {
     case 'node--stanford_course':
       return <StanfordCoursePage node={node as CourseNodeType}/>

@@ -1,3 +1,4 @@
+// @ts-nocheck
 module.exports = function () {
   return function ({addComponents, theme}) {
     const components = {

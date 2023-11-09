@@ -1,8 +1,8 @@
 import {getSearchIndex} from "@lib/drupal/get-search-index";
-import {DrupalNode} from "next-drupal";
 import SearchResults from "./search-results";
 import {getNodeMetadata} from "../[...slug]/metadata";
 import {H1} from "@components/elements/headers";
+import {StanfordNode} from "@lib/types";
 
 export const metadata = {
   title: "Search",
@@ -18,7 +18,7 @@ const Page = () => {
   const search = async (searchString: string) => {
     "use server";
 
-    const searchResults: DrupalNode[] = await getSearchIndex('full_site_content', {params: {'filter[fulltext]': searchString}});
+    const searchResults: StanfordNode[] = await getSearchIndex('full_site_content', {params: {'filter[fulltext]': searchString}});
     return searchResults.map(node => ({
       id: node.id,
       type: node.type,

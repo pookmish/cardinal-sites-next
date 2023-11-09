@@ -1,4 +1,3 @@
-import {DrupalNode} from "next-drupal";
 import StanfordCourseListItem from "@components/nodes/list-item/stanford-course/stanford-course-list-item";
 import StanfordEventListItem from "@components/nodes/list-item/stanford-event/stanford-event-list-item";
 import StanfordEventSeriesListItem
@@ -15,10 +14,10 @@ import {
   EventNodeType,
   EventSeriesNodeType,
   NewsNodeType,
-  PersonNodeType, PolicyNodeType, PublicationNodeType
+  PersonNodeType, PolicyNodeType, PublicationNodeType, StanfordNode
 } from "@lib/types";
 
-const NodeListItem = ({node, headingLevel}: { node: DrupalNode, headingLevel?: string }) => {
+const NodeListItem = ({node, headingLevel}: { node: StanfordNode, headingLevel?: string }) => {
   switch (node.type) {
     case 'node--stanford_course':
       return <StanfordCourseListItem node={node as CourseNodeType} headingLevel={headingLevel}/>

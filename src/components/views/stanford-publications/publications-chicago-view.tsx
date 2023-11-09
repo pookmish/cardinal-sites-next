@@ -1,7 +1,8 @@
 import {PublicationNodeType} from "@lib/types";
-import StanfordCourseListItem from "@components/nodes/list-item/stanford-course/stanford-course-list-item";
 import {getViewItems} from "@components/views/view";
 import LoadMoreList from "@components/elements/load-more-list";
+import StanfordPublicationListItem
+  from "@components/nodes/list-item/stanford-publication/stanford-publication-list-item";
 
 interface Props {
   view: string
@@ -24,7 +25,7 @@ const PublicationsChicagoView = async ({view, args, itemsToDisplay, emptyMessage
       itemProps={{className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0"}}
     >
       {items.map(item =>
-        <StanfordCourseListItem key={item.id} node={item} headingLevel={headingLevel}/>
+        <StanfordPublicationListItem key={item.id} node={item} headingLevel={headingLevel}/>
       )}
     </LoadMoreList>
   )

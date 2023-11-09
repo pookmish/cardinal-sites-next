@@ -1,6 +1,6 @@
 "use client";
 
-const Error = ({error, reset}: { error: Error; reset: () => void }) => {
+const ErrorPage = ({error, reset}: { error: Error; reset: () => void }) => {
   console.error(error.message);
   return (
     <div className="centered my-50">
@@ -11,3 +11,5 @@ const Error = ({error, reset}: { error: Error; reset: () => void }) => {
     </div>
   )
 }
+
+export default ErrorPage

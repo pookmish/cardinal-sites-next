@@ -1,4 +1,3 @@
-import {DrupalNode} from "next-drupal";
 import StanfordCourseCard from "@components/nodes/cards/stanford-course/stanford-course-card";
 import StanfordEventCard from "@components/nodes/cards/stanford-event/stanford-event-card";
 import StanfordEventSeriesCard from "@components/nodes/cards/stanford-event-series/stanford-event-series-card";
@@ -15,11 +14,11 @@ import {
   NewsNodeType,
   PersonNodeType,
   PolicyNodeType,
-  PublicationNodeType
+  PublicationNodeType, StanfordNode
 } from "@lib/types";
 import {JSX} from "react";
 
-const NodeCard = ({node, headingLevel}: { node: DrupalNode, headingLevel?: string }): JSX.Element | null => {
+const NodeCard = ({node, headingLevel}: { node: StanfordNode, headingLevel?: string }): JSX.Element | null => {
   switch (node.type) {
     case 'node--stanford_course':
       return <StanfordCourseCard node={node as CourseNodeType} headingLevel={headingLevel}/>

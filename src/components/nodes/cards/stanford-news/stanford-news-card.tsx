@@ -1,7 +1,7 @@
 import {NewsNodeType} from "@lib/types";
 import Image from "next/image";
 import Link from "@components/elements/link";
-import {DrupalTaxonomyTerm} from "next-drupal";
+import {DrupalTaxonomyTerm} from "@lib/types";
 import {H2, H3} from "@components/elements/headers";
 
 const StanfordNewsCard = ({node, headingLevel}: { node: NewsNodeType, headingLevel?: string }) => {

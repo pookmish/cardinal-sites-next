@@ -1,8 +1,38 @@
-import {DrupalFile, DrupalMedia, DrupalNode, DrupalParagraph, DrupalTaxonomyTerm} from "next-drupal";
+import {
+  DrupalFile,
+  DrupalMedia,
+  DrupalNode,
+  DrupalParagraph,
+  DrupalTaxonomyTerm as NextDrupalTaxonomyTerm
+} from "next-drupal";
 import {JsonApiResource} from "next-drupal/src/types";
+
+export interface Params {
+  slug: string | string[]
+}
+
+export interface PageProps {
+  params: Params
+  searchParams?: { [key: string]: string | string[] | undefined }
+}
+
+export interface DrupalTaxonomyTerm extends NextDrupalTaxonomyTerm {
+  parent: [{ id: string }]
+  below?: DrupalTaxonomyTerm[]
+}
+
+export type StanfordNode =
+  BasicPageNodeType
+  | CourseNodeType
+  | PersonNodeType
+  | EventNodeType
+  | EventSeriesNodeType
+  | PublicationNodeType
+  | NewsNodeType;
 
 // Node Types.
 export interface BasicPageNodeType extends DrupalNode {
+  type: "node--stanford_page"
   su_basic_page_type?: DrupalTaxonomyTerm[]
   su_page_banner?: BannerParagraphType
   su_page_components?: DrupalParagraph[]
@@ -13,6 +43,7 @@ export interface BasicPageNodeType extends DrupalNode {
 }
 
 export interface CourseNodeType extends DrupalNode {
+  type: "node--stanford_course"
   body?: string
   su_course_academic_year?: string
   su_course_code?: string
@@ -27,6 +58,7 @@ export interface CourseNodeType extends DrupalNode {
 }
 
 export interface EventNodeType extends DrupalNode {
+  type: "node--stanford_event"
   body?: string
   su_event_alt_loc?: string
   su_event_audience?: DrupalTaxonomyTerm[]
@@ -50,6 +82,7 @@ export interface EventNodeType extends DrupalNode {
 }
 
 export interface EventSeriesNodeType extends DrupalNode {
+  type: "node--stanford_event_series"
   su_event_series_components: DrupalParagraph[]
   su_event_series_dek: string
   su_event_series_event: DrupalNode[]
@@ -60,6 +93,7 @@ export interface EventSeriesNodeType extends DrupalNode {
 }
 
 export interface NewsNodeType extends DrupalNode {
+  type: "node--stanford_news"
   su_news_banner?: DrupalImageMediaType | DrupalVideoMediaType
   su_news_banner_media_caption?: string
   su_news_byline?: string
@@ -74,6 +108,7 @@ export interface NewsNodeType extends DrupalNode {
 }
 
 export interface PersonNodeType extends DrupalNode {
+  type: "node--stanford_person"
   body?: string
   su_person_academic_appt?: string
   su_person_address?: string
@@ -279,6 +314,12 @@ export interface DrupalEmbeddableMediaType extends DrupalMedia {
 }
 
 // Config Pages
+export type StanfordConfigPage = GlobalMessageConfigPageType
+  | SiteSettingsConfigPageType
+  | LockupSettingsConfigPageType
+  | LocalFooterConfigPageType
+  | SuperFooterConfigPageType
+
 export interface GlobalMessageConfigPageType extends JsonApiResource {
   su_global_msg_type: 'error' | 'plain' | 'warning' | 'info' | 'success'
   su_global_msg_enabled: boolean

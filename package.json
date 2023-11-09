@@ -9,7 +9,7 @@
     "analyze": "ANALYZE=true next build",
     "preview": "next build && next start",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint && tsc",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },

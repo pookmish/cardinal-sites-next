@@ -1,13 +1,12 @@
-import {EntityTeaserParagraphType} from "@lib/types";
+import {EntityTeaserParagraphType, StanfordNode} from "@lib/types";
 import {getResources} from "@lib/drupal/get-resource";
 import Wysiwyg from "@components/elements/wysiwyg";
 import NodeCard from "@components/nodes/cards/node-card";
 import Button from "@components/elements/button";
-import {DrupalNode} from "next-drupal";
 import {H2} from "@components/elements/headers";
 
 const EntityParagraph = async ({paragraph}: { paragraph: EntityTeaserParagraphType }) => {
-  const items = await getResources<DrupalNode>(paragraph.su_entity_item ?? []);
+  const items = await getResources<StanfordNode>(paragraph.su_entity_item ?? []);
   const entities = items.filter(item => item);
   const gridCols = [
     'lg:grid-cols-3',

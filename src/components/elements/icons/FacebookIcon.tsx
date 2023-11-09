@@ -1,4 +1,6 @@
-const FacebookIcon = (props) => (
+import {ComponentProps} from "react";
+
+const FacebookIcon = (props: ComponentProps<any>) => (
   <svg
     width={17.5}
     viewBox="0 0 340 512"

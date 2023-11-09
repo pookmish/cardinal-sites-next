@@ -3,7 +3,7 @@ import {redirect} from "next/navigation";
 import Image from "next/image";
 import Rows from "@components/paragraphs/rows/rows";
 import SocialIcons from "@components/nodes/pages/stanford-news/social-icons";
-import {DrupalTaxonomyTerm} from "next-drupal";
+import {DrupalTaxonomyTerm} from "@lib/types";
 import {H1} from "@components/elements/headers";
 
 const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {

@@ -1,8 +1,8 @@
-import {DrupalNode} from "next-drupal";
 import NodeCard from "@components/nodes/cards/node-card";
 import LoadMoreList from "@components/elements/load-more-list";
+import {StanfordNode} from "@lib/types";
 
-const CardViewGrid = ({items, headingLevel}: { items: DrupalNode[], headingLevel: string }) => {
+const CardViewGrid = ({items, headingLevel}: { items: StanfordNode[], headingLevel: string }) => {
   return (
     <LoadMoreList
       listProps={{className: "list-unstyled flex flex-wrap justify-between gap-20"}}

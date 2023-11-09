@@ -1,15 +1,15 @@
-import {DrupalNode, DrupalParagraph} from "next-drupal";
+import {DrupalParagraph} from "next-drupal";
 import {
   BasicPageNodeType,
   EventNodeType,
   NewsNodeType,
   PersonNodeType,
-  PolicyNodeType,
+  PolicyNodeType, StanfordNode,
   WysiwygParagraphType
 } from "@lib/types";
 import {decode} from 'html-entities';
 
-export const getNodeMetadata = (node: DrupalNode) => {
+export const getNodeMetadata = (node: StanfordNode) => {
   const defaultData = {
     title: node.title,
   }

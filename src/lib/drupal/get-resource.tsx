@@ -7,8 +7,9 @@ import {buildUrl, buildHeaders, getJsonApiPathForResourceType, getPathFromContex
 import {deserialize} from "@lib/drupal/deserialize";
 import {GetStaticPropsContext} from "next";
 import {JsonApiParams} from "next-drupal";
+import {PageProps, StanfordConfigPage} from "@lib/types";
 
-export async function getResources<T>(items: { type: string, id: string }[], draftDev:boolean = false): Promise<T[]> {
+export async function getResources<T>(items: { type: string, id: string }[], draftDev: boolean = false): Promise<T[]> {
   const requests: PromiseLike<any>[] = [];
   items.map(item => requests.push(getResource(item.type, item.id, {}, draftDev)));
   // @ts-ignore
@@ -20,7 +21,7 @@ export async function getResources<T>(items: { type: string, id: string }[], dra
 
 export async function getResourceFromContext<T extends JsonApiResource>(
   type: string,
-  context: GetStaticPropsContext,
+  context: PageProps,
   options?: {
     prefix?: string
     deserialize?: boolean
@@ -29,7 +30,7 @@ export async function getResourceFromContext<T extends JsonApiResource>(
     isVersionable?: boolean
   },
   draftMode: boolean = false
-): Promise<T> {
+): Promise<T | undefined> {
   options = {
     deserialize: true,
     // Add support for revisions for node by default.
@@ -40,15 +41,10 @@ export async function getResourceFromContext<T extends JsonApiResource>(
 
   const path = getPathFromContext(context, options?.prefix)
 
-  const previewData = context.previewData as { resourceVersion?: string }
-
   const resource = await getResourceByPath<T>(path, {
     deserialize: options.deserialize,
     isVersionable: options.isVersionable,
-    locale: context.locale,
-    defaultLocale: context.defaultLocale,
     params: {
-      resourceVersion: previewData?.resourceVersion,
       ...options?.params,
     },
   }, draftMode)
@@ -64,7 +60,7 @@ export async function getResourceByPath<T extends JsonApiResource>(
     isVersionable?: boolean
   } & JsonApiWithLocaleOptions,
   draftMode: boolean = false
-): Promise<T> {
+): Promise<T | undefined> {
   options = {
     deserialize: true,
     isVersionable: false,
@@ -73,27 +69,10 @@ export async function getResourceByPath<T extends JsonApiResource>(
   }
 
   if (!path) {
-    return null
-  }
-
-  if (
-    options.locale &&
-    options.defaultLocale &&
-    path.indexOf(options.locale) !== 1
-  ) {
-    path = path === "/" ? path : path.replace(/^\/+/, "")
-    path = getPathFromContext({
-      params: {slug: [path]},
-      locale: options.locale,
-      defaultLocale: options.defaultLocale,
-    })
+    return
   }
 
   const {resourceVersion = "rel:latest-version", ...params} = options.params
-
-  if (options.isVersionable) {
-    params.resourceVersion = resourceVersion
-  }
 
   const resourceParams = stringify(params)
 
@@ -112,21 +91,7 @@ export async function getResourceByPath<T extends JsonApiResource>(
     },
   ]
 
-  // Localized subrequests.
-  // I was hoping we would not need this but it seems like subrequests is not properly
-  // setting the jsonapi locale from a translated path.
-  let subrequestsPath = "/subrequests"
-  if (
-    options.locale &&
-    options.defaultLocale &&
-    options.locale !== options.defaultLocale
-  ) {
-    subrequestsPath = `/${options.locale}/subrequests`
-  }
-
-  const url = buildUrl(subrequestsPath, {
-    _format: "json",
-  })
+  const url = buildUrl("/subrequests", {_format: "json"})
 
   const response = await fetch(url.toString(), {
     method: "POST",
@@ -140,7 +105,7 @@ export async function getResourceByPath<T extends JsonApiResource>(
   const json = await response.json()
 
   if (!json["resolvedResource#uri{0}"]) {
-    return null
+    return
   }
 
   const data = JSON.parse(json["resolvedResource#uri{0}"]?.body)
@@ -165,10 +130,7 @@ export async function getResourceCollection<T = JsonApiResource[]>(
     ...options,
   }
 
-  const apiPath = await getJsonApiPathForResourceType(
-    type,
-    options?.locale !== options?.defaultLocale ? options.locale : undefined
-  )
+  const apiPath = await getJsonApiPathForResourceType(type)
 
   if (!apiPath) {
     throw new Error(`Error: resource of type ${type} not found.`)
@@ -206,10 +168,7 @@ export async function getResource<T extends JsonApiResource>(
     ...options,
   }
 
-  const apiPath = await getJsonApiPathForResourceType(
-    type,
-    options?.locale !== options?.defaultLocale ? options.locale : undefined
-  )
+  const apiPath = await getJsonApiPathForResourceType(type)
 
   if (!apiPath) {
     throw new Error(`Error: resource of type ${type} not found.`)
@@ -231,20 +190,20 @@ export async function getResource<T extends JsonApiResource>(
   return options.deserialize ? deserialize(json) : json
 }
 
-export async function getConfigPageResource<T extends JsonApiResource>(
+export async function getConfigPageResource<T extends StanfordConfigPage>(
   name: string,
   options?: {
     deserialize?: boolean
     accessToken?: AccessToken
-  } & JsonApiWithLocaleOptions): Promise<T> {
+  } & JsonApiWithLocaleOptions): Promise<T | undefined> {
   let response;
   try {
     response = await getResourceCollection<JsonApiResource>(`config_pages--${name}`, options);
     if (response.length === 0) {
-      return null;
+      return;
     }
   } catch (e) {
-    return null;
+    return;
   }
 
   return response.at(0);

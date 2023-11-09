@@ -4,8 +4,8 @@ import Link from "@components/elements/link";
 import {LockClosedIcon} from "@heroicons/react/24/outline";
 import {H2} from "@components/elements/headers";
 
-const SuperFooter = ({configPage}: {configPage?: SuperFooterConfigPageType}) => {
-  if (!configPage || !configPage.su_super_foot_enabled) {
+const SuperFooter = ({configPage}: { configPage: SuperFooterConfigPageType }) => {
+  if (!configPage.su_super_foot_enabled) {
     return null;
   }
 

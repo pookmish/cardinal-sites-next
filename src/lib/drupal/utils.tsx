@@ -1,11 +1,10 @@
 // @ts-nocheck
 
 import {stringify} from "qs"
-import {GetStaticPropsContext} from "next";
 import {AccessToken, Locale} from "next-drupal/src/types";
 import {getAccessToken} from "./get-access-token";
-import {DrupalNode} from "next-drupal";
 import {draftMode} from "next/headers";
+import {PageProps, StanfordNode} from "@lib/types";
 
 const JSONAPI_PREFIX = process.env.DRUPAL_JSONAPI_PREFIX || "/jsonapi"
 
@@ -35,19 +34,14 @@ export const buildUrl = (
 }
 
 export function getPathFromContext(
-  context: GetStaticPropsContext,
+  context: PageProps,
   prefix = ""
-) {
+): string {
   let { slug } = context.params
 
   slug = Array.isArray(slug)
     ? slug.map((s) => encodeURIComponent(s)).join("/")
     : slug
-
-  // Handle locale.
-  if (context.locale && context.locale !== context.defaultLocale) {
-    slug = `/${context.locale}/${slug}`
-  }
 
   return !slug
     ? process.env.DRUPAL_FRONT_PAGE
@@ -123,7 +117,7 @@ export async function getJsonApiIndex(
   return await response.json()
 }
 
-export const trimNodeData = <T,>(node: DrupalNode | DrupalNode[], desiredProperties: string[]): T => {
+export const trimNodeData = <T,>(node: StanfordNode | StanfordNode[], desiredProperties: string[]): T => {
   if (!Array.isArray(node)) {
     const data = {id: node.id, title: node.title, path: node.path};
     desiredProperties.map(property => data[property] = node[property]);

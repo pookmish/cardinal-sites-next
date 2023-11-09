@@ -1,14 +1,16 @@
-import {DrupalTaxonomyTerm} from "next-drupal";
+import {DrupalTaxonomyTerm} from "@lib/types";
 
-export const getTaxonomyTree = (terms: DrupalTaxonmYTerm[]) => {
+export const getTaxonomyTree = (terms: DrupalTaxonomyTerm[]): DrupalTaxonomyTerm[] => {
   const {below} = buildTaxonomyTree(terms);
-  return below;
+  return below || terms;
 }
+
 
 export function buildTaxonomyTree(
   terms: DrupalTaxonomyTerm[],
   parent: DrupalTaxonomyTerm["id"] = "virtual"
-) {
+): { below?: DrupalTaxonomyTerm[] } {
+
   if (!terms?.length) {
     return {
       below: [],
