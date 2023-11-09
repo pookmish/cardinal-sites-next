@@ -72,7 +72,7 @@ interface MenuItemProps {
   id: string
   url: string
   title: string
-  items?: DrupalMenuLinkContent[]
+  items: DrupalMenuLinkContent[]
   activeTrail: string[]
   level?: number
 }
@@ -151,7 +151,7 @@ const MenuItem = ({id, url, title, items, activeTrail, level = 0}: MenuItemProps
           {title}
         </Link>
 
-        {items &&
+        {items.length > 0 &&
           <>
             {level === 0 && <div className="block ml-5 w-[1px] h-[25px] mb-[6px]  bg-archway-light shrink-0"/>}
             <button
@@ -161,8 +161,8 @@ const MenuItem = ({id, url, title, items, activeTrail, level = 0}: MenuItemProps
               aria-expanded={submenuOpen}
             >
               <ChevronDownIcon
-                height={40}
-                className={(submenuOpen ? "rotate-180" : "") + " transition group-hocus:scale-150 group-hocus:text-black ease-in-out duration-150"}
+                height={35}
+                className={(submenuOpen ? "rotate-180" : "") + " transition group-hocus:scale-125 group-hocus:text-black ease-in-out duration-150"}
               />
               <span className="sr-only">{submenuOpen ? "Close" : "Open"} {title} Submenu</span>
             </button>

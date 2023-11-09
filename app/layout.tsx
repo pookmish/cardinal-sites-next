@@ -13,7 +13,7 @@ export const metadata = {
 
 export const revalidate = 3600;
 
-const RootLayout = ({children, modal}: { children: React.ReactNode, modal?: React.ReactNode }) => {
+const RootLayout = ({children, modal}: { children: React.ReactNode, modal: React.ReactNode }) => {
   const draftMode = isDraftMode();
   return (
     <html lang="en" className={`${sourceSansPro.className} font-sans`}>
