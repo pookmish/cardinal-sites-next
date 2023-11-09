@@ -2,7 +2,8 @@
 name: Build & Lint
 on: [push]
 jobs:
-  build-lint:
+  lint:
+    name: Lint & TS Check
     runs-on: ubuntu-latest
     container:
       image: node:18.10

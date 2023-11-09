@@ -5,7 +5,6 @@ import Paragraph from "@components/paragraphs/paragraph";
 import {H1} from "@components/elements/headers";
 
 const StanfordPagePage = ({node}: { node: BasicPageNodeType }) => {
-  console.log(node);
   const fullWidth = node.layout_selection?.resourceIdObjMeta.drupal_internal__target_id === 'stanford_basic_page_full';
   return (
     <div>

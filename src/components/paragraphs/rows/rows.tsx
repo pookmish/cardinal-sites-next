@@ -2,22 +2,22 @@ import OneColumn from "@components/paragraphs/rows/one-column";
 import TwoColumn from "@components/paragraphs/rows/two-column";
 import ThreeColumn from "@components/paragraphs/rows/three-column";
 import {getResources} from "@lib/drupal/get-resource";
-import {DrupalParagraphWithBehaviors, LayoutParagraphsBehaviorsType} from "@lib/types";
+import {LayoutParagraphsBehaviorsType, StanfordParagraph} from "@lib/types";
 import {isDraftMode} from "@lib/drupal/utils";
 
 interface LayoutsProps {
-  [key: string]: DrupalParagraphWithBehaviors
+  [key: string]: StanfordParagraph
 }
 
-const Rows = async ({components}: { components: DrupalParagraphWithBehaviors[] }) => {
+const Rows = async ({components}: { components: StanfordParagraph[] }) => {
   const layouts: LayoutsProps = {};
 
   const draftDev = isDraftMode();
-  components = await getResources(components, draftDev);
+  components = await getResources<StanfordParagraph>(components, draftDev);
 
   // Set the layouts first.
   components.map(item => {
-    if (item?.behavior_settings?.layout_paragraphs?.layout) {
+    if (item.behavior_settings?.layout_paragraphs?.layout) {
       layouts[item.id] = item;
       layouts[item.id].children = [];
     }
@@ -44,7 +44,7 @@ const Rows = async ({components}: { components: DrupalParagraphWithBehaviors[] }
   )
 }
 
-const Row = ({layoutSettings, items}: { layoutSettings: LayoutParagraphsBehaviorsType | undefined, items: DrupalParagraphWithBehaviors[] }) => {
+const Row = ({layoutSettings, items}: { layoutSettings: LayoutParagraphsBehaviorsType | undefined, items: StanfordParagraph[] }) => {
   return (
     <>
       {layoutSettings?.layout === 'layout_paragraphs_1_column' &&

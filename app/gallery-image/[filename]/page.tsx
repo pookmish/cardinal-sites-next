@@ -1,7 +1,7 @@
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getResourceCollection} from "@lib/drupal/get-resource";
 import {notFound} from "next/navigation";
-import {DrupalGalleryImageMediaType, File} from "@lib/types";
+import {DrupalGalleryImageMediaType, DrupalImageFileType} from "@lib/types";
 import {H1} from "@components/elements/headers";
 
 export const metadata = {
@@ -15,7 +15,7 @@ const Page = async ({params: {filename}}: { params: { filename: string } }) => {
 
   const fileParams = new DrupalJsonApiParams();
   fileParams.addFilter('filename', filename);
-  const files = await getResourceCollection<File[]>('file--file', {params: fileParams.getQueryObject()});
+  const files = await getResourceCollection<DrupalImageFileType[]>('file--file', {params: fileParams.getQueryObject()});
   if (files.length === 0) {
     notFound();
   }

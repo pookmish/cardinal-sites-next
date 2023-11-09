@@ -7,7 +7,6 @@ import {H3} from "@components/elements/headers";
 const ScheduleParagraph = ({paragraph}: { paragraph: EventScheduleParagraphType }) => {
   let start
   if (paragraph.su_schedule_date_time?.value) {
-
     start = new Date(paragraph.su_schedule_date_time.value).toLocaleDateString('en-us', {
       weekday: 'long',
       month: 'long',

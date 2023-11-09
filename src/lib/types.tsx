@@ -28,14 +28,15 @@ export type StanfordNode =
   | EventNodeType
   | EventSeriesNodeType
   | PublicationNodeType
-  | NewsNodeType;
+  | NewsNodeType
+  | PolicyNodeType
 
 // Node Types.
 export interface BasicPageNodeType extends DrupalNode {
   type: "node--stanford_page"
   su_basic_page_type?: DrupalTaxonomyTerm[]
   su_page_banner?: BannerParagraphType
-  su_page_components?: DrupalParagraph[]
+  su_page_components?: StanfordParagraph[]
   su_page_description?: string
   su_page_image?: DrupalImageMediaType
   su_shared_tags?: DrupalTaxonomyTerm[]
@@ -62,7 +63,7 @@ export interface EventNodeType extends DrupalNode {
   body?: string
   su_event_alt_loc?: string
   su_event_audience?: DrupalTaxonomyTerm[]
-  su_event_components?: DrupalParagraph[]
+  su_event_components?: StanfordParagraph[]
   su_event_cta?: DrupalLinkFieldType
   su_event_date_time: DrupalSmartDateFieldType
   su_event_dek?: string
@@ -71,7 +72,7 @@ export interface EventNodeType extends DrupalNode {
   su_event_keywords?: DrupalTaxonomyTerm[]
   su_event_location?: DrupalAddressFieldType
   su_event_map_link?: DrupalLinkFieldType
-  su_event_schedule?: DrupalParagraph[]
+  su_event_schedule?: EventScheduleParagraphType[]
   su_event_source?: DrupalLinkFieldType
   su_event_sponsor?: string[]
   su_event_subheadline?: string
@@ -83,7 +84,7 @@ export interface EventNodeType extends DrupalNode {
 
 export interface EventSeriesNodeType extends DrupalNode {
   type: "node--stanford_event_series"
-  su_event_series_components: DrupalParagraph[]
+  su_event_series_components: StanfordParagraph[]
   su_event_series_dek: string
   su_event_series_event: DrupalNode[]
   su_event_series_subheadline: string
@@ -97,7 +98,7 @@ export interface NewsNodeType extends DrupalNode {
   su_news_banner?: DrupalImageMediaType | DrupalVideoMediaType
   su_news_banner_media_caption?: string
   su_news_byline?: string
-  su_news_components?: DrupalParagraph[]
+  su_news_components?: StanfordParagraph[]
   su_news_dek?: string
   su_news_featured_media?: DrupalMedia
   su_news_publishing_date?: string
@@ -114,7 +115,7 @@ export interface PersonNodeType extends DrupalNode {
   su_person_address?: string
   su_person_admin_appts?: string
   su_person_affiliations?: DrupalLinkFieldType[]
-  su_person_components?: DrupalParagraph[]
+  su_person_components?: StanfordParagraph[]
   su_person_education?: string[]
   su_person_email?: string
   su_person_fax?: string
@@ -139,9 +140,10 @@ export interface PersonNodeType extends DrupalNode {
 }
 
 export interface PublicationNodeType extends DrupalNode {
+  type: "node--stanford_publication"
   su_publication_author_ref: DrupalNode[]
   su_publication_citation: DrupalPublicationCitationType
-  su_publication_components?: DrupalParagraph[]
+  su_publication_components?: StanfordParagraph[]
   su_publication_cta?: DrupalLinkFieldType
   su_publication_image?: DrupalImageMediaType
   su_publication_topics?: DrupalTaxonomyTerm[]
@@ -149,6 +151,7 @@ export interface PublicationNodeType extends DrupalNode {
 }
 
 export interface PolicyNodeType extends DrupalNode {
+  type: "node--stanford_policy"
   body?: DrupalWysiwygFieldType
   su_policy_authority?: string
   su_policy_changelog?: PolicyChangeLogType[]
@@ -169,6 +172,19 @@ export interface PolicyChangeLogType extends JsonApiResource {
 }
 
 // Paragraph Types.
+
+export type StanfordParagraph = BannerParagraphType
+  | CardParagraphType
+  | ImageGalleryParagraphType
+  | ListParagraphType
+  | EntityTeaserParagraphType
+  | MediaCaptionParagraphType
+  | WysiwygParagraphType
+  | EventScheduleParagraphType
+  | SpeakerParagraphType
+  | SpacerParagraphType
+  | LayoutParagraphType
+
 export interface LayoutParagraphsBehaviorsType {
   layout?: string
   parent_uuid: string
@@ -183,6 +199,7 @@ export interface DrupalParagraphWithBehaviors extends DrupalParagraph {
 }
 
 export interface BannerParagraphType extends DrupalParagraph {
+  type: "paragraph--stanford_banner"
   behavior_settings?: {
     layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
     hero_pattern?: {
@@ -196,13 +213,11 @@ export interface BannerParagraphType extends DrupalParagraph {
   su_banner_sup_header?: string
 }
 
-
 export interface CardParagraphType extends DrupalParagraph {
+  type: "paragraph--stanford_card"
   behavior_settings?: {
     layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
-    su_card_styles?: {
-      link_style?: 'action' | 'button'
-    }
+    su_card_styles?: { link_style?: 'action' | 'button' }
   }
   su_card_body?: string
   su_card_header?: string
@@ -212,6 +227,7 @@ export interface CardParagraphType extends DrupalParagraph {
 }
 
 export interface ImageGalleryParagraphType extends DrupalParagraph {
+  type: "paragraph--stanford_gallery"
   behavior_settings?: {
     layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
   }
@@ -222,6 +238,7 @@ export interface ImageGalleryParagraphType extends DrupalParagraph {
 }
 
 export interface ListParagraphType extends DrupalParagraph {
+  type: "paragraph--stanford_lists"
   behavior_settings?: {
     layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
     list_paragraph?: {
@@ -236,6 +253,7 @@ export interface ListParagraphType extends DrupalParagraph {
 }
 
 export interface EntityTeaserParagraphType extends DrupalParagraph {
+  type: "paragraph--stanford_entity"
   behavior_settings?: {
     layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
   }
@@ -246,6 +264,7 @@ export interface EntityTeaserParagraphType extends DrupalParagraph {
 }
 
 export interface MediaCaptionParagraphType extends DrupalParagraph {
+  type: "paragraph--stanford_media_caption"
   behavior_settings?: {
     layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
   }
@@ -255,6 +274,7 @@ export interface MediaCaptionParagraphType extends DrupalParagraph {
 }
 
 export interface WysiwygParagraphType extends DrupalParagraph {
+  type: "paragraph--stanford_wysiwyg"
   behavior_settings?: {
     layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
   }
@@ -262,6 +282,7 @@ export interface WysiwygParagraphType extends DrupalParagraph {
 }
 
 export interface EventScheduleParagraphType extends DrupalParagraph {
+  type: "paragraph--stanford_schedule"
   su_schedule_date_time?: DrupalSmartDateFieldType
   su_schedule_description?: string
   su_schedule_headline?: string
@@ -271,44 +292,57 @@ export interface EventScheduleParagraphType extends DrupalParagraph {
 }
 
 export interface SpeakerParagraphType extends DrupalParagraph {
+  type: "paragraph--stanford_person_cta"
+  behavior_settings?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
   su_person_cta_image?: DrupalImageMediaType
   su_person_cta_link?: DrupalLinkFieldType
   su_person_cta_name?: string
   su_person_cta_title?: string
 }
 
-export interface DrupalImageFileType extends File {
+export interface SpacerParagraphType extends DrupalParagraphWithBehaviors {
+  type: "paragraph--stanford_spacer"
+  behavior_settings?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
+}
+
+export interface LayoutParagraphType extends DrupalParagraphWithBehaviors {
+  type: "paragraph--stanford_layout"
+  behavior_settings?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
+}
+
+export interface DrupalImageFileType extends DrupalFile {
   uri: {
     value: string
     url: string
     base64?: string
   }
-}
-
-export interface File extends DrupalFile {
   image_style_uri: { [key: string]: string }
 }
 
-
 // Media Types.
 export interface DrupalImageMediaType extends DrupalMedia {
+  type: 'media--image'
   field_media_image: DrupalImageFileType
 }
 
 export interface DrupalVideoMediaType extends DrupalMedia {
+  type: 'media--video'
   field_media_oembed_video: string
 }
 
 export interface DrupalFileMediaType extends DrupalMedia {
+  type: 'media--file'
   field_media_file: DrupalFile
 }
 
 export interface DrupalGalleryImageMediaType extends DrupalMedia {
+  type: 'media--stanford_gallery_images'
   su_gallery_caption?: string
   su_gallery_image: DrupalImageFileType
 }
 
 export interface DrupalEmbeddableMediaType extends DrupalMedia {
+  type: 'media--embeddable'
   field_media_embeddable_code?: string
   field_media_embeddable_oembed?: string
 }

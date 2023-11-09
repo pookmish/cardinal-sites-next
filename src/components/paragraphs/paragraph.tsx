@@ -1,4 +1,3 @@
-import {DrupalParagraph} from "next-drupal";
 import CardParagraph from "@components/paragraphs/stanford-card/card-paragraph";
 import EntityParagraph from "@components/paragraphs/stanford-entity/entity-paragraph";
 import GalleryParagraph from "@components/paragraphs/stanford-gallery/gallery-paragraph";
@@ -10,49 +9,39 @@ import WysiwygParagraph from "@components/paragraphs/stanford-wysiwyg/wysiwyg-pa
 import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph";
 import {getResource} from "@lib/drupal/get-resource";
 import ListParagraph from "@components/paragraphs/stanford-lists/list-paragraph";
-import {
-  BannerParagraphType,
-  CardParagraphType,
-  EntityTeaserParagraphType,
-  EventScheduleParagraphType,
-  ImageGalleryParagraphType,
-  ListParagraphType,
-  MediaCaptionParagraphType,
-  SpeakerParagraphType,
-  WysiwygParagraphType
-} from "@lib/types";
+import {StanfordParagraph} from "@lib/types";
 import {JSX} from "react";
 import {isDraftMode} from "@lib/drupal/utils";
 
 interface Props {
-  paragraph: DrupalParagraph
+  paragraph: StanfordParagraph
 }
 
 const Paragraph = async ({paragraph}: Props): Promise<JSX.Element | undefined> => {
   const draftDev = isDraftMode()
-  paragraph = await getResource(paragraph.type, paragraph.id, {}, draftDev);
+  paragraph = await getResource<StanfordParagraph>(paragraph.type, paragraph.id, {}, draftDev);
 
   switch (paragraph.type) {
     case 'paragraph--stanford_banner':
-      return <BannerParagraph paragraph={paragraph as BannerParagraphType}/>
+      return <BannerParagraph paragraph={paragraph}/>
     case 'paragraph--stanford_card':
-      return <CardParagraph paragraph={paragraph as CardParagraphType}/>
+      return <CardParagraph paragraph={paragraph}/>
     case 'paragraph--stanford_entity':
-      return <EntityParagraph paragraph={paragraph as EntityTeaserParagraphType}/>
+      return <EntityParagraph paragraph={paragraph}/>
     case 'paragraph--stanford_gallery':
-      return <GalleryParagraph paragraph={paragraph as ImageGalleryParagraphType}/>
+      return <GalleryParagraph paragraph={paragraph}/>
     case 'paragraph--stanford_lists':
-      return <ListParagraph paragraph={paragraph as ListParagraphType}/>
+      return <ListParagraph paragraph={paragraph}/>
     case 'paragraph--stanford_media_caption':
-      return <MediaCaptionParagraph paragraph={paragraph as MediaCaptionParagraphType}/>
+      return <MediaCaptionParagraph paragraph={paragraph}/>
     case 'paragraph--stanford_person_cta':
-      return <PersonCtaParagraph paragraph={paragraph as SpeakerParagraphType}/>
+      return <PersonCtaParagraph paragraph={paragraph}/>
     case 'paragraph--stanford_schedule':
-      return <ScheduleParagraph paragraph={paragraph as EventScheduleParagraphType}/>
+      return <ScheduleParagraph paragraph={paragraph}/>
     case 'paragraph--stanford_spacer':
       return <SpacerParagraph paragraph={paragraph}/>
     case 'paragraph--stanford_wysiwyg':
-      return <WysiwygParagraph paragraph={paragraph as WysiwygParagraphType}/>
+      return <WysiwygParagraph paragraph={paragraph}/>
   }
 }
 export default Paragraph;

@@ -1,7 +1,7 @@
-import {DrupalParagraph} from "next-drupal";
 import OneColumn from "@components/paragraphs/rows/one-column";
+import {StanfordParagraph} from "@lib/types";
 
-const ThreeColumn = ({items}: { items: DrupalParagraph[] }) => {
+const ThreeColumn = ({items}: { items: StanfordParagraph[] }) => {
   const leftItems = items.filter(item => item.behavior_settings.layout_paragraphs.region === 'left');
   const mainItems = items.filter(item => item.behavior_settings.layout_paragraphs.region === 'main');
   const rightItems = items.filter(item => item.behavior_settings.layout_paragraphs.region === 'right');

@@ -1,10 +1,11 @@
-import {DrupalParagraph} from "next-drupal";
 import {
   BasicPageNodeType,
   EventNodeType,
   NewsNodeType,
   PersonNodeType,
-  PolicyNodeType, StanfordNode,
+  PolicyNodeType,
+  StanfordNode,
+  StanfordParagraph,
   WysiwygParagraphType
 } from "@lib/types";
 import {decode} from 'html-entities';
@@ -16,25 +17,25 @@ export const getNodeMetadata = (node: StanfordNode) => {
   switch (node.type) {
     case 'node--stanford_page':
       return {
-        ...getBasicPageMetaData(node as BasicPageNodeType),
+        ...getBasicPageMetaData(node),
         ...defaultData
       }
 
     case 'node--stanford_news':
       return {
-        ...getNewsMetaData(node as NewsNodeType),
+        ...getNewsMetaData(node),
         ...defaultData
       }
 
     case 'node--stanford_event':
       return {
-        ...getEventMetaData(node as EventNodeType),
+        ...getEventMetaData(node),
         ...defaultData
       }
 
     case 'node--stanford_person':
       return {
-        ...getPersonMetaData(node as PersonNodeType),
+        ...getPersonMetaData(node),
         ...defaultData
       }
 
@@ -131,8 +132,8 @@ const getPolicyMetaData = (node: PolicyNodeType) => {
   }
 }
 
-const getFirstText = (components: DrupalParagraph[] = []) => {
-  const firstWysiwyg: WysiwygParagraphType | undefined = components.find(component => component.type === 'paragraph--stanford_wysiwyg');
+const getFirstText = (components: StanfordParagraph[] = []) => {
+  const firstWysiwyg = components.find(component => component.type === 'paragraph--stanford_wysiwyg') as WysiwygParagraphType | undefined;
   if (firstWysiwyg) {
     return getCleanDescription(firstWysiwyg.su_wysiwyg_text);
   }

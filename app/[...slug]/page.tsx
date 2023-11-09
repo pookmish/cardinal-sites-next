@@ -90,7 +90,6 @@ const Page = async ({params}: PageProps) => {
   let node = null;
   try {
     node = await getPageData(params);
-
   } catch (e) {
     if (e instanceof RedirectError) {
       redirect(e.message);

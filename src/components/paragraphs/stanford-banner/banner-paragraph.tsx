@@ -6,7 +6,7 @@ type Props = {
   paragraph: BannerParagraphType
 }
 
-const BannerParagraph: React.FC<Props> = ({paragraph}) => {
+const BannerParagraph: React.FC<Props> = ({paragraph}: Props) => {
   const imageUrl = paragraph.su_banner_image?.field_media_image?.image_style_uri.breakpoint_2xl_2x;
   const imageAlt = paragraph.su_banner_image?.field_media_image?.resourceIdObjMeta?.alt ?? '';
   const placeholder = paragraph.su_banner_image?.field_media_image?.uri?.base64

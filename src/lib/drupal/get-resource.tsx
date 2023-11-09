@@ -2,10 +2,8 @@
 
 import {AccessToken, JsonApiResource, JsonApiWithLocaleOptions} from "next-drupal/src/types";
 import {stringify} from "qs"
-
 import {buildUrl, buildHeaders, getJsonApiPathForResourceType, getPathFromContext} from "./utils";
 import {deserialize} from "@lib/drupal/deserialize";
-import {GetStaticPropsContext} from "next";
 import {JsonApiParams} from "next-drupal";
 import {PageProps, StanfordConfigPage} from "@lib/types";
 

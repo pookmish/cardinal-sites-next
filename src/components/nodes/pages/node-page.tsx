@@ -6,14 +6,7 @@ import StanfordPolicyPage from "@components/nodes/pages/stanford-policy/stanford
 import StanfordPublicationPage from "@components/nodes/pages/stanford-publication/stanford-publication-page";
 import StanfordCoursePage from "@components/nodes/pages/stanford-course/stanford-course-page";
 import StanfordEventSeriesPage from "@components/nodes/pages/stanford-event-series/stanford-event-series-page";
-import {
-  BasicPageNodeType,
-  CourseNodeType,
-  EventNodeType,
-  EventSeriesNodeType,
-  NewsNodeType,
-  PersonNodeType, PolicyNodeType, PublicationNodeType, StanfordNode
-} from "@lib/types";
+import {StanfordNode} from "@lib/types";
 
 const NodePage = ({node}: { node: StanfordNode }) => {
   return (
@@ -33,21 +26,21 @@ const NodePage = ({node}: { node: StanfordNode }) => {
 const Node = ({node}: { node: StanfordNode }) => {
   switch (node.type) {
     case 'node--stanford_course':
-      return <StanfordCoursePage node={node as CourseNodeType}/>
+      return <StanfordCoursePage node={node}/>
     case 'node--stanford_event':
-      return <StanfordEventPage node={node as EventNodeType}/>
+      return <StanfordEventPage node={node}/>
     case 'node--stanford_event_series':
-      return <StanfordEventSeriesPage node={node as EventSeriesNodeType}/>
+      return <StanfordEventSeriesPage node={node}/>
     case 'node--stanford_news':
-      return <StanfordNewsPage node={node as NewsNodeType}/>
+      return <StanfordNewsPage node={node}/>
     case 'node--stanford_page':
-      return <StanfordPagePage node={node as BasicPageNodeType}/>
+      return <StanfordPagePage node={node}/>
     case 'node--stanford_person':
-      return <StanfordPersonPage node={node as PersonNodeType}/>
+      return <StanfordPersonPage node={node}/>
     case 'node--stanford_policy':
-      return <StanfordPolicyPage node={node as PolicyNodeType}/>
+      return <StanfordPolicyPage node={node}/>
     case 'node--stanford_publication':
-      return <StanfordPublicationPage node={node as PublicationNodeType}/>
+      return <StanfordPublicationPage node={node}/>
   }
 }
 export default NodePage;
