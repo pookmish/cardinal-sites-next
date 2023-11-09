@@ -9,12 +9,13 @@ import SiteSearchForm from "@components/search/site-search-form";
 import useActiveTrail from "@lib/hooks/useActiveTrail";
 import {DrupalMenuLinkContent} from "next-drupal";
 import useOutsideClick from "@lib/hooks/useOutsideClick";
+import {usePathname} from "next/navigation";
 
 const MainMenu = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const browserUrl = useNavigationEvent()
-  const activeTrail = useActiveTrail(menuItems);
+  const activeTrail = useActiveTrail(menuItems, usePathname());
   const clickProps = useOutsideClick(() => setMenuOpen(false));
 
   const handleEscape = useCallback((event: KeyboardEvent) => {

@@ -45,7 +45,7 @@ const getPageData = async (context: GetStaticPropsContext) => {
   }
 
   if (!path || !path.jsonapi) {
-    throw new Error('Unable to translate path: ' + JSON.stringify(context));
+    throw new Error('Unable to translate path')
   }
 
   if (context?.params?.slug?.[0] === 'node' && path?.entity?.path) {
@@ -54,7 +54,7 @@ const getPageData = async (context: GetStaticPropsContext) => {
   return getResourceFromContext<DrupalNode>(path.jsonapi.resourceName, context, {}, draftDev)
 }
 
-export const generateStaticParams  = async () => {
+export const generateStaticParams = async () => {
   const params = new DrupalJsonApiParams();
   params.addPageLimit(50);
 
@@ -88,16 +88,14 @@ export const generateStaticParams  = async () => {
 
 const Page = async (context: GetStaticPropsContext) => {
   let node;
-
   try {
     node = await getPageData(context);
-    if (!node) throw new Error('not found')
   } catch (e) {
     if (e instanceof RedirectError) {
       redirect(e.message);
     }
-    notFound();
   }
+  if (!node) notFound();
 
   return (
     <NodePage node={node}/>
