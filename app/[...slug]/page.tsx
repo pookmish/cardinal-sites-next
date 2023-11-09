@@ -58,12 +58,17 @@ export const generateStaticParams = async () => {
   const params = new DrupalJsonApiParams();
   params.addPageLimit(50);
 
-  let paths: GetStaticPathsResult["paths"] = await getPathsFromContext([
+  const contentTypes = [
     'node--stanford_page',
     'node--stanford_event',
     'node--stanford_news',
-    'node--stanford_person'
-  ], {}, {params: params.getQueryObject()});
+    'node--stanford_person',
+    'node--stanford_policy',
+    'node--stanford_publication',
+    'node--stanford_course',
+  ]
+
+  let paths: GetStaticPathsResult["paths"] = await getPathsFromContext(contentTypes, {}, {params: params.getQueryObject()});
 
   let fetchMore = process.env.BUILD_COMPLETE === 'true';
   let fetchedData: GetStaticPathsResult["paths"] = []
@@ -72,18 +77,13 @@ export const generateStaticParams = async () => {
     console.log('Fetching page ' + page);
     params.addPageOffset(page * 50);
 
-    fetchedData = await getPathsFromContext([
-      'node--stanford_page',
-      'node--stanford_event',
-      'node--stanford_news',
-      'node--stanford_person'
-    ], {}, {params: params.getQueryObject()})
+    fetchedData = await getPathsFromContext(contentTypes, {}, {params: params.getQueryObject()})
     paths = [...paths, ...fetchedData];
     fetchMore = fetchedData.length > 0;
     page++;
   }
 
-  return paths.map(path => typeof path !== "string" ? path?.params : path).slice(0, (process.env.BUILD_COMPLETE ? -1 : 1));
+  return paths.map(path => typeof path !== "string" ? path?.params : path).slice(0, (process.env.BUILD_COMPLETE === 'true' ? -1 : 1));
 }
 
 const Page = async (context: GetStaticPropsContext) => {
