@@ -4,8 +4,8 @@ import {PropsWithChildren} from "react";
 import {isDraftMode} from "@lib/drupal/utils";
 
 const InteriorPage = async ({children, currentPath}: PropsWithChildren<{ currentPath: string }>) => {
-  const draftDev = isDraftMode();
-  const {tree} = await getMenu('main', {}, draftDev);
+  const draftMode = isDraftMode();
+  const {tree} = await getMenu('main', {draftMode});
 
   return (
     <div className="centered flex gap-20">

@@ -8,8 +8,8 @@ import {GlobalMessageConfigPageType, LockupSettingsConfigPageType, SiteSettingsC
 import {isDraftMode} from "@lib/drupal/utils";
 
 const PageHeader = async () => {
-  const draftDev = isDraftMode();
-  const {tree} = await getMenu('main', {}, draftDev)
+  const draftMode = isDraftMode();
+  const {tree} = await getMenu('main', {draftMode})
   const globalMessage  = await getConfigPageResource<GlobalMessageConfigPageType>('stanford_global_message');
   const siteSettings = await getConfigPageResource<SiteSettingsConfigPageType>('stanford_basic_site_settings')
   const lockupSettings = await getConfigPageResource<LockupSettingsConfigPageType>('lockup_settings')

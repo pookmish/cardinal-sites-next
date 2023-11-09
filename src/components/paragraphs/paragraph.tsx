@@ -18,8 +18,8 @@ interface Props {
 }
 
 const Paragraph = async ({paragraph}: Props): Promise<JSX.Element | undefined> => {
-  const draftDev = isDraftMode()
-  paragraph = await getResource<StanfordParagraph>(paragraph.type, paragraph.id, {}, draftDev);
+  const draftMode = isDraftMode()
+  paragraph = await getResource<StanfordParagraph>(paragraph.type, paragraph.id, {draftMode});
 
   switch (paragraph.type) {
     case 'paragraph--stanford_banner':

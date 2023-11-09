@@ -1,7 +1,5 @@
-// @ts-nocheck
-
 import {GetStaticPathsContext, GetStaticPathsResult} from "next";
-import {AccessToken, JsonApiParams, Locale} from "next-drupal";
+import {AccessToken, JsonApiParams, JsonApiResource, JsonApiResourceWithPath} from "next-drupal";
 import {getResourceCollection} from "@lib/drupal/get-resource";
 
 export const getPathsFromContext = async (
@@ -11,7 +9,7 @@ export const getPathsFromContext = async (
     params?: JsonApiParams
     accessToken?: AccessToken
   } = {}
-): Promise<GetStaticPathsResult["paths"]>  =>{
+): Promise<GetStaticPathsResult["paths"]> => {
   if (typeof types === "string") {
     types = [types]
   }
@@ -25,37 +23,19 @@ export const getPathsFromContext = async (
         ...options?.params,
       }
 
-      // Handle localized path aliases
-      if (!context.locales?.length) {
-        const resources = await getResourceCollection(type, {
-          deserialize: true,
-          ...options,
-        })
+      const resources = await getResourceCollection<JsonApiResourceWithPath[]>(type, {
+        deserialize: true,
+        ...options,
+      })
 
-        return buildPathsFromResources(resources)
-      }
-
-      const paths = await Promise.all(
-        context.locales.map(async (locale) => {
-          const resources = await getResourceCollection(type, {
-            deserialize: true,
-            locale,
-            defaultLocale: context.defaultLocale,
-            ...options,
-          })
-
-          return buildPathsFromResources(resources, locale)
-        })
-      )
-
-      return paths.flat()
+      return buildPathsFromResources(resources)
     })
   )
 
   return paths.flat()
 }
 
-function buildPathsFromResources(resources, locale?: Locale) {
+function buildPathsFromResources(resources: JsonApiResourceWithPath[]) {
   return resources?.flatMap((resource) => {
     const slug =
       resource?.path?.alias === process.env.DRUPAL_FRONT_PAGE
@@ -66,10 +46,6 @@ function buildPathsFromResources(resources, locale?: Locale) {
       params: {
         slug: `${slug?.replace(/^\/|\/$/g, "")}`.split("/"),
       },
-    }
-
-    if (locale) {
-      path["locale"] = locale
     }
 
     return path

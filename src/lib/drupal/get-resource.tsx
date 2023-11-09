@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 
 import {AccessToken, JsonApiResource, JsonApiWithLocaleOptions} from "next-drupal";
 import {stringify} from "qs"
@@ -7,9 +7,10 @@ import {deserialize} from "@lib/drupal/deserialize";
 import {JsonApiParams} from "next-drupal";
 import {PageProps, StanfordConfigPage} from "@lib/types";
 
-export async function getResources<T>(items: { type: string, id: string }[], draftDev: boolean = false): Promise<T[]> {
+export async function getResources<T>(items: { type: string, id: string }[], draftMode: boolean = false): Promise<T[]> {
   const requests: PromiseLike<any>[] = [];
-  items.map(item => requests.push(getResource(item.type, item.id, {}, draftDev)));
+  items.map(item => requests.push(getResource(item.type, item.id, {draftMode})));
+
   // @ts-ignore
   return Promise.all(requests.map((p, i) => p.catch((e) => {
     console.error(`Failed Fetching (probably unpublished) component ${items[i].type}-${items[i].id}`, e);
@@ -26,11 +27,12 @@ export async function getResourceFromContext<T extends JsonApiResource>(
     params?: JsonApiParams
     accessToken?: AccessToken
     isVersionable?: boolean
-  },
-  draftMode: boolean = false
+    draftMode?: boolean
+  }
 ): Promise<T | undefined> {
   options = {
     deserialize: true,
+    draftMode: false,
     // Add support for revisions for node by default.
     // TODO: Make this required before stable?
     isVersionable: /^node--/.test(type),
@@ -45,7 +47,8 @@ export async function getResourceFromContext<T extends JsonApiResource>(
     params: {
       ...options?.params,
     },
-  }, draftMode)
+    draftMode: options.draftMode
+  })
 
   return resource
 }
@@ -56,13 +59,14 @@ export async function getResourceByPath<T extends JsonApiResource>(
     accessToken?: AccessToken
     deserialize?: boolean
     isVersionable?: boolean
+    draftMode?: boolean
   } & JsonApiWithLocaleOptions,
-  draftMode: boolean = false
 ): Promise<T | undefined> {
   options = {
     deserialize: true,
     isVersionable: false,
     params: {},
+    draftMode: false,
     ...options,
   }
 
@@ -70,9 +74,7 @@ export async function getResourceByPath<T extends JsonApiResource>(
     return
   }
 
-  const {resourceVersion = "rel:latest-version", ...params} = options.params
-
-  const resourceParams = stringify(params)
+  const resourceParams = stringify(options.params)
 
   const payload = [
     {
@@ -93,7 +95,7 @@ export async function getResourceByPath<T extends JsonApiResource>(
 
   const response = await fetch(url.toString(), {
     method: "POST",
-    headers: await buildHeaders(options, draftMode),
+    headers: await buildHeaders(options),
     redirect: "follow",
     body: JSON.stringify(payload),
   })
@@ -120,11 +122,13 @@ export async function getResourceCollection<T = JsonApiResource[]>(
   options?: {
     deserialize?: boolean
     accessToken?: AccessToken
+    draftMode?: boolean
   } & JsonApiWithLocaleOptions,
-  draftMode: boolean = false
+
 ): Promise<T> {
   options = {
     deserialize: true,
+    draftMode: false,
     ...options,
   }
 
@@ -139,7 +143,7 @@ export async function getResourceCollection<T = JsonApiResource[]>(
   })
 
   const response = await fetch(url.toString(), {
-    headers: await buildHeaders(options, draftMode),
+    headers: await buildHeaders(options),
   })
 
   if (!response.ok) {
@@ -157,12 +161,14 @@ export async function getResource<T extends JsonApiResource>(
   options?: {
     accessToken?: AccessToken
     deserialize?: boolean
+    draftMode?: boolean
   } & JsonApiWithLocaleOptions,
-  draftMode: boolean = false
+
 ): Promise<T> {
   options = {
     deserialize: true,
     params: {},
+    draftMode: false,
     ...options,
   }
 
@@ -177,7 +183,7 @@ export async function getResource<T extends JsonApiResource>(
   })
 
   const response = await fetch(url.toString(), {
-    headers: await buildHeaders(options, draftMode),
+    headers: await buildHeaders(options),
   })
 
   if (!response.ok) {

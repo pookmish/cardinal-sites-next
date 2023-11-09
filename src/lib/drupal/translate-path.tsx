@@ -2,6 +2,7 @@ import {AccessToken, DrupalTranslatedPath} from "next-drupal";
 import {buildHeaders, buildUrl, getPathFromContext} from "./utils";
 import {PageProps} from "@lib/types";
 
+
 export async function translatePath(
   path: string,
   options?: {

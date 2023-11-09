@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import {AccessToken, JsonApiResource, JsonApiWithLocaleOptions} from "next-drupal";
 import {GetStaticPropsContext} from "next";
 import {buildHeaders, buildUrl} from "@lib/drupal/utils";
@@ -17,12 +15,7 @@ export async function getSearchIndex<T = JsonApiResource[]>(
     ...options,
   }
 
-  const localePrefix =
-    options?.locale && options.locale !== options.defaultLocale
-      ? `/${options.locale}`
-      : ""
-
-  const url = buildUrl(`${localePrefix}/jsonapi/index/${name}`, options.params)
+  const url = buildUrl(`/jsonapi/index/${name}`, options.params)
 
   const response = await fetch(url.toString(), {
     headers: await buildHeaders(options),
@@ -50,9 +43,5 @@ export async function getSearchIndexFromContext<T = JsonApiResource[]>(
     ...options,
   }
 
-  return await getSearchIndex<T>(name, {
-    ...options,
-    locale: context.local,
-    defaultLocale: context.defaultLocale,
-  })
+  return await getSearchIndex<T>(name, options)
 }

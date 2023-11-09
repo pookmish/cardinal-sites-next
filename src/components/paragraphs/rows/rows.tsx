@@ -2,24 +2,30 @@ import OneColumn from "@components/paragraphs/rows/one-column";
 import TwoColumn from "@components/paragraphs/rows/two-column";
 import ThreeColumn from "@components/paragraphs/rows/three-column";
 import {getResources} from "@lib/drupal/get-resource";
-import {LayoutParagraphsBehaviorsType, StanfordParagraph} from "@lib/types";
+import {LayoutParagraphsBehaviorsType, LayoutParagraphType, StanfordParagraph} from "@lib/types";
 import {isDraftMode} from "@lib/drupal/utils";
 
-interface LayoutsProps {
-  [key: string]: StanfordParagraph
+
+interface Layout {
+  [key: string]: {
+    item: LayoutParagraphType
+    children: StanfordParagraph[]
+  }
 }
 
 const Rows = async ({components}: { components: StanfordParagraph[] }) => {
-  const layouts: LayoutsProps = {};
+  const layouts: Layout = {};
 
-  const draftDev = isDraftMode();
-  components = await getResources<StanfordParagraph>(components, draftDev);
+  const draftMode = isDraftMode();
+  components = await getResources<StanfordParagraph>(components, draftMode);
 
   // Set the layouts first.
   components.map(item => {
-    if (item.behavior_settings?.layout_paragraphs?.layout) {
-      layouts[item.id] = item;
-      layouts[item.id].children = [];
+    if (item.type === 'paragraph--stanford_layout') {
+      layouts[item.id] = {
+        item,
+        children: []
+      }
     }
   })
 
@@ -36,7 +42,7 @@ const Rows = async ({components}: { components: StanfordParagraph[] }) => {
       {Object.keys(layouts).map(layoutId =>
         <Row
           key={layoutId}
-          layoutSettings={layouts[layoutId].behavior_settings?.layout_paragraphs}
+          layoutSettings={layouts[layoutId].item.behavior_settings?.layout_paragraphs}
           items={layouts[layoutId].children}
         />
       )}
@@ -44,7 +50,10 @@ const Rows = async ({components}: { components: StanfordParagraph[] }) => {
   )
 }
 
-const Row = ({layoutSettings, items}: { layoutSettings: LayoutParagraphsBehaviorsType | undefined, items: StanfordParagraph[] }) => {
+const Row = ({layoutSettings, items}: {
+  layoutSettings: LayoutParagraphsBehaviorsType | undefined,
+  items: StanfordParagraph[]
+}) => {
   return (
     <>
       {layoutSettings?.layout === 'layout_paragraphs_1_column' &&

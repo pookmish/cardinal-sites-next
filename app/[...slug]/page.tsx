@@ -30,18 +30,19 @@ class RedirectError extends Error {
 }
 
 const getPageData = async(params: Params): Promise<StanfordNode | undefined> => {
-  const draftDev = isDraftMode()
-  const accessToken = draftDev ? await getAccessToken(true) : null;
+  const draftMode = isDraftMode()
+  const accessToken = draftMode ? await getAccessToken(true) : null;
 
   const path = await translatePathFromContext({params}, accessToken ? {accessToken} : {});
   // Check for redirect.
-  if (path?.redirect?.[0].to) {
+  if (path?.redirect && path?.redirect?.[0].to) {
     const currentPath = '/' + (typeof params?.slug === 'object' ? params.slug.join('/') : params?.slug);
-    const [destination] = path.redirect;
 
+    const [destination] = path.redirect;
     if (destination.to != currentPath) {
       throw new RedirectError(destination.to);
     }
+
   }
 
   if (!path || !path.jsonapi) {
@@ -51,7 +52,7 @@ const getPageData = async(params: Params): Promise<StanfordNode | undefined> => 
   if (params?.slug?.[0] === 'node' && path?.entity?.path) {
     throw new RedirectError(path.entity.path);
   }
-  return getResourceFromContext<StanfordNode>(path.jsonapi.resourceName, {params}, {}, draftDev)
+  return getResourceFromContext<StanfordNode>(path.jsonapi.resourceName, {params}, {draftMode})
 }
 
 export const generateStaticParams = async () => {

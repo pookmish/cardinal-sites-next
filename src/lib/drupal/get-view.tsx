@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 
 import {AccessToken, JsonApiWithLocaleOptions} from "next-drupal";
 import {buildHeaders, buildUrl} from "./utils";
