@@ -4,7 +4,7 @@ import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
 
 const StanfordPersonListItem = ({node, headingLevel}: { node: PersonNodeType, headingLevel?: string }) => {
-  const imageUrl = node.su_person_photo?.field_media_image?.image_style_uri.square_956
+  const imageUrl = node.su_person_photo?.field_media_image.image_style_uri.square_956
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <div className="max-w-[500px] w-full mx-auto shadow-lg p-20 text-center">

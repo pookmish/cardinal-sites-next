@@ -1,18 +1,50 @@
-import {DrupalFile, DrupalMedia, DrupalNode, DrupalParagraph, DrupalTaxonomyTerm} from "next-drupal";
-import {JsonApiResource} from "next-drupal/src/types";
+import {
+  DrupalFile,
+  DrupalMedia,
+  DrupalNode,
+  DrupalParagraph,
+  JsonApiResource,
+  DrupalTaxonomyTerm as NextDrupalTaxonomyTerm,
+} from "next-drupal";
+
+export type Params = {
+  slug: string | string[]
+}
+
+export type PageProps = {
+  params: Params
+  searchParams?: { [key: string]: string | string[] | undefined }
+}
+
+export type DrupalTaxonomyTerm = NextDrupalTaxonomyTerm & {
+  parent: [{ id: string }]
+  below?: DrupalTaxonomyTerm[]
+}
+
+export type StanfordNode =
+  BasicPageNodeType
+  | CourseNodeType
+  | PersonNodeType
+  | EventNodeType
+  | EventSeriesNodeType
+  | PublicationNodeType
+  | NewsNodeType
+  | PolicyNodeType
 
 // Node Types.
-export interface BasicPageNodeType extends DrupalNode {
+export type BasicPageNodeType = DrupalNode & {
+  type: "node--stanford_page"
   su_basic_page_type?: DrupalTaxonomyTerm[]
   su_page_banner?: BannerParagraphType
-  su_page_components?: DrupalParagraph[]
+  su_page_components?: StanfordParagraph[]
   su_page_description?: string
   su_page_image?: DrupalImageMediaType
   su_shared_tags?: DrupalTaxonomyTerm[]
   layout_selection?: DrupalLayoutSelectionType
 }
 
-export interface CourseNodeType extends DrupalNode {
+export type CourseNodeType = DrupalNode & {
+  type: "node--stanford_course"
   body?: string
   su_course_academic_year?: string
   su_course_code?: string
@@ -26,11 +58,12 @@ export interface CourseNodeType extends DrupalNode {
   su_shared_tags?: DrupalTaxonomyTerm[]
 }
 
-export interface EventNodeType extends DrupalNode {
+export type EventNodeType = DrupalNode & {
+  type: "node--stanford_event"
   body?: string
   su_event_alt_loc?: string
   su_event_audience?: DrupalTaxonomyTerm[]
-  su_event_components?: DrupalParagraph[]
+  su_event_components?: StanfordParagraph[]
   su_event_cta?: DrupalLinkFieldType
   su_event_date_time: DrupalSmartDateFieldType
   su_event_dek?: string
@@ -39,7 +72,7 @@ export interface EventNodeType extends DrupalNode {
   su_event_keywords?: DrupalTaxonomyTerm[]
   su_event_location?: DrupalAddressFieldType
   su_event_map_link?: DrupalLinkFieldType
-  su_event_schedule?: DrupalParagraph[]
+  su_event_schedule?: EventScheduleParagraphType[]
   su_event_source?: DrupalLinkFieldType
   su_event_sponsor?: string[]
   su_event_subheadline?: string
@@ -49,8 +82,9 @@ export interface EventNodeType extends DrupalNode {
   su_shared_tags?: DrupalTaxonomyTerm[]
 }
 
-export interface EventSeriesNodeType extends DrupalNode {
-  su_event_series_components: DrupalParagraph[]
+export type EventSeriesNodeType = DrupalNode & {
+  type: "node--stanford_event_series"
+  su_event_series_components: StanfordParagraph[]
   su_event_series_dek: string
   su_event_series_event: DrupalNode[]
   su_event_series_subheadline: string
@@ -59,13 +93,14 @@ export interface EventSeriesNodeType extends DrupalNode {
   su_shared_tags: DrupalTaxonomyTerm[]
 }
 
-export interface NewsNodeType extends DrupalNode {
+export type NewsNodeType = DrupalNode & {
+  type: "node--stanford_news"
   su_news_banner?: DrupalImageMediaType | DrupalVideoMediaType
   su_news_banner_media_caption?: string
   su_news_byline?: string
-  su_news_components?: DrupalParagraph[]
+  su_news_components?: StanfordParagraph[]
   su_news_dek?: string
-  su_news_featured_media?: DrupalMedia
+  su_news_featured_media?: DrupalImageMediaType
   su_news_publishing_date?: string
   su_news_source?: DrupalLinkFieldType
   su_news_topics?: DrupalTaxonomyTerm[]
@@ -73,13 +108,14 @@ export interface NewsNodeType extends DrupalNode {
   su_news_hide_social?: boolean
 }
 
-export interface PersonNodeType extends DrupalNode {
+export type PersonNodeType = DrupalNode & {
+  type: "node--stanford_person"
   body?: string
   su_person_academic_appt?: string
   su_person_address?: string
   su_person_admin_appts?: string
   su_person_affiliations?: DrupalLinkFieldType[]
-  su_person_components?: DrupalParagraph[]
+  su_person_components?: StanfordParagraph[]
   su_person_education?: string[]
   su_person_email?: string
   su_person_fax?: string
@@ -103,17 +139,19 @@ export interface PersonNodeType extends DrupalNode {
   su_shared_tags?: DrupalTaxonomyTerm[]
 }
 
-export interface PublicationNodeType extends DrupalNode {
+export type PublicationNodeType = DrupalNode & {
+  type: "node--stanford_publication"
   su_publication_author_ref: DrupalNode[]
   su_publication_citation: DrupalPublicationCitationType
-  su_publication_components?: DrupalParagraph[]
+  su_publication_components?: StanfordParagraph[]
   su_publication_cta?: DrupalLinkFieldType
   su_publication_image?: DrupalImageMediaType
   su_publication_topics?: DrupalTaxonomyTerm[]
   su_shared_tags?: DrupalTaxonomyTerm[]
 }
 
-export interface PolicyNodeType extends DrupalNode {
+export type PolicyNodeType = DrupalNode & {
+  type: "node--stanford_policy"
   body?: DrupalWysiwygFieldType
   su_policy_authority?: string
   su_policy_changelog?: PolicyChangeLogType[]
@@ -126,7 +164,8 @@ export interface PolicyNodeType extends DrupalNode {
   su_policy_updated?: string
 }
 
-export interface PolicyChangeLogType extends JsonApiResource {
+export type PolicyChangeLogType = JsonApiResource & {
+  type: 'su_policy_log--su_policy_log'
   su_policy_public: boolean
   su_policy_date: string
   su_policy_notes: string
@@ -134,22 +173,34 @@ export interface PolicyChangeLogType extends JsonApiResource {
 }
 
 // Paragraph Types.
-export interface LayoutParagraphsBehaviorsType {
+
+export type StanfordParagraph = BannerParagraphType
+  | CardParagraphType
+  | ImageGalleryParagraphType
+  | ListParagraphType
+  | EntityTeaserParagraphType
+  | MediaCaptionParagraphType
+  | WysiwygParagraphType
+  | SpacerParagraphType
+  | LayoutParagraphType
+
+export type LayoutParagraphsBehaviorsType = {
   layout?: string
   parent_uuid: string
   region: string
   config?: {
     [key: string]: any
   }
+
 }
 
-export interface DrupalParagraphWithBehaviors extends DrupalParagraph {
-  behavior_settings?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
+export type LayoutParagraphsBehavior = {
+  layout_paragraphs?: LayoutParagraphsBehaviorsType
 }
 
-export interface BannerParagraphType extends DrupalParagraph {
-  behavior_settings?: {
-    layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
+export type BannerParagraphType = DrupalParagraph & {
+  type: "paragraph--stanford_banner"
+  behavior_settings?: LayoutParagraphsBehavior & {
     hero_pattern?: {
       overlay_position?: string
     }
@@ -161,13 +212,10 @@ export interface BannerParagraphType extends DrupalParagraph {
   su_banner_sup_header?: string
 }
 
-
-export interface CardParagraphType extends DrupalParagraph {
-  behavior_settings?: {
-    layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
-    su_card_styles?: {
-      link_style?: 'action' | 'button'
-    }
+export type CardParagraphType = DrupalParagraph & {
+  type: "paragraph--stanford_card"
+  behavior_settings?: LayoutParagraphsBehavior & {
+    su_card_styles?: { link_style?: 'action' | 'button' }
   }
   su_card_body?: string
   su_card_header?: string
@@ -176,19 +224,18 @@ export interface CardParagraphType extends DrupalParagraph {
   su_card_super_header?: string
 }
 
-export interface ImageGalleryParagraphType extends DrupalParagraph {
-  behavior_settings?: {
-    layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
-  }
+export type ImageGalleryParagraphType = DrupalParagraph & {
+  type: "paragraph--stanford_gallery"
+  behavior_settings?: LayoutParagraphsBehavior
   su_gallery_button?: DrupalLinkFieldType
   su_gallery_description?: string
   su_gallery_headline?: string
   su_gallery_images: DrupalGalleryImageMediaType[]
 }
 
-export interface ListParagraphType extends DrupalParagraph {
-  behavior_settings?: {
-    layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
+export type ListParagraphType = DrupalParagraph & {
+  type: "paragraph--stanford_lists"
+  behavior_settings?: LayoutParagraphsBehavior & {
     list_paragraph?: {
       hide_empty?: boolean
       empty_message?: string
@@ -200,33 +247,31 @@ export interface ListParagraphType extends DrupalParagraph {
   su_list_view: DrupalViewFieldType
 }
 
-export interface EntityTeaserParagraphType extends DrupalParagraph {
-  behavior_settings?: {
-    layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
-  }
+export type EntityTeaserParagraphType = DrupalParagraph & {
+  type: "paragraph--stanford_entity"
+  behavior_settings?: LayoutParagraphsBehavior
   su_entity_button?: DrupalLinkFieldType
   su_entity_description?: string
   su_entity_headline?: string
   su_entity_item?: DrupalNode[]
 }
 
-export interface MediaCaptionParagraphType extends DrupalParagraph {
-  behavior_settings?: {
-    layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
-  }
+export type MediaCaptionParagraphType = DrupalParagraph & {
+  type: "paragraph--stanford_media_caption"
+  behavior_settings?: LayoutParagraphsBehavior
   su_media_caption_caption?: string
   su_media_caption_link?: DrupalLinkFieldType
   su_media_caption_media?: DrupalImageMediaType | DrupalVideoMediaType
 }
 
-export interface WysiwygParagraphType extends DrupalParagraph {
-  behavior_settings?: {
-    layout_paragraphs?: { layout_paragraphs: LayoutParagraphsBehaviorsType }
-  }
+export type WysiwygParagraphType = DrupalParagraph & {
+  type: "paragraph--stanford_wysiwyg"
+  behavior_settings?: LayoutParagraphsBehavior
   su_wysiwyg_text?: string
 }
 
-export interface EventScheduleParagraphType extends DrupalParagraph {
+export type EventScheduleParagraphType = DrupalParagraph & {
+  type: "paragraph--stanford_schedule"
   su_schedule_date_time?: DrupalSmartDateFieldType
   su_schedule_description?: string
   su_schedule_headline?: string
@@ -235,52 +280,78 @@ export interface EventScheduleParagraphType extends DrupalParagraph {
   su_schedule_speaker?: SpeakerParagraphType[]
 }
 
-export interface SpeakerParagraphType extends DrupalParagraph {
+export type SpeakerParagraphType = DrupalParagraph & {
+  type: "paragraph--stanford_person_cta"
+  behavior_settings?: LayoutParagraphsBehavior
   su_person_cta_image?: DrupalImageMediaType
   su_person_cta_link?: DrupalLinkFieldType
   su_person_cta_name?: string
   su_person_cta_title?: string
 }
 
-export interface DrupalImageFileType extends File {
+export type SpacerParagraphType = DrupalParagraph & {
+  type: "paragraph--stanford_spacer"
+  behavior_settings?: LayoutParagraphsBehavior
+}
+
+export type LayoutParagraphType = DrupalParagraph & {
+  type: "paragraph--stanford_layout"
+  behavior_settings: LayoutParagraphsBehavior
+}
+
+export type DrupalImageFileType = DrupalFile & {
+  type: 'file--file'
   uri: {
     value: string
     url: string
     base64?: string
   }
-}
-
-export interface File extends DrupalFile {
   image_style_uri: { [key: string]: string }
 }
 
-
 // Media Types.
-export interface DrupalImageMediaType extends DrupalMedia {
+export type DrupalImageMediaType = DrupalMedia & {
+  type: 'media--image'
   field_media_image: DrupalImageFileType
 }
 
-export interface DrupalVideoMediaType extends DrupalMedia {
+export type DrupalVideoMediaType = DrupalMedia & {
+  type: 'media--video'
   field_media_oembed_video: string
 }
 
-export interface DrupalFileMediaType extends DrupalMedia {
+export type DrupalFileMediaType = DrupalMedia & {
+  type: 'media--file'
   field_media_file: DrupalFile
 }
 
-export interface DrupalGalleryImageMediaType extends DrupalMedia {
+export type DrupalGalleryImageMediaType = DrupalMedia & {
+  type: 'media--stanford_gallery_images'
   su_gallery_caption?: string
   su_gallery_image: DrupalImageFileType
 }
 
-export interface DrupalEmbeddableMediaType extends DrupalMedia {
+export type DrupalEmbeddableMediaType = DrupalMedia & {
+  type: 'media--embeddable'
   field_media_embeddable_code?: string
   field_media_embeddable_oembed?: string
 }
 
 // Config Pages
-export interface GlobalMessageConfigPageType extends JsonApiResource {
-  su_global_msg_type: 'error' | 'plain' | 'warning' | 'info' | 'success'
+export type StanfordConfigPage = GlobalMessageConfigPageType
+  | SiteSettingsConfigPageType
+  | LockupSettingsConfigPageType
+  | LocalFooterConfigPageType
+  | SuperFooterConfigPageType
+
+export type GlobalMessageConfigPageType = ErrorMessageConfigPage
+  | PlainMessageConfigPage
+  | WarningMessageConfigPage
+  | InfoMessageConfigPage
+  | SuccessMessageConfigPage;
+
+type GlobalMessageConfig = JsonApiResource & {
+  type: 'config_pages--stanford_global_message'
   su_global_msg_enabled: boolean
   su_global_msg_link?: DrupalLinkFieldType
   su_global_msg_header?: string
@@ -288,7 +359,28 @@ export interface GlobalMessageConfigPageType extends JsonApiResource {
   su_global_msg_message?: string
 }
 
-export interface SiteSettingsConfigPageType extends JsonApiResource {
+export type ErrorMessageConfigPage = GlobalMessageConfig & {
+  su_global_msg_type: 'error'
+}
+
+export type PlainMessageConfigPage = GlobalMessageConfig & {
+  su_global_msg_type: 'plain'
+}
+
+export type WarningMessageConfigPage = GlobalMessageConfig & {
+  su_global_msg_type: 'warning'
+}
+
+export type InfoMessageConfigPage = GlobalMessageConfig & {
+  su_global_msg_type: 'info'
+}
+
+export type SuccessMessageConfigPage = GlobalMessageConfig & {
+  su_global_msg_type: 'success'
+}
+
+export type SiteSettingsConfigPageType = JsonApiResource & {
+  type: 'config_pages--stanford_basic_site_settings'
   su_google_analytics?: string
   su_site_dropdowns?: boolean
   su_site_email?: string
@@ -296,7 +388,8 @@ export interface SiteSettingsConfigPageType extends JsonApiResource {
   su_site_name?: string
 }
 
-export interface LockupSettingsConfigPageType extends JsonApiResource {
+export type LockupSettingsConfigPageType = JsonApiResource & {
+  type: 'config_pages--lockup_settings',
   su_lockup_enabled?: boolean
   su_line_1?: string
   su_line_2?: string
@@ -308,7 +401,8 @@ export interface LockupSettingsConfigPageType extends JsonApiResource {
   su_use_theme_logo?: boolean
 }
 
-export interface LocalFooterConfigPageType extends JsonApiResource {
+export type LocalFooterConfigPageType = JsonApiResource & {
+  type: 'config_pages--stanford_local_footer'
   su_footer_enabled?: boolean
   su_local_foot_action?: DrupalLinkFieldType[]
   su_local_foot_address?: DrupalAddressFieldType
@@ -338,7 +432,8 @@ export interface LocalFooterConfigPageType extends JsonApiResource {
   su_local_foot_loc_op?: string
 }
 
-export interface SuperFooterConfigPageType extends JsonApiResource {
+export type SuperFooterConfigPageType = JsonApiResource & {
+  type: 'config_pages--stanford_super_footer'
   su_super_foot_enabled?: boolean
   su_super_foot_intranet?: DrupalLinkFieldType
   su_super_foot_link?: DrupalLinkFieldType[]
@@ -347,28 +442,28 @@ export interface SuperFooterConfigPageType extends JsonApiResource {
 }
 
 // Field Structures.
-export interface DrupalLayoutSelectionType {
+export type DrupalLayoutSelectionType = {
   id: string
   resourceIdObjMeta: {
     drupal_internal__target_id: string
   }
 }
 
-export interface DrupalWysiwygFieldType {
+export type DrupalWysiwygFieldType = {
   format: string
   processed: string;
   summary?: string;
   value: string;
 }
 
-export interface DrupalLinkFieldType {
+export type DrupalLinkFieldType = {
   options?: object
   title: string
   uri: string;
   url: string
 }
 
-export interface DrupalSmartDateFieldType {
+export type DrupalSmartDateFieldType = {
   duration: string
   end_value: number
   rrule?: number
@@ -377,7 +472,7 @@ export interface DrupalSmartDateFieldType {
   value: number
 }
 
-export interface DrupalAddressFieldType {
+export type DrupalAddressFieldType = {
   additional_name?: string
   address_line1?: string
   address_line2?: string
@@ -391,7 +486,7 @@ export interface DrupalAddressFieldType {
   sorting_code?: string
 }
 
-export interface DrupalNameFieldType {
+export type DrupalNameFieldType = {
   credentials?: string
   family?: string
   generational?: string
@@ -400,7 +495,7 @@ export interface DrupalNameFieldType {
   title?: string
 }
 
-export interface DrupalViewFieldType {
+export type DrupalViewFieldType = {
   id: string
   resourceIdObjMeta: {
     arguments?: string
@@ -411,27 +506,59 @@ export interface DrupalViewFieldType {
 }
 
 // Publication Citation entities.
-export interface DrupalPublicationCitationType extends JsonApiResource {
+export type DrupalPublicationCitationType = ArticlePublicationType
+  | NewspaperPublicationType
+  | BookPublicationType
+  | OtherPublicationType
+  | ThesisPublicationType
+
+export type ArticlePublicationType = PublicationCitationType & {
+  type: 'citation--su_article_journal'
+  su_day?: number
+  su_doi?: string
+  su_issue?: string
+  su_month?: number
+  su_page?: string
+  su_volume?: string
+
+}
+
+export type NewspaperPublicationType = PublicationCitationType & {
+  type: 'citation--su_article_newspaper'
+  su_day?: number
+  su_month?: number
+}
+
+export type BookPublicationType = PublicationCitationType & {
+  type: 'citation--su_book'
+  su_doi?: string
+  su_edition?: number
+  su_page?: string
+  su_publisher_place?: string
+  su_subtitle?: string
+}
+
+export type OtherPublicationType = PublicationCitationType & {
+  type: 'citation--su_other'
+  su_day?: number
+  su_month?: number
+  su_subtitle?: string
+}
+
+export type ThesisPublicationType = PublicationCitationType & {
+  type: 'citation--su_thesis'
+  su_day?: number
+  su_doi?: string
+  su_genre?: any
+  su_month?: number
+}
+
+export type PublicationCitationType = JsonApiResource & {
   changed: string
   created: string
   drupal_internal__id: string
   su_author?: DrupalNameFieldType[]
-  su_day?: number
-  su_doi?: string
-  su_edition?: number
-  su_genre?: any
-  su_issue?: string
-  su_month?: number
-  su_page?: string
   su_publisher?: string
-  su_publisher_place?: string
-  su_subtitle?: string
   su_url?: DrupalLinkFieldType
-  su_volume?: string
   su_year?: number
-}
-
-export interface Breadcrumb {
-  href: string
-  text: string
 }

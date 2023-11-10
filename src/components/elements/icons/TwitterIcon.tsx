@@ -1,4 +1,6 @@
-const TwitterIcon = (props) => (
+import {ComponentProps} from "react";
+
+const TwitterIcon = (props: ComponentProps<any>) => (
   <svg
     width={28}
     viewBox="0 0 512 512"

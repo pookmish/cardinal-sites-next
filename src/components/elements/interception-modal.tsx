@@ -1,14 +1,14 @@
 "use client";
 
-import React, {PropsWithChildren, ReactElement, useCallback, useEffect, useRef} from "react";
+import React, {PropsWithChildren, useCallback, useEffect, useRef} from "react";
 import {useRouter} from "next/navigation";
 import ReactFocusLock from "react-focus-lock";
 import {XMarkIcon} from "@heroicons/react/20/solid";
 import {useLockedBody} from "usehooks-ts";
 
 const InterceptionModal = ({children, ...props}: PropsWithChildren<any>) => {
-  const overlay = useRef(null);
-  const wrapper = useRef(null);
+  const overlay = useRef<HTMLDialogElement | null>(null);
+  const wrapper = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   useLockedBody(true)
 

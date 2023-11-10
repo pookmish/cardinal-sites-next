@@ -11,10 +11,10 @@ import CourseCardView from "@components/views/stanford-courses/course-card-view"
 import PublicationsApaView from "@components/views/stanford-publications/publications-apa-view";
 import PublicationsChicagoView from "@components/views/stanford-publications/publications-chicago-view";
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
-import {DrupalNode} from "next-drupal";
 import {getView} from "@lib/drupal/get-view";
 import {getResources} from "@lib/drupal/get-resource";
 import {JSX} from "react";
+import {StanfordNode} from "@lib/types";
 
 interface Props {
   viewId: string;
@@ -87,13 +87,15 @@ export const getViewItems = async <T, >(view: string, itemsToDisplay: number = -
     // Find new way to add the item limit since this throws errors.
     drupalParams.addPageLimit(itemsToDisplay);
   }
-  let items: DrupalNode[] = [];
+  let items: StanfordNode[] = [];
 
   try {
-    const viewData = await getView<DrupalNode[]>(view, {params: drupalParams.getQueryObject()});
+    const viewData = await getView<StanfordNode[]>(view, {params: drupalParams.getQueryObject()});
     items = viewData.results ?? [];
-  } catch (e) {
-    console.log(`Unable to fetch view ${view}: ${e.message}`)
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      console.log(`Unable to fetch view ${view}: ${e.message}`)
+    }
   }
   return getResources<T>(items);
 }

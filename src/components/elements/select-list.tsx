@@ -101,7 +101,7 @@ const SelectList = ({options = [], label, multiple, ariaLabelledby, required, de
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const listboxRef = useRef<HTMLUListElement | null>(null);
-  const [listboxVisible, setListboxVisible] = useState(false);
+  const [listboxVisible, setListboxVisible] = useState<boolean>(false);
   const isClient = useIsClient()
 
   const {getButtonProps, getListboxProps, contextValue, value} = useSelect<string, boolean>({
@@ -126,7 +126,7 @@ const SelectList = ({options = [], label, multiple, ariaLabelledby, required, de
 
   const optionChosen = (multiple && value) ? value.length > 0 : !!value;
 
-  // With Mui and Nextjs 14, an error occurs on the server rendering. To avoid that issue, only render the component on the client.
+  // With Mui and Next.js 14, an error occurs on the server rendering. To avoid that issue, only render the component on the client.
   if (!isClient) return null;
 
   return (

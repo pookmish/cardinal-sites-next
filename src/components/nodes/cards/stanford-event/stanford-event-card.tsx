@@ -91,6 +91,7 @@ export const getEventTimeString = (start: Date, end: Date, timezone: string): st
 const StanfordEventCard = ({node, headingLevel}: { node: EventNodeType, headingLevel?: string }) => {
 
   const timezone: string = node.su_event_date_time?.timezone ?? 'America/Los_Angeles';
+
   const start = new Date(node.su_event_date_time.value);
   const end = new Date(node.su_event_date_time.end_value);
 

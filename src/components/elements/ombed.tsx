@@ -9,12 +9,12 @@ interface Props {
   url: string
 }
 
-const Oembed = ({url}: PropsWithoutRef<Props>) => {
+const Oembed = ({url, ...props}: PropsWithoutRef<Props>) => {
   const {ref, inView} = useInView({triggerOnce:true})
 
   return (
     // @ts-ignore
-    <div ref={ref} className="relative aspect-[16/9] w-full">
+    <div {...props} ref={ref} className="relative aspect-[16/9] w-full">
       {inView && <Embed url={url} LoadingFallbackElement={<Loading/>}/>}
     </div>
   )

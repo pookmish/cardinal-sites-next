@@ -1,9 +1,9 @@
-import {DrupalParagraph} from "next-drupal";
 import OneColumn from "@components/paragraphs/rows/one-column";
+import {StanfordParagraph} from "@lib/types";
 
-const TwoColumn = ({items, config}: { items: DrupalParagraph[], config: { [key: string]: any } | undefined }) => {
-  const leftItems = items.filter(item => item.behavior_settings.layout_paragraphs.region === 'left');
-  const rightItems = items.filter(item => item.behavior_settings.layout_paragraphs.region === 'right');
+const TwoColumn = ({items, config}: { items: StanfordParagraph[], config: { [key: string]: any } | undefined }) => {
+  const leftItems = items.filter(item => item.behavior_settings?.layout_paragraphs?.region === 'left');
+  const rightItems = items.filter(item => item.behavior_settings?.layout_paragraphs?.region === 'right');
 
   let gridCols = 'md:grid-cols-2';
   if (config?.column_widths === '33-67') {

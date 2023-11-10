@@ -3,7 +3,7 @@ import {redirect} from "next/navigation";
 import Image from "next/image";
 import Rows from "@components/paragraphs/rows/rows";
 import SocialIcons from "@components/nodes/pages/stanford-news/social-icons";
-import {DrupalTaxonomyTerm} from "next-drupal";
+import {DrupalTaxonomyTerm} from "@lib/types";
 import {H1} from "@components/elements/headers";
 
 const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {
@@ -14,9 +14,12 @@ const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {
     year: "numeric"
   }) : null;
 
-  const bannerImageUrl = node.su_news_banner?.field_media_image?.image_style_uri?.breakpoint_2xl_2x;
-  const bannerImageAlt = node.su_news_banner?.field_media_image?.resourceIdObjMeta?.alt;
-  const imagePlaceholder = node.su_news_banner?.field_media_image?.uri.base64;
+  let bannerImageUrl: string | undefined, bannerImageAlt: string = "", imagePlaceholder: string | undefined;
+  if (node.su_news_banner?.type === 'media--image') {
+    bannerImageUrl = node.su_news_banner.field_media_image.image_style_uri.breakpoint_2xl_2x;
+    bannerImageAlt = node.su_news_banner.field_media_image.resourceIdObjMeta?.alt || "";
+    imagePlaceholder = node.su_news_banner.field_media_image.uri.base64;
+  }
 
   const topics: DrupalTaxonomyTerm[] | undefined = (node.su_news_topics && node.su_news_topics.length > 0) ? node.su_news_topics.slice(0, 3) : undefined;
 

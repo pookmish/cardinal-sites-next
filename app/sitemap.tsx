@@ -2,21 +2,22 @@ import {MetadataRoute} from "next";
 
 const xml2js = require('xml2js');
 
+type DrupalSitemapItem = {
+  loc: string[];
+  lastmod?: string[];
+}
+
+type DrupalSitemap = {
+  urlset: {
+    url: DrupalSitemapItem[];
+  }
+}
+
 const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const xmlParser = new xml2js.Parser();
 
   const urls: MetadataRoute.Sitemap = [];
 
-  interface DrupalSitemapItem {
-    loc: string[];
-    lastmod?: string[];
-  }
-
-  interface DrupalSitemap {
-    urlset: {
-      url: DrupalSitemapItem[];
-    }
-  }
 
   try {
     const drupalSitemap: DrupalSitemapItem[] = await fetch(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + '/sitemap.xml')

@@ -1,6 +1,7 @@
-import {GetStaticPropsContext} from "next";
 import {AccessToken, DrupalTranslatedPath} from "next-drupal";
 import {buildHeaders, buildUrl, getPathFromContext} from "./utils";
+import {PageProps} from "@lib/types";
+
 
 export async function translatePath(
   path: string,
@@ -26,7 +27,7 @@ export async function translatePath(
 }
 
 export async function translatePathFromContext(
-  context: GetStaticPropsContext,
+  context: PageProps,
   options?: {
     accessToken?: AccessToken
     prefix?: string

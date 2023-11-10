@@ -13,12 +13,12 @@ export const metadata = {
 
 export const revalidate = 3600;
 
-const RootLayout = ({children, modal}: { children: React.ReactNode, modal?: React.ReactNode }) => {
-  const draftDev = isDraftMode();
+const RootLayout = ({children, modal}: { children: React.ReactNode, modal: React.ReactNode }) => {
+  const draftMode = isDraftMode();
   return (
     <html lang="en" className={`${sourceSansPro.className} font-sans`}>
-    {draftDev && <Editori11y/>}
-    {(!draftDev && process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) &&
+    {draftMode && <Editori11y/>}
+    {(!draftMode && process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) &&
       <>
         <Script async src="//siteimproveanalytics.com/js/siteanalyze_80352.js"/>
         <GoogleAnalytics/>

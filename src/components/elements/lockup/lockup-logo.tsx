@@ -1,5 +1,4 @@
 import StanfordWordMark from "@components/images/stanford-wordmark";
-import Image from "next/image";
 
 const LockupLogo = ({logoUrl, siteName = ''}: { logoUrl?: string, siteName?: string }) => {
   return (
@@ -14,8 +13,7 @@ const LockupLogo = ({logoUrl, siteName = ''}: { logoUrl?: string, siteName?: str
         </picture>
       }
       {!logoUrl &&
-        <StanfordWordMark
-          className="block text-cardinal-red no-underline max-h-[30px] w-auto"/>
+        <StanfordWordMark className="block text-cardinal-red no-underline max-h-[30px] w-auto"/>
       }
     </>
   )

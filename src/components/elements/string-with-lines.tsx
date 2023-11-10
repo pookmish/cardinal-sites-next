@@ -1,11 +1,9 @@
-import {useId} from "react";
 
-const StringWithLines = ({text}: { text: string }) => {
-  const id = useId()
+const StringWithLines = ({text, key}: { text: string, key: string}) => {
   return (
     <>
       {text.split('\n').map((line, i) =>
-        <p key={`${id}-changelog-${i}`}>
+        <p key={`${key}--${i}`}>
           {line}
         </p>
       )}

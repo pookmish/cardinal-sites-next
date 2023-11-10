@@ -5,10 +5,10 @@ import View from "@components/views/view";
 import {H2} from "@components/elements/headers";
 
 const ListParagraph = async ({paragraph}: { paragraph: ListParagraphType }) => {
-  const viewId: string = paragraph.su_list_view?.resourceIdObjMeta?.drupal_internal__target_id ?? '';
-  const displayId: string = paragraph.su_list_view?.resourceIdObjMeta?.display_id ?? '';
-  let args: string = paragraph.su_list_view?.resourceIdObjMeta?.arguments ?? '';
-  const itemsToDisplay: number = parseInt(paragraph.su_list_view?.resourceIdObjMeta?.items_to_display as string) > 0 ? parseInt(paragraph.su_list_view?.resourceIdObjMeta?.items_to_display as string) : 99999;
+  const viewId: string = paragraph.su_list_view.resourceIdObjMeta.drupal_internal__target_id ?? '';
+  const displayId: string = paragraph.su_list_view.resourceIdObjMeta.display_id ?? '';
+  let args: string = paragraph.su_list_view.resourceIdObjMeta.arguments ?? '';
+  const itemsToDisplay: number = parseInt(paragraph.su_list_view.resourceIdObjMeta.items_to_display as string) > 0 ? parseInt(paragraph.su_list_view.resourceIdObjMeta.items_to_display as string) : 99999;
 
   const view = <View
     viewId={viewId}

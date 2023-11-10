@@ -1,7 +1,7 @@
 import StanfordPageListItem from "@components/nodes/list-item/stanford-page/stanford-page-list-item";
 import {getViewItems} from "@components/views/view";
-import {DrupalNode} from "next-drupal";
 import LoadMoreList from "@components/elements/load-more-list";
+import {BasicPageNodeType} from "@lib/types";
 
 interface Props {
   view: string
@@ -14,7 +14,7 @@ interface Props {
 const PageListView = async ({view, args, itemsToDisplay, emptyMessage, headingLevel}: Props) => {
   args = args ? args + '/0/0/0' : '0/0/0/0';
 
-  const items = await getViewItems<DrupalNode>(view, itemsToDisplay, args.split('/'));
+  const items = await getViewItems<BasicPageNodeType>(view, itemsToDisplay, args.split('/'));
   if (items.length === 0) {
     return emptyMessage ? <div>{emptyMessage}</div> : null;
   }

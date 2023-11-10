@@ -8,7 +8,7 @@ import {H1, H2, H3} from "@components/elements/headers";
 
 const StanfordPolicyPage = async ({node}: { node: PolicyNodeType }): Promise<JSX.Element> => {
   const relatedPolicies: PolicyNodeType[] = await getResources(node.su_policy_related ?? [])
-  const changeLog = node.su_policy_changelog?.filter((change: PolicyChangeLogType) => change.su_policy_public) ?? []
+  const changeLog = node.su_policy_changelog?.filter(change => change.su_policy_public) ?? []
 
   return (
     <div className="centered pt-32">
@@ -50,7 +50,7 @@ const StanfordPolicyPage = async ({node}: { node: PolicyNodeType }): Promise<JSX
                 </H3>
 
                 <div>
-                  <StringWithLines text={change.su_policy_notes}/>
+                  <StringWithLines text={change.su_policy_notes} key={change.id}/>
                 </div>
               </div>
             )}

@@ -21,24 +21,25 @@ export const SideNavComponent: Story = {
       {
         id: 4,
         title: "Parent Item",
-        url: "#",
+        url: "/foo",
         items: [
-          {id: 5, title: "First Item", url: "#"},
+          {id: 5, title: "First Item", url: "/foo/bar"},
           {
             id: 6,
             title: "Second Item",
-            url: "#",
+            url: "/foo/baz",
             items: [
-              {id: 8, title: "First Item", url: "#"},
-              {id: 9, title: "Second Item", url: "#"},
-              {id: 10, title: "Third Item", url: "#"},
+              {id: 8, title: "First Item", url: "/foo/baz/foo"},
+              {id: 9, title: "Second Item", url: "/foo/baz/bar"},
+              {id: 10, title: "Third Item", url: "/foo/baz/bin"},
             ]
           },
-          {id: 7, title: "Third Item", url: "#"},
+          {id: 7, title: "Third Item", url: "/foo/bin"},
         ]
       },
-      {id: 2, title: "Second Item", url: "#"},
-      {id: 3, title: "Third Item", url: "#"},
-    ]
+      {id: 2, title: "Second Item", url: "/bar"},
+      {id: 3, title: "Third Item", url: "/baz"},
+    ],
+    currentPath: "/foo/baz/bin",
   },
 };

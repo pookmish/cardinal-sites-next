@@ -6,7 +6,7 @@ import {syncDrupalPreviewRoutes} from "@lib/drupal/sync-drupal-preview-path";
 
 const useNavigationEvent = () => {
   const isInitialMount = useRef(true);
-  const [url, setUrl] = useState<string | null>(null);
+  const [url, setUrl] = useState<string | null>();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const useNavigationEvent = () => {
     }
   }, [url, pathname]);
 
-  useEffect(() => syncDrupalPreviewRoutes(url), [url])
+  useEffect(() => syncDrupalPreviewRoutes(url || ''), [url])
   return url;
 }
 

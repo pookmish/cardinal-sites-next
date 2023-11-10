@@ -1,4 +1,6 @@
-const LinkedInIcon = (props) => (
+import {ComponentProps} from "react";
+
+const LinkedInIcon = (props: ComponentProps<any>) => (
   <svg
     width={24.5}
     viewBox="0 0 448 512"

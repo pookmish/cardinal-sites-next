@@ -2,7 +2,7 @@
 import {draftMode} from 'next/headers'
 import {redirect} from 'next/navigation'
 import {getResourceByPath} from "@lib/drupal/get-resource";
-import {DrupalNode} from "next-drupal";
+import {StanfordNode} from "@lib/types";
 
 export async function GET(request: Request) {
   // Parse query string parameters
@@ -20,7 +20,7 @@ export async function GET(request: Request) {
 
   // Fetch the headless CMS to check if the provided `slug` exists
   // getPostBySlug would implement the required fetching logic to the headless CMS
-  const node: DrupalNode = await getResourceByPath(slug, {}, true)
+  const node = await getResourceByPath<StanfordNode>(slug, {draftMode: true})
 
   // If the slug doesn't exist prevent draft mode from being enabled
   if (!node) {

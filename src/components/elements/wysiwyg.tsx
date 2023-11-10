@@ -2,8 +2,7 @@ import Link from "@components/elements/link";
 import parse, {HTMLReactParserOptions, Element, domToReact, attributesToProps, DOMNode} from "html-react-parser"
 import Image from "next/image";
 import Oembed from "@components/elements/ombed";
-import React, {PropsWithoutRef} from "react";
-import {ChildNode} from "domhandler";
+import React, {ComponentProps, PropsWithoutRef} from "react";
 import {H2, H3, H4, H5, H6} from "@components/elements/headers";
 import {twMerge} from "tailwind-merge";
 import Script from "next/script";
@@ -38,7 +37,7 @@ const options: HTMLReactParserOptions = {
       switch (domNode.name) {
         case "a":
           return (
-            <Link href={nodeProps.href} prefetch={false} {...nodeProps}>
+            <Link href={nodeProps.href as string} prefetch={false} {...nodeProps}>
               {domToReact(children, options)}
             </Link>
           )
@@ -138,7 +137,7 @@ const cleanMediaMarkup = (node: Element) => {
   const nodeProps = attributesToProps(node.attribs);
   nodeProps.className = fixClasses(nodeProps.className) ?? '';
 
-  const getImage = (node: Element): PropsWithoutRef<any> | undefined => {
+  const getImage = (node: Element): ComponentProps<any> | undefined => {
     let img;
     if (node.name === 'img') {
       const attribs = node.attribs;

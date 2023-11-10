@@ -1,4 +1,6 @@
-const YoutubeIcon = (props) => {
+import {ComponentProps} from "react";
+
+const YoutubeIcon = (props: ComponentProps<any>) => {
   return (
     <svg viewBox="0 0 16 16" {...props}>
       <path

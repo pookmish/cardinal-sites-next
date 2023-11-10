@@ -17,7 +17,7 @@ type Props = {
   link?: DrupalLinkFieldType
 }
 
-const BannerParagraphDisplay: React.FC<Props> = ({media, header, supHeader, body, link}: Props) => {
+const BannerParagraphDisplay = ({media, header, supHeader, body, link}: Props) => {
   const hasCard = header || link || body || supHeader
 
   const {imageUrl, imageAlt, placeholder} = media ?? {};

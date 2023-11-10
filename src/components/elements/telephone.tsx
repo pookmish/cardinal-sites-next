@@ -1,13 +1,13 @@
 "use client"
 
-import {PropsWithoutRef, useEffect, useState} from "react";
+import {PropsWithoutRef} from "react";
+import {useIsClient} from "usehooks-ts";
 
 const Telephone = ({tel, ...props}: PropsWithoutRef<{ tel: string }>) => {
-  const [display, setDisplay] = useState<boolean>(false)
-  useEffect(() => setDisplay(true), [])
+  const isClient = useIsClient();
   return (
     <>
-      {display &&
+      {isClient &&
         <a href={`tel:${tel.replace(/[^\d]+/g, '')}`} {...props}>
           {tel}
         </a>

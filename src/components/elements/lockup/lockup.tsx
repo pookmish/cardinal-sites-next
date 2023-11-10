@@ -1,5 +1,4 @@
 import Link from "@components/elements/link";
-import {getConfigPageResource} from "@lib/drupal/get-resource";
 import {LockupSettingsConfigPageType, SiteSettingsConfigPageType} from "@lib/types";
 import LockupA from "@components/elements/lockup/lockup-a";
 import LockupB from "@components/elements/lockup/lockup-b";

@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 
 import {AccessToken, JsonApiWithLocaleOptions} from "next-drupal";
 import {buildHeaders, buildUrl} from "./utils";
@@ -24,15 +24,10 @@ export async function getView<T>(
     ...options,
   }
 
-  const localePrefix =
-    options?.locale && options.locale !== options.defaultLocale
-      ? `/${options.locale}`
-      : ""
-
   const [viewId, displayId] = name.split("--")
 
   const url = buildUrl(
-    `${localePrefix}/jsonapi/views/${viewId}/${displayId}`,
+    `/jsonapi/views/${viewId}/${displayId}`,
     options.params
   )
 

@@ -1,18 +1,17 @@
-"use client";
-
-import {useMemo} from "react";
 import useActiveTrail from "@lib/hooks/useActiveTrail";
 import Link from "@components/elements/link";
 import {DrupalMenuLinkContent} from "next-drupal";
 
 const SideNav = ({menuItems, currentPath}: { menuItems: DrupalMenuLinkContent[], currentPath?: string }) => {
-  const activeTrail = useActiveTrail(menuItems, currentPath);
+  const activeTrail: string[] = useActiveTrail(menuItems, currentPath);
 
   // Peel off the menu items from the parent.
-  const topMenuItem = activeTrail.length > 0 ? menuItems.find(item => item.id === activeTrail[0]) : false;
-  const subTree = useMemo(() => topMenuItem && topMenuItem.items ? topMenuItem.items : [], [activeTrail, topMenuItem]);
+  const topMenuItem: DrupalMenuLinkContent | undefined = activeTrail.length > 0 ? menuItems.find(item => item.id === activeTrail[0]) : undefined;
+  if (!topMenuItem) return null;
 
-  if (typeof subTree === 'undefined' || (subTree.length <= 1 && typeof subTree[0]?.items == 'undefined')) {
+  const subTree: DrupalMenuLinkContent[] = topMenuItem.items || [];
+
+  if (!subTree || (subTree.length <= 1 && typeof subTree[0]?.items)) {
     return null;
   }
 
@@ -29,11 +28,7 @@ const SideNav = ({menuItems, currentPath}: { menuItems: DrupalMenuLinkContent[],
   )
 }
 
-interface MenuItemProps {
-  id: string
-  url: string
-  title: string
-  items?: DrupalMenuLinkContent[]
+type MenuItemProps = DrupalMenuLinkContent & {
   activeTrail: string[]
   level?: number
 }
@@ -72,7 +67,7 @@ const MenuItem = ({id, url, title, items, activeTrail, level = 0}: MenuItemProps
   ].join(' ')
 
   return (
-    <li className="m-0 p-0 border-b">
+    <li className="m-0 p-0 border-b last:border-0">
       <Link
         href={url}
         className={(activeTrail.at(-1) === id ? activeClasses : regularClasses) + " w-full inline-block relative no-underline hocus:underline pl-10 py-5"}
@@ -80,7 +75,7 @@ const MenuItem = ({id, url, title, items, activeTrail, level = 0}: MenuItemProps
       >
         {title}
       </Link>
-      {(items && items.length > 0 && activeTrail.includes(id)) &&
+      {( items && items.length > 0 && activeTrail.includes(id)) &&
         <ul className={`border-t list-unstyled ${leftPadding[level]}`}>
           {items.map(item =>
             <MenuItem key={item.id} {...item} level={level + 1} activeTrail={activeTrail}/>

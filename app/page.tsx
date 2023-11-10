@@ -3,12 +3,14 @@ import Rows from "@components/paragraphs/rows/rows";
 import {BasicPageNodeType} from "@lib/types";
 import Paragraph from "@components/paragraphs/paragraph";
 import {isDraftMode} from "@lib/drupal/utils";
+import {notFound} from "next/navigation";
 
 export const revalidate = 86400;
 
 const Home = async () => {
-  const draftDev = isDraftMode()
-  const node = await getResourceByPath<BasicPageNodeType>('/', {}, draftDev);
+  const draftMode = isDraftMode()
+  const node = await getResourceByPath<BasicPageNodeType>('/', {draftMode});
+  if(!node) notFound();
 
   return (
     <>

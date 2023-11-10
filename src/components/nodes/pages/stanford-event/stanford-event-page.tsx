@@ -6,9 +6,9 @@ import Address from "@components/elements/address";
 import Link from "next/link";
 import Button from "@components/elements/button";
 import Wysiwyg from "@components/elements/wysiwyg";
-import Paragraph from "@components/paragraphs/paragraph";
 import Rows from "@components/paragraphs/rows/rows";
 import {H1, H2, H3} from "@components/elements/headers";
+import ScheduleParagraph from "@components/paragraphs/stanford-schedule/schedule-paragraph";
 
 const StanfordEventPage = ({node}: { node: EventNodeType }) => {
   if (node.su_event_source?.url) redirect(node.su_event_source.url)
@@ -142,7 +142,7 @@ const StanfordEventPage = ({node}: { node: EventNodeType }) => {
       {node.su_event_schedule &&
         <div>
           {node.su_event_schedule.map(scheduleInstance =>
-            <Paragraph paragraph={scheduleInstance} key={scheduleInstance.id}/>
+            <ScheduleParagraph paragraph={scheduleInstance} key={scheduleInstance.id}/>
           )}
         </div>
       }

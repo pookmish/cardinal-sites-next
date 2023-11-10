@@ -1,13 +1,13 @@
 "use client"
 
-import {PropsWithoutRef, useEffect, useState} from "react";
+import {PropsWithoutRef} from "react";
+import {useIsClient} from "usehooks-ts";
 
 const Email = ({email, ...props}: PropsWithoutRef<{ email: string }>) => {
-  const [display, setDisplay] = useState<boolean>(false)
-  useEffect(() => setDisplay(true), [])
+  const isClient = useIsClient();
   return (
     <>
-      {display &&
+      {isClient &&
         <a href={`mailto:${email}`} {...props}>
           {email}
         </a>

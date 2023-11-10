@@ -7,16 +7,17 @@ import {useMemo, useState} from "react";
 import LoadMoreList from "@components/elements/load-more-list";
 import StanfordEventListItem from "@components/nodes/list-item/stanford-event/stanford-event-list-item";
 import {EventNodeType} from "@lib/types";
-import {DrupalTaxonomyTerm} from "next-drupal";
+import {DrupalTaxonomyTerm} from "@lib/types";
+import {SelectOptionDefinition, SelectValue} from "@mui/base/useSelect";
 
-const getTopicOptions = (eventItems: EventNodeType[] = [], topicTree: DrupalTaxonomyTerm[] = []) => {
-  const topicOptions = [];
+const getTopicOptions = (eventItems: EventNodeType[] = [], topicTree: DrupalTaxonomyTerm[] = []): SelectOptionDefinition<string>[] => {
+  const topicOptions: SelectOptionDefinition<string>[] = [];
 
-  const cleanTopic = (topic) => {
+  const cleanTopic = (topic: DrupalTaxonomyTerm): boolean => {
     if (topic.below) {
       topic.below = topic.below.filter(childTopic => cleanTopic(childTopic));
     }
-    if (topic.below?.length > 0) return true;
+    if (!topic.below?.length) return true;
 
     return !!eventItems.find(event => {
       return event.su_event_type?.map(eventTerm => eventTerm.id).includes(topic.id);
@@ -31,8 +32,8 @@ const getTopicOptions = (eventItems: EventNodeType[] = [], topicTree: DrupalTaxo
 }
 
 const EventsFilteredListView = ({items, topics}: { items: EventNodeType[], topics: DrupalTaxonomyTerm[] }) => {
-  const [chosenTopic, setChosenTopic] = useState('');
-  const [displayedEvents, setDisplayedEvents] = useState(items);
+  const [chosenTopic, setChosenTopic] = useState<string>('');
+  const [displayedEvents, setDisplayedEvents] = useState<EventNodeType[]>(items);
 
   const topicTree = useMemo(() => getTaxonomyTree(topics), [topics]);
   const topicOptions = useMemo(() => getTopicOptions(items, topicTree), [topics]);
@@ -43,16 +44,22 @@ const EventsFilteredListView = ({items, topics}: { items: EventNodeType[], topic
       setDisplayedEvents(items);
       return;
     }
-    const topicIds = [];
-    const getTopicIds = (topicTerm) => {
+    const topicIds: string[] = [];
+
+    const buildChosenTopicIds = (topicTerm: DrupalTaxonomyTerm | undefined): void => {
+      if (!topicTerm) return;
+
       topicIds.push(topicTerm.id);
-      topicTerm.below?.map(belowTerm => getTopicIds(belowTerm));
+      topicTerm.below?.map(belowTerm => buildChosenTopicIds(belowTerm));
     }
-    getTopicIds(topicTree.find(term => term.id === chosenTopic));
+
+    buildChosenTopicIds(topicTree.find(term => term.id === chosenTopic));
+
     const matchingEvents = items.filter(event => {
       const eventTopics = event.su_event_type?.map(eventTerm => eventTerm.id)
       return topicIds.filter(value => eventTopics?.includes(value)).length > 0;
     });
+
     setDisplayedEvents(matchingEvents);
   }
 
@@ -63,12 +70,12 @@ const EventsFilteredListView = ({items, topics}: { items: EventNodeType[], topic
           <SelectList
             options={topicOptions}
             label="Event Topics"
-            onChange={(e, value) => setChosenTopic(value)}
+            onChange={(e, value: SelectValue<string, boolean>) => setChosenTopic(value as string || '')}
           />
         </div>
         <Button onClick={filterEvents}>Filter</Button>
       </form>
-      <div className="" aria-live="polite">Showing {displayedEvents.length} of {items.length} events.</div>
+      <div aria-live="polite">Showing {displayedEvents.length} of {items.length} events.</div>
       <LoadMoreList
         key={displayedEvents.map(event => event.id).join(',')}
         buttonText={<>Load More<span className="sr-only">&nbsp;Events</span></>}

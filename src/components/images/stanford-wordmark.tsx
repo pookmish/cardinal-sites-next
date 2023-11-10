@@ -1,4 +1,12 @@
-const StanfordWordMark = ({height = 91, width = 426, ...props}) => {
+import {PropsWithoutRef} from "react";
+
+type Props = {
+  className?: string
+  height?: number
+  width?: number
+}
+
+const StanfordWordMark = ({height = 91, width = 426, ...props}: PropsWithoutRef<Props>) => {
   if (height != 91 && width == 426) {
     width *= height / 91
   }
@@ -8,7 +16,8 @@ const StanfordWordMark = ({height = 91, width = 426, ...props}) => {
   }
 
   return (
-    <svg aria-hidden width={width} height={height} viewBox="0 0 426.000000 91.000000" preserveAspectRatio="xMidYMid meet" {...props}>
+    <svg aria-hidden width={width} height={height} viewBox="0 0 426.000000 91.000000"
+         preserveAspectRatio="xMidYMid meet" {...props}>
       <g transform="translate(0,91) scale(0.1,-0.1)" fill="currentColor" stroke="none">
         <path d="M2438 896 c-95 -34 -132 -95 -143 -237 -7 -86 -7 -86 -41 -102 -46
     -22 -45 -47 1 -47 l35 0 0 -211 c0 -118 -4 -218 -10 -229 -5 -10 -23 -23 -40

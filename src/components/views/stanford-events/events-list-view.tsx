@@ -4,7 +4,7 @@ import {getViewItems} from "@components/views/view";
 import LoadMoreList from "@components/elements/load-more-list";
 import EventsFilteredListView from "@components/views/stanford-events/events-filtered-list-view";
 import {getResourceCollection} from "@lib/drupal/get-resource";
-import {DrupalTaxonomyTerm} from "next-drupal";
+import {DrupalTaxonomyTerm} from "@lib/types";
 import {trimNodeData} from "@lib/drupal/utils";
 
 interface Props {
