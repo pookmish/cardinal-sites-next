@@ -1,6 +1,6 @@
 
 import {useMemo} from "react";
-import {DrupalMenuLinkContent} from "next-drupal";
+import {DrupalMenuLinkContent} from "@lib/types";
 
 const useActiveTrail = (menuItems: DrupalMenuLinkContent[], currentPath?: string) => {
 

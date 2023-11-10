@@ -573,5 +573,5 @@ export interface PublicationCitationType extends JsonApiResource {
 }
 
 export interface DrupalMenuLinkContent extends NextDrupalMenuLinkContent {
-  items?: NextDrupalMenuLinkContent[]
+  items: DrupalMenuLinkContent[]
 }
