@@ -1,6 +1,7 @@
 import {GetStaticPathsContext, GetStaticPathsResult} from "next";
-import {AccessToken, JsonApiParams, JsonApiResource, JsonApiResourceWithPath} from "next-drupal";
+import {AccessToken, JsonApiParams, JsonApiResourceWithPath} from "next-drupal";
 import {getResourceCollection} from "@lib/drupal/get-resource";
+import {Params} from "@lib/types";
 
 export const getPathsFromContext = async (
   types: string | string[],
@@ -14,8 +15,7 @@ export const getPathsFromContext = async (
     types = [types]
   }
 
-
-  const paths = await Promise.all(
+  const paths = await Promise.all<{ params: Params }[]>(
     types.map(async (type) => {
       // Use sparse fieldset to expand max size.
       options.params = {
@@ -36,18 +36,17 @@ export const getPathsFromContext = async (
 }
 
 function buildPathsFromResources(resources: JsonApiResourceWithPath[]) {
-  return resources?.flatMap((resource) => {
+  return resources?.flatMap((resource): { params: Params } => {
     const slug =
       resource?.path?.alias === process.env.DRUPAL_FRONT_PAGE
         ? "/"
         : resource?.path?.alias
 
-    const path = {
+    return {
       params: {
-        slug: `${slug?.replace(/^\/|\/$/g, "")}`.split("/"),
+        slug: slug ? `${slug?.replace(/^\/|\/$/g, "")}`.split("/") : [],
       },
     }
 
-    return path
   })
 }

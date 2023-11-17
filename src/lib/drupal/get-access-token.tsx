@@ -1,5 +1,3 @@
-
-// import { draftMode } from 'next/headers'
 import {cache} from "./get-cache"
 
 interface AccessToken {
@@ -22,14 +20,14 @@ export async function getAccessToken(draftMode: boolean = false): Promise<Access
     return cached
   }
 
-  const basic = Buffer.from(
-    `${process.env.DRUPAL_DRAFT_CLIENT}:${process.env.DRUPAL_DRAFT_SECRET}`
-  ).toString("base64")
+  const basic = Buffer.from(`${process.env.DRUPAL_DRAFT_CLIENT}:${process.env.DRUPAL_DRAFT_SECRET}`)
+    .toString("base64")
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}/oauth/token`,
     {
       method: "POST",
+      cache: "no-store",
       headers: {
         Authorization: `Basic ${basic}`,
         "Content-Type": "application/x-www-form-urlencoded",
