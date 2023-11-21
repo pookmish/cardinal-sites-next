@@ -34,7 +34,7 @@ export const buildUrl = (
 export function getPathFromContext(
   context: PageProps,
   prefix = ""
-): string | string[] {
+): string {
   let {slug} = context.params
 
   slug = Array.isArray(slug) ? slug.map((s) => encodeURIComponent(s)).join("/") : slug
