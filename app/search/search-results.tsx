@@ -5,7 +5,6 @@ import Link from "@components/elements/link";
 import {useSearchParams} from "next/navigation";
 import {Metadata} from "next";
 import {ArrowPathIcon} from "@heroicons/react/20/solid";
-
 interface Result extends Metadata {
   id: string;
   type: string;

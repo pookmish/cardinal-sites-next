@@ -3,7 +3,7 @@ import SearchResults from "./search-results";
 import {getNodeMetadata} from "../[...slug]/metadata";
 import {H1} from "@components/elements/headers";
 import {StanfordNode} from "@lib/types";
-
+import {Suspense} from "react";
 export const metadata = {
   title: "Search",
   description: "Search the site",
@@ -31,8 +31,9 @@ const Page = () => {
     <div className="centered mt-32">
       <H1>Search</H1>
 
-      <SearchResults search={search}/>
-
+      <Suspense fallback={<></>}>
+        <SearchResults search={search}/>
+      </Suspense>
     </div>
   )
 }
