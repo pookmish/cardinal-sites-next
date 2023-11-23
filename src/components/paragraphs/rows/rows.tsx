@@ -17,7 +17,7 @@ const Rows = async ({components}: { components: StanfordParagraph[] }) => {
   const layouts: Layout = {};
 
   const draftMode = isDraftMode();
-  components = await getResources<StanfordParagraph>(components, draftMode);
+  components = (await getResources<StanfordParagraph>(components, draftMode)).filter(item => !!item);
 
   // Set the layouts first.
   components.map(item => {
