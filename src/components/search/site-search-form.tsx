@@ -15,6 +15,7 @@ const SiteSearchForm = ({...props}: ComponentProps<any>) => {
           placeholder="Search this site"
           id={inputId}
           name="q"
+          required
         />
         <button type="submit" className="absolute top-5 right-5">
           <MagnifyingGlassIcon width={30}/>

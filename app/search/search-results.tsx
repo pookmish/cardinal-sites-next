@@ -47,6 +47,7 @@ const SearchResults = ({search}: { search: (search: string) => Promise<Result[]>
           className="rounded-full h-20 w-full lg:w-100 text-20 mb-10"
           id="query"
           type="text"
+          required
           defaultValue={searchString}
         />
         <button
