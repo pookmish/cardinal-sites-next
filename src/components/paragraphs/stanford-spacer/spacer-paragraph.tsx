@@ -1,8 +1,9 @@
 import {SpacerParagraphType} from "@lib/types";
+import {PropsWithoutRef} from "react";
 
-const SpacerParagraph = ({paragraph}: { paragraph: SpacerParagraphType }) => {
+const SpacerParagraph = ({paragraph, ...props}: PropsWithoutRef<{ paragraph: SpacerParagraphType }>) => {
   return (
-    <div className="h-20"></div>
+    <div className="h-20" {...props}></div>
   )
 }
 export default SpacerParagraph

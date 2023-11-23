@@ -9,8 +9,9 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import Rows from "@components/paragraphs/rows/rows";
 import {H1, H2, H3} from "@components/elements/headers";
 import ScheduleParagraph from "@components/paragraphs/stanford-schedule/schedule-paragraph";
+import {PropsWithoutRef} from "react";
 
-const StanfordEventPage = ({node}: { node: EventNodeType }) => {
+const StanfordEventPage = ({node, ...props}: PropsWithoutRef<{ node: EventNodeType }>) => {
   if (node.su_event_source?.url) redirect(node.su_event_source.url)
 
   const startTime = new Date(node.su_event_date_time.value);
@@ -18,7 +19,7 @@ const StanfordEventPage = ({node}: { node: EventNodeType }) => {
   const timezone = node.su_event_date_time.timezone ?? 'America/Los_Angeles';
 
   return (
-    <div className="centered mt-32">
+    <div className="centered mt-32" {...props}>
       <div className="flex flex-col">
         <H1 className="order-2">
           {node.title}

@@ -2,6 +2,7 @@ import {EventNodeType} from "@lib/types";
 import Link from "@components/elements/link";
 import {CalendarDaysIcon, MapPinIcon} from "@heroicons/react/20/solid";
 import {H2, H3} from "@components/elements/headers";
+import {PropsWithoutRef} from "react";
 
 export const getEventTimeString = (start: Date, end: Date, timezone: string): string => {
   const startHour = parseInt(start.toLocaleTimeString("en-US", {
@@ -88,7 +89,7 @@ export const getEventTimeString = (start: Date, end: Date, timezone: string): st
   })
 }
 
-const StanfordEventCard = ({node, headingLevel}: { node: EventNodeType, headingLevel?: string }) => {
+const StanfordEventCard = ({node, headingLevel, ...props}: PropsWithoutRef<{ node: EventNodeType, headingLevel?: string }>) => {
 
   const timezone: string = node.su_event_date_time?.timezone ?? 'America/Los_Angeles';
 
@@ -104,7 +105,7 @@ const StanfordEventCard = ({node, headingLevel}: { node: EventNodeType, headingL
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <div
-      className="max-w-[500px] w-full mx-auto shadow-lg border border-black-20 p-10 flex flex-col gap-10 overflow-hidden">
+      className="max-w-[500px] w-full mx-auto shadow-lg border border-black-20 p-10 flex flex-col gap-10 overflow-hidden" {...props}>
       <div aria-hidden className="flex flex-col items-start w-fit">
         <div className="text-m0 font-semibold mb-4 w-full text-center">
           {startMonth.toUpperCase()}

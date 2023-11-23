@@ -3,8 +3,9 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import Address from "@components/elements/address";
 import {H3} from "@components/elements/headers";
 import PersonCtaParagraph from "@components/paragraphs/stanford-person-cta/person-cta-paragraph";
+import {PropsWithoutRef} from "react";
 
-const ScheduleParagraph = ({paragraph}: { paragraph: EventScheduleParagraphType }) => {
+const ScheduleParagraph = ({paragraph, ...props}: PropsWithoutRef<{ paragraph: EventScheduleParagraphType }>) => {
   let start
   if (paragraph.su_schedule_date_time?.value) {
     start = new Date(paragraph.su_schedule_date_time.value).toLocaleDateString('en-us', {
@@ -17,7 +18,7 @@ const ScheduleParagraph = ({paragraph}: { paragraph: EventScheduleParagraphType 
   }
 
   return (
-    <div className="centered">
+    <div className="centered" {...props}>
       {start &&
         <H3>{start}</H3>
       }

@@ -1,7 +1,8 @@
 import {CardParagraphType} from "@lib/types";
 import CardParagraphDisplay from "@components/paragraphs/stanford-card/card-paragraph-display";
+import {PropsWithoutRef} from "react";
 
-const CardParagraph = ({paragraph}: { paragraph: CardParagraphType }) => {
+const CardParagraph = ({paragraph, ...props}: PropsWithoutRef<{ paragraph: CardParagraphType }>) => {
   let imageUrl: string | undefined,
     imageAlt: string | undefined,
     videoUrl: string | undefined,
@@ -19,16 +20,18 @@ const CardParagraph = ({paragraph}: { paragraph: CardParagraphType }) => {
 
   const linkStyle = paragraph.behavior_settings?.su_card_styles?.link_style;
   return (
-    <CardParagraphDisplay
-      media={imageUrl ? {imageUrl, imageAlt, videoUrl, placeholder} : undefined}
-      header={paragraph.su_card_header}
-      supHeader={paragraph.su_card_super_header}
-      body={paragraph.su_card_body}
-      link={paragraph.su_card_link && {
-        ...paragraph.su_card_link,
-        style: linkStyle
-      }}
-    />
+    <div {...props}>
+      <CardParagraphDisplay
+        media={imageUrl ? {imageUrl, imageAlt, videoUrl, placeholder} : undefined}
+        header={paragraph.su_card_header}
+        supHeader={paragraph.su_card_super_header}
+        body={paragraph.su_card_body}
+        link={paragraph.su_card_link && {
+          ...paragraph.su_card_link,
+          style: linkStyle
+        }}
+      />
+    </div>
   )
 }
 

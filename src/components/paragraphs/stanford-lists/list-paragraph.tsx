@@ -3,8 +3,9 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import Button from "@components/elements/button";
 import View from "@components/views/view";
 import {H2} from "@components/elements/headers";
+import {PropsWithoutRef} from "react";
 
-const ListParagraph = async ({paragraph}: { paragraph: ListParagraphType }) => {
+const ListParagraph = async ({paragraph, ...props}: PropsWithoutRef<{ paragraph: ListParagraphType }>) => {
   const viewId: string = paragraph.su_list_view.resourceIdObjMeta.drupal_internal__target_id ?? '';
   const displayId: string = paragraph.su_list_view.resourceIdObjMeta.display_id ?? '';
   let args: string = paragraph.su_list_view.resourceIdObjMeta.arguments ?? '';
@@ -24,7 +25,7 @@ const ListParagraph = async ({paragraph}: { paragraph: ListParagraphType }) => {
   }
 
   return (
-    <div className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20">
+    <div className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20" {...props}>
       {paragraph.su_list_headline &&
         <H2>{paragraph.su_list_headline}</H2>
       }

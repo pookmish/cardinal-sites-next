@@ -7,6 +7,7 @@ import StanfordPublicationPage from "@components/nodes/pages/stanford-publicatio
 import StanfordCoursePage from "@components/nodes/pages/stanford-course/stanford-course-page";
 import StanfordEventSeriesPage from "@components/nodes/pages/stanford-event-series/stanford-event-series-page";
 import {StanfordNode} from "@lib/types";
+import {isDraftMode} from "@lib/drupal/utils";
 
 const NodePage = ({node}: { node: StanfordNode }) => {
   return (
@@ -24,23 +25,30 @@ const NodePage = ({node}: { node: StanfordNode }) => {
 }
 
 const Node = ({node}: { node: StanfordNode }) => {
+  const draftMode = isDraftMode();
+  const itemProps: { [key: string]: string } = {};
+  if (draftMode) {
+    itemProps['data-type'] = node.type;
+    itemProps['data-id'] = node.id;
+  }
+
   switch (node.type) {
     case 'node--stanford_course':
-      return <StanfordCoursePage node={node}/>
+      return <StanfordCoursePage node={node} {...itemProps}/>
     case 'node--stanford_event':
-      return <StanfordEventPage node={node}/>
+      return <StanfordEventPage node={node} {...itemProps}/>
     case 'node--stanford_event_series':
-      return <StanfordEventSeriesPage node={node}/>
+      return <StanfordEventSeriesPage node={node} {...itemProps}/>
     case 'node--stanford_news':
-      return <StanfordNewsPage node={node}/>
+      return <StanfordNewsPage node={node} {...itemProps}/>
     case 'node--stanford_page':
-      return <StanfordPagePage node={node}/>
+      return <StanfordPagePage node={node} {...itemProps}/>
     case 'node--stanford_person':
-      return <StanfordPersonPage node={node}/>
+      return <StanfordPersonPage node={node} {...itemProps}/>
     case 'node--stanford_policy':
-      return <StanfordPolicyPage node={node}/>
+      return <StanfordPolicyPage node={node} {...itemProps}/>
     case 'node--stanford_publication':
-      return <StanfordPublicationPage node={node}/>
+      return <StanfordPublicationPage node={node} {...itemProps}/>
   }
 }
 export default NodePage;

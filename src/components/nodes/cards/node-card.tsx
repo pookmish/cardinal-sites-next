@@ -8,25 +8,32 @@ import StanfordPolicyCard from "@components/nodes/cards/stanford-policy/stanford
 import StanfordPublicationCard from "@components/nodes/cards/stanford-publication/stanford-publication-card";
 import {StanfordNode} from "@lib/types";
 import {JSX} from "react";
+import {isDraftMode} from "@lib/drupal/utils";
 
 const NodeCard = ({node, headingLevel}: { node: StanfordNode, headingLevel?: string }): JSX.Element | null => {
+  const draftMode = isDraftMode();
+  const itemProps: { [key: string]: string } = {};
+  if (draftMode) {
+    itemProps['data-type'] = node.type;
+    itemProps['data-id'] = node.id;
+  }
   switch (node.type) {
     case 'node--stanford_course':
-      return <StanfordCourseCard node={node} headingLevel={headingLevel}/>
+      return <StanfordCourseCard node={node} headingLevel={headingLevel} {...itemProps}/>
     case 'node--stanford_event':
-      return <StanfordEventCard node={node} headingLevel={headingLevel}/>
+      return <StanfordEventCard node={node} headingLevel={headingLevel} {...itemProps}/>
     case 'node--stanford_event_series':
-      return <StanfordEventSeriesCard node={node} headingLevel={headingLevel}/>
+      return <StanfordEventSeriesCard node={node} headingLevel={headingLevel} {...itemProps}/>
     case 'node--stanford_news':
-      return <StanfordNewsCard node={node} headingLevel={headingLevel}/>
+      return <StanfordNewsCard node={node} headingLevel={headingLevel} {...itemProps}/>
     case 'node--stanford_page':
-      return <StanfordPageCard node={node} headingLevel={headingLevel}/>
+      return <StanfordPageCard node={node} headingLevel={headingLevel} {...itemProps}/>
     case 'node--stanford_person':
-      return <StanfordPersonCard node={node} headingLevel={headingLevel}/>
+      return <StanfordPersonCard node={node} headingLevel={headingLevel} {...itemProps}/>
     case 'node--stanford_policy':
-      return <StanfordPolicyCard node={node} headingLevel={headingLevel}/>
+      return <StanfordPolicyCard node={node} headingLevel={headingLevel} {...itemProps}/>
     case 'node--stanford_publication':
-      return <StanfordPublicationCard node={node} headingLevel={headingLevel}/>
+      return <StanfordPublicationCard node={node} headingLevel={headingLevel} {...itemProps}/>
   }
   return null;
 }

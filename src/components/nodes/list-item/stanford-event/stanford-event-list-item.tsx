@@ -95,7 +95,7 @@ export const getEventTimeString = (start: Date, end: Date, timezone: string): st
   })
 }
 
-const StanfordEventListItem = ({node, headingLevel}: { node: EventNodeType, headingLevel?: string }) => {
+const StanfordEventListItem = ({node, headingLevel, ...props}: { node: EventNodeType, headingLevel?: string }) => {
 
   const timezone: string = node.su_event_date_time.timezone ?? 'America/Los_Angeles';
   const start = new Date(node.su_event_date_time.value);
@@ -109,7 +109,7 @@ const StanfordEventListItem = ({node, headingLevel}: { node: EventNodeType, head
   const goToPath = node.su_event_source?.url ?? node.path?.alias as string
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
-    <div className="w-full mx-auto py-10 flex gap-10">
+    <div className="w-full mx-auto py-10 flex gap-10" {...props}>
       <div aria-hidden className="flex flex-col items-start w-fit">
         <div className="text-m0 font-semibold mb-4 w-full text-center">
           {startMonth.toUpperCase()}

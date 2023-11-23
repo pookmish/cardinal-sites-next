@@ -4,10 +4,11 @@ import Button from "@components/elements/button";
 import Image from "next/image";
 import Link from "next/link";
 import {H2} from "@components/elements/headers";
+import {PropsWithoutRef} from "react";
 
-const GalleryParagraph = ({paragraph}: { paragraph: ImageGalleryParagraphType }) => {
+const GalleryParagraph = ({paragraph, ...props}: PropsWithoutRef<{ paragraph: ImageGalleryParagraphType }>) => {
   return (
-    <div className="@container centered lg:max-w-[980px] flex flex-col gap-10 mb-20">
+    <div className="@container centered lg:max-w-[980px] flex flex-col gap-10 mb-20" {...props}>
       {paragraph.su_gallery_headline &&
         <H2>{paragraph.su_gallery_headline}</H2>
       }

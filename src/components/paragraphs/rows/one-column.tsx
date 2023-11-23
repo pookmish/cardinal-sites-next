@@ -3,7 +3,7 @@ import {StanfordParagraph} from "@lib/types";
 
 const OneColumn = ({items}: { items: StanfordParagraph[] }) => {
   return (
-    <div className="flex flex-col gap-40">
+    <div className="row flex flex-col gap-40" data-columns={1}>
       {items.map(item =>
         <Paragraph paragraph={item} key={item.id}/>
       )}

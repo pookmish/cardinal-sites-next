@@ -5,8 +5,9 @@ import Rows from "@components/paragraphs/rows/rows";
 import SocialIcons from "@components/nodes/pages/stanford-news/social-icons";
 import {DrupalTaxonomyTerm} from "@lib/types";
 import {H1} from "@components/elements/headers";
+import {PropsWithoutRef} from "react";
 
-const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {
+const StanfordNewsPage = ({node, ...props}: PropsWithoutRef<{ node: NewsNodeType }>) => {
   if (node.su_news_source?.url) redirect(node.su_news_source.url)
   const publishDate = node.su_news_publishing_date ? new Date(node.su_news_publishing_date).toLocaleDateString("en-us", {
     month: "long",
@@ -24,7 +25,7 @@ const StanfordNewsPage = ({node}: { node: NewsNodeType }) => {
   const topics: DrupalTaxonomyTerm[] | undefined = (node.su_news_topics && node.su_news_topics.length > 0) ? node.su_news_topics.slice(0, 3) : undefined;
 
   return (
-    <div className="centered mt-32">
+    <div className="centered mt-32" {...props}>
       <div className="lg:w-3/4 mx-auto mb-20">
         <div className="flex flex-col">
           <H1 className="order-2">

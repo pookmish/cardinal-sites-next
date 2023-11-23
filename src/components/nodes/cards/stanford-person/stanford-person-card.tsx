@@ -2,13 +2,14 @@ import {PersonNodeType} from "@lib/types";
 import Image from "next/image";
 import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
+import {PropsWithoutRef} from "react";
 
-const StanfordPersonCard = ({node, headingLevel}: { node: PersonNodeType, headingLevel?: string }) => {
+const StanfordPersonCard = ({node, headingLevel, ...props}: PropsWithoutRef<{ node: PersonNodeType, headingLevel?: string }>) => {
   const imageUrl = node.su_person_photo?.field_media_image.image_style_uri.square_956
   const placeholder = node.su_person_photo?.field_media_image.uri.base64
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
-    <div className="max-w-[500px] w-full mx-auto text-center overflow-hidden">
+    <div className="max-w-[500px] w-full mx-auto text-center overflow-hidden" {...props}>
       {imageUrl &&
         <div className="relative aspect-[1/1] mx-auto mb-20 w-3/5">
           <Image

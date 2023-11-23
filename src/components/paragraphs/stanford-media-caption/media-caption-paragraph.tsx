@@ -1,7 +1,9 @@
 import {MediaCaptionParagraphType} from "@lib/types";
-import MediaCaptionParagraphDisplay from "@components/paragraphs/stanford-media-caption/media-caption-paragraph-display";
+import MediaCaptionParagraphDisplay
+  from "@components/paragraphs/stanford-media-caption/media-caption-paragraph-display";
+import {PropsWithoutRef} from "react";
 
-const MediaCaptionParagraph = ({paragraph}: { paragraph: MediaCaptionParagraphType }) => {
+const MediaCaptionParagraph = ({paragraph, ...props}: PropsWithoutRef<{ paragraph: MediaCaptionParagraphType }>) => {
   let imageUrl: string | undefined,
     imageAlt: string | undefined,
     videoUrl: string | undefined,
@@ -17,11 +19,13 @@ const MediaCaptionParagraph = ({paragraph}: { paragraph: MediaCaptionParagraphTy
   }
 
   return (
-    <MediaCaptionParagraphDisplay
-      media={imageUrl || videoUrl ? {imageUrl, imageAlt, videoUrl, placeholder} : undefined}
-      link={paragraph.su_media_caption_link}
-      caption={paragraph.su_media_caption_caption}
-    />
+    <div {...props}>
+      <MediaCaptionParagraphDisplay
+        media={imageUrl || videoUrl ? {imageUrl, imageAlt, videoUrl, placeholder} : undefined}
+        link={paragraph.su_media_caption_link}
+        caption={paragraph.su_media_caption_caption}
+      />
+    </div>
   )
 }
 export default MediaCaptionParagraph

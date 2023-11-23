@@ -3,15 +3,15 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import StanfordPolicyCard from "@components/nodes/cards/stanford-policy/stanford-policy-card";
 import {getResources} from "@lib/drupal/get-resource";
 import StringWithLines from "@components/elements/string-with-lines";
-import {JSX} from "react";
+import {JSX, PropsWithoutRef} from "react";
 import {H1, H2, H3} from "@components/elements/headers";
 
-const StanfordPolicyPage = async ({node}: { node: PolicyNodeType }): Promise<JSX.Element> => {
+const StanfordPolicyPage = async ({node, ...props}: PropsWithoutRef<{ node: PolicyNodeType }>): Promise<JSX.Element> => {
   const relatedPolicies: PolicyNodeType[] = await getResources(node.su_policy_related ?? [])
   const changeLog = node.su_policy_changelog?.filter(change => change.su_policy_public) ?? []
 
   return (
-    <div className="centered pt-32">
+    <div className="centered pt-32" {...props}>
       <H1>
         {node.title}
       </H1>

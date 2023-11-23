@@ -7,7 +7,7 @@ const ThreeColumn = ({items}: { items: StanfordParagraph[] }) => {
   const rightItems = items.filter(item => item.behavior_settings?.layout_paragraphs?.region === 'right');
 
   return (
-    <div className="w-full max-w-[calc(100vw-5rem)] mx-auto grid md:grid-cols-3 w-full gap-20">
+    <div className="centered grid md:grid-cols-3 gap-20" data-columns={3}>
       <OneColumn items={leftItems}/>
       <OneColumn items={mainItems}/>
       <OneColumn items={rightItems}/>

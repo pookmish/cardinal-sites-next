@@ -31,7 +31,7 @@ const Rows = async ({components}: { components: StanfordParagraph[] }) => {
 
   // Add the components to each of the layouts.
   components.map(item => {
-    const parentUUID =  item.behavior_settings?.layout_paragraphs?.parent_uuid;
+    const parentUUID = item.behavior_settings?.layout_paragraphs?.parent_uuid;
     if (parentUUID && layouts[parentUUID]) {
       layouts[parentUUID].children.push(item);
     }

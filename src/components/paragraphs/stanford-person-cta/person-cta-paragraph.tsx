@@ -1,12 +1,13 @@
 import {SpeakerParagraphType} from "@lib/types";
 import Image from "next/image";
 import Link from "@components/elements/link";
+import {PropsWithoutRef} from "react";
 
-const PersonCtaParagraph = ({paragraph}: { paragraph: SpeakerParagraphType }) => {
+const PersonCtaParagraph = ({paragraph, ...props}: PropsWithoutRef<{ paragraph: SpeakerParagraphType }>) => {
   const imageUrl = paragraph.su_person_cta_image?.field_media_image.image_style_uri.square_478;
   const imageAlt = paragraph.su_person_cta_image?.field_media_image.resourceIdObjMeta?.alt ?? '';
   return (
-    <div className="centered flex gap-10">
+    <div className="centered flex gap-10" {...props}>
       {imageUrl &&
         <div className="relative aspect-[1/1] w-[200px]">
           <Image

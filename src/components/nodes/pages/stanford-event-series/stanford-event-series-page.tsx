@@ -1,10 +1,11 @@
 import {EventNodeType, EventSeriesNodeType} from "@lib/types";
 import StanfordEventListItem from "@components/nodes/list-item/stanford-event/stanford-event-list-item";
 import {H1} from "@components/elements/headers";
+import {PropsWithoutRef} from "react";
 
-const StanfordEventSeriesPage = ({node}: { node: EventSeriesNodeType }) => {
+const StanfordEventSeriesPage = ({node, ...props}: PropsWithoutRef<{ node: EventSeriesNodeType }>) => {
   return (
-    <div className="centered">
+    <div className="centered" {...props}>
       <H1 className="mt-32">
         {node.title}
       </H1>

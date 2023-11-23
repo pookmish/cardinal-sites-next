@@ -18,23 +18,29 @@ const Paragraph = async ({paragraph}: Props) => {
   const draftMode = isDraftMode()
   paragraph = await getResource<StanfordParagraph>(paragraph.type, paragraph.id, {draftMode});
 
+  const itemProps: { [key: string]: string } = {}
+  if (draftMode) {
+    itemProps['data-type'] = paragraph.type;
+    itemProps['data-id'] = paragraph.id;
+  }
+
   switch (paragraph.type) {
     case 'paragraph--stanford_banner':
-      return <BannerParagraph paragraph={paragraph}/>
+      return <BannerParagraph paragraph={paragraph} {...itemProps}/>
     case 'paragraph--stanford_card':
-      return <CardParagraph paragraph={paragraph}/>
+      return <CardParagraph paragraph={paragraph} {...itemProps}/>
     case 'paragraph--stanford_entity':
-      return <EntityParagraph paragraph={paragraph}/>
+      return <EntityParagraph paragraph={paragraph} {...itemProps}/>
     case 'paragraph--stanford_gallery':
-      return <GalleryParagraph paragraph={paragraph}/>
+      return <GalleryParagraph paragraph={paragraph} {...itemProps}/>
     case 'paragraph--stanford_lists':
-      return <ListParagraph paragraph={paragraph}/>
+      return <ListParagraph paragraph={paragraph} {...itemProps}/>
     case 'paragraph--stanford_media_caption':
-      return <MediaCaptionParagraph paragraph={paragraph}/>
+      return <MediaCaptionParagraph paragraph={paragraph} {...itemProps}/>
     case 'paragraph--stanford_spacer':
-      return <SpacerParagraph paragraph={paragraph}/>
+      return <SpacerParagraph paragraph={paragraph} {...itemProps}/>
     case 'paragraph--stanford_wysiwyg':
-      return <WysiwygParagraph paragraph={paragraph}/>
+      return <WysiwygParagraph paragraph={paragraph} {...itemProps}/>
   }
 }
 export default Paragraph;

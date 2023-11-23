@@ -3,15 +3,16 @@ import Image from "next/image";
 import Link from "@components/elements/link";
 import {DrupalTaxonomyTerm} from "@lib/types";
 import {H2, H3} from "@components/elements/headers";
+import {PropsWithoutRef} from "react";
 
-const StanfordNewsCard = ({node, headingLevel}: { node: NewsNodeType, headingLevel?: string }) => {
+const StanfordNewsCard = ({node, headingLevel, ...props}: PropsWithoutRef<{ node: NewsNodeType, headingLevel?: string }>) => {
   const imageUrl = node.su_news_featured_media?.field_media_image.image_style_uri.card_1900x950;
   const imageAlt = node.su_news_featured_media?.field_media_image.resourceIdObjMeta?.alt ?? '';
 
   const topics: DrupalTaxonomyTerm[] = (node.su_news_topics && node.su_news_topics.length > 0) ? node.su_news_topics.slice(0, 3) : [];
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
-    <div className="max-w-[500px] w-full mx-auto shadow-xl border border-black-20 overflow-hidden">
+    <div className="max-w-[500px] w-full mx-auto shadow-xl border border-black-20 overflow-hidden" {...props}>
 
       {imageUrl &&
         <div className="relative aspect-[16/9] w-full">

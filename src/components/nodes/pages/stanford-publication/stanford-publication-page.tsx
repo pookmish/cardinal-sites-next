@@ -3,10 +3,11 @@ import Rows from "@components/paragraphs/rows/rows";
 import Citation from "@components/nodes/pages/stanford-publication/citation";
 import Button from "@components/elements/button";
 import {H1} from "@components/elements/headers";
+import {PropsWithoutRef} from "react";
 
-const StanfordPublicationPage = ({node}: { node: PublicationNodeType }) => {
+const StanfordPublicationPage = ({node, ...props}: PropsWithoutRef<{ node: PublicationNodeType }>) => {
   return (
-    <div className="centered pt-32">
+    <div className="centered pt-32" {...props}>
       <div className="flex flex-col gap-10">
         <H1 className="order-2">
           {node.title}

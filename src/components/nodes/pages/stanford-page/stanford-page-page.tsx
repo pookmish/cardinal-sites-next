@@ -3,11 +3,12 @@ import Rows from "@components/paragraphs/rows/rows";
 import InteriorPage from "@components/layouts/interior-page";
 import Paragraph from "@components/paragraphs/paragraph";
 import {H1} from "@components/elements/headers";
+import {PropsWithoutRef} from "react";
 
-const StanfordPagePage = ({node}: { node: BasicPageNodeType }) => {
+const StanfordPagePage = ({node, ...props}: PropsWithoutRef<{ node: BasicPageNodeType }>) => {
   const fullWidth = node.layout_selection?.resourceIdObjMeta.drupal_internal__target_id === 'stanford_basic_page_full';
   return (
-    <div>
+    <div {...props}>
       {node.su_page_banner &&
         <Paragraph paragraph={node.su_page_banner}/>
       }
