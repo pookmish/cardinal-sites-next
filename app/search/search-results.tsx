@@ -5,6 +5,7 @@ import Link from "@components/elements/link";
 import {useSearchParams} from "next/navigation";
 import {Metadata} from "next";
 import {ArrowPathIcon} from "@heroicons/react/20/solid";
+
 interface Result extends Metadata {
   id: string;
   type: string;
@@ -57,32 +58,36 @@ const SearchResults = ({search}: { search: (search: string) => Promise<Result[]>
         </button>
       </form>
 
-      {results &&
-        <>
-          <div className="sr-only" aria-live="polite">
-            Showing {results.length} {!searchString ? 'suggestions.' : `results for ${searchString}.`}
-          </div>
-          {isLoading &&
-            <div className="fixed top-0 left-0 bg-black w-screen h-screen opacity-30">
-              <ArrowPathIcon width={50} className="animate-spin fixed top-1/2 left-1/2 text-white"/>
-            </div>
-          }
-          <ul className="list-unstyled">
-            {results.map(result =>
-              <li key={result.id}
-                  className="border-b border-black-20 last:border-0 py-20">
-                <Link href={result.path} className="text-m2 font-bold">
-                  {result.title}
-                </Link>
-                <p>
-                  {result.description}
-                </p>
-                <div>Last
-                  Updated: {new Date(result.changed).toLocaleDateString('en-us', {month: 'long', day: 'numeric', year: 'numeric'})}</div>
-              </li>
-            )}
-          </ul>
-        </>
+      <div className="sr-only" aria-live="polite">
+        Showing {results.length} {!searchString ? 'suggestions.' : `results for ${searchString}.`}
+      </div>
+      {isLoading &&
+        <div className="fixed top-0 left-0 bg-black w-screen h-screen opacity-30">
+          <ArrowPathIcon width={50} className="animate-spin fixed top-1/2 left-1/2 text-white"/>
+        </div>
+      }
+      {results.length === 0 && <div>No results found for your search. Please try another keyword.</div>}
+
+      {results.length > 0 &&
+        <ul className="list-unstyled">
+          {results.map(result =>
+            <li key={result.id}
+                className="border-b border-black-20 last:border-0 py-20">
+              <Link href={result.path} className="text-m2 font-bold">
+                {result.title}
+              </Link>
+              <p>
+                {result.description}
+              </p>
+              <div>Last
+                Updated: {new Date(result.changed).toLocaleDateString('en-us', {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric'
+                })}</div>
+            </li>
+          )}
+        </ul>
       }
     </div>
   )
