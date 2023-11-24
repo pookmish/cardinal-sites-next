@@ -4,7 +4,7 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: drupalUrl.hostname,
+        hostname: '**.stanford.edu',
       },
     ],
   },
