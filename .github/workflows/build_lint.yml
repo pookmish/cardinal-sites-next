@@ -8,7 +8,6 @@ jobs:
     container:
       image: node:18
       env:
-        NODE_ENV: development
         NEXT_PUBLIC_DRUPAL_BASE_URL: ${{ secrets.NEXT_PUBLIC_DRUPAL_BASE_URL }}
     steps:
       - uses: actions/checkout@v2
