@@ -28,6 +28,10 @@ const nextConfig = {
           destination: '/_next/image?url=:url',
           has: [{ type: 'query', key: 'url', value: '(?<url>.*[jpg|png|jpeg|gif]\?itok=([\\w|-]+)).*' }],
         },
+        {
+          source: '/wp-:path*',
+          destination: '/not-found',
+        }
       ],
     };
   },
