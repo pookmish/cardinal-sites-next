@@ -1,6 +1,10 @@
 const drupalUrl = new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL);
 
 const nextConfig = {
+  typescript: {
+    // Disable build errors since dev dependencies aren't loaded on prod. Rely on GitHub actions to throw any errors.
+    ignoreBuildErrors: process.env.CI !== 'true',
+  },
   images: {
     remotePatterns: [
       {
@@ -70,6 +74,7 @@ const nextConfig = {
     ];
   },
 };
+
 module.exports = nextConfig;
 
 if (process.env.NODE_ENV === 'development') {

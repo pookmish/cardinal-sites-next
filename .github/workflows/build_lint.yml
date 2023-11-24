@@ -8,9 +8,7 @@ jobs:
     container:
       image: node:18
       env:
-        NODE_ENV: development
         NEXT_PUBLIC_DRUPAL_BASE_URL: ${{ secrets.NEXT_PUBLIC_DRUPAL_BASE_URL }}
-        NEXT_IMAGE_DOMAIN: ${{ secrets.NEXT_IMAGE_DOMAIN }}
     steps:
       - uses: actions/checkout@v2
       - name: Restore Cache
@@ -27,6 +25,6 @@ jobs:
         run: |
           yarn
           yarn lint
-#      - name: Build
-#        run: |
-#          yarn build
+      - name: Build
+        run: |
+          yarn build
