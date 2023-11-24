@@ -6,6 +6,7 @@ import Editori11y from "@components/tools/editorially";
 import Script from "next/script";
 import GoogleAnalytics from "@components/tools/google-analytics";
 import {isDraftMode} from "@lib/drupal/utils";
+import BackToTop from "@components/elements/back-to-top";
 
 export const metadata = {
   title: 'Stanford University'
@@ -35,6 +36,7 @@ const RootLayout = ({children, modal}: { children: React.ReactNode, modal: React
         {children}
         {modal}
       </main>
+      <BackToTop/>
       <PageFooter/>
     </div>
     </body>
