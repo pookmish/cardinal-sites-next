@@ -18,9 +18,8 @@ const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
 
   const urls: MetadataRoute.Sitemap = [];
 
-
   try {
-    const drupalSitemap: DrupalSitemapItem[] = await fetch(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + '/sitemap.xml')
+    const drupalSitemap: DrupalSitemapItem[] = await fetch(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + '/sitemap.xml', {next: {revalidate: 60}})
       .then(response => response.text())
       .then<DrupalSitemap>(result => xmlParser.parseStringPromise(result))
       .then(sitemap => sitemap['urlset'].url);

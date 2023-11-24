@@ -4,7 +4,13 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
+        // Allow any stanford domain for images, but require https.
+        protocol: 'https',
         hostname: '**.stanford.edu',
+      },
+      {
+        protocol: drupalUrl.protocol.replace(':', ''),
+        hostname: drupalUrl.hostname,
       },
     ],
   },
@@ -60,7 +66,6 @@ const nextConfig = {
     ];
   },
 };
-
 if (process.env.NODE_ENV === 'development') {
   const withBundleAnalyzer = require('@next/bundle-analyzer')({
     enabled: process.env.ANALYZE === 'true',
