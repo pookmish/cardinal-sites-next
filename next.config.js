@@ -1,18 +1,12 @@
 const drupalUrl = new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL);
 
-const imagePatterns = [
-  {
-    protocol: drupalUrl.protocol.replace(':', ''),
-    hostname: drupalUrl.hostname,
-  },
-];
-if (process.env.NEXT_IMAGE_DOMAIN && drupalUrl.hostname !== process.env.NEXT_IMAGE_DOMAIN) {
-  imagePatterns.push({hostname: process.env.NEXT_IMAGE_DOMAIN})
-}
-
 const nextConfig = {
   images: {
-    remotePatterns: imagePatterns,
+    remotePatterns: [
+      {
+        hostname: drupalUrl.hostname,
+      },
+    ],
   },
   async rewrites() {
     return {
