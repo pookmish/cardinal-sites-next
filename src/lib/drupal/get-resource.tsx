@@ -13,7 +13,9 @@ export async function getResources<T>(items: { type: string, id: string }[], dra
 
   // @ts-ignore
   return Promise.all(requests.map((p, i) => p.catch((e) => {
-    console.error(`Failed Fetching (probably unpublished) component ${items[i].type}-${items[i].id}`, e);
+    if (`${items[i].type}-${items[i].id}` !== 'unknown-missing') {
+      console.error(`Failed Fetching (probably unpublished) component ${items[i].type}-${items[i].id}`, e);
+    }
     return null
   })));
 }
