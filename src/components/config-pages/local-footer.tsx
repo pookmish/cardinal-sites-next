@@ -17,6 +17,9 @@ import LockupS from "@components/elements/lockup/lockup-s";
 import LockupT from "@components/elements/lockup/lockup-t";
 import {JSX} from "react";
 import {H2} from "@components/elements/headers";
+import TwitterIcon from "@components/elements/icons/TwitterIcon";
+import YoutubeIcon from "@components/elements/icons/YoutubeIcon";
+import FacebookIcon from "@components/elements/icons/FacebookIcon";
 
 const LocalFooter = ({configPage}: {configPage: LocalFooterConfigPageType}) => {
   if (!configPage.su_footer_enabled) {
@@ -41,7 +44,7 @@ const LocalFooter = ({configPage}: {configPage: LocalFooterConfigPageType}) => {
           <FooterLockup {...lockupProps} />
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-32">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-32 [&_a]:font-normal [&_a]:no-underline [&_a:hover]:underline [&_a:hover]:text-black [&_a:focus]:underline [&_a:focus]:text-black [&_a]:transition">
           <div>
 
             {configPage.su_local_foot_address &&
@@ -52,13 +55,25 @@ const LocalFooter = ({configPage}: {configPage: LocalFooterConfigPageType}) => {
               <ul className="list-unstyled">
                 {configPage.su_local_foot_action.map((link, index) =>
                   <li key={`footer-action-link-${index}`}>
-                    <Link href={link.url}
-                          className="no-underline hocus:underline hocus:text-black transition">
+                    <Link href={link.url}>
                       {link.title}
                     </Link>
                   </li>
                 )}
               </ul>
+            }
+
+            {configPage.su_local_foot_social &&
+            <ul className="list-unstyled flex gap-2">
+              {configPage.su_local_foot_social.map((link, index) =>
+                <li key={`footer-action-link-${index}`}>
+                  <Link href={link.url}>
+                    <SocialIcon url={link.url}/>
+                    <span className="sr-only">{link.title}</span>
+                  </Link>
+                </li>
+              )}
+            </ul>
             }
 
             {configPage.su_local_foot_pr_co &&
@@ -73,8 +88,7 @@ const LocalFooter = ({configPage}: {configPage: LocalFooterConfigPageType}) => {
               <ul className="list-unstyled">
                 {configPage.su_local_foot_primary.map((link, index) =>
                   <li key={`footer-primary-link-${index}`}>
-                    <Link href={link.url}
-                          className="no-underline hocus:underline hocus:text-black transition">
+                    <Link href={link.url}>
                       {link.title}
                     </Link>
                   </li>
@@ -95,8 +109,7 @@ const LocalFooter = ({configPage}: {configPage: LocalFooterConfigPageType}) => {
               <ul className="list-unstyled">
                 {configPage.su_local_foot_second.map((link, index) =>
                   <li key={`footer-second-link-${index}`}>
-                    <Link href={link.url}
-                          className="no-underline hocus:underline hocus:text-black transition">
+                    <Link href={link.url}>
                       {link.title}
                     </Link>
                   </li>
@@ -119,6 +132,13 @@ const LocalFooter = ({configPage}: {configPage: LocalFooterConfigPageType}) => {
       </div>
     </div>
   )
+}
+
+const SocialIcon = ({url}: { url: string }) => {
+  if (url.includes('twitter.com')) return <TwitterIcon/>
+  if (url.includes('youtube.com')) return <YoutubeIcon/>
+  if (url.includes('facebook')) return <FacebookIcon/>
+  return null;
 }
 
 export interface FooterLockupProps {

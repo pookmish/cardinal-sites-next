@@ -12,7 +12,7 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: PropsWithoutRef<{ node
   const topics: DrupalTaxonomyTerm[] = (node.su_news_topics && node.su_news_topics.length > 0) ? node.su_news_topics.slice(0, 3) : [];
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
-    <div className="max-w-[500px] w-full mx-auto shadow-xl border border-black-20 overflow-hidden" {...props}>
+    <div className="mx-auto shadow-xl border border-black-20 overflow-hidden" {...props}>
 
       {imageUrl &&
         <div className="relative aspect-[16/9] w-full">

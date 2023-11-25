@@ -1,17 +1,16 @@
 "use client";
 
-import {JSX, ComponentProps, RefObject, useLayoutEffect, useRef, useState} from "react";
+import {JSX, ComponentProps, RefObject, useLayoutEffect, useRef, useState, PropsWithChildren} from "react";
 import Button from "@components/elements/button";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 
-const LoadMoreList = ({buttonText, children, listProps, itemProps, props, itemsPerPage = 20}: {
+const LoadMoreList = ({buttonText, children, listProps, itemProps, itemsPerPage = 20, ...props}: PropsWithChildren<{
   buttonText?: string | JSX.Element
   children: JSX.Element[],
   listProps?: ComponentProps<any>
   itemProps?: ComponentProps<any>,
-  props?: ComponentProps<any>
   itemsPerPage?: number
-}) => {
+}>) => {
   const [shownItems, setShownItems] = useState<number>(itemsPerPage)
   const [allowFocus, setAllowFocus] = useState<boolean>(false);
   const ref: RefObject<HTMLLIElement> = useRef<HTMLLIElement | null>(null);

@@ -3,6 +3,7 @@ import Link from "@components/elements/link";
 import {CalendarDaysIcon, MapPinIcon} from "@heroicons/react/20/solid";
 import Address from "@components/elements/address";
 import {H2, H3} from "@components/elements/headers";
+import {PropsWithoutRef} from "react";
 
 export const getEventTimeString = (start: Date, end: Date, timezone: string): string => {
   const startHour = parseInt(start.toLocaleTimeString("en-US", {
@@ -95,7 +96,7 @@ export const getEventTimeString = (start: Date, end: Date, timezone: string): st
   })
 }
 
-const StanfordEventListItem = ({node, headingLevel, ...props}: { node: EventNodeType, headingLevel?: string }) => {
+const StanfordEventListItem = ({node, headingLevel, ...props}: PropsWithoutRef<{ node: EventNodeType, headingLevel?: string }>) => {
 
   const timezone: string = node.su_event_date_time.timezone ?? 'America/Los_Angeles';
   const start = new Date(node.su_event_date_time.value);
@@ -106,7 +107,7 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: { node: EventNode
 
   // Fix difference between server side render and client side render. Replace any strange characters.
   const dateTimeString = getEventTimeString(start, end, timezone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
-  const goToPath = node.su_event_source?.url ?? node.path?.alias as string
+  const goToPath = node.su_event_source?.url || node.path?.alias
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <div className="w-full mx-auto py-10 flex gap-10" {...props}>

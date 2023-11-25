@@ -24,7 +24,7 @@ const EntityParagraph = async ({paragraph, ...props}: PropsWithoutRef<{ paragrap
         <Wysiwyg html={paragraph.su_entity_description}/>
       }
 
-      <div className={`grid ${gridClass} gap-20 mb-20`}>
+      <div className={`grid ${gridClass} [&>*]:w-full gap-20 mb-20`}>
         {entities.map(entity =>
           <NodeCard key={entity.id} node={entity} headingLevel={paragraph.su_entity_headline ? "h3" : "h2"}/>
         )}

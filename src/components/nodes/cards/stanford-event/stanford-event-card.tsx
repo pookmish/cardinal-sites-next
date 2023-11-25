@@ -101,11 +101,11 @@ const StanfordEventCard = ({node, headingLevel, ...props}: PropsWithoutRef<{ nod
 
   // Fix difference between server side render and client side render. Replace any strange characters.
   const dateTimeString = getEventTimeString(start, end, timezone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
-  const goToPath = node.su_event_source?.url ?? node.path?.alias as string
+  const goToPath = node.su_event_source?.url || node.path?.alias
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <div
-      className="max-w-[500px] w-full mx-auto shadow-lg border border-black-20 p-10 flex flex-col gap-10 overflow-hidden" {...props}>
+      className="mx-auto shadow-lg border border-black-20 p-10 flex flex-col gap-10 overflow-hidden" {...props}>
       <div aria-hidden className="flex flex-col items-start w-fit">
         <div className="text-m0 font-semibold mb-4 w-full text-center">
           {startMonth.toUpperCase()}

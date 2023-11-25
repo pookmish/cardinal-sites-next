@@ -6,7 +6,7 @@ import {PropsWithoutRef} from "react";
 const StanfordCourseListItem = ({node, headingLevel, ...props}: PropsWithoutRef<{ node: CourseNodeType, headingLevel?: string }>) => {
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
-    <div  {...props}>
+    <div {...props}>
       <Heading className="text-m2">
         <Link href={node.path?.alias}>
           {node.title}

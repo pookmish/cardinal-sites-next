@@ -9,7 +9,7 @@ const StanfordPageCard = ({node, headingLevel, ...props}: PropsWithoutRef<{ node
   const imageAlt = (node.su_page_image?.field_media_image.resourceIdObjMeta?.alt || node.su_page_banner?.su_banner_image?.field_media_image.resourceIdObjMeta?.alt) ?? '';
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
-    <div className="max-w-[500px] w-full mx-auto shadow-xl border border-black-20 overflow-hidden" {...props}>
+    <div className="mx-auto shadow-xl border border-black-20 overflow-hidden" {...props}>
       {imageUrl &&
         <div
           className="relative aspect-[16/9] w-full">

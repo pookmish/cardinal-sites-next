@@ -9,7 +9,7 @@ const StanfordPersonCard = ({node, headingLevel, ...props}: PropsWithoutRef<{ no
   const placeholder = node.su_person_photo?.field_media_image.uri.base64
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
-    <div className="max-w-[500px] w-full mx-auto text-center overflow-hidden" {...props}>
+    <div className="mx-auto text-center overflow-hidden" {...props}>
       {imageUrl &&
         <div className="relative aspect-[1/1] mx-auto mb-20 w-3/5">
           <Image
