@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "@components/elements/link";
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useLayoutEffect, useRef, useState} from "react";
 import {Bars3Icon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import {XCircleIcon} from "@heroicons/react/24/outline";
 import useNavigationEvent from "@lib/hooks/useNavigationEvent";
@@ -74,11 +74,19 @@ type MenuItemProps = DrupalMenuLinkContent & {
 }
 
 const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps) => {
+  const sublistRef = useRef<HTMLUListElement|undefined>(null);
+  const [positionRight, setPositionRight] = useState<boolean>(true)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
   const [submenuOpen, setSubmenuOpen] = useState<boolean>(false)
   const browserUrl = useNavigationEvent()
   useEffect(() => setSubmenuOpen(false), [browserUrl]);
   const itemProps = useOutsideClick(() => setSubmenuOpen(false));
+
+  useLayoutEffect(() => {
+    // If the right side of the submenu is not visible, set the position to be on the left of the menu item.
+    const {x, width} = sublistRef.current?.getBoundingClientRect()
+    if (x + width > window.innerWidth) setPositionRight(false);
+  }, [submenuOpen])
 
   const handleEscape = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape" && submenuOpen) {
@@ -170,7 +178,9 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
 
       {items &&
         <ul
-          className={(submenuOpen ? "block" : "hidden") + " list-unstyled w-full min-w-[300px] lg:bg-white lg:shadow-2xl px-0 lg:absolute " + (level === 0 ? "lg:top-full lg:left-0 " : "lg:top-0 lg:left-full ") + zIndexes[level]}>
+          ref={sublistRef}
+          className={(submenuOpen ? "block" : "hidden") + " list-unstyled w-full min-w-[300px] lg:bg-white lg:shadow-2xl px-0 lg:absolute " + (level === 0 ? "lg:top-full lg:right-0 " : "lg:top-0 " + (positionRight ? "lg:left-full ": "lg:right-full ")) + zIndexes[level]}
+        >
           {items.map(item =>
             <MenuItem
               key={item.id}
