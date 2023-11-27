@@ -78,6 +78,7 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
   const [submenuOpen, setSubmenuOpen] = useState<boolean>(false)
   const browserUrl = useNavigationEvent()
   useEffect(() => setSubmenuOpen(false), [browserUrl]);
+  const itemProps = useOutsideClick(() => setSubmenuOpen(false));
 
   const handleEscape = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape" && submenuOpen) {
@@ -131,7 +132,6 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
   ];
 
   const itemStyles: string = level === 0 ? topItem.join(' ') : childItem.join(' ');
-  const itemProps = useOutsideClick(() => setSubmenuOpen(false));
 
   return (
     <li
@@ -170,7 +170,7 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
 
       {items &&
         <ul
-          className={(submenuOpen ? "block" : "hidden") + " list-unstyled w-full min-w-[300px] lg:bg-white lg:shadow-2xl px-0 " + (level === 0 ? "lg:absolute lg:top-full lg:left-0 " : "") + zIndexes[level]}>
+          className={(submenuOpen ? "block" : "hidden") + " list-unstyled w-full min-w-[300px] lg:bg-white lg:shadow-2xl px-0 lg:absolute " + (level === 0 ? "lg:top-full lg:left-0 " : "lg:top-0 lg:left-full ") + zIndexes[level]}>
           {items.map(item =>
             <MenuItem
               key={item.id}

@@ -1,26 +1,26 @@
-
-
-import {AccessToken, JsonApiResource, JsonApiWithLocaleOptions} from "next-drupal";
+import {AccessToken, JsonApiResource, JsonApiOptions} from "next-drupal";
 import {stringify} from "qs"
 import {buildUrl, buildHeaders, getJsonApiPathForResourceType, getPathFromContext} from "./utils";
 import {deserialize} from "@lib/drupal/deserialize";
 import {JsonApiParams} from "next-drupal";
 import {PageProps, StanfordConfigPage} from "@lib/types";
 
-export async function getResources<T>(items: { type: string, id: string }[], draftMode: boolean = false): Promise<T[]> {
+export const getResources = async <T extends JsonApiResource, >(
+  items: { type: string, id: string }[],
+  draftMode: boolean = false
+): Promise<T[]> => {
   const requests: PromiseLike<any>[] = [];
-  items.map(item => requests.push(getResource(item.type, item.id, {draftMode})));
+  items.filter(({type, id}) => `${type}-${id}` !== 'unknown-missing')
+    .map(item => requests.push(getResource<T>(item.type, item.id, {draftMode})));
 
   // @ts-ignore
   return Promise.all(requests.map((p, i) => p.catch((e) => {
-    if (`${items[i].type}-${items[i].id}` !== 'unknown-missing') {
-      console.error(`Failed Fetching (probably unpublished) component ${items[i].type}-${items[i].id}`, e);
-    }
+    console.error(`Failed Fetching (probably unpublished) component ${items[i].type}-${items[i].id}`, e);
     return null
   })));
 }
 
-export async function getResourceFromContext<T extends JsonApiResource>(
+export const getResourceFromContext = async <T extends JsonApiResource, >(
   type: string,
   context: PageProps,
   options?: {
@@ -31,7 +31,7 @@ export async function getResourceFromContext<T extends JsonApiResource>(
     isVersionable?: boolean
     draftMode?: boolean
   }
-): Promise<T | undefined> {
+): Promise<T | undefined> => {
   options = {
     deserialize: true,
     draftMode: false,
@@ -55,15 +55,15 @@ export async function getResourceFromContext<T extends JsonApiResource>(
   return resource
 }
 
-export async function getResourceByPath<T extends JsonApiResource>(
+export const getResourceByPath = async <T extends JsonApiResource, >(
   path: string,
   options?: {
     accessToken?: AccessToken
     deserialize?: boolean
     isVersionable?: boolean
     draftMode?: boolean
-  } & JsonApiWithLocaleOptions,
-): Promise<T | undefined> {
+  } & JsonApiOptions,
+): Promise<T | undefined> => {
   options = {
     deserialize: true,
     isVersionable: false,
@@ -119,15 +119,14 @@ export async function getResourceByPath<T extends JsonApiResource>(
   return options.deserialize ? deserialize(data) : data
 }
 
-export async function getResourceCollection<T = JsonApiResource[]>(
+export const getResourceCollection = async <T extends JsonApiResource, >(
   type: string,
   options?: {
     deserialize?: boolean
     accessToken?: AccessToken
     draftMode?: boolean
-  } & JsonApiWithLocaleOptions,
-
-): Promise<T> {
+  } & JsonApiOptions,
+): Promise<T> => {
   options = {
     deserialize: true,
     draftMode: false,
@@ -157,16 +156,15 @@ export async function getResourceCollection<T = JsonApiResource[]>(
   return options.deserialize ? deserialize(json) : json
 }
 
-export async function getResource<T extends JsonApiResource>(
+export const getResource = async <T extends JsonApiResource, >(
   type: string,
   uuid: string,
   options?: {
     accessToken?: AccessToken
     deserialize?: boolean
     draftMode?: boolean
-  } & JsonApiWithLocaleOptions,
-
-): Promise<T> {
+  } & JsonApiOptions,
+): Promise<T> => {
   options = {
     deserialize: true,
     params: {},
@@ -196,12 +194,13 @@ export async function getResource<T extends JsonApiResource>(
   return options.deserialize ? deserialize(json) : json
 }
 
-export async function getConfigPageResource<T extends StanfordConfigPage>(
+export const getConfigPageResource = async <T extends StanfordConfigPage>(
   name: string,
   options?: {
     deserialize?: boolean
     accessToken?: AccessToken
-  } & JsonApiWithLocaleOptions): Promise<T | undefined> {
+  } & JsonApiOptions
+): Promise<T | undefined> => {
   let response;
   try {
     response = await getResourceCollection<JsonApiResource>(`config_pages--${name}`, options);

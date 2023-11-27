@@ -10,7 +10,7 @@ const headingLinkClasses = "[&_a]:text-digital-red [&_a]:hocus:text-black [&_a]:
 
 export const H1 = ({children, ...props}: PropsWithChildren<Props>) => {
   return (
-    <h1 {...props}>
+    <h1 className={twMerge(props.className, "text-m4")} {...props}>
       {children}
     </h1>
   )

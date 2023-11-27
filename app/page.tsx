@@ -10,7 +10,7 @@ export const revalidate = 86400;
 const Home = async () => {
   const draftMode = isDraftMode()
   const node = await getResourceByPath<BasicPageNodeType>('/', {draftMode});
-  if(!node) notFound();
+  if (!node) notFound();
 
   return (
     <>
