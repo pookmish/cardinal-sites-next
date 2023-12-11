@@ -26,7 +26,7 @@ const StanfordCoursePage = ({node, ...props}: PropsWithoutRef<{ node: CourseNode
 
         {node.su_course_tags &&
           <div>
-            {node.su_course_tags.map((tag, i) =>
+            {node.su_course_tags.map(tag =>
               <div key={tag.id}>{tag.name}</div>
             )}
           </div>

@@ -1,4 +1,3 @@
-import StanfordEventCard from "@components/nodes/cards/stanford-event/stanford-event-card";
 import {EventNodeType} from "@lib/types";
 import {getViewItems} from "@components/views/view";
 import CardViewGrid from "@components/views/card-view-grid";

@@ -1,5 +1,5 @@
 import {stringify} from "qs"
-import {AccessToken, Locale} from "next-drupal";
+import {AccessToken} from "next-drupal";
 import {getAccessToken} from "./get-access-token";
 import {draftMode} from "next/headers";
 import {PageProps, StanfordNode} from "@lib/types";
@@ -17,36 +17,25 @@ export const buildUrl = (
   path: string,
   params?: string | Record<string, string> | URLSearchParams
 ): URL => {
-  const url = new URL(
-    path.charAt(0) === "/"
-      ? `${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}${path}`
-      : path
-  )
+  const url = new URL(path.charAt(0) === "/" ? `${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}${path}` : path)
 
-  if (params) {
-    // Use instead URLSearchParams for nested params.
-    url.search = stringify(params)
-  }
-
+  // Use instead URLSearchParams for nested params.
+  if (params) url.search = stringify(params)
   return url
 }
 
-export function getPathFromContext(
-  context: PageProps,
-  prefix = ""
-): string {
+export const getPathFromContext = (context: PageProps, prefix = ""): string => {
   let {slug} = context.params
 
   slug = Array.isArray(slug) ? slug.map((s) => encodeURIComponent(s)).join("/") : slug
-
   return prefix ? `${prefix}/${slug}` : slug
 }
 
-export async function buildHeaders({accessToken, headers = {"Content-Type": "application/json"}, draftMode = false}: {
+export const buildHeaders = async ({accessToken, headers = {"Content-Type": "application/json"}, draftMode = false}: {
   accessToken?: AccessToken
   headers?: HeadersInit
   draftMode?: boolean
-} = {}): Promise<Headers> {
+} = {}): Promise<Headers> => {
   if (process.env.REQUEST_HEADERS) {
     headers = {...headers, ...JSON.parse(process.env.REQUEST_HEADERS)};
   }
@@ -61,53 +50,30 @@ export async function buildHeaders({accessToken, headers = {"Content-Type": "app
   }
 
   const token = accessToken || (await getAccessToken(draftMode))
-  if (token) {
-    requestHeaders.set('Authorization', `Bearer ${token.access_token}`)
-  }
+  if (token) requestHeaders.set('Authorization', `Bearer ${token.access_token}`)
 
   return requestHeaders
 }
 
-export async function getJsonApiPathForResourceType(
-  type: string,
-  locale?: Locale
-) {
-  const index = await getJsonApiIndex(locale)
-
+export const getJsonApiPathForResourceType = async (type: string) => {
+  const index = await getJsonApiIndex()
   return index?.links[type]?.href
 }
 
-export async function getJsonApiIndex(
-  locale?: Locale,
-  options?: {
-    accessToken?: AccessToken
-  }
-): Promise<{
-  links: {
-    [type: string]: {
-      href: string
-    }
-  }
-}> {
-  const url = buildUrl(
-    locale ? `/${locale}${JSONAPI_PREFIX}` : `${JSONAPI_PREFIX}`
-  )
+export const getJsonApiIndex = async (
+  options?: { accessToken?: AccessToken }
+): Promise<{ links: { [type: string]: { href: string } } }> => {
+  const url = buildUrl(`${JSONAPI_PREFIX}`)
 
   // As per https://www.drupal.org/node/2984034 /jsonapi is public.
   // We only call buildHeaders if accessToken or locale is explicitly set.
   // This is for rare cases where /jsonapi might be protected.
   const response = await fetch(url.toString(), {
-    headers:
-      locale || options
-        ? await buildHeaders(options)
-        : {
-          "Content-Type": "application/json",
-        },
+    next: {revalidate: 31536000},
+    headers: options ? await buildHeaders(options) : {"Content-Type": "application/json"},
   })
 
-  if (!response.ok) {
-    throw new Error(url.toString() + ': ' + response.statusText)
-  }
+  if (!response.ok) throw new Error(url.toString() + ': ' + response.statusText)
 
   return await response.json()
 }

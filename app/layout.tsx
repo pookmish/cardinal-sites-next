@@ -9,10 +9,11 @@ import {isDraftMode} from "@lib/drupal/utils";
 import BackToTop from "@components/elements/back-to-top";
 
 export const metadata = {
+  // metadataBase: new URL('https://somesite.stanford.edu'),
   title: 'Stanford University'
 }
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 const RootLayout = ({children, modal}: { children: React.ReactNode, modal: React.ReactNode }) => {
   const draftMode = isDraftMode();

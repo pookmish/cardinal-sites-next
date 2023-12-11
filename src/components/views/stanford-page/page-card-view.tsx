@@ -1,6 +1,5 @@
 import {BasicPageNodeType} from "@lib/types";
 import {getViewItems} from "@components/views/view";
-import StanfordPageCard from "@components/nodes/cards/stanford-page/stanford-page-card";
 import CardViewGrid from "@components/views/card-view-grid";
 
 interface Props {

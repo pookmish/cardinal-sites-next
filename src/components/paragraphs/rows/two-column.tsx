@@ -13,7 +13,7 @@ const TwoColumn = ({items, config}: { items: StanfordParagraph[], config: { [key
   }
 
   return (
-    <div className={`row centered grid ${gridCols} gap-20`} data-columns={2}>
+    <div className={`row centered grid ${gridCols} gap-10 md:gap-20`} data-columns={2}>
       <OneColumn items={leftItems}/>
       <OneColumn items={rightItems}/>
     </div>

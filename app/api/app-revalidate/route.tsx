@@ -1,6 +1,8 @@
 import {NextRequest, NextResponse} from "next/server";
 import {revalidatePath} from "next/cache";
 
+// The app router doesn't correctly revalidate the paths on Vercel. This file is meant for testing and future
+// implementation when it actually works.
 export const POST = async (request: NextRequest) => {
   return GET(request);
 }

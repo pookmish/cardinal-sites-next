@@ -85,7 +85,7 @@ interface Props {
   label?: string
   ariaLabelledby?: string
   defaultValue?: SelectValue<string, boolean>
-  onChange?: (event: MouseEvent | KeyboardEvent | FocusEvent | null, value: SelectValue<string, boolean>) => void;
+  onChange?: (_event: MouseEvent | KeyboardEvent | FocusEvent | null, _value: SelectValue<string, boolean>) => void;
   multiple?: boolean
   disabled?: boolean
   value?: SelectValue<string, boolean>

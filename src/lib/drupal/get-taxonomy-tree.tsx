@@ -5,17 +5,12 @@ export const getTaxonomyTree = (terms: DrupalTaxonomyTerm[]): DrupalTaxonomyTerm
   return below || terms;
 }
 
-
-export function buildTaxonomyTree(
+export const buildTaxonomyTree = (
   terms: DrupalTaxonomyTerm[],
   parent: DrupalTaxonomyTerm["id"] = "virtual"
-): { below?: DrupalTaxonomyTerm[] } {
+): { below?: DrupalTaxonomyTerm[] } => {
 
-  if (!terms?.length) {
-    return {
-      below: [],
-    }
-  }
+  if (!terms?.length) return {below: []}
 
   const children = terms.filter((term) => term.parent[0].id === parent)
 
@@ -24,6 +19,5 @@ export function buildTaxonomyTree(
       ...link,
       ...buildTaxonomyTree(terms, link.id),
     })),
-
   } : {}
 }

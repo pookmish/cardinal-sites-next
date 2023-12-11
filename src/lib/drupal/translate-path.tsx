@@ -3,45 +3,24 @@ import {buildHeaders, buildUrl, getPathFromContext} from "./utils";
 import {PageProps} from "@lib/types";
 
 
-export async function translatePath(
+export const translatePath = async (
   path: string,
-  options?: {
-    accessToken?: AccessToken
-  }
-): Promise<DrupalTranslatedPath | null> {
-  const url = buildUrl("/router/translate-path", {
-    path,
-  })
+  options?: { accessToken?: AccessToken }
+): Promise<DrupalTranslatedPath | null> => {
+  const url = buildUrl("/router/translate-path", {path})
 
-  const response = await fetch(url.toString(), {
-    headers: await buildHeaders(options),
-  })
+  const response = await fetch(url.toString(), {headers: await buildHeaders(options)})
 
-  if (!response.ok) {
-    return null
-  }
-
-  const json = await response.json()
-
-  return json
+  if (!response.ok) return null
+  return await response.json()
 }
 
-export async function translatePathFromContext(
+export const translatePathFromContext = async (
   context: PageProps,
-  options?: {
-    accessToken?: AccessToken
-    prefix?: string
-  }
-): Promise<DrupalTranslatedPath | null> {
-  options = {
-    prefix: "",
-    ...options,
-  }
+  options?: { accessToken?: AccessToken, prefix?: string }
+): Promise<DrupalTranslatedPath | null> => {
+  options = {prefix: "", ...options}
   const path = getPathFromContext(context, options.prefix)
 
-  const response = await translatePath(path, {
-    accessToken: options.accessToken,
-  })
-
-  return response
+  return await translatePath(path, {accessToken: options.accessToken})
 }

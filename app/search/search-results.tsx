@@ -15,15 +15,15 @@ interface Result extends Metadata {
   description?: string;
 }
 
-const SearchResults = ({search}: { search: (search: string) => Promise<Result[]> }) => {
+const SearchResults = ({search}: { search: (_search: string) => Promise<Result[]> }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const params = useSearchParams();
   const [results, setResults] = useState<Result[]>([])
-  const [searchString, setSearchString] = useState<string>(params.get('q') ?? '')
+  const [searchString, setSearchString] = useState<string>(params?.get('q') || '')
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    search(params.get('q') ?? '').then(nodes => setResults(nodes));
+    search(params?.get('q') || '').then(nodes => setResults(nodes));
   }, [])
 
   const onSubmit = (e: FormEvent) => {

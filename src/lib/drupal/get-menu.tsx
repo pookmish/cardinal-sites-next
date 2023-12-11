@@ -2,30 +2,22 @@ import {AccessToken, JsonApiWithLocaleOptions, DrupalMenuLinkContent} from "next
 import {buildUrl, buildHeaders} from "./utils";
 import {deserialize} from "@lib/drupal/deserialize";
 
-export async function getMenu(
+export const getMenu = async (
   name: string,
   options?: {
     deserialize?: boolean
     accessToken?: AccessToken
     draftMode: boolean
   } & JsonApiWithLocaleOptions,
-): Promise<{ items: DrupalMenuLinkContent[], tree: DrupalMenuLinkContent[] }> {
+): Promise<{ items: DrupalMenuLinkContent[], tree: DrupalMenuLinkContent[] }> => {
 
-  options = {
-    deserialize: true,
-    draftMode: false,
-    ...options,
-  }
+  options = {deserialize: true, draftMode: false, ...options}
 
   const url = buildUrl(`/jsonapi/menu_items/${name}`)
 
-  const response = await fetch(url.toString(), {
-    headers: await buildHeaders(options),
-  })
+  const response = await fetch(url.toString(), {next: {revalidate: 3600}, headers: await buildHeaders(options),})
 
-  if (!response.ok) {
-    throw new Error(response.statusText)
-  }
+  if (!response.ok) throw new Error(response.statusText)
 
   const data = await response.json()
 
@@ -37,31 +29,22 @@ export async function getMenu(
     parent: item.parent,
     expanded: item.expanded
   } as DrupalMenuLinkContent));
-  const {items: tree} = buildMenuTree(items)
 
-  return {
-    items,
-    tree,
-  }
+  const {items: tree} = buildMenuTree(items)
+  return {items, tree}
 }
 
 
-function buildMenuTree<T extends DrupalMenuLinkContent>(
+const buildMenuTree = (
   links: DrupalMenuLinkContent[],
   parent: DrupalMenuLinkContent["id"] = ""
-): { items: DrupalMenuLinkContent[] } {
-  if (!links?.length) {
-    return {
-      items: [],
-    }
-  }
+): { items: DrupalMenuLinkContent[] } => {
+
+  if (!links?.length) return {items: []}
 
   const children = links.filter((link) => link.parent === parent)
 
-  return children.length ? {
-    items: children.map((link) => ({
-      ...link,
-      ...buildMenuTree(links, link.id),
-    })),
-  } : {items: []}
+  return children.length ?
+    {items: children.map((link) => ({...link, ...buildMenuTree(links, link.id)}))}
+    : {items: []}
 }

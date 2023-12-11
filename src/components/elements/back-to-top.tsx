@@ -5,7 +5,7 @@ import Button from "@components/elements/button";
 import {ChevronUpIcon} from "@heroicons/react/20/solid";
 
 const BackToTop = () => {
-  const [{x, y}, scrollTo] = useWindowScroll();
+  const [{y}, scrollTo] = useWindowScroll();
   const showButton = (y && y > 1500);
   return (
     <Button

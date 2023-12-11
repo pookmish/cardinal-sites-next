@@ -26,7 +26,7 @@ const EventsListView = async ({view, args, itemsToDisplay, emptyMessage, heading
   }
 
   if (items.length >= 5) {
-    const topics = await getResourceCollection<DrupalTaxonomyTerm[]>('taxonomy_term--stanford_event_types');
+    const topics = await getResourceCollection<DrupalTaxonomyTerm>('taxonomy_term--stanford_event_types');
     topics.map(topic => ({id: topic.id, name: topic.name, parent: topic.parent}))
     return <EventsFilteredListView items={items} topics={topics}/>
   }

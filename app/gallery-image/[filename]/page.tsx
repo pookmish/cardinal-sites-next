@@ -15,7 +15,7 @@ const Page = async ({params: {filename}}: { params: { filename: string } }) => {
 
   const fileParams = new DrupalJsonApiParams();
   fileParams.addFilter('filename', filename);
-  const files = await getResourceCollection<DrupalImageFileType[]>('file--file', {params: fileParams.getQueryObject()});
+  const files = await getResourceCollection<DrupalImageFileType>('file--file', {params: fileParams.getQueryObject()});
   if (files.length === 0) {
     notFound();
   }
@@ -25,7 +25,7 @@ const Page = async ({params: {filename}}: { params: { filename: string } }) => {
   const mediaParams = new DrupalJsonApiParams();
   mediaParams.addFilter('su_gallery_image.id', file.id);
 
-  const mediaList = await getResourceCollection<DrupalGalleryImageMediaType[]>('media--stanford_gallery_images', {params: mediaParams.getQueryObject()})
+  const mediaList = await getResourceCollection<DrupalGalleryImageMediaType>('media--stanford_gallery_images', {params: mediaParams.getQueryObject()})
   const media = mediaList[0]
 
   return (

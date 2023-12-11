@@ -1,6 +1,6 @@
 // @ts-nocheck
 module.exports = function () {
-  return function ({addComponents, theme}) {
+  return function ({addComponents}) {
     const components = {
       '.local-footer': {
         'h2': {

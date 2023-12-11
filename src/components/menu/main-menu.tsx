@@ -15,7 +15,7 @@ const MainMenu = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
   const buttonRef = useRef<HTMLButtonElement | null>(null)
   const [menuOpen, setMenuOpen] = useState<boolean>(false)
   const browserUrl = useNavigationEvent()
-  const activeTrail = useActiveTrail(menuItems, usePathname());
+  const activeTrail = useActiveTrail(menuItems, usePathname() || '');
   const clickProps = useOutsideClick(() => setMenuOpen(false));
 
   const handleEscape = useCallback((event: KeyboardEvent) => {
@@ -35,10 +35,7 @@ const MainMenu = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
   }, [menuOpen]);
 
   return (
-    <nav
-      {...clickProps}
-      className="lg:centered"
-    >
+    <nav{...clickProps} className="lg:centered">
       <button
         ref={buttonRef}
         className="flex flex-col items-center lg:hidden absolute top-5 right-10 group"
@@ -74,7 +71,7 @@ type MenuItemProps = DrupalMenuLinkContent & {
 }
 
 const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps) => {
-  const sublistRef = useRef<HTMLUListElement|undefined>(null);
+  const sublistRef = useRef<HTMLUListElement | null>(null);
   const [positionRight, setPositionRight] = useState<boolean>(true)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
   const [submenuOpen, setSubmenuOpen] = useState<boolean>(false)
@@ -84,7 +81,7 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
 
   useLayoutEffect(() => {
     // If the right side of the submenu is not visible, set the position to be on the left of the menu item.
-    const {x, width} = sublistRef.current?.getBoundingClientRect()
+    const {x, width} = sublistRef.current?.getBoundingClientRect() || {x: 0, width: 0}
     if (x + width > window.innerWidth) setPositionRight(false);
   }, [submenuOpen])
 
@@ -179,7 +176,7 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
       {items &&
         <ul
           ref={sublistRef}
-          className={(submenuOpen ? "block" : "hidden") + " list-unstyled w-full min-w-[300px] lg:bg-white lg:shadow-2xl px-0 lg:absolute " + (level === 0 ? "lg:top-full lg:right-0 " : "lg:top-0 " + (positionRight ? "lg:left-full ": "lg:right-full ")) + zIndexes[level]}
+          className={(submenuOpen ? "block" : "hidden") + " list-unstyled w-full min-w-[300px] lg:bg-white lg:shadow-2xl px-0 lg:absolute " + (level === 0 ? "lg:top-full lg:right-0 " : "lg:top-0 " + (positionRight ? "lg:left-full " : "lg:right-full ")) + zIndexes[level]}
         >
           {items.map(item =>
             <MenuItem

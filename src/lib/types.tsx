@@ -13,7 +13,7 @@ export type Params = {
 
 export type PageProps = {
   params: Params
-  searchParams?: { [key: string]: string | string[] | undefined }
+  searchParams?: Record<string, string | string[] | undefined>
 }
 
 export type DrupalTaxonomyTerm = NextDrupalTaxonomyTerm & {
@@ -292,6 +292,7 @@ export type SpeakerParagraphType = DrupalParagraph & {
 export type SpacerParagraphType = DrupalParagraph & {
   type: "paragraph--stanford_spacer"
   behavior_settings?: LayoutParagraphsBehavior
+  su_spacer_size?: 'su-spacer-reduced' | 'su-spacer-minimal' | null
 }
 
 export type LayoutParagraphType = DrupalParagraph & {

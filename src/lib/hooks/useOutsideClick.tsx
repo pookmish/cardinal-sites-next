@@ -1,6 +1,6 @@
 import {useEffect, useRef} from "react";
 
-const useOutsideClick = (onClickOutside: (e: Event) => void) => {
+const useOutsideClick = (onClickOutside: (_e: Event) => void) => {
 
   const clickCaptured = useRef(false)
   const focusCaptured = useRef(false)
