@@ -5,22 +5,21 @@ import {Params} from "@lib/types";
 
 export const getPathsFromContext = async (
   types: string | string[],
-  options: {
-    params?: JsonApiParams
-    accessToken?: AccessToken
-  } = {}
+  options: { params?: JsonApiParams,accessToken?: AccessToken } = {}
 ): Promise<GetStaticPathsResult["paths"]> => {
   if (typeof types === "string") types = [types]
 
 
   const paths = await Promise.all<{ params: Params }[]>(
     types.map(async (type) => {
+      const typeOptions = {...options};
+
       // Use sparse fieldset to expand max size.
-      options.params = {[`fields[${type}]`]: "path", ...options?.params}
+      typeOptions.params = {[`fields[${type}]`]: "path", ...options?.params}
 
       const resources = await getResourceCollection<JsonApiResourceWithPath>(type, {
         deserialize: true,
-        ...options,
+        ...typeOptions,
       })
 
       return buildPathsFromResources(resources)

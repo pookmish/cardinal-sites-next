@@ -10,7 +10,7 @@ import {getAccessToken} from "@lib/drupal/get-access-token";
 import {isDraftMode} from "@lib/drupal/utils";
 import {PageProps, Params, StanfordNode} from "@lib/types";
 
-export const revalidate = 31536000;
+export const revalidate = false;
 
 export const generateMetadata = async ({params}: PageProps): Promise<Metadata> => {
   let node;
@@ -50,6 +50,9 @@ const getPageData = async(params: Params): Promise<StanfordNode | undefined> => 
 
 export const generateStaticParams = async () => {
   const params = new DrupalJsonApiParams();
+  // Add a simple include so that it doesn't fetch all the data right now. The full node data comes later, we only need
+  // the node paths.
+  params.addInclude(['node_type']);
   params.addPageLimit(50);
 
   const contentTypes = [
