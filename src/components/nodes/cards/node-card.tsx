@@ -6,15 +6,14 @@ import StanfordPageCard from "@components/nodes/cards/stanford-page/stanford-pag
 import StanfordPersonCard from "@components/nodes/cards/stanford-person/stanford-person-card";
 import StanfordPolicyCard from "@components/nodes/cards/stanford-policy/stanford-policy-card";
 import StanfordPublicationCard from "@components/nodes/cards/stanford-publication/stanford-publication-card";
-import {StanfordNode} from "@lib/types";
-import {JSX} from "react";
 import {isDraftMode} from "@lib/drupal/utils";
+import {StanfordNode} from "@lib/types";
 
-const NodeCard = ({node, headingLevel}: { node: StanfordNode, headingLevel?: string }): JSX.Element | null => {
+const NodeCard = ({node, headingLevel}: { node: StanfordNode, headingLevel?: string }) => {
   const draftMode = isDraftMode();
   const itemProps: { [key: string]: string } = {};
   if (draftMode) {
-    itemProps['data-type'] = node.type;
+    itemProps['data-type'] = node.type ?? 'unknown';
     itemProps['data-id'] = node.id;
   }
   switch (node.type) {
@@ -35,6 +34,5 @@ const NodeCard = ({node, headingLevel}: { node: StanfordNode, headingLevel?: str
     case 'node--stanford_publication':
       return <StanfordPublicationCard node={node} headingLevel={headingLevel} {...itemProps}/>
   }
-  return null;
 }
 export default NodeCard;

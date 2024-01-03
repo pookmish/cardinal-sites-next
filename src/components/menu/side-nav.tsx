@@ -1,23 +1,24 @@
 import useActiveTrail from "@lib/hooks/useActiveTrail";
 import Link from "@components/elements/link";
-import {DrupalMenuLinkContent} from "next-drupal";
+import {DrupalMenuItem} from "@lib/drupal/get-menu";
+import {clsx} from "clsx";
 
-const SideNav = ({menuItems, currentPath}: { menuItems: DrupalMenuLinkContent[], currentPath?: string }) => {
+const SideNav = ({menuItems, currentPath}: { menuItems: DrupalMenuItem[], currentPath?: string }) => {
   const activeTrail: string[] = useActiveTrail(menuItems, currentPath);
 
   // Peel off the menu items from the parent.
-  const topMenuItem: DrupalMenuLinkContent | undefined = activeTrail.length > 0 ? menuItems.find(item => item.id === activeTrail[0]) : undefined;
+  const topMenuItem = activeTrail.length > 0 ? menuItems.find(item => item.id === activeTrail[0]) : undefined;
   if (!topMenuItem) return null;
 
-  const subTree: DrupalMenuLinkContent[] = topMenuItem.items || [];
+  const subTree = topMenuItem.items || [];
 
   if (!subTree || (subTree.length <= 1 && typeof subTree[0]?.items)) {
     return null;
   }
 
   return (
-    <aside className="hidden lg:block w-1/4 shrink-0">
-      <nav>
+    <aside className="hidden lg:block w-1/4 shrink-0 order-first">
+      <nav aria-label="Secondary Navigation">
         <ul className="list-unstyled">
           {subTree.map(item =>
             <MenuItem key={item.id} {...item} activeTrail={activeTrail}/>
@@ -28,54 +29,41 @@ const SideNav = ({menuItems, currentPath}: { menuItems: DrupalMenuLinkContent[],
   )
 }
 
-type MenuItemProps = DrupalMenuLinkContent & {
+type MenuItemProps = DrupalMenuItem & {
   activeTrail: string[]
   level?: number
 }
 
 const MenuItem = ({id, url, title, items, activeTrail, level = 0}: MenuItemProps) => {
+  // Need to list them out each so tailwind will include each for styling.
   const leftPadding = [
     'pl-10',
     'pl-20',
     'pl-28',
     'pl-48',
   ]
-  const regularClasses = [
-    'text-digital-red',
-    'hocus:text-black',
-    'hocus:before:content-[""]',
-    'hocus:before:block',
-    'hocus:before:w-[6px]',
-    'hocus:before:h-full',
-    'hocus:before:bg-black',
-    'hocus:before:absolute',
-    'hocus:before:left-0',
-    'hocus:before:top-0',
-    'before:scale-y-[1]',
-    'before:transition',
-  ].join(' ');
-  const activeClasses = [
-    'text-black',
-    'before:content-[""]',
-    'before:block',
-    'before:w-[6px]',
-    'before:h-full',
-    'before:bg-black',
-    'before:absolute',
-    'before:left-0',
-    'before:top-0',
-  ].join(' ')
+
+  const linkClasses = clsx(
+    // Normal styles.
+    'w-full inline-block relative no-underline hocus:underline pl-10 py-5',
+    {
+      // Non-active state.
+      'text-digital-red hocus:text-black hocus:before:content-[""] hocus:before:block hocus:before:w-[6px] hocus:before:h-full hocus:before:bg-black hocus:before:absolute hocus:before:left-0 hocus:before:top-0 before:scale-y-[1] before:transition': activeTrail.at(-1) !== id,
+      // Active state.
+      'text-black before:content-[""] before:block before:w-[6px] before:h-full before:bg-black before:absolute before:left-0 before:top-0': activeTrail.at(-1) === id
+    }
+  )
 
   return (
     <li className="m-0 p-0 border-b last:border-0">
       <Link
         href={url}
-        className={(activeTrail.at(-1) === id ? activeClasses : regularClasses) + " w-full inline-block relative no-underline hocus:underline pl-10 py-5"}
+        className={linkClasses}
         aria-current={activeTrail.at(-1) === id ? "true" : undefined}
       >
         {title}
       </Link>
-      {( items && items.length > 0 && activeTrail.includes(id)) &&
+      {(items && items.length > 0 && activeTrail.includes(id)) &&
         <ul className={`border-t list-unstyled ${leftPadding[level]}`}>
           {items.map(item =>
             <MenuItem key={item.id} {...item} level={level + 1} activeTrail={activeTrail}/>

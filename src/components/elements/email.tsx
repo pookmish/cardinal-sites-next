@@ -1,18 +1,20 @@
 "use client"
 
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes} from "react";
 import {useIsClient} from "usehooks-ts";
 
-const Email = ({email, ...props}: PropsWithoutRef<{ email: string }>) => {
+type Props = HtmlHTMLAttributes<HTMLAnchorElement> & {
+  email: string
+}
+
+const Email = ({email, ...props}: Props) => {
   const isClient = useIsClient();
+  if (!isClient) return;
+
   return (
-    <>
-      {isClient &&
-        <a href={`mailto:${email}`} {...props}>
-          {email}
-        </a>
-      }
-    </>
+    <a href={`mailto:${email}`} {...props}>
+      {email}
+    </a>
   )
 }
 export default Email

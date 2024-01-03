@@ -6,8 +6,8 @@ import StanfordPolicyPage from "@components/nodes/pages/stanford-policy/stanford
 import StanfordPublicationPage from "@components/nodes/pages/stanford-publication/stanford-publication-page";
 import StanfordCoursePage from "@components/nodes/pages/stanford-course/stanford-course-page";
 import StanfordEventSeriesPage from "@components/nodes/pages/stanford-event-series/stanford-event-series-page";
-import {StanfordNode} from "@lib/types";
 import {isDraftMode} from "@lib/drupal/utils";
+import {StanfordNode} from "@lib/types";
 
 const NodePage = ({node}: { node: StanfordNode }) => {
   return (
@@ -27,8 +27,9 @@ const NodePage = ({node}: { node: StanfordNode }) => {
 const Node = ({node}: { node: StanfordNode }) => {
   const draftMode = isDraftMode();
   const itemProps: { [key: string]: string } = {};
+
   if (draftMode) {
-    itemProps['data-type'] = node.type;
+    itemProps['data-type'] = node.type || 'unknown';
     itemProps['data-id'] = node.id;
   }
 

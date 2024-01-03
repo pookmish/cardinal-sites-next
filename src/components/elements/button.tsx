@@ -1,37 +1,35 @@
 import Link from "@components/elements/link";
 import {twMerge} from 'tailwind-merge'
-import {MouseEventHandler, PropsWithChildren} from "react";
+import {HtmlHTMLAttributes, MouseEventHandler} from "react";
+import {clsx} from "clsx";
 
-export interface ButtonProps {
+
+type Props = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> & {
   href?: string
   buttonElem?: boolean
   big?: boolean
   secondary?: boolean
   centered?: boolean
-  className?: string
   onClick?: MouseEventHandler
   prefetch?: boolean
 }
 
-export const Button = ({href, buttonElem = false, big = false, secondary = false, centered = false, children, className = "", ...props}: PropsWithChildren<ButtonProps>) => {
+export const Button = ({href, buttonElem = false, big = false, secondary = false, centered = false, children, className, ...props}: Props) => {
 
-  className = twMerge(className, (centered ? "flex items-center w-fit mx-auto" : "inline-block text-center w-fit"))
-
-  if (big) {
-    // Big button styles.
-    className = twMerge(`btn btn--big transition text-5xl text-white hocus:text-white bg-digital-red hocus:bg-black no-underline hocus:underline py-6 px-12 font-normal`, className)
-  } else if (secondary) {
-    // Secondary button styles.
-    className = twMerge(`btn btn--secondary transition text-digital-red border-2 border-digital-red hocus:border-black no-underline hocus:underline py-4 px-8 font-normal`, className)
-  } else {
-    // Regular button styles.
-    className = twMerge(`btn bg-digital-red text-white hocus:bg-black hocus:text-white py-4 px-8 no-underline hocus:underline transition`, className)
-  }
+  const standardClasses = clsx(
+    {
+      'flex items-center w-fit mx-auto': centered,
+      'inline-block text-center w-fit': !centered,
+      'btn btn--big transition text-5xl text-white hocus:text-white bg-digital-red hocus:bg-black no-underline hocus:underline py-6 px-12 font-normal': big && !secondary,
+      'btn btn--secondary transition text-digital-red border-2 border-digital-red hocus:border-black no-underline hocus:underline py-4 px-8 font-normal': !big && secondary,
+      'btn bg-digital-red text-white hocus:bg-black hocus:text-white py-4 px-8 no-underline hocus:underline transition': !big && !secondary,
+    }
+  )
 
   if (!href || buttonElem) {
     return (
       <button
-        className={className}
+        className={twMerge(standardClasses, className)}
         type="button"
         {...props}
       >
@@ -43,7 +41,7 @@ export const Button = ({href, buttonElem = false, big = false, secondary = false
   return (
     <Link
       href={href}
-      className={className}
+      className={twMerge(standardClasses, className)}
       {...props}
     >
       {children}

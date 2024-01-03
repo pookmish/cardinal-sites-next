@@ -1,21 +1,21 @@
 "use client";
 
-import {ArrowPathIcon} from "@heroicons/react/20/solid";
-import {useInView} from "react-intersection-observer";
+import {SignalIcon} from "@heroicons/react/20/solid";
 import Embed from "react-tiny-oembed";
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes, useRef} from "react";
+import {useIntersectionObserver} from "usehooks-ts";
 
-interface Props {
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   url: string
 }
 
-const Oembed = ({url, ...props}: PropsWithoutRef<Props>) => {
-  const {ref, inView} = useInView({triggerOnce:true})
-
+const Oembed = ({url, ...props}: Props) => {
+  const ref = useRef<HTMLDivElement>(null)
+  const entry = useIntersectionObserver(ref, {freezeOnceVisible: true});
   return (
     // @ts-ignore
     <div {...props} ref={ref} className="relative aspect-[16/9] w-full">
-      {inView && <Embed url={url} LoadingFallbackElement={<Loading/>}/>}
+      {!!entry?.isIntersecting && <Embed url={url} LoadingFallbackElement={<Loading/>}/>}
     </div>
   )
 }
@@ -23,7 +23,7 @@ const Oembed = ({url, ...props}: PropsWithoutRef<Props>) => {
 const Loading = () => {
   return (
     <div className="h-full w-full flex items-baseline">
-      <ArrowPathIcon className="mx-auto animate-spin self-center" width={30} height={30}/>
+      <SignalIcon className="mx-auto animate-ping self-center" width={30} height={30}/>
     </div>
   )
 }

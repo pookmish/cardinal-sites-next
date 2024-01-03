@@ -2,24 +2,22 @@ import Link from "@components/elements/link";
 import parse, {HTMLReactParserOptions, Element, domToReact, attributesToProps, DOMNode} from "html-react-parser"
 import Image from "next/image";
 import Oembed from "@components/elements/ombed";
-import React, {ComponentProps, PropsWithoutRef} from "react";
+import React, {ComponentProps, HtmlHTMLAttributes} from "react";
 import {H2, H3, H4, H5, H6} from "@components/elements/headers";
 import {twMerge} from "tailwind-merge";
-import Script from "next/script";
+import Mathjax from "@components/tools/mathjax";
 
-interface Props {
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   html: string
   className?: string
 }
 
-const Wysiwyg = ({html, className = "", ...props}: PropsWithoutRef<Props>) => {
+const Wysiwyg = ({html, className = "", ...props}: Props) => {
   className = twMerge(className, 'wysiwyg');
   const addMathJax = html.match(/\$\$.*\$\$/) || html.match(/\\\[.*\\\]/) || html.match(/\\\(.*\\\)/);
   return (
     <div className={className} {...props}>
-      {addMathJax &&
-        <Script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" strategy="lazyOnload"/>
-      }
+      {addMathJax && <Mathjax/>}
       {formatHtml(html)}
     </div>
   )
@@ -53,7 +51,7 @@ const options: HTMLReactParserOptions = {
           return cleanMediaMarkup(domNode);
 
         case 'p':
-          nodeProps.className += twMerge(nodeProps.className, 'max-w-[100ch]');
+          nodeProps.className = twMerge(nodeProps.className, 'max-w-[100ch]');
           return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
 
         case 'script':
@@ -112,16 +110,18 @@ const fixClasses = (classes: string | boolean = ''): undefined | string => {
   if (!classes) return undefined;
   // Pass the classes so that we can easily replace a whole class instead of parts of them.
   classes = ` ${classes} `;
-  classes = classes.replace(' su-', ' ')
-    .replace(' text-align-center ', ' text-center ')
+
+  classes = classes.replaceAll(' su-', ' ')
+    .replaceAll(' text-align-center ', ' text-center ')
     .replace(' text-align-right ', ' text-right ')
-    .replace(' align-left ', ' float-left mr-10 mb-10 ')
-    .replace(' align-right ', ' float-right ml-10 mb-10 ')
-    .replace(' visually-hidden ', ' sr-only ')
-    .replace(' font-splash ', ' splash-text text-m4 ')
-    .replace(' callout-text ', ' font-bold text-m2 ')
-    .replace(' related-text ', ' shadow-lg border border-black-20 p-16 ')
-    .replace(' drop-cap ', ' text-m1 first-letter:font-bold first-letter:text-m5 first-letter:float-left first-letter:my-2 first-letter:mr-4 ')
+    .replaceAll(' align-center ', ' mx-auto ')
+    .replaceAll(' align-left ', ' float-left mr-10 mb-10 ')
+    .replaceAll(' align-right ', ' float-right ml-10 mb-10 ')
+    .replaceAll(' visually-hidden ', ' sr-only ')
+    .replaceAll(' font-splash ', ' splash-text text-m4 ')
+    .replaceAll(' callout-text ', ' font-bold text-m2 ')
+    .replaceAll(' related-text ', ' shadow-lg border border-black-20 p-16 ')
+    .replaceAll(' drop-cap ', ' text-m1 first-letter:font-bold first-letter:text-m5 first-letter:float-left first-letter:my-2 first-letter:mr-4 ')
     .replace(/tablesaw.*? /g, ' ')
     .replace(/ +/g, ' ')
     .trim();
@@ -130,6 +130,7 @@ const fixClasses = (classes: string | boolean = ''): undefined | string => {
     .filter(className => className.trim().length >= 1)
     .filter((value, index, self) => self.indexOf(value) === index)
     .join(' ');
+
   return classes.trim();
 }
 
@@ -203,6 +204,7 @@ const cleanMediaMarkup = (node: Element) => {
 
     if (figCaption) {
       nodeProps.className += ' table';
+      if (nodeProps.className.indexOf('mx-auto') >= 0) nodeProps.className += ' w-full'
       delete nodeProps.role;
       return (
         <figure {...nodeProps}>

@@ -1,23 +1,28 @@
-import {NewsNodeType} from "@lib/types";
 import Image from "next/image";
 import Link from "@components/elements/link";
-import {DrupalTaxonomyTerm} from "@lib/types";
 import {H2, H3} from "@components/elements/headers";
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes} from "react";
+import {NewsNodeType} from "@lib/types";
+import {buildUrl} from "@lib/drupal/utils";
 
-const StanfordNewsCard = ({node, headingLevel, ...props}: PropsWithoutRef<{ node: NewsNodeType, headingLevel?: string }>) => {
-  const imageUrl = node.su_news_featured_media?.field_media_image.image_style_uri.card_1900x950;
-  const imageAlt = node.su_news_featured_media?.field_media_image.resourceIdObjMeta?.alt ?? '';
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  node: NewsNodeType
+  headingLevel?: string
+}
 
-  const topics: DrupalTaxonomyTerm[] = (node.su_news_topics && node.su_news_topics.length > 0) ? node.su_news_topics.slice(0, 3) : [];
+const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
+  const imageUrl = node.su_news_featured_media?.field_media_image?.uri.url
+  const imageAlt = node.su_news_featured_media?.field_media_image?.resourceIdObjMeta?.alt || '';
+
+  const topics = node.su_news_topics ? node.su_news_topics.slice(0, 3) : [];
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
-    <div className="mx-auto shadow-xl border border-black-20 overflow-hidden" {...props}>
+    <article aria-labelledby={node.id} className="mx-auto shadow-xl border border-black-20 overflow-hidden" {...props}>
 
       {imageUrl &&
         <div className="relative aspect-[16/9] w-full">
           <Image
-            src={imageUrl}
+            src={buildUrl(imageUrl).toString()}
             alt={imageAlt}
             fill
             className="object-cover"
@@ -26,8 +31,8 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: PropsWithoutRef<{ node
       }
       <div className="p-20">
 
-        <Heading className="text-m2 [&_a]:text-black">
-          <Link href={node.path?.alias} >
+        <Heading className="text-m2 [&_a]:text-black" id={node.id}>
+          <Link href={node.path.alias}>
             {node.title}
           </Link>
         </Heading>
@@ -41,7 +46,7 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: PropsWithoutRef<{ node
         }
 
       </div>
-    </div>
+    </article>
   )
 }
 export default StanfordNewsCard;

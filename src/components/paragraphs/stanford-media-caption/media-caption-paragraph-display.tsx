@@ -1,14 +1,13 @@
-import {DrupalLinkFieldType} from "@lib/types";
 import Image from "next/image";
 import Oembed from "@components/elements/ombed";
 import Link from "@components/elements/link";
 import Wysiwyg from "@components/elements/wysiwyg";
+import {DrupalLinkFieldType} from "@lib/types";
 
-interface Props {
+type Props = {
   media?: {
     imageUrl?: string
     imageAlt?: string
-    placeholder?: string
     videoUrl?: string
   }
   link?: DrupalLinkFieldType
@@ -16,7 +15,7 @@ interface Props {
 }
 
 const MediaCaptionParagraphDisplay = ({media, caption, link}: Props) => {
-  const {imageUrl, imageAlt, placeholder, videoUrl} = media ?? {};
+  const {imageUrl, imageAlt, videoUrl} = media ?? {};
 
   return (
     <figure
@@ -27,8 +26,6 @@ const MediaCaptionParagraphDisplay = ({media, caption, link}: Props) => {
             src={imageUrl}
             alt={imageAlt ?? ""}
             fill={true}
-            placeholder={placeholder ? 'blur' : 'empty'}
-            blurDataURL={placeholder}
             className="object-cover"
           />
         </div>

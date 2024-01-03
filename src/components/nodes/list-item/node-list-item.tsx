@@ -8,14 +8,14 @@ import StanfordPersonListItem from "@components/nodes/list-item/stanford-person/
 import StanfordPolicyListItem from "@components/nodes/list-item/stanford-policy/stanford-policy-list-item";
 import StanfordPublicationListItem
   from "@components/nodes/list-item/stanford-publication/stanford-publication-list-item";
-import {StanfordNode} from "@lib/types";
 import {isDraftMode} from "@lib/drupal/utils";
+import {StanfordNode} from "@lib/types";
 
 const NodeListItem = ({node, headingLevel}: { node: StanfordNode, headingLevel?: string }) => {
   const draftMode = isDraftMode();
   const itemProps: { [key: string]: string } = {};
   if (draftMode) {
-    itemProps['data-type'] = node.type;
+    itemProps['data-type'] = node.type || 'unknown';
     itemProps['data-id'] = node.id;
   }
 

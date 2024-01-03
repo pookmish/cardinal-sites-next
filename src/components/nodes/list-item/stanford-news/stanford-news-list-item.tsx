@@ -1,25 +1,31 @@
-import {NewsNodeType} from "@lib/types";
 import Image from "next/image";
 import Link from "@components/elements/link";
-import {DrupalTaxonomyTerm} from "@lib/types";
 import {H2, H3} from "@components/elements/headers";
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes} from "react";
+import {NewsNodeType} from "@lib/types";
 
-const StanfordNewsListItem = ({node, headingLevel, ...props}: PropsWithoutRef<{ node: NewsNodeType, headingLevel?: string }>) => {
-  const imageUrl = node.su_news_featured_media?.field_media_image.image_style_uri.card_1900x950;
-  const imageAlt = node.su_news_featured_media?.field_media_image.resourceIdObjMeta?.alt ?? '';
-  const publishDate = node.su_news_publishing_date ? new Date(node.su_news_publishing_date) : null;
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  node: NewsNodeType
+  headingLevel?: string
+}
 
-  const topics: DrupalTaxonomyTerm[] = (node.su_news_topics && node.su_news_topics.length > 0) ? node.su_news_topics.slice(0, 3) : [];
+const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
+  const image = node.su_news_featured_media?.field_media_image
+  const imageUrl = image?.url;
+  const imageAlt = image?.alt || '';
+
+  const publishDate = node.suNewsPublishingDate && new Date(node.suNewsPublishingDate.time);
+
+  const topics= node.su_news_topics ? node.su_news_topics.slice(0, 3) : [];
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
-    <div className="@container" {...props}>
+    <article aria-labelledby={node.id} className="@container" {...props}>
       <div className="flex w-full justify-between flex-col @3xl:flex-row py-10">
         <div className="order-2 @3xl::order-1 flex flex-col">
 
-          <Heading className="font-bold text-m2">
+          <Heading className="font-bold text-m2" id={node.id}>
             <Link
-              href={node.path?.alias}
+              href={node.path.alias}
               className="text-digital-red no-underline hocus:text-black hocus:underline order-2"
             >
               {node.title}
@@ -54,7 +60,7 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: PropsWithoutRef<{ 
           </div>
         }
       </div>
-    </div>
+    </article>
   )
 }
 export default StanfordNewsListItem;

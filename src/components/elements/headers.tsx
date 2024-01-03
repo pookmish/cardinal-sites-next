@@ -1,22 +1,19 @@
-import {PropsWithChildren, ReactElement} from "react";
+import {HtmlHTMLAttributes} from "react";
 import {twMerge} from "tailwind-merge";
 
-interface Props {
-  className?: string
-  children: ReactElement | ReactElement[] | string
-}
+type Props = HtmlHTMLAttributes<HTMLHeadingElement>
 
 const headingLinkClasses = "[&_a]:text-digital-red [&_a]:hocus:text-black [&_a]:hocus:underline";
 
-export const H1 = ({children, ...props}: PropsWithChildren<Props>) => {
+export const H1 = ({children, className, ...props}: Props) => {
   return (
-    <h1 className={twMerge(props.className, "text-m4")} {...props}>
+    <h1 className={twMerge(className, "text-m4")} {...props}>
       {children}
     </h1>
   )
 }
 
-export const H2 = ({children, className = '', ...props}: PropsWithChildren<Props>) => {
+export const H2 = ({children, className, ...props}: Props) => {
   return (
     <h2 className={twMerge(headingLinkClasses, 'text-m3', className)} {...props}>
       {children}
@@ -24,23 +21,23 @@ export const H2 = ({children, className = '', ...props}: PropsWithChildren<Props
   )
 }
 
-export const H3 = ({children, className = '', ...props}: PropsWithChildren<Props>) => {
+export const H3 = ({children, className, ...props}: Props) => {
   return (
-    <h3 className={twMerge(headingLinkClasses,'text-m2', className)} {...props}>
+    <h3 className={twMerge(headingLinkClasses, 'text-m2', className)} {...props}>
       {children}
     </h3>
   )
 }
 
-export const H4 = ({children, className = '', ...props}: PropsWithChildren<Props>) => {
+export const H4 = ({children, className, ...props}: Props) => {
   return (
-    <h4 className={twMerge(headingLinkClasses,'text-m1', className)} {...props}>
+    <h4 className={twMerge(headingLinkClasses, 'text-m1', className)} {...props}>
       {children}
     </h4>
   )
 }
 
-export const H5 = ({children, className = '', ...props}: PropsWithChildren<Props>) => {
+export const H5 = ({children, className, ...props}: Props) => {
   return (
     <h5 className={twMerge(headingLinkClasses, className)} {...props}>
       {children}
@@ -48,7 +45,7 @@ export const H5 = ({children, className = '', ...props}: PropsWithChildren<Props
   )
 }
 
-export const H6 = ({children, className = '', ...props}: PropsWithChildren<Props>) => {
+export const H6 = ({children, className, ...props}: Props) => {
   return (
     <h6 className={twMerge(headingLinkClasses, className)} {...props}>
       {children}
@@ -56,11 +53,11 @@ export const H6 = ({children, className = '', ...props}: PropsWithChildren<Props
   )
 }
 
-interface HeadingProps extends Props {
+type HeadingProps = Props & {
   level?: number
 }
 
-const Heading = ({children, level = 1, ...props}: PropsWithChildren<HeadingProps>) => {
+const Heading = ({children, level = 1, ...props}: HeadingProps) => {
   switch (level) {
     case 1:
       return <H1 {...props}>{children}</H1>

@@ -3,28 +3,25 @@
 import {FormEvent, useEffect, useRef, useState} from "react";
 import Link from "@components/elements/link";
 import {useSearchParams} from "next/navigation";
-import {Metadata} from "next";
 import {ArrowPathIcon} from "@heroicons/react/20/solid";
 
-interface Result extends Metadata {
-  id: string;
-  type: string;
-  path: string;
-  changed: string;
-  title: string;
-  description?: string;
+export type SearchResult = {
+  id: string
+  title: string
+  path: string
+  changed: string
 }
 
-const SearchResults = ({search}: { search: (_search: string) => Promise<Result[]> }) => {
+const SearchResults = ({search}: { search: (_search: string) => Promise<SearchResult[]> }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const params = useSearchParams();
-  const [results, setResults] = useState<Result[]>([])
+  const [results, setResults] = useState<SearchResult[]>([])
   const [searchString, setSearchString] = useState<string>(params?.get('q') || '')
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     search(params?.get('q') || '').then(nodes => setResults(nodes));
-  }, [])
+  }, [params, search])
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -77,9 +74,6 @@ const SearchResults = ({search}: { search: (_search: string) => Promise<Result[]
               <Link href={result.path} className="text-m2 font-bold">
                 {result.title}
               </Link>
-              <p>
-                {result.description}
-              </p>
               <div>Last
                 Updated: {new Date(result.changed).toLocaleDateString('en-us', {
                   month: 'long',

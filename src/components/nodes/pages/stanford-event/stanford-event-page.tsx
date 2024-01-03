@@ -1,4 +1,3 @@
-import {EventNodeType} from "@lib/types";
 import {redirect} from "next/navigation";
 import {getEventTimeString} from "@components/nodes/cards/stanford-event/stanford-event-card";
 import {CalendarDaysIcon, MapPinIcon, PhoneIcon, UserGroupIcon} from "@heroicons/react/20/solid";
@@ -9,17 +8,23 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import Rows from "@components/paragraphs/rows/rows";
 import {H1, H2, H3} from "@components/elements/headers";
 import ScheduleParagraph from "@components/paragraphs/stanford-schedule/schedule-paragraph";
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes} from "react";
+import {EventNodeType} from "@lib/types";
 
-const StanfordEventPage = ({node, ...props}: PropsWithoutRef<{ node: EventNodeType }>) => {
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  node: EventNodeType
+  headingLevel?: string
+}
+
+const StanfordEventPage = ({node, ...props}: Props) => {
   if (node.su_event_source?.url) redirect(node.su_event_source.url)
 
   const startTime = new Date(node.su_event_date_time.value);
   const endTime = new Date(node.su_event_date_time.end_value);
-  const timezone = node.su_event_date_time.timezone ?? 'America/Los_Angeles';
+  const timezone = node.su_event_date_time?.timezone || 'America/Los_Angeles';
 
   return (
-    <div className="centered mt-32" {...props}>
+    <article className="centered mt-32" {...props}>
       <div className="flex flex-col">
         <H1 className="order-2">
           {node.title}
@@ -53,10 +58,10 @@ const StanfordEventPage = ({node, ...props}: PropsWithoutRef<{ node: EventNodeTy
       <div className="border border-black-40 py-20 px-10 lg:px-48 lg:w-3/4 mx-auto mb-32">
         <H2 className="text-m2">Event Details:</H2>
         <div className="grid items-start lg:grid-cols-2 gap-20">
-          <div className="flex items-center gap-5">
+          <time className="flex items-center gap-5" dateTime={startTime.toISOString()}>
             <CalendarDaysIcon width={30} className="shrink-0"/>
             {getEventTimeString(startTime, endTime, timezone)}
-          </div>
+          </time>
 
 
           {(node.su_event_email || node.su_event_telephone) &&
@@ -81,7 +86,7 @@ const StanfordEventPage = ({node, ...props}: PropsWithoutRef<{ node: EventNodeTy
             </div>
           }
 
-          {(node.su_event_location || node.su_event_map_link || node.su_event_alt_loc) &&
+          {(node.su_event_location || node.su_event_map_link) &&
             <div className="flex flex-col-2 items-start gap-5">
               <MapPinIcon width={30} className="shrink-0"/>
               <div>
@@ -92,7 +97,7 @@ const StanfordEventPage = ({node, ...props}: PropsWithoutRef<{ node: EventNodeTy
                     <Address {...node.su_event_location}/>
                   }
 
-                  {node.su_event_map_link &&
+                  {node.su_event_map_link?.url &&
                     <Link href={node.su_event_map_link.url}>
                       {node.su_event_map_link.title}
                     </Link>
@@ -147,7 +152,7 @@ const StanfordEventPage = ({node, ...props}: PropsWithoutRef<{ node: EventNodeTy
           )}
         </div>
       }
-    </div>
+    </article>
   )
 }
 export default StanfordEventPage;

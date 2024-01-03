@@ -2,6 +2,16 @@ import {AccessToken, JsonApiWithLocaleOptions, DrupalMenuLinkContent} from "next
 import {buildUrl, buildHeaders} from "./utils";
 import {deserialize} from "@lib/drupal/deserialize";
 
+export type DrupalMenuItem ={
+  id: string,
+  title: string,
+  url: string
+  parent?: string
+  expanded: boolean
+  items?: DrupalMenuItem[]
+  enabled: boolean
+}
+
 export const getMenu = async (
   name: string,
   options?: {
@@ -9,10 +19,11 @@ export const getMenu = async (
     accessToken?: AccessToken
     draftMode: boolean
   } & JsonApiWithLocaleOptions,
-): Promise<{ items: DrupalMenuLinkContent[], tree: DrupalMenuLinkContent[] }> => {
+): Promise<{ items: DrupalMenuItem[], tree: DrupalMenuItem[] }> => {
 
   options = {deserialize: true, draftMode: false, ...options}
 
+  // No need to use GraphQL here.
   const url = buildUrl(`/jsonapi/menu_items/${name}`)
 
   const response = await fetch(url.toString(), {next: {revalidate: 3600}, headers: await buildHeaders(options),})
@@ -21,14 +32,15 @@ export const getMenu = async (
 
   const data = await response.json()
 
-  let items: DrupalMenuLinkContent[] = options.deserialize ? deserialize(data) : data;
+  let items: DrupalMenuLinkContent[] | DrupalMenuItem[] = options.deserialize ? deserialize(data) : data;
   items = items.map(item => ({
     id: item.id,
     title: item.title,
     url: item.url,
     parent: item.parent,
-    expanded: item.expanded
-  } as DrupalMenuLinkContent));
+    expanded: item.expanded,
+    enabled: item.enabled
+  }));
 
   const {items: tree} = buildMenuTree(items)
   return {items, tree}
@@ -36,9 +48,9 @@ export const getMenu = async (
 
 
 const buildMenuTree = (
-  links: DrupalMenuLinkContent[],
-  parent: DrupalMenuLinkContent["id"] = ""
-): { items: DrupalMenuLinkContent[] } => {
+  links: DrupalMenuItem[],
+  parent: DrupalMenuItem["id"] = ""
+): { items: DrupalMenuItem[] } => {
 
   if (!links?.length) return {items: []}
 

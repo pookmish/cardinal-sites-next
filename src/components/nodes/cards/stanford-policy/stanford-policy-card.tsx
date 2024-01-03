@@ -1,17 +1,28 @@
 import Link from "@components/elements/link";
-import {PolicyNodeType} from "@lib/types";
 import Wysiwyg from "@components/elements/wysiwyg";
 import {H2, H3} from "@components/elements/headers";
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes} from "react";
+import {PolicyNodeType} from "@lib/types";
 
-const StanfordPolicyCard = ({node, headingLevel, ...props}: PropsWithoutRef<{ node: PolicyNodeType, headingLevel?: string }>) => {
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  node: PolicyNodeType
+  headingLevel?: string
+}
+
+const StanfordPolicyCard = ({node, headingLevel, ...props}: Props) => {
   const Heading = headingLevel === 'h3' ? H3 : H2;
-  const teaserSummary = node.body?.summary || node.body?.processed.replace(/(<([^>]+)>)/ig, ' ')?.split(" ").slice(0, 50).join(" ") + '...';
-  return (
-    <div className="mx-auto shadow-xl border border-black-20 p-10 overflow-hidden" {...props}>
+  const trimmedBodyText = node.body?.processed.replace(/(<([^>]+)>)/ig, ' ')
+    .split(" ")
+    .slice(0, 50)
+    .filter((word: string) => !!word)
+    .join(" ");
 
-      <Heading className="text-m2">
-        <Link href={node.path?.alias} >
+  const teaserSummary = node.body?.summary || (trimmedBodyText + '...');
+  return (
+    <article aria-labelledby={node.id} className="mx-auto shadow-xl border border-black-20 p-10 overflow-hidden" {...props}>
+
+      <Heading className="text-m2" id={node.id}>
+        <Link href={node.path.alias}>
           {node.title}
         </Link>
       </Heading>
@@ -19,7 +30,7 @@ const StanfordPolicyCard = ({node, headingLevel, ...props}: PropsWithoutRef<{ no
       {teaserSummary &&
         <Wysiwyg html={teaserSummary}/>
       }
-    </div>
+    </article>
   )
 }
 export default StanfordPolicyCard;

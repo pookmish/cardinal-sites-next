@@ -1,12 +1,11 @@
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes} from "react";
 
-type Props = {
-  className?: string
+type Props = HtmlHTMLAttributes<SVGSVGElement> & {
   height?: number
   width?: number
 }
 
-const StanfordWordMark = ({height = 91, width = 426, ...props}: PropsWithoutRef<Props>) => {
+const StanfordWordMark = ({height = 91, width = 426, ...props}: Props) => {
   if (height != 91 && width == 426) {
     width *= height / 91
   }

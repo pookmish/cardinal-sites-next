@@ -1,23 +1,21 @@
 "use client";
 
-import React, {PropsWithChildren, useCallback, useEffect, useRef} from "react";
+import React, {HtmlHTMLAttributes, useCallback, useEffect, useRef} from "react";
 import {useRouter} from "next/navigation";
 import ReactFocusLock from "react-focus-lock";
 import {XMarkIcon} from "@heroicons/react/20/solid";
 import {useLockedBody} from "usehooks-ts";
 
-const InterceptionModal = ({children, ...props}: PropsWithChildren<any>) => {
-  const overlay = useRef<HTMLDialogElement | null>(null);
-  const wrapper = useRef<HTMLDivElement | null>(null);
+const InterceptionModal = ({children, ...props}: HtmlHTMLAttributes<HTMLDialogElement>) => {
+  const overlay = useRef<HTMLDialogElement>(null);
+  const wrapper = useRef<HTMLDivElement>(null);
   const router = useRouter();
   useLockedBody(true)
 
   const onDismiss = useCallback(() => router.back(), [router]);
 
   const onClick = useCallback((e: React.MouseEvent) => {
-    if (e.target === overlay.current || e.target === wrapper.current) {
-      if (onDismiss) onDismiss();
-    }
+    if (e.target === overlay.current || e.target === wrapper.current) onDismiss();
   }, [onDismiss, overlay, wrapper]);
 
   const onKeyDown = useCallback((e: KeyboardEvent) => {

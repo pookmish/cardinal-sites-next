@@ -1,13 +1,18 @@
 import {redirect} from "next/navigation";
-import {CourseNodeType} from "@lib/types";
 import Wysiwyg from "@components/elements/wysiwyg";
 import {H1} from "@components/elements/headers";
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes} from "react";
+import {CourseNodeType} from "@lib/types";
 
-const StanfordCoursePage = ({node, ...props}: PropsWithoutRef<{ node: CourseNodeType }>) => {
-  if (node.su_course_link?.url) redirect(node.su_course_link.url);
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  node: CourseNodeType
+  headingLevel?: string
+}
+
+const StanfordCoursePage = ({node, ...props}: Props) => {
+  if (node.su_course_link?.url) redirect(node.su_course_link?.url);
   return (
-    <div className="centered my-32" {...props}>
+    <article className="centered my-32" {...props}>
       <H1>
         {node.title}
       </H1>
@@ -48,7 +53,7 @@ const StanfordCoursePage = ({node, ...props}: PropsWithoutRef<{ node: CourseNode
           </div>
         }
       </div>
-    </div>
+    </article>
   )
 }
 export default StanfordCoursePage;

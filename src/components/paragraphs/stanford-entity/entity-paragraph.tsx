@@ -1,14 +1,19 @@
-import {EntityTeaserParagraphType, StanfordNode} from "@lib/types";
-import {getResources} from "@lib/drupal/get-resource";
 import Wysiwyg from "@components/elements/wysiwyg";
 import NodeCard from "@components/nodes/cards/node-card";
 import Button from "@components/elements/button";
 import {H2} from "@components/elements/headers";
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes} from "react";
+import {EntityTeaserParagraphType, StanfordNode} from "@lib/types";
+import {getResources} from "@lib/drupal/get-resource";
 
-const EntityParagraph = async ({paragraph, ...props}: PropsWithoutRef<{ paragraph: EntityTeaserParagraphType }>) => {
-  const items = await getResources<StanfordNode>(paragraph.su_entity_item ?? []);
-  const entities = items.filter(item => item);
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  paragraph: EntityTeaserParagraphType
+}
+
+const EntityParagraph = async ({paragraph, ...props}: Props) => {
+  const entities = (await getResources<StanfordNode>(paragraph.su_entity_item || []))
+    .filter(node => !!node?.id);
+
   const gridCols = [
     'lg:grid-cols-3',
     'lg:grid-cols-1',
@@ -30,7 +35,7 @@ const EntityParagraph = async ({paragraph, ...props}: PropsWithoutRef<{ paragrap
         )}
       </div>
 
-      {paragraph.su_entity_button &&
+      {paragraph.su_entity_button?.url &&
         <div>
           <Button href={paragraph.su_entity_button.url} centered>
             {paragraph.su_entity_button.title}

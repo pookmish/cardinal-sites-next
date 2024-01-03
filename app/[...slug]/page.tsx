@@ -1,30 +1,43 @@
-import {getResourceFromContext} from "@lib/drupal/get-resource";
-import {translatePathFromContext} from "@lib/drupal/translate-path";
 import {notFound, redirect} from "next/navigation";
 import NodePage from "@components/nodes/pages/node-page";
 import {GetStaticPathsResult, Metadata} from "next";
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getPathsFromContext} from "@lib/drupal/get-paths";
 import {getNodeMetadata} from "./metadata";
-import {getAccessToken} from "@lib/drupal/get-access-token";
-import {isDraftMode} from "@lib/drupal/utils";
+import {getPathFromContext, isDraftMode} from "@lib/drupal/utils";
 import {PageProps, Params, StanfordNode} from "@lib/types";
+import {getResourceByPath, getResourceFromContext} from "@lib/drupal/get-resource";
+import {getAccessToken} from "@lib/drupal/get-access-token";
+import {translatePathFromContext} from "@lib/drupal/translate-path";
+import RedirectError from "@lib/redirect-error";
 
+// https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const revalidate = false;
 
-export const generateMetadata = async ({params}: PageProps): Promise<Metadata> => {
-  let node;
+const Page = async ({params}: PageProps) => {
+  let node = null;
   try {
     node = await getPageData(params);
-    if (node) return getNodeMetadata(node);
-  } catch (e) {}
-  return {}
+  } catch (e) {
+    if (e instanceof RedirectError) redirect(e.message);
+  }
+
+  if (!node) notFound();
+
+  return (
+    <NodePage node={node}/>
+  )
 }
 
-class RedirectError extends Error {
-  constructor(message?: string) {
-    super(message);
+export const generateMetadata = async ({params}: PageProps): Promise<Metadata> => {
+  const path = getPathFromContext({params})
+
+  try {
+    const node = await getResourceByPath<StanfordNode>(path)
+    if (node) return getNodeMetadata(node);
+  } catch (e) {
   }
+  return {}
 }
 
 const getPageData = async(params: Params): Promise<StanfordNode | undefined> => {
@@ -65,7 +78,8 @@ export const generateStaticParams = async () => {
     'node--stanford_course',
   ]
 
-  let paths: GetStaticPathsResult["paths"] = await getPathsFromContext(contentTypes,  {params: params.getQueryObject()});
+  // Use JSON API to fetch the list of all node paths on the site.
+  let paths: GetStaticPathsResult["paths"] = await getPathsFromContext(contentTypes, {params: params.getQueryObject()});
 
   const completeBuild = process.env.BUILD_COMPLETE === 'true';
 
@@ -82,22 +96,9 @@ export const generateStaticParams = async () => {
     page++;
   }
 
-  return paths.map(path => typeof path !== "string" ? path?.params : path).slice(0, (completeBuild ? -1 : 1));
-}
-
-const Page = async ({params}: PageProps) => {
-  let node = null;
-  try {
-    node = await getPageData(params);
-  } catch (e) {
-    if (e instanceof RedirectError) redirect(e.message);
-  }
-
-  if (!node) notFound();
-
-  return (
-    <NodePage node={node}/>
-  )
+  return paths.filter(path => typeof path !== 'object' || path.params?.slug?.[0])
+    .map(path => typeof path === "object" ? path?.params : path)
+    .slice(0, (completeBuild ? -1 : 1))
 }
 
 export default Page;

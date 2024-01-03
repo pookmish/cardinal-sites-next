@@ -1,9 +1,9 @@
-import {DrupalLinkFieldType} from "@lib/types";
 import Image from "next/image";
 import Wysiwyg from "@components/elements/wysiwyg";
 import Button from "@components/elements/button";
 import React from "react";
 import {H2} from "@components/elements/headers";
+import {DrupalLinkFieldType} from "@lib/types";
 
 type Props = {
   media?: {
@@ -20,7 +20,7 @@ type Props = {
 const BannerParagraphDisplay = ({media, header, supHeader, body, link}: Props) => {
   const hasCard = header || link || body || supHeader
 
-  const {imageUrl, imageAlt, placeholder} = media ?? {};
+  const {imageUrl, imageAlt} = media ?? {};
   return (
     <div className="@container md:min-h-[400px] mb-20">
       <div
@@ -31,8 +31,6 @@ const BannerParagraphDisplay = ({media, header, supHeader, body, link}: Props) =
             alt={imageAlt ?? ""}
             fill
             className="object-cover"
-            placeholder={placeholder ? 'blur' : 'empty'}
-            blurDataURL={placeholder}
           />
         }
       </div>

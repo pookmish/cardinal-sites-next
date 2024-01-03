@@ -1,14 +1,14 @@
 import Link from "@components/elements/link";
 import {ChevronRightIcon} from "@heroicons/react/20/solid";
-import {PropsWithChildren} from "react";
+import {HtmlHTMLAttributes} from "react";
 
-interface Props {
-  href: string;
+type Props = HtmlHTMLAttributes<HTMLAnchorElement> & {
+  href: string
 }
 
-const ActionLink = ({href, children, ...props}: PropsWithChildren<Props>) => {
+const ActionLink = ({children, ...props}: Props) => {
   return (
-    <Link href={href} {...props} className="relative">
+    <Link {...props} className="relative">
       {children}
       <ChevronRightIcon height={25} className="ml-2 inline-block"/>
     </Link>

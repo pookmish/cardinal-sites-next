@@ -1,9 +1,9 @@
 import {getSearchIndex} from "@lib/drupal/get-search-index";
-import SearchResults from "./search-results";
-import {getNodeMetadata} from "../[...slug]/metadata";
+import SearchResults, {SearchResult} from "./search-results";
 import {H1} from "@components/elements/headers";
-import {StanfordNode} from "@lib/types";
+import {DrupalNode} from "next-drupal";
 import {Suspense} from "react";
+
 export const metadata = {
   title: "Search",
   description: "Search the site",
@@ -15,16 +15,17 @@ export const metadata = {
 }
 const Page = () => {
 
-  const search = async (searchString: string) => {
+  const search = async (searchString: string): Promise<SearchResult[]> => {
     "use server";
 
-    const searchResults: StanfordNode[] = await getSearchIndex('full_site_content', {params: {'filter[fulltext]': searchString}});
+    // This still uses JSON API because GraphQL doesn't have an easy way to search for content.
+    const searchResults: DrupalNode[] = await getSearchIndex('full_site_content', {params: {'filter[fulltext]': searchString}});
+
     return searchResults.map(node => ({
       id: node.id,
-      type: node.type,
+      title: node.title,
       path: node.path.alias,
       changed: node.changed,
-      ...getNodeMetadata(node)
     })).slice(0, 20)
   }
   return (
@@ -37,4 +38,5 @@ const Page = () => {
     </div>
   )
 }
+
 export default Page;

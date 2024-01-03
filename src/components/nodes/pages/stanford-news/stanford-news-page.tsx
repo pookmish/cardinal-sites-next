@@ -1,31 +1,36 @@
-import {NewsNodeType} from "@lib/types";
 import {redirect} from "next/navigation";
 import Image from "next/image";
 import Rows from "@components/paragraphs/rows/rows";
 import SocialIcons from "@components/nodes/pages/stanford-news/social-icons";
-import {DrupalTaxonomyTerm} from "@lib/types";
 import {H1} from "@components/elements/headers";
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes} from "react";
+import {NewsNodeType} from "@lib/types";
+import {buildUrl} from "@lib/drupal/utils";
 
-const StanfordNewsPage = ({node, ...props}: PropsWithoutRef<{ node: NewsNodeType }>) => {
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  node: NewsNodeType
+  headingLevel?: string
+}
+
+const StanfordNewsPage = ({node, ...props}: Props) => {
   if (node.su_news_source?.url) redirect(node.su_news_source.url)
+
   const publishDate = node.su_news_publishing_date ? new Date(node.su_news_publishing_date).toLocaleDateString("en-us", {
     month: "long",
     day: "numeric",
     year: "numeric"
-  }) : null;
+  }) : undefined;
 
-  let bannerImageUrl: string | undefined, bannerImageAlt: string = "", imagePlaceholder: string | undefined;
+  let bannerImageUrl: string | undefined, bannerImageAlt: string = ""
   if (node.su_news_banner?.type === 'media--image') {
-    bannerImageUrl = node.su_news_banner.field_media_image.image_style_uri.breakpoint_2xl_2x;
-    bannerImageAlt = node.su_news_banner.field_media_image.resourceIdObjMeta?.alt || "";
-    imagePlaceholder = node.su_news_banner.field_media_image.uri.base64;
+    bannerImageUrl = node.su_news_banner.field_media_image?.uri.url
+    bannerImageAlt = node.su_news_banner.field_media_image?.resourceIdObjMeta?.alt || "";
   }
 
-  const topics: DrupalTaxonomyTerm[] | undefined = (node.su_news_topics && node.su_news_topics.length > 0) ? node.su_news_topics.slice(0, 3) : undefined;
+  const topics = node.su_news_topics?.slice(0, 3);
 
   return (
-    <div className="centered mt-32" {...props}>
+    <article className="centered mt-32" {...props}>
       <div className="lg:w-3/4 mx-auto mb-20">
         <div className="flex flex-col">
           <H1 className="order-2">
@@ -47,7 +52,11 @@ const StanfordNewsPage = ({node, ...props}: PropsWithoutRef<{ node: NewsNodeType
         {node.su_news_dek && <div className="mb-10">{node.su_news_dek}</div>}
 
         <div className="flex gap-5 items-center">
-          {publishDate && <div>{publishDate}</div>}
+          {node.su_news_publishing_date &&
+            <time dateTime={new Date(node.su_news_publishing_date).toISOString().substring(0, 10)}>
+              {publishDate}
+            </time>
+          }
           {node.su_news_byline && <div>{node.su_news_byline}</div>}
 
           {!node.su_news_hide_social &&
@@ -60,12 +69,10 @@ const StanfordNewsPage = ({node, ...props}: PropsWithoutRef<{ node: NewsNodeType
         <figure className="mb-32">
           <div className="relative w-full aspect-[16/9]">
             <Image
-              src={bannerImageUrl}
+              src={buildUrl(bannerImageUrl).toString()}
               alt={bannerImageAlt}
               fill
               className="object-cover"
-              placeholder={imagePlaceholder ? 'blur' : 'empty'}
-              blurDataURL={imagePlaceholder}
             />
           </div>
           {node.su_news_banner_media_caption &&
@@ -80,7 +87,7 @@ const StanfordNewsPage = ({node, ...props}: PropsWithoutRef<{ node: NewsNodeType
         <Rows components={node.su_news_components}/>
       }
 
-    </div>
+    </article>
   )
 }
 export default StanfordNewsPage;

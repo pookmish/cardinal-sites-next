@@ -6,18 +6,14 @@ import SelectList from "@components/elements/select-list";
 import {useMemo, useState} from "react";
 import LoadMoreList from "@components/elements/load-more-list";
 import StanfordEventListItem from "@components/nodes/list-item/stanford-event/stanford-event-list-item";
-import {EventNodeType} from "@lib/types";
-import {DrupalTaxonomyTerm} from "@lib/types";
 import {SelectOptionDefinition, SelectValue} from "@mui/base/useSelect";
+import {DrupalTaxonomyTerm, EventNodeType} from "@lib/types";
 
 const getTopicOptions = (eventItems: EventNodeType[] = [], topicTree: DrupalTaxonomyTerm[] = []): SelectOptionDefinition<string>[] => {
   const topicOptions: SelectOptionDefinition<string>[] = [];
 
   const cleanTopic = (topic: DrupalTaxonomyTerm): boolean => {
-    if (topic.below) {
-      topic.below = topic.below.filter(childTopic => cleanTopic(childTopic));
-    }
-    if (!topic.below?.length) return true;
+    if (topic.parent) return false;
 
     return !!eventItems.find(event => {
       return event.su_event_type?.map(eventTerm => eventTerm.id).includes(topic.id);
@@ -32,11 +28,12 @@ const getTopicOptions = (eventItems: EventNodeType[] = [], topicTree: DrupalTaxo
 }
 
 const EventsFilteredListView = ({items, topics}: { items: EventNodeType[], topics: DrupalTaxonomyTerm[] }) => {
+
   const [chosenTopic, setChosenTopic] = useState<string>('');
   const [displayedEvents, setDisplayedEvents] = useState<EventNodeType[]>(items);
 
   const topicTree = useMemo(() => getTaxonomyTree(topics), [topics]);
-  const topicOptions = useMemo(() => getTopicOptions(items, topicTree), [topics]);
+  const topicOptions = useMemo(() => getTopicOptions(items, topicTree), [items, topicTree]);
 
   const filterEvents = () => {
 
@@ -50,7 +47,6 @@ const EventsFilteredListView = ({items, topics}: { items: EventNodeType[], topic
       if (!topicTerm) return;
 
       topicIds.push(topicTerm.id);
-      topicTerm.below?.map(belowTerm => buildChosenTopicIds(belowTerm));
     }
 
     buildChosenTopicIds(topicTree.find(term => term.id === chosenTopic));
@@ -69,6 +65,7 @@ const EventsFilteredListView = ({items, topics}: { items: EventNodeType[], topic
         <div className="mb-5">
           <SelectList
             options={topicOptions}
+            emptyLabel="- All -"
             label="Event Topics"
             onChange={(e, value: SelectValue<string, boolean>) => setChosenTopic(value as string || '')}
           />
@@ -79,8 +76,8 @@ const EventsFilteredListView = ({items, topics}: { items: EventNodeType[], topic
       <LoadMoreList
         key={displayedEvents.map(event => event.id).join(',')}
         buttonText={<>Load More<span className="sr-only">&nbsp;Events</span></>}
-        listProps={{className: "list-unstyled mb-20"}}
-        itemProps={{className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0"}}
+        ulProps={{className: "list-unstyled mb-20"}}
+        liProps={{className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0"}}
         itemsPerPage={3}
       >
         {displayedEvents.map(event => <StanfordEventListItem key={event.id} node={event}/>)}

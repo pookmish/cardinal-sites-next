@@ -5,22 +5,16 @@ import MediaCaptionParagraph from "@components/paragraphs/stanford-media-caption
 import SpacerParagraph from "@components/paragraphs/stanford-spacer/spacer-paragraph";
 import WysiwygParagraph from "@components/paragraphs/stanford-wysiwyg/wysiwyg-paragraph";
 import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph";
-import {getResource} from "@lib/drupal/get-resource";
 import ListParagraph from "@components/paragraphs/stanford-lists/list-paragraph";
-import {StanfordParagraph} from "@lib/types";
 import {isDraftMode} from "@lib/drupal/utils";
+import {StanfordParagraph} from "@lib/types";
 
-interface Props {
-  paragraph: StanfordParagraph
-}
-
-const Paragraph = async ({paragraph}: Props) => {
+const Paragraph = async ({paragraph}: { paragraph: StanfordParagraph }) => {
   const draftMode = isDraftMode()
-  paragraph = await getResource<StanfordParagraph>(paragraph.type, paragraph.id, {draftMode});
 
-  const itemProps: { [key: string]: string } = {}
+  const itemProps: Record<string, string> = {}
   if (draftMode) {
-    itemProps['data-type'] = paragraph.type;
+    itemProps['data-type'] = paragraph.type || 'unknown';
     itemProps['data-id'] = paragraph.id;
   }
 

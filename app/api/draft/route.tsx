@@ -20,7 +20,7 @@ export async function GET(request: Request) {
 
   // Fetch the headless CMS to check if the provided `slug` exists
   // getPostBySlug would implement the required fetching logic to the headless CMS
-  const node = await getResourceByPath<StanfordNode>(slug, {draftMode: true})
+  const node = await getResourceByPath<StanfordNode>(slug);
 
   // If the slug doesn't exist prevent draft mode from being enabled
   if (!node) {

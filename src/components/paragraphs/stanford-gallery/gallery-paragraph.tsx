@@ -1,12 +1,17 @@
-import {DrupalGalleryImageMediaType, ImageGalleryParagraphType} from "@lib/types";
 import Wysiwyg from "@components/elements/wysiwyg";
 import Button from "@components/elements/button";
 import Image from "next/image";
 import Link from "next/link";
 import {H2} from "@components/elements/headers";
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes} from "react";
+import {DrupalGalleryImageMediaType, ImageGalleryParagraphType} from "@lib/types";
+import {buildUrl} from "@lib/drupal/utils";
 
-const GalleryParagraph = ({paragraph, ...props}: PropsWithoutRef<{ paragraph: ImageGalleryParagraphType }>) => {
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  paragraph: ImageGalleryParagraphType
+}
+
+const GalleryParagraph = ({paragraph, ...props}: Props) => {
   return (
     <div className="@container centered lg:max-w-[980px] flex flex-col gap-10 mb-20" {...props}>
       {paragraph.su_gallery_headline &&
@@ -37,15 +42,15 @@ const GalleryParagraph = ({paragraph, ...props}: PropsWithoutRef<{ paragraph: Im
 }
 
 const GalleryImage = ({image}: { image: DrupalGalleryImageMediaType }) => {
-  const imageUrl = image.su_gallery_image.image_style_uri.card_1900x950
-  const imageAlt = image.su_gallery_image.resourceIdObjMeta?.alt ?? ''
+  const imageUrl = image.su_gallery_image.uri.url
+  const imageAlt = image.su_gallery_image.resourceIdObjMeta?.alt || ''
 
   return (
     <figure>
       <div className="relative aspect-[4/3] w-full">
-        <Link href={`/gallery-image/${image.su_gallery_image.filename}`}>
+        <Link href={`/gallery-image/${image.id}`}>
           <Image
-            src={imageUrl}
+            src={buildUrl(imageUrl).toString()}
             alt={imageAlt}
             fill
             className="object-cover"

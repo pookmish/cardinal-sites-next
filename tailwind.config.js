@@ -52,6 +52,7 @@ module.exports = {
     require('@tailwindcss/container-queries'),
     require(`${dir}/typography/local-footer.tsx`)(),
     require(`${dir}/typography/global-message.tsx`)(),
+    require(`${dir}/typography/wysiwyg.tsx`)(),
     require(`${dir}/centered-container.tsx`)(),
   ],
 };

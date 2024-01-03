@@ -1,17 +1,23 @@
-import {SpeakerParagraphType} from "@lib/types";
 import Image from "next/image";
 import Link from "@components/elements/link";
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes} from "react";
+import {SpeakerParagraphType} from "@lib/types";
+import {buildUrl} from "@lib/drupal/utils";
 
-const PersonCtaParagraph = ({paragraph, ...props}: PropsWithoutRef<{ paragraph: SpeakerParagraphType }>) => {
-  const imageUrl = paragraph.su_person_cta_image?.field_media_image.image_style_uri.square_478;
-  const imageAlt = paragraph.su_person_cta_image?.field_media_image.resourceIdObjMeta?.alt ?? '';
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  paragraph: SpeakerParagraphType
+}
+
+const PersonCtaParagraph = ({paragraph, ...props}: Props) => {
+  const image = paragraph.su_person_cta_image?.field_media_image
+  const imageUrl = image?.uri.url;
+  const imageAlt = image?.resourceIdObjMeta?.alt || '';
   return (
     <div className="centered flex gap-10" {...props}>
       {imageUrl &&
         <div className="relative aspect-[1/1] w-[200px]">
           <Image
-            src={imageUrl}
+            src={buildUrl(imageUrl).toString()}
             alt={imageAlt}
             fill
             className="rounded-full"

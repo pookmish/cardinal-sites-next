@@ -1,18 +1,22 @@
 import {getMenu} from "@lib/drupal/get-menu";
 import SideNav from "@components/menu/side-nav";
-import {PropsWithChildren} from "react";
+import {HtmlHTMLAttributes} from "react";
 import {isDraftMode} from "@lib/drupal/utils";
 
-const InteriorPage = async ({children, currentPath}: PropsWithChildren<{ currentPath: string }>) => {
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  currentPath: string
+}
+
+const InteriorPage = async ({children, currentPath, ...props}: Props) => {
   const draftMode = isDraftMode();
   const {tree} = await getMenu('main', {draftMode});
 
   return (
-    <div className="centered flex gap-20">
-      <SideNav menuItems={tree} currentPath={currentPath}/>
-      <article className="flex-grow">
+    <div className="centered flex gap-20" {...props}>
+      <section className="flex-grow">
         {children}
-      </article>
+      </section>
+      <SideNav menuItems={tree} currentPath={currentPath}/>
     </div>
   )
 }

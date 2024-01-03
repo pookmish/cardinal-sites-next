@@ -7,47 +7,47 @@ import {XCircleIcon} from "@heroicons/react/24/outline";
 import useNavigationEvent from "@lib/hooks/useNavigationEvent";
 import SiteSearchForm from "@components/search/site-search-form";
 import useActiveTrail from "@lib/hooks/useActiveTrail";
-import {DrupalMenuLinkContent} from "next-drupal";
 import useOutsideClick from "@lib/hooks/useOutsideClick";
 import {usePathname} from "next/navigation";
+import {useBoolean} from "usehooks-ts";
+import {DrupalMenuItem} from "@lib/drupal/get-menu";
+import {clsx} from "clsx";
 
-const MainMenu = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
+const MainMenu = ({menuItems}: { menuItems: DrupalMenuItem[] }) => {
   const buttonRef = useRef<HTMLButtonElement | null>(null)
-  const [menuOpen, setMenuOpen] = useState<boolean>(false)
+  const {value: menuOpen, setFalse: closeMenu, toggle: toggleMenu} = useBoolean(false)
   const browserUrl = useNavigationEvent()
   const activeTrail = useActiveTrail(menuItems, usePathname() || '');
-  const clickProps = useOutsideClick(() => setMenuOpen(false));
+
+  const clickProps = useOutsideClick(closeMenu);
 
   const handleEscape = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape" && menuOpen) {
-      setMenuOpen(false);
+      closeMenu()
 
       // @ts-ignore
       buttonRef.current?.focus();
     }
-  }, [menuOpen]);
+  }, [menuOpen, closeMenu]);
 
-  useEffect(() => setMenuOpen(false), [browserUrl]);
+  useEffect(closeMenu, [browserUrl, closeMenu]);
+
   useEffect(() => {
     // Add keydown listener for escape button if the submenu is open.
     if (menuOpen) document.addEventListener("keydown", handleEscape);
     if (!menuOpen) document.removeEventListener("keydown", handleEscape);
-  }, [menuOpen]);
+  }, [menuOpen, handleEscape]);
 
   return (
-    <nav{...clickProps} className="lg:centered">
+    <nav aria-label="Main Navigation" {...clickProps} className="lg:centered">
       <button
         ref={buttonRef}
         className="flex flex-col items-center lg:hidden absolute top-5 right-10 group"
-        onClick={() => setMenuOpen(!menuOpen)}
+        onClick={toggleMenu}
         aria-expanded={menuOpen}
       >
-        {menuOpen &&
-          <XCircleIcon height={40}/>
-        }
-        {!menuOpen &&
-          <Bars3Icon height={40}/>
-        }
+        {menuOpen && <XCircleIcon height={40}/>}
+        {!menuOpen && <Bars3Icon height={40}/>}
         <span className="group-hocus:underline">{menuOpen ? "Close" : "Menu"}</span>
       </button>
 
@@ -65,7 +65,7 @@ const MainMenu = ({menuItems}: { menuItems: DrupalMenuLinkContent[] }) => {
   )
 }
 
-type MenuItemProps = DrupalMenuLinkContent & {
+type MenuItemProps = DrupalMenuItem & {
   activeTrail: string[]
   level?: number
 }
@@ -74,10 +74,13 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
   const sublistRef = useRef<HTMLUListElement | null>(null);
   const [positionRight, setPositionRight] = useState<boolean>(true)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
-  const [submenuOpen, setSubmenuOpen] = useState<boolean>(false)
+  const {value: submenuOpen, setFalse: closeSubmenu, toggle: toggleSubmenu} = useBoolean(false)
   const browserUrl = useNavigationEvent()
-  useEffect(() => setSubmenuOpen(false), [browserUrl]);
-  const itemProps = useOutsideClick(() => setSubmenuOpen(false));
+
+  const itemProps = useOutsideClick(closeSubmenu);
+
+  // Close the submenu if the url changes.
+  useEffect(closeSubmenu, [browserUrl, closeSubmenu]);
 
   useLayoutEffect(() => {
     // If the right side of the submenu is not visible, set the position to be on the left of the menu item.
@@ -85,58 +88,59 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
     if (x + width > window.innerWidth) setPositionRight(false);
   }, [submenuOpen])
 
+  // If the user presses escape on the keyboard, close the submenus.
   const handleEscape = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape" && submenuOpen) {
-      setSubmenuOpen(false);
-
-      // @ts-ignore
+      closeSubmenu()
       buttonRef.current?.focus();
     }
-  }, [submenuOpen]);
+  }, [submenuOpen, closeSubmenu]);
 
 
   useEffect(() => {
     // Add keydown listener for escape button if the submenu is open.
     if (submenuOpen) document.addEventListener("keydown", handleEscape);
     if (!submenuOpen) document.removeEventListener("keydown", handleEscape);
-  }, [submenuOpen]);
+  }, [submenuOpen, handleEscape]);
 
-  const zIndexes = [
-    "z-[1]",
-    "z-[2]",
-    "z-[3]",
-    "z-[4]",
-    "z-[5]",
-  ]
-  const leftPadding = [
-    'pl-10',
-    'pl-20',
-    'pl-28',
-    'pl-48',
-  ]
+  // List out the specific classes so tailwind will include them. Dynamic classes values don't get compiles well.
+  const zIndexes = ["z-[1]", "z-[2]", "z-[3]", "z-[4]", "z-[5]"]
+  const leftPadding = ['pl-10', 'pl-20', 'pl-28', 'pl-48']
 
+  // The last item in the current trail would be the current item id if the user is on that page.
   const isCurrent = activeTrail.at(-1) === id;
   const inTrail = activeTrail.includes(id) && !isCurrent;
 
-  const topItem: string[] = [
-    'border-l-[6px]',
-    'lg:border-l-0',
-    'lg:border-b-[6px]',
-    isCurrent ? "border-digital-red lg:border-black" : (inTrail ? "border-transparent lg:border-foggy-dark" : "border-transparent"),
-    'ml-5',
-    'lg:ml-0',
-    leftPadding[level]
-  ]
-  const childItem: string[] = [
-    'border-l-[6px]',
-    isCurrent ? "border-digital-red" : "border-transparent",
-    'ml-5',
-    'lg:ml-0',
-    'lg:pl-5',
-    leftPadding[level]
-  ];
+  const linkStyles = clsx(
+    'w-full relative inline-block text-white lg:text-cardinal-red hocus:text-white lg:hocus:text-black no-underline hocus:underline py-5 lg:pl-0 border-l-[6px]',
+    leftPadding[level],
+    // Top menu item styles.
+    {
+      'lg:border-l-0 lg:border-b-[6px] ml-5 lg:ml-0': level === 0,
+      'border-digital-red lg:border-black': level === 0 && isCurrent,
+      'border-transparent lg:border-foggy-dark': level === 0 && !isCurrent && inTrail,
+      'border-transparent': level === 0 && !isCurrent && !inTrail,
+    },
+    // Child menu item styles.
+    {
+      'ml-5 lg:ml-0 lg:pl-5': level !== 0,
+      'border-digital-red':  level !== 0 && isCurrent,
+      'border-transparent': level !== 0 && !isCurrent
+    }
+  )
 
-  const itemStyles: string = level === 0 ? topItem.join(' ') : childItem.join(' ');
+  const subMenuStyles = clsx(
+    'list-unstyled w-full min-w-[300px] lg:bg-white lg:shadow-2xl px-0 lg:absolute',
+    zIndexes[level],
+    {
+      'block': submenuOpen,
+      'hidden': !submenuOpen,
+      'lg:top-full lg:right-0': level === 0,
+      'lg:top-0': level !== 0,
+      'lg:left-full': level !== 0 && positionRight,
+      'lg:right-full': level !== 0 && !positionRight,
+    }
+  )
 
   return (
     <li
@@ -146,7 +150,7 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
       <div className="flex items-center justify-between lg:justify-end">
         <Link
           href={url}
-          className={`w-full relative inline-block text-white lg:text-cardinal-red hocus:text-white lg:hocus:text-black no-underline hocus:underline py-5 lg:pl-0 ${itemStyles}`}
+          className={linkStyles}
           aria-current={isCurrent ? "true" : undefined}
         >
           {title}
@@ -158,7 +162,7 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
             <button
               ref={buttonRef}
               className="shrink-0 mb-[6px] relative right-10 lg:right-0 text-white lg:text-cardinal-red bg-cardinal-red lg:bg-transparent rounded-full lg:rounded-none group border-b border-transparent hocus:border-black hocus:bg-white"
-              onClick={() => setSubmenuOpen(!submenuOpen)}
+              onClick={toggleSubmenu}
               aria-expanded={submenuOpen}
             >
               <ChevronDownIcon
@@ -176,7 +180,7 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
       {items &&
         <ul
           ref={sublistRef}
-          className={(submenuOpen ? "block" : "hidden") + " list-unstyled w-full min-w-[300px] lg:bg-white lg:shadow-2xl px-0 lg:absolute " + (level === 0 ? "lg:top-full lg:right-0 " : "lg:top-0 " + (positionRight ? "lg:left-full " : "lg:right-full ")) + zIndexes[level]}
+          className={subMenuStyles}
         >
           {items.map(item =>
             <MenuItem

@@ -1,4 +1,3 @@
-import {LocalFooterConfigPageType} from "@lib/types";
 import Address from "@components/elements/address";
 import Link from "@components/elements/link";
 import Wysiwyg from "@components/elements/wysiwyg";
@@ -20,21 +19,24 @@ import {H2} from "@components/elements/headers";
 import TwitterIcon from "@components/elements/icons/TwitterIcon";
 import YoutubeIcon from "@components/elements/icons/YoutubeIcon";
 import FacebookIcon from "@components/elements/icons/FacebookIcon";
+import {getConfigPageResource} from "@lib/drupal/get-resource";
+import {LocalFooterConfigPageType} from "@lib/types";
+import {buildUrl} from "@lib/drupal/utils";
 
-const LocalFooter = ({configPage}: {configPage: LocalFooterConfigPageType}) => {
-  if (!configPage.su_footer_enabled) {
-    return null;
-  }
+const LocalFooter = async () => {
+  // Fetch from JSON API, it should return a cached version.
+  const configPage = await getConfigPageResource<LocalFooterConfigPageType>('stanford_local_footer');
+  if(!configPage || !configPage.su_footer_enabled) return;
 
   const lockupProps = {
-    useDefault: configPage?.su_local_foot_use_loc,
-    lockupOption: configPage?.su_local_foot_loc_op,
-    line1: configPage?.su_local_foot_line_1,
-    line2: configPage?.su_local_foot_line_2,
-    line3: configPage?.su_local_foot_line_3,
-    line4: configPage?.su_local_foot_line_4,
-    line5: configPage?.su_local_foot_line_5,
-    logoUrl: !configPage?.su_local_foot_use_logo ? configPage?.su_local_foot_loc_img?.image_style_uri?.responsive_medium : undefined,
+    useDefault: configPage.su_local_foot_use_loc,
+    lockupOption: configPage.su_local_foot_loc_op,
+    line1: configPage.su_local_foot_line_1,
+    line2: configPage.su_local_foot_line_2,
+    line3: configPage.su_local_foot_line_3,
+    line4: configPage.su_local_foot_line_4,
+    line5: configPage.su_local_foot_line_5,
+    logoUrl: !configPage.su_local_foot_use_logo && configPage.su_local_foot_loc_img?.uri.url ? buildUrl(configPage.su_local_foot_loc_img.uri.url).toString() : undefined,
   }
 
   return (
@@ -44,7 +46,8 @@ const LocalFooter = ({configPage}: {configPage: LocalFooterConfigPageType}) => {
           <FooterLockup {...lockupProps} />
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-32 [&_a]:font-normal [&_a]:no-underline [&_a:hover]:underline [&_a:hover]:text-black [&_a:focus]:underline [&_a:focus]:text-black [&_a]:transition">
+        <div
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-32 [&_a]:font-normal [&_a]:no-underline [&_a:hover]:underline [&_a:hover]:text-black [&_a:focus]:underline [&_a:focus]:text-black [&_a]:transition">
           <div>
 
             {configPage.su_local_foot_address &&
@@ -53,27 +56,33 @@ const LocalFooter = ({configPage}: {configPage: LocalFooterConfigPageType}) => {
 
             {configPage.su_local_foot_action &&
               <ul className="list-unstyled">
-                {configPage.su_local_foot_action.map((link, index) =>
-                  <li key={`footer-action-link-${index}`}>
-                    <Link href={link.url}>
-                      {link.title}
-                    </Link>
-                  </li>
-                )}
+                {configPage.su_local_foot_action.map((link, index) => {
+                  if (!link.url) return;
+                  return (
+                    <li key={`footer-action-link-${index}`}>
+                      <Link href={link.url}>
+                        {link.title}
+                      </Link>
+                    </li>
+                  )
+                })}
               </ul>
             }
 
             {configPage.su_local_foot_social &&
-            <ul className="list-unstyled flex gap-2">
-              {configPage.su_local_foot_social.map((link, index) =>
-                <li key={`footer-action-link-${index}`}>
-                  <Link href={link.url}>
-                    <SocialIcon url={link.url}/>
-                    <span className="sr-only">{link.title}</span>
-                  </Link>
-                </li>
-              )}
-            </ul>
+              <ul className="list-unstyled flex gap-2">
+                {configPage.su_local_foot_social.map((link, index) => {
+                  if (!link.url) return;
+                  return (
+                    <li key={`footer-action-link-${index}`}>
+                      <Link href={link.url}>
+                        <SocialIcon url={link.url}/>
+                        <span className="sr-only">{link.title}</span>
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
             }
 
             {configPage.su_local_foot_pr_co &&
@@ -86,13 +95,16 @@ const LocalFooter = ({configPage}: {configPage: LocalFooterConfigPageType}) => {
               <H2 className="text-m1">{configPage.su_local_foot_prime_h}</H2>}
             {configPage.su_local_foot_primary &&
               <ul className="list-unstyled">
-                {configPage.su_local_foot_primary.map((link, index) =>
-                  <li key={`footer-primary-link-${index}`}>
-                    <Link href={link.url}>
-                      {link.title}
-                    </Link>
-                  </li>
-                )}
+                {configPage.su_local_foot_primary.map((link, index) => {
+                  if (!link.url) return;
+                  return (
+                    <li key={`footer-primary-link-${index}`}>
+                      <Link href={link.url}>
+                        {link.title}
+                      </Link>
+                    </li>
+                  )
+                })}
               </ul>
             }
             {configPage.su_local_foot_se_co &&
@@ -107,13 +119,16 @@ const LocalFooter = ({configPage}: {configPage: LocalFooterConfigPageType}) => {
 
             {configPage.su_local_foot_second &&
               <ul className="list-unstyled">
-                {configPage.su_local_foot_second.map((link, index) =>
-                  <li key={`footer-second-link-${index}`}>
-                    <Link href={link.url}>
-                      {link.title}
-                    </Link>
-                  </li>
-                )}
+                {configPage.su_local_foot_second.map((link, index) => {
+                  if (!link.url) return;
+                  return (
+                    <li key={`footer-second-link-${index}`}>
+                      <Link href={link.url}>
+                        {link.title}
+                      </Link>
+                    </li>
+                  )
+                })}
               </ul>
             }
 

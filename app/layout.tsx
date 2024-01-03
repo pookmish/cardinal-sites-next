@@ -14,16 +14,14 @@ export const metadata = {
   title: 'Stanford University'
 }
 
-// This is the validation only for the components in the layout, not the pages themselves. Things like the menu, and
-// global header and footer config pages.
-export const revalidate = 86400;
+// https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+export const revalidate = false;
 
-const RootLayout = ({children, modal}: { children: React.ReactNode, modal: React.ReactNode }) => {
+const RootLayout = async ({children, modal}: { children: React.ReactNode, modal: React.ReactNode }) => {
   const draftMode = isDraftMode();
+
   return (
     <html lang="en" className={`${sourceSansPro.className} font-sans`}>
-
-
     {draftMode && <Editori11y/>}
 
     {/* Add Google Analytics and SiteImprove when not in draft mode. */}
@@ -34,7 +32,7 @@ const RootLayout = ({children, modal}: { children: React.ReactNode, modal: React
       </>
     }
     <body>
-    <nav>
+    <nav aria-label="Skip Links">
       <a href="#main-content" className="skiplink">Skip to main content</a>
     </nav>
 

@@ -1,15 +1,20 @@
-import {CourseNodeType} from "@lib/types";
 import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes} from 'react';
+import {CourseNodeType} from "@lib/types";
 
-const StanfordCourseCard = ({node, headingLevel, ...props}: PropsWithoutRef<{ node: CourseNodeType, headingLevel?: string }>) => {
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  node: CourseNodeType
+  headingLevel?: string
+}
+
+const StanfordCourseCard = ({node, headingLevel, ...props}: Props) => {
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
-    <div className="mx-auto shadow-xl border border-black-20 p-10 overflow-hidden" {...props}>
+    <article aria-labelledby={node.id} className="mx-auto shadow-xl border border-black-20 p-10 overflow-hidden" {...props}>
       <div className="flex flex-col">
-        <Heading className="text-m2 order-last">
-          <Link href={node.path?.alias} >
+        <Heading className="text-m2 order-last" id={node.id}>
+          <Link href={node.path.alias}>
             {node.title}
           </Link>
         </Heading>
@@ -21,7 +26,7 @@ const StanfordCourseCard = ({node, headingLevel, ...props}: PropsWithoutRef<{ no
           <div>{node.su_course_academic_year}</div>
         </div>
       </div>
-    </div>
+    </article>
   )
 }
 export default StanfordCourseCard;

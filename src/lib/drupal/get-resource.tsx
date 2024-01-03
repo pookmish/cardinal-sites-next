@@ -168,8 +168,6 @@ export const getConfigPageResource = async <T extends StanfordConfigPage>(
   options?: { deserialize?: boolean, accessToken?: AccessToken, next?: NextFetchRequestConfig } & JsonApiOptions
 ): Promise<T | undefined> => {
 
-  options = {next: {revalidate: 86400}, ...options}
-
   let response;
   try {
     response = await getResourceCollection<T>(`config_pages--${name}`, options);

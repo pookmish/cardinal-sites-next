@@ -1,46 +1,59 @@
 "use client";
 
-import {JSX, ComponentProps, RefObject, useLayoutEffect, useRef, useState, PropsWithChildren} from "react";
+import {useLayoutEffect, useRef, HtmlHTMLAttributes, JSX, useId} from "react";
 import Button from "@components/elements/button";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
+import {useBoolean, useCounter} from "usehooks-ts";
 
-const LoadMoreList = ({buttonText, children, listProps, itemProps, itemsPerPage = 20, ...props}: PropsWithChildren<{
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   buttonText?: string | JSX.Element
-  children: JSX.Element[],
-  listProps?: ComponentProps<any>
-  itemProps?: ComponentProps<any>,
+  ulProps?: HtmlHTMLAttributes<HTMLUListElement>
+  liProps?: HtmlHTMLAttributes<HTMLLIElement>,
   itemsPerPage?: number
-}>) => {
-  const [shownItems, setShownItems] = useState<number>(itemsPerPage)
-  const [allowFocus, setAllowFocus] = useState<boolean>(false);
-  const ref: RefObject<HTMLLIElement> = useRef<HTMLLIElement | null>(null);
+}
+
+const LoadMoreList = ({buttonText, children, ulProps, liProps, itemsPerPage = 20, ...props}: Props) => {
+  const id = useId();
+  const {count: shownItems, setCount: setShownItems} = useCounter(itemsPerPage)
+  const {value: focusOnElement, setTrue: enableFocusElement, setFalse: disableFocusElement} = useBoolean(false)
+
+  const ref = useRef<HTMLLIElement>(null);
   const [animationParent] = useAutoAnimate();
 
   const showMoreItems = () => {
-    setAllowFocus(true);
+    enableFocusElement();
     setShownItems(shownItems + itemsPerPage);
   }
 
   useLayoutEffect(() => ref.current?.focus(), [shownItems]);
 
   const focusingItem = shownItems - itemsPerPage;
-
+  const items = Array.isArray(children) ? children : [children]
+  const itemsToShow = items.slice(0, shownItems);
   return (
     <div {...props}>
-      <ul {...listProps} ref={animationParent}>
-        {children.slice(0, shownItems).map((item, i) =>
+      <ul {...ulProps} ref={animationParent}>
+
+        {itemsToShow.map((item, i) =>
           <li
-            key={i}
+            key={`${id}--${i}`}
             ref={focusingItem === i ? ref : null}
-            tabIndex={focusingItem === i && allowFocus ? 0 : undefined}
-            onBlur={() => setAllowFocus(false)}
-            {...itemProps}
+            tabIndex={focusingItem === i && focusOnElement ? 0 : undefined}
+            onBlur={disableFocusElement}
+            {...liProps}
           >
             {item}
           </li>
         )}
       </ul>
-      {children.length > shownItems &&
+
+      {items.length > itemsPerPage &&
+        <span className="sar-only" aria-live="polite">
+          Showing {itemsToShow.length} of {items.length} total items.
+        </span>
+      }
+
+      {items.length > shownItems &&
         <Button centered onClick={showMoreItems}>
           {buttonText ? buttonText : "Load More"}
         </Button>

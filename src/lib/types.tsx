@@ -86,7 +86,7 @@ export type EventSeriesNodeType = DrupalNode & {
   type: "node--stanford_event_series"
   su_event_series_components: StanfordParagraph[]
   su_event_series_dek: string
-  su_event_series_event: DrupalNode[]
+  su_event_series_event: EventNodeType[]
   su_event_series_subheadline: string
   su_event_series_type: DrupalTaxonomyTerm[]
   su_event_series_weight: number
@@ -253,7 +253,7 @@ export type EntityTeaserParagraphType = DrupalParagraph & {
   su_entity_button?: DrupalLinkFieldType
   su_entity_description?: string
   su_entity_headline?: string
-  su_entity_item?: DrupalNode[]
+  su_entity_item?: StanfordNode[]
 }
 
 export type MediaCaptionParagraphType = DrupalParagraph & {
@@ -313,7 +313,7 @@ export type DrupalImageFileType = DrupalFile & {
 // Media Types.
 export type DrupalImageMediaType = DrupalMedia & {
   type: 'media--image'
-  field_media_image: DrupalImageFileType
+  field_media_image?: DrupalImageFileType
 }
 
 export type DrupalVideoMediaType = DrupalMedia & {
@@ -502,7 +502,7 @@ export type DrupalViewFieldType = {
     arguments?: string
     display_id: string
     drupal_internal__target_id: string
-    items_to_display?: string | number
+    items_to_display?: number
   }
 }
 

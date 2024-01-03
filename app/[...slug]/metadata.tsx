@@ -1,3 +1,4 @@
+import {decode} from 'html-entities';
 import {
   BasicPageNodeType,
   EventNodeType,
@@ -5,10 +6,9 @@ import {
   PersonNodeType,
   PolicyNodeType,
   StanfordNode,
-  StanfordParagraph,
-  WysiwygParagraphType
+  StanfordParagraph, WysiwygParagraphType
 } from "@lib/types";
-import {decode} from 'html-entities';
+import {buildUrl} from "@lib/drupal/utils";
 
 export const getNodeMetadata = (node: StanfordNode) => {
   const defaultData = {
@@ -41,7 +41,7 @@ export const getNodeMetadata = (node: StanfordNode) => {
 
     case 'node--stanford_policy':
       return {
-        ...getPolicyMetaData(node as PolicyNodeType),
+        ...getPolicyMetaData(node),
         ...defaultData
       }
   }
@@ -50,9 +50,12 @@ export const getNodeMetadata = (node: StanfordNode) => {
 }
 
 const getBasicPageMetaData = (node: BasicPageNodeType) => {
-  const imageUrl = node.su_page_image?.field_media_image?.image_style_uri?.card_956x478 || node.su_page_banner?.su_banner_image?.field_media_image?.image_style_uri?.card_956x478;
-  const imageAlt = node.su_page_image?.field_media_image?.resourceIdObjMeta?.alt || node.su_page_banner?.su_banner_image?.field_media_image?.resourceIdObjMeta?.alt;
-  const description = node.su_page_description ?? getFirstText(node.su_page_components);
+  const pageImage = node.su_page_image?.field_media_image;
+  const bannerImage =node.su_page_banner?.su_banner_image?.field_media_image
+
+  const imageUrl = pageImage?.image_style_uri.card_956x478 || bannerImage?.image_style_uri.card_956x478
+  const imageAlt = pageImage?.resourceIdObjMeta?.alt || bannerImage?.resourceIdObjMeta?.alt || '';
+  const description = node.su_page_description || getFirstText(node.su_page_components);
 
   return {
     description: description,
@@ -66,9 +69,13 @@ const getBasicPageMetaData = (node: BasicPageNodeType) => {
 }
 
 const getNewsMetaData = (node: NewsNodeType) => {
-  const imageUrl = node.su_news_featured_media?.field_media_image?.image_style_uri?.card_956x478 || node.su_news_banner?.field_media_image?.image_style_uri?.card_956x478;
-  const imageAlt = node.su_news_featured_media?.field_media_image?.resourceIdObjMeta?.alt || node.su_news_banner?.field_media_image?.resourceIdObjMeta?.alt;
-  const description = node.su_news_dek ?? getFirstText(node.su_news_components);
+  const pageImage = node.su_news_featured_media?.field_media_image;
+  const bannerImage = node.su_news_banner?.field_media_image;
+
+  const imageUrl = pageImage?.image_style_uri.card_956x478 || bannerImage?.image_style_uri.card_956x478
+  const imageAlt = pageImage?.resourceIdObjMeta?.alt  || bannerImage?.resourceIdObjMeta?.alt  || '';
+
+  const description = node.su_news_dek || getFirstText(node.su_news_components);
 
   let publishTime;
   if (node.su_news_publishing_date) {
@@ -89,8 +96,9 @@ const getNewsMetaData = (node: NewsNodeType) => {
 }
 
 const getPersonMetaData = (node: PersonNodeType) => {
-  const imageUrl = node.su_person_photo?.field_media_image?.image_style_uri?.card_956x478;
-  const imageAlt = node.su_person_photo?.field_media_image?.resourceIdObjMeta?.alt;
+  const pageImage = node.su_person_photo?.field_media_image;
+  const imageUrl = pageImage?.image_style_uri.card_956x478;
+  const imageAlt = pageImage?.resourceIdObjMeta?.alt || '';
   const description = node.su_person_full_title ?? getCleanDescription(node.body);
 
   return {
@@ -120,7 +128,7 @@ const getEventMetaData = (node: EventNodeType) => {
 }
 
 const getPolicyMetaData = (node: PolicyNodeType) => {
-  const description = getCleanDescription(node.body?.processed);
+  const description = getCleanDescription(node.body?.summary || node.body?.processed);
 
   return {
     description: description,
@@ -132,8 +140,8 @@ const getPolicyMetaData = (node: PolicyNodeType) => {
   }
 }
 
-const getFirstText = (components: StanfordParagraph[] = []) => {
-  const firstWysiwyg = components.find(component => component.type === 'paragraph--stanford_wysiwyg') as WysiwygParagraphType | undefined;
+const getFirstText = (components?: StanfordParagraph[]) => {
+  const firstWysiwyg = components?.find(component => component.type === 'paragraph--stanford_wysiwyg') as WysiwygParagraphType;
   if (firstWysiwyg) {
     return getCleanDescription(firstWysiwyg.su_wysiwyg_text);
   }
@@ -147,11 +155,11 @@ const getCleanDescription = (description: string | undefined): string | undefine
 }
 
 
-const getOpenGraphImage = (imageUrl: string | undefined, imageAlt: string | undefined) => {
+const getOpenGraphImage = (imageUrl?: string, imageAlt?: string) => {
   if (imageUrl) {
     return [
       {
-        url: imageUrl,
+        url: buildUrl(imageUrl).toString(),
         width: 956,
         height: 478,
         alt: imageAlt,

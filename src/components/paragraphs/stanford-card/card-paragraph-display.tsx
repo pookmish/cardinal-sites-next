@@ -1,4 +1,3 @@
-import {DrupalLinkFieldType} from "@lib/types";
 import Image from "next/image";
 import Oembed from "@components/elements/ombed";
 import {H2} from "@components/elements/headers";
@@ -6,23 +5,24 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import ActionLink from "@components/elements/action-link";
 import Button from "@components/elements/button";
 
-interface Props {
+type Props = {
   media?: {
     imageUrl?: string
     imageAlt?: string
-    placeholder?: string
     videoUrl?: string
   }
   header?: string
   supHeader?: string
   body?: string
-  link?: DrupalLinkFieldType & {
+  link?: {
+    url?: string
+    title?: string
     style?: 'action' | 'button' | undefined
   }
 }
 
 const CardParagraphDisplay = ({media, header, supHeader, body, link}: Props) => {
-  const {imageUrl, imageAlt, placeholder, videoUrl} = media ?? {};
+  const {imageUrl, imageAlt, videoUrl} = media ?? {};
   return (
     <div
       className="centered lg:max-w-[980px] w-full shadow-lg border border-black-10">
@@ -33,8 +33,6 @@ const CardParagraphDisplay = ({media, header, supHeader, body, link}: Props) => 
             alt={imageAlt ?? ""}
             fill
             className="object-cover object-center"
-            placeholder={placeholder ? 'blur' : 'empty'}
-            blurDataURL={placeholder}
           />
         </div>
       }

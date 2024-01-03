@@ -1,14 +1,18 @@
-import {EventScheduleParagraphType} from "@lib/types";
 import Wysiwyg from "@components/elements/wysiwyg";
 import Address from "@components/elements/address";
 import {H3} from "@components/elements/headers";
 import PersonCtaParagraph from "@components/paragraphs/stanford-person-cta/person-cta-paragraph";
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes} from "react";
+import {EventScheduleParagraphType} from "@lib/types";
 
-const ScheduleParagraph = ({paragraph, ...props}: PropsWithoutRef<{ paragraph: EventScheduleParagraphType }>) => {
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  paragraph: EventScheduleParagraphType
+}
+
+const ScheduleParagraph = ({paragraph, ...props}: Props) => {
   let start
   if (paragraph.su_schedule_date_time?.value) {
-    start = new Date(paragraph.su_schedule_date_time.value).toLocaleDateString('en-us', {
+    start = new Date(paragraph.su_schedule_date_time.value * 1000).toLocaleDateString('en-us', {
       weekday: 'long',
       month: 'long',
       day: 'numeric',

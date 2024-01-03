@@ -1,34 +1,38 @@
-import {CardParagraphType} from "@lib/types";
 import CardParagraphDisplay from "@components/paragraphs/stanford-card/card-paragraph-display";
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes} from "react";
+import {CardParagraphType} from "@lib/types";
+import {buildUrl} from "@lib/drupal/utils";
 
-const CardParagraph = ({paragraph, ...props}: PropsWithoutRef<{ paragraph: CardParagraphType }>) => {
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  paragraph: CardParagraphType
+}
+
+const CardParagraph = ({paragraph, ...props}: Props) => {
+
   let imageUrl: string | undefined,
     imageAlt: string | undefined,
-    videoUrl: string | undefined,
-    placeholder: string | undefined;
+    videoUrl: string | undefined
 
-  if (paragraph.su_card_media?.type === 'media--image') {
-    imageUrl = paragraph.su_card_media?.field_media_image?.image_style_uri.breakpoint_2xl_2x;
-    imageAlt = paragraph.su_card_media?.field_media_image?.resourceIdObjMeta?.alt ?? '';
-    placeholder = paragraph.su_card_media?.field_media_image?.uri?.base64;
+  if (paragraph.su_card_media?.type=== 'media--image') {
+    imageUrl = paragraph.su_card_media.field_media_image?.uri.url
+    imageAlt = paragraph.su_card_media.field_media_image?.resourceIdObjMeta?.alt || '';
   }
 
-  if (paragraph.su_card_media?.type == 'media--video') {
-    videoUrl = paragraph.su_card_media?.field_media_oembed_video;
+  if (paragraph.su_card_media?.type=== 'media--video') {
+    videoUrl = paragraph.su_card_media.field_media_oembed_video
   }
 
-  const linkStyle = paragraph.behavior_settings?.su_card_styles?.link_style;
   return (
     <div {...props}>
       <CardParagraphDisplay
-        media={imageUrl ? {imageUrl, imageAlt, videoUrl, placeholder} : undefined}
+        media={imageUrl || videoUrl ? {imageUrl: imageUrl && buildUrl(imageUrl).toString(), imageAlt, videoUrl} : undefined}
         header={paragraph.su_card_header}
         supHeader={paragraph.su_card_super_header}
         body={paragraph.su_card_body}
-        link={paragraph.su_card_link && {
-          ...paragraph.su_card_link,
-          style: linkStyle
+        link={{
+          url: paragraph.su_card_link?.url,
+          title: paragraph.su_card_link?.title,
+          style: paragraph.behavior_settings?.su_card_styles?.link_style
         }}
       />
     </div>

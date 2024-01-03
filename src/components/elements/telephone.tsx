@@ -1,18 +1,20 @@
 "use client"
 
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes} from "react";
 import {useIsClient} from "usehooks-ts";
 
-const Telephone = ({tel, ...props}: PropsWithoutRef<{ tel: string }>) => {
+type Props = HtmlHTMLAttributes<HTMLAnchorElement> & {
+  tel: string
+}
+
+const Telephone = ({tel, ...props}: Props) => {
   const isClient = useIsClient();
+  if (!isClient) return;
   return (
-    <>
-      {isClient &&
-        <a href={`tel:${tel.replace(/[^\d]+/g, '')}`} {...props}>
-          {tel}
-        </a>
-      }
-    </>
+
+    <a href={`tel:${tel.replace(/[^\d]+/g, '')}`} {...props}>
+      {tel}
+    </a>
   )
 }
 export default Telephone

@@ -1,6 +1,6 @@
-import {DrupalPublicationCitationType} from "@lib/types";
+import {PublicationCitationType} from "@lib/types";
 
-const Citation = ({citation}: { citation: DrupalPublicationCitationType }) => {
+const Citation = ({citation}: { citation: PublicationCitationType }) => {
   return (
     <div className="flex flex-col gap-10">
       {citation.su_author &&

@@ -1,7 +1,11 @@
+import {HtmlHTMLAttributes} from "react";
 import {SpacerParagraphType} from "@lib/types";
-import {PropsWithoutRef} from "react";
 
-const SpacerParagraph = ({paragraph, ...props}: PropsWithoutRef<{ paragraph: SpacerParagraphType }>) => {
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  paragraph: SpacerParagraphType
+}
+
+const SpacerParagraph = ({paragraph, ...props}: Props) => {
   let h = 'h-20';
   if (paragraph.su_spacer_size === 'su-spacer-minimal') h = 'h-10'
   if (paragraph.su_spacer_size === 'su-spacer-reduced') h = 'h-15'

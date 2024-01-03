@@ -4,7 +4,7 @@ import {MagnifyingGlassIcon} from "@heroicons/react/20/solid";
 const SiteSearchForm = ({...props}: ComponentProps<any>) => {
   const inputId = useId();
   return (
-    <form action="/search" {...props}>
+    <form aria-label="Site Search" action="/search" {...props}>
       <div className="relative mt-10">
         <label htmlFor={inputId} className="sr-only">
           Search this site

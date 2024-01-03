@@ -1,6 +1,9 @@
 const drupalUrl = new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL);
 
 const nextConfig = {
+  experimental: {
+    serverActions: true
+  },
   typescript: {
     // Disable build errors since dev dependencies aren't loaded on prod. Rely on GitHub actions to throw any errors.
     ignoreBuildErrors: process.env.CI !== 'true',
@@ -21,17 +24,6 @@ const nextConfig = {
   async rewrites() {
     return {
       beforeFiles: [
-        {
-          source: '/_next/image',
-          destination: '/_next/image?url=/no-image.png',
-          has: [{ type: 'query', key: 'url', value: (`${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}.*`) }],
-          missing: [{ type: 'query', key: 'url', value: '(.*itok=([\\w|-]+))' }],
-        },
-        {
-          source: '/_next/image',
-          destination: '/_next/image?url=:url',
-          has: [{ type: 'query', key: 'url', value: '(?<url>.*[jpg|png|jpeg|gif]\?itok=([\\w|-]+)).*' }],
-        },
         {
           source: '/wp-:path*',
           destination: '/not-found',

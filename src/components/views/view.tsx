@@ -10,94 +10,99 @@ import CourseListView from "@components/views/stanford-courses/course-list-view"
 import CourseCardView from "@components/views/stanford-courses/course-card-view";
 import PublicationsApaView from "@components/views/stanford-publications/publications-apa-view";
 import PublicationsChicagoView from "@components/views/stanford-publications/publications-chicago-view";
-import {DrupalJsonApiParams} from "drupal-jsonapi-params";
-import {getView} from "@lib/drupal/get-view";
-import {getResources} from "@lib/drupal/get-resource";
-import {JSX} from "react";
-import {StanfordNode} from "@lib/types";
+import {
+  BasicPageNodeType,
+  CourseNodeType,
+  EventNodeType,
+  NewsNodeType,
+  PersonNodeType,
+  PublicationNodeType,
+  StanfordNode
+} from "@lib/types";
 
 interface Props {
   viewId: string;
   displayId: string;
-  args?: string;
-  itemsToDisplay?: number;
-  emptyMessage?: string;
   headingLevel?: string
+  items?: StanfordNode[]
 }
 
-const View = async ({viewId, displayId, args, itemsToDisplay = -1, emptyMessage, headingLevel = 'h3'}: Props): Promise<JSX.Element | undefined> => {
+const View = async ({viewId, displayId, items, headingLevel = 'h3'}: Props) => {
   const component = `${viewId}--${displayId}`;
-
-  const viewProps = {
-    view: component,
-    args,
-    itemsToDisplay,
-    emptyMessage,
-    headingLevel,
-  }
 
   switch (component) {
     case 'stanford_basic_pages--basic_page_type_list':
-      return <PageListView {...viewProps}/>
+      return <PageListView
+        items={items as BasicPageNodeType[]}
+        headingLevel={headingLevel}
+      />
 
     case 'stanford_news--vertical_cards':
-      return <NewsCardView {...viewProps} />
+      return <NewsCardView
+        items={items as NewsNodeType[]}
+        headingLevel={headingLevel}
+      />
 
     case 'stanford_news--block_1':
-      return <NewsListView {...viewProps}/>
+      return <NewsListView
+        items={items as NewsNodeType[]}
+        headingLevel={headingLevel}
+      />
 
     case 'stanford_person--grid_list_all':
-      return <PersonCardView {...viewProps}/>
+      return <PersonCardView
+        items={items as PersonNodeType[]}
+        headingLevel={headingLevel}
+      />
 
     case 'stanford_events--cards':
-      return <EventsCardView {...viewProps}/>
+      return <EventsCardView
+        items={items as EventNodeType[]}
+        headingLevel={headingLevel}
+      />
 
     case 'stanford_events--past_events_list_block':
     case 'stanford_events--list_page':
-      return <EventsListView {...viewProps}/>
+      return <EventsListView
+        items={items as EventNodeType[]}
+        headingLevel={headingLevel}
+      />
 
     case 'stanford_basic_pages--viewfield_block_1':
-      return <PageCardView {...viewProps}/>
+      return <PageCardView
+        items={items as BasicPageNodeType[]}
+        headingLevel={headingLevel}
+      />
 
     case 'stanford_shared_tags--card_grid':
-      return <SharedTagsCardView {...viewProps}/>
+      return <SharedTagsCardView
+        items={items}
+        headingLevel={headingLevel}
+      />
 
     case 'stanford_courses--default_list_viewfield_block':
-      return <CourseListView {...viewProps}/>
+      return <CourseListView
+        items={items as CourseNodeType[]}
+        headingLevel={headingLevel}
+      />
 
     case 'stanford_courses--vertical_teaser_viewfield_block':
-      return <CourseCardView {...viewProps}/>
+      return <CourseCardView
+        items={items as CourseNodeType[]}
+        headingLevel={headingLevel}
+      />
 
     case 'stanford_publications--apa_list':
-      return <PublicationsApaView {...viewProps}/>
+      return <PublicationsApaView
+        items={items as PublicationNodeType[]}
+        headingLevel={headingLevel}
+      />
 
     case 'stanford_publications--chicago_list':
-      return <PublicationsChicagoView {...viewProps}/>
+      return <PublicationsChicagoView
+        items={items as PublicationNodeType[]}
+        headingLevel={headingLevel}
+      />
   }
 }
-
-export const getViewItems = async <T extends StanfordNode, >(view: string, itemsToDisplay: number = -1, args: string[] = []): Promise<T[]> => {
-  const drupalParams = new DrupalJsonApiParams();
-
-  if (args && args.length > 0) {
-    drupalParams.addCustomParam({'views-argument': args});
-  }
-
-  if (itemsToDisplay > 0) {
-    // Find new way to add the item limit since this throws errors.
-    drupalParams.addPageLimit(itemsToDisplay);
-  }
-  let items: StanfordNode[] = [];
-
-  try {
-    const viewData = await getView<StanfordNode[]>(view, {params: drupalParams.getQueryObject()});
-    items = viewData.results ?? [];
-  } catch (e: unknown) {
-    if (e instanceof Error) {
-      console.log(`Unable to fetch view ${view}: ${e.message}`)
-    }
-  }
-  return getResources<T>(items);
-}
-
 export default View;

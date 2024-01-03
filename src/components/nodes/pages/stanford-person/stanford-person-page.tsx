@@ -1,4 +1,3 @@
-import {PersonNodeType} from "@lib/types";
 import Image from "next/image";
 import Wysiwyg from "@components/elements/wysiwyg";
 import Rows from "@components/paragraphs/rows/rows";
@@ -8,23 +7,28 @@ import Telephone from "@components/elements/telephone";
 import Email from "@components/elements/email";
 import Link from "@components/elements/link";
 import {H1, H2} from "@components/elements/headers";
-import {PropsWithoutRef} from "react";
+import {HtmlHTMLAttributes} from "react";
+import {PersonNodeType} from "@lib/types";
+import {buildUrl} from "@lib/drupal/utils";
 
-const StanfordPersonPage = ({node, ...props}: PropsWithoutRef<{ node: PersonNodeType }>) => {
-  const imageUrl = node.su_person_photo?.field_media_image.image_style_uri.square_956
-  const imagePlaceholder = node.su_person_photo?.field_media_image.uri.base64;
+type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  node: PersonNodeType
+  headingLevel?: string
+}
+
+const StanfordPersonPage = ({node, ...props}: Props) => {
+  const imageUrl = node.su_person_photo?.field_media_image?.uri.url;
+
   return (
-    <div className="centered mt-32" {...props}>
+    <article className="centered mt-32" {...props}>
       <div className="flex flex-col lg:flex-row gap-20 mb-32">
         {imageUrl &&
           <div className="relative aspect-[1/1] w-[250px] shrink-0 mx-auto lg:mx-0">
             <Image
-              src={imageUrl}
+              src={buildUrl(imageUrl).toString()}
               alt=""
               fill
               className="rounded-full"
-              placeholder={imagePlaceholder ? 'blur' : 'empty'}
-              blurDataURL={imagePlaceholder}
             />
           </div>
         }
@@ -96,7 +100,7 @@ const StanfordPersonPage = ({node, ...props}: PropsWithoutRef<{ node: PersonNode
 
         </div>
         <aside className="w-1/3 shrink-0">
-          {(node.su_person_mobile_phone || node.su_person_fax || node.su_person_email || node.su_person_mail_code) &&
+          {(node.su_person_telephone || node.su_person_mobile_phone || node.su_person_fax || node.su_person_email || node.su_person_mail_code) &&
 
             <div className="flex items-start gap-10 mb-20">
               <PhoneIcon width={30} className="shrink-0"/>
@@ -145,7 +149,7 @@ const StanfordPersonPage = ({node, ...props}: PropsWithoutRef<{ node: PersonNode
                   <Wysiwyg html={node.su_person_location_address}/>
                 }
 
-                {node.su_person_map_url &&
+                {node.su_person_map_url?.url &&
                   <div>
                     Map URL: <Link
                     href={node.su_person_map_url.url}>{node.su_person_map_url.title || node.su_person_map_url.url}</Link>
@@ -160,24 +164,26 @@ const StanfordPersonPage = ({node, ...props}: PropsWithoutRef<{ node: PersonNode
               <LinkIcon width={30} className="shrink-0"/>
               <div>
                 <H2 className="text-m1">Links</H2>
-                {node.su_person_links.map((link, i) =>
-
-                  <Link key={`${node.id}-link-${i}`} href={link.url}>
-                    {link.title}
-                  </Link>
-                )}
+                {node.su_person_links.map((link, i) => {
+                  if (!link.url) return;
+                  return (
+                    <Link key={`${node.id}-link-${i}`} href={link.url}>
+                      {link.title}
+                    </Link>
+                  )
+                })}
               </div>
             </div>
           }
 
-          {node.su_person_profile_link &&
+          {node.su_person_profile_link?.url &&
             <Button href={node.su_person_profile_link.url}>
               {node.su_person_profile_link.title}
             </Button>
           }
         </aside>
       </section>
-    </div>
+    </article>
   )
 }
 export default StanfordPersonPage;

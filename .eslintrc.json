@@ -4,8 +4,6 @@
     "plugin:storybook/recommended"
   ],
   "rules": {
-    "react-hooks/exhaustive-deps": "off",
-    "react-hooks/rules-of-hooks": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": [
@@ -13,5 +11,6 @@
       { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
     ]
   },
-  "plugins": ["unused-imports"]
+  "plugins": ["unused-imports"],
+  "ignorePatterns": ["**/__generated__/**/*"]
 }

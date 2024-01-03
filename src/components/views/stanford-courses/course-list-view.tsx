@@ -1,30 +1,18 @@
-import {CourseNodeType} from "@lib/types";
 import StanfordCourseListItem from "@components/nodes/list-item/stanford-course/stanford-course-list-item";
-import {getViewItems} from "@components/views/view";
 import LoadMoreList from "@components/elements/load-more-list";
+import {CourseNodeType} from "@lib/types";
 
 interface Props {
-  view: string
-  args?: string
-  itemsToDisplay: number
-  emptyMessage?: string
   headingLevel: string
+  items?: CourseNodeType[]
 }
 
-const CourseListView = async ({view, args, itemsToDisplay, emptyMessage, headingLevel}: Props) => {
-
-  args = args ? args + '/0/0/0' : '0/0/0/0';
-
-  const items = await getViewItems<CourseNodeType>(view, itemsToDisplay, args.split('/'));
-  if (items.length === 0) {
-    return emptyMessage ? <div>{emptyMessage}</div> : null;
-  }
-
+const CourseListView = async ({items = [], headingLevel}: Props) => {
   return (
     <LoadMoreList
       buttonText={<>Load More<span className="sr-only">&nbsp;courses</span></>}
-      listProps={{className: "list-unstyled mb-20"}}
-      itemProps={{className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0"}}
+      ulProps={{className: "list-unstyled mb-20"}}
+      liProps={{className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0"}}
     >
       {items.map(item =>
         <StanfordCourseListItem key={item.id} node={item} headingLevel={headingLevel}/>
