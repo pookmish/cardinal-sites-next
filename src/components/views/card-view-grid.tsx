@@ -1,8 +1,8 @@
 import NodeCard from "@components/nodes/cards/node-card";
 import LoadMoreList from "@components/elements/load-more-list";
-import {StanfordNode} from "@lib/types";
+import {NodeUnion} from "@lib/gql/__generated__/drupal";
 
-const CardViewGrid = ({items, headingLevel}: { items: StanfordNode[], headingLevel: string }) => {
+const CardViewGrid = ({items, headingLevel}: { items: NodeUnion[], headingLevel: string }) => {
   return (
     <LoadMoreList
       ulProps={{className: "list-unstyled grid 3xl:grid-cols-3 gap-20"}}

@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
 
-import GlobalMessage from "@components/config-pages/global-message/global-message";
+import GlobalMessage from "../../../src/components/config-pages/global-message";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<typeof GlobalMessage> = {

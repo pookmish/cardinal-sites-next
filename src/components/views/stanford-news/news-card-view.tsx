@@ -1,12 +1,18 @@
 import CardViewGrid from "@components/views/card-view-grid";
-import {NewsNodeType} from "@lib/types";
+import {NodeStanfordNews, Maybe} from "@lib/gql/__generated__/drupal";
 
 interface Props {
+  emptyMessage?: Maybe<string>
   headingLevel: string
-  items?: NewsNodeType[]
+  items?: NodeStanfordNews[]
 }
 
-const NewsCardView = async ({items = [],  headingLevel}: Props) => {
+const NewsCardView = async ({items = [], emptyMessage, headingLevel}: Props) => {
+
+  if (items.length === 0) {
+    return emptyMessage ? <div>{emptyMessage}</div> : null;
+  }
+
   return (
     <CardViewGrid items={items} headingLevel={headingLevel}/>
   )

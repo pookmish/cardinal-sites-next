@@ -12,16 +12,15 @@ import LockupR from "@components/elements/lockup/lockup-r";
 import LockupS from "@components/elements/lockup/lockup-s";
 import LockupT from "@components/elements/lockup/lockup-t";
 import LockupLogo from "@components/elements/lockup/lockup-logo";
+import {LockupSettingsConfigPageType, SiteSettingsConfigPageType} from "@lib/drupal/drupal-jsonapi.types";
 import {getConfigPageResource} from "@lib/drupal/get-resource";
-import {LockupSettingsConfigPageType, SiteSettingsConfigPageType} from "@lib/types";
-import {buildUrl} from "@lib/drupal/utils";
 
 export const Lockup = async () => {
   // Fetch from JSON API, it should return a cached version.
   const siteSettings = await getConfigPageResource<SiteSettingsConfigPageType>('stanford_basic_site_settings')
   const lockupSettings = await getConfigPageResource<LockupSettingsConfigPageType>('lockup_settings')
 
-  const logoUrl = !lockupSettings?.su_use_theme_logo && lockupSettings?.su_upload_logo_image?.uri.url ? buildUrl(lockupSettings?.su_upload_logo_image.uri.url).toString() : undefined;
+  const logoUrl = !lockupSettings?.su_use_theme_logo ? lockupSettings?.su_upload_logo_image?.uri.url : undefined;
   const lockupProps = {
     line1: lockupSettings?.su_line_1,
     line2: lockupSettings?.su_line_2,

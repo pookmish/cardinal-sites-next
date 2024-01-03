@@ -1,11 +1,10 @@
-// route handler with secret and slug
 import {draftMode} from 'next/headers'
 import {redirect} from 'next/navigation'
+import {getEntityFromPath} from "@lib/gql/fetcher";
 import {NextRequest, NextResponse} from "next/server";
-import {getResourceByPath} from "@lib/drupal/get-resource";
-import {StanfordNode} from "@lib/types";
 
 export async function GET(request: NextRequest) {
+
   const secret = request.nextUrl.searchParams.get('secret')
   const slug = request.nextUrl.searchParams.get('slug')
 
@@ -19,10 +18,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({message: 'Invalid slug path'}, {status: 401})
   }
 
-  const node = await getResourceByPath<StanfordNode>(slug, {draftMode: true})
+  const routeInfo = await getEntityFromPath(slug, true)
 
   // If the slug doesn't exist prevent disable draft mode and return
-  if (!node) {
+  if (!routeInfo?.entity) {
     return NextResponse.json({message: 'Invalid slug'}, {status: 401})
   }
 

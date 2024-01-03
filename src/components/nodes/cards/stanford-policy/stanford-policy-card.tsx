@@ -2,10 +2,10 @@ import Link from "@components/elements/link";
 import Wysiwyg from "@components/elements/wysiwyg";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {PolicyNodeType} from "@lib/types";
+import {NodeStanfordPolicy} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: PolicyNodeType
+  node: NodeStanfordPolicy
   headingLevel?: string
 }
 
@@ -22,7 +22,7 @@ const StanfordPolicyCard = ({node, headingLevel, ...props}: Props) => {
     <article aria-labelledby={node.id} className="mx-auto shadow-xl border border-black-20 p-10 overflow-hidden" {...props}>
 
       <Heading className="text-m2" id={node.id}>
-        <Link href={node.path.alias}>
+        <Link href={node.path}>
           {node.title}
         </Link>
       </Heading>

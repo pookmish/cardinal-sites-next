@@ -29,6 +29,7 @@ const useOutsideClick = (onClickOutside: (_e: Event) => void) => {
       document.removeEventListener("touchstart", documentClick);
     }
   }, [documentClick, documentFocus])
+
   return {
     onMouseDown: () => clickCaptured.current = true,
     onFocus: () => focusCaptured.current = true,

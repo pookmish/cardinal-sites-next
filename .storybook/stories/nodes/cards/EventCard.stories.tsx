@@ -25,12 +25,8 @@ type Story = StoryObj<typeof StanfordEventCard>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const EventCard: Story = {
-  render: ({start_date, end_date, headingLevel, path, ...args}) => {
-    args.path = {
-      alias: path
-    }
-
-    args.su_event_date_time = {
+  render: ({start_date, end_date, headingLevel, ...args}) => {
+    args.suEventDateTime = {
       value: Math.round(new Date(start_date).getTime() / 1000),
       end_value: Math.round(new Date(end_date).getTime() / 1000),
     }
@@ -39,12 +35,13 @@ export const EventCard: Story = {
   args: {
     path: "/foo-bar",
     title: "title",
+    body: {process: "body"},
     start_date: new Date().toUTCString(),
     end_date: new Date().toUTCString(),
-    su_event_type: [{name: "su_event_type"}],
-    su_event_alt_loc: "su_event_alt_loc",
-    su_event_subheadline: "su_event_subheadline",
-    su_event_location: {
+    suEventType: [{id: "suEventType", name: "su_event_type"}],
+    suEventAltLoc: "su_event_alt_loc",
+    suEventSubheadline: "su_event_subheadline",
+    suEventLocation: {
       address_line1: "address_line1",
       address_line2: "address_line2",
       administrative_area: "administrative_area",

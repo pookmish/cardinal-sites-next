@@ -26,21 +26,16 @@ type Story = StoryObj<typeof StanfordEventSeriesCard>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const EventSeriesCard: Story = {
-  render: ({headingLevel, path, ...args}) => {
-    args.path = {
-      alias: path
-    }
-
+  render: ({headingLevel, ...args}) => {
     return <StanfordEventSeriesCard node={args} headingLevel={headingLevel}/>
   },
   args: {
     path: "/foo-bar",
     title: "title",
-    su_event_series_dek: "su_event_series_dek",
-    su_event_series_event: [],
-    su_event_series_subheadline: "su_event_series_subheadline",
-    su_event_series_type: [{id: 1, name: "su_event_series_type1"}, {id: 2, name: "su_event_series_type2"}],
-    su_event_series_weight: 987,
-    su_shared_tags: [{id: 1, name: "su_shared_tags1"}, {id: 1, name: "su_shared_tags2"}]
+    suEventSeriesDek: "su_event_series_dek",
+    suEventSeriesEvent: [],
+    suEventSeriesSubheadline: "su_event_series_subheadline",
+    suEventSeriesType: [{id: 1, name: "su_event_series_type1"}, {id: 2, name: "su_event_series_type2"}],
+    suSharedTags: [{id: 1, name: "su_shared_tags1"}, {id: 1, name: "su_shared_tags2"}]
   },
 };

@@ -5,11 +5,12 @@ import Oembed from "@components/elements/ombed";
 import React, {ComponentProps, HtmlHTMLAttributes} from "react";
 import {H2, H3, H4, H5, H6} from "@components/elements/headers";
 import {twMerge} from "tailwind-merge";
+import {Maybe} from "@lib/gql/__generated__/drupal";
 import Mathjax from "@components/tools/mathjax";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   html: string
-  className?: string
+  className?: Maybe<string>
 }
 
 const Wysiwyg = ({html, className = "", ...props}: Props) => {
@@ -230,9 +231,9 @@ const cleanMediaMarkup = (node: Element) => {
 
 const WysiwygImage = ({src, alt, height, width, className = ''}: {
   src: string,
-  alt?: string,
-  height?: string,
-  width?: string,
+  alt?: Maybe<string>,
+  height?: Maybe<string>,
+  width?: Maybe<string>,
   className?: string
 }) => {
   if (width && height) {

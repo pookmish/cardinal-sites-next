@@ -9,11 +9,11 @@ const meta: Meta<typeof StanfordNewsCard> = {
   component: StanfordNewsCard,
   tags: ['autodocs'],
   argTypes: {
-    su_news_banner: {
+    suNewsBanner: {
       options: ["image", "video", "none"],
       control: {type: "select"}
     },
-    su_news_featured_media: {
+    suNewsFeaturedMedia: {
       options: ["image", "video", "none"],
       control: {type: "select"}
     },
@@ -34,41 +34,41 @@ type Story = StoryObj<typeof StanfordNewsCard>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const NewsCard: Story = {
-  render: ({headingLevel, path, ...args}) => {
-    if (args.su_news_featured_media === 'image') {
-      args.su_news_featured_media = ImageMedia();
-    }
-    if (args.su_news_featured_media === 'video') {
-      args.su_news_featured_media = VideoMedia();
+  render: ({headingLevel, ...args}) => {
+
+    if (args.suNewsFeaturedMedia === 'image') {
+      args.suNewsFeaturedMedia = ImageMedia();
+    } else if (args.suNewsFeaturedMedia === 'video') {
+      args.suNewsFeaturedMedia = VideoMedia();
+    } else {
+      args.suNewsFeaturedMedia = undefined
     }
 
-    if (args.su_news_banner === 'image') {
-      args.su_news_banner = ImageMedia();
-    }
-    if (args.su_news_banner === 'video') {
-      args.su_news_banner = VideoMedia();
+    if (args.suNewsBanner === 'image') {
+      args.suNewsBanner = ImageMedia();
+    } else if (args.suNewsBanner === 'video') {
+      args.suNewsBanner = VideoMedia();
+    } else {
+      args.suNewsBanner = undefined
     }
 
-    args.path = {
-      alias: path
-    }
     return <StanfordNewsCard node={args} headingLevel={headingLevel}/>
   },
   args: {
     path: "/foo-bar",
     title: "title",
-    su_news_banner: "image",
-    su_news_featured_media: "image",
-    su_news_publishing_date: new Date().toLocaleDateString(),
-    su_news_banner_media_caption: "su_news_banner_media_caption",
-    su_news_byline: "su_news_byline",
-    su_news_dek: "su_news_dek",
-    su_news_topics: [
+    suNewsBanner: "image",
+    suNewsFeaturedMedia: "image",
+    suNewsPublishingDate: {value: new Date().toLocaleDateString()},
+    suNewsBannerMediaCaption: "su_news_banner_media_caption",
+    suNewsByline: "su_news_byline",
+    suNewsDek: "su_news_dek",
+    suNewsTopics: [
       {id: 1, name: "su_news_topics 1"},
       {id: 2, name: "su_news_topics 2"},
       {id: 3, name: "su_news_topics 3"},
     ],
-    su_shared_tags: [{id: 1, name: "su_shared_tags1"}, {id: 2, name: "su_shared_tags2"}],
-    su_news_hide_social: false,
+    suSharedTags: [{id: 1, name: "su_shared_tags1"}, {id: 2, name: "su_shared_tags2"}],
+    suNewsHideSocial: false,
   },
 };

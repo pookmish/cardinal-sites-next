@@ -1,0 +1,18 @@
+
+query Route($path: String!) {
+    route(path: $path) {
+        __typename
+        ... on RouteRedirect {
+            url
+            internal
+            status
+            redirect
+        }
+        ... on RouteInternal {
+            entity {
+                ...FragmentNodeUnion
+                ...FragmentTermInterface
+            }
+        }
+    }
+}

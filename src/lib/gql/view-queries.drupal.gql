@@ -1,0 +1,147 @@
+fragment FragmentViewPageInfo on ViewPageInfo {
+    page
+    total
+}
+
+query stanfordBasicPages($filters: StanfordBasicPagesContextualFilterInput) {
+    stanfordBasicPages(contextualFilter: $filters) {
+        results {
+            ...FragmentNodeStanfordPageTeaser
+        }
+        pageInfo {
+            ...FragmentViewPageInfo
+        }
+    }
+}
+
+query stanfordBasicPagesCards($filters: StanfordBasicPagesCardsContextualFilterInput) {
+    stanfordBasicPagesCards(contextualFilter: $filters) {
+        results {
+            ...FragmentNodeStanfordPageTeaser
+        }
+        pageInfo {
+            ...FragmentViewPageInfo
+        }
+    }
+}
+
+query stanfordCourses($filters: StanfordCoursesContextualFilterInput) {
+    stanfordCourses(contextualFilter: $filters) {
+        results {
+            ...FragmentNodeStanfordCourse
+        }
+        pageInfo {
+            ...FragmentViewPageInfo
+        }
+    }
+}
+
+query stanfordCoursesCardGrid($filters: StanfordCoursesCardGridContextualFilterInput) {
+    stanfordCoursesCardGrid(contextualFilter: $filters) {
+        results {
+            ...FragmentNodeStanfordCourse
+        }
+        pageInfo {
+            ...FragmentViewPageInfo
+        }
+    }
+}
+
+query stanfordEventsCardGrid($filters: StanfordEventsCardGridContextualFilterInput) {
+    stanfordEventsCardGrid(contextualFilter: $filters) {
+        results {
+            ...FragmentNodeStanfordEventTeaser
+        }
+        pageInfo {
+            ...FragmentViewPageInfo
+        }
+    }
+}
+
+query stanfordEvents($filters: StanfordEventsContextualFilterInput) {
+    stanfordEvents(contextualFilter: $filters) {
+        results {
+            ...FragmentNodeStanfordEventTeaser
+        }
+        pageInfo {
+            ...FragmentViewPageInfo
+        }
+    }
+}
+
+query stanfordEventsPastEvents($filters: StanfordEventsPastEventsContextualFilterInput) {
+    stanfordEventsPastEvents(contextualFilter: $filters) {
+        results {
+            ...FragmentNodeStanfordEventTeaser
+        }
+        pageInfo {
+            ...FragmentViewPageInfo
+        }
+    }
+}
+
+query stanfordNewsDefaultList($filters: StanfordNewsDefaultListContextualFilterInput) {
+    stanfordNewsDefaultList(contextualFilter: $filters) {
+        results {
+            ...FragmentNodeStanfordNewsTeaser
+        }
+        pageInfo {
+            ...FragmentViewPageInfo
+        }
+    }
+}
+
+query stanfordNewsCardGrid($filters: StanfordNewsCardGridContextualFilterInput) {
+    stanfordNewsCardGrid(contextualFilter: $filters) {
+        results {
+            ...FragmentNodeStanfordNewsTeaser
+        }
+        pageInfo {
+            ...FragmentViewPageInfo
+        }
+    }
+}
+
+query stanfordPerson($filters: StanfordPersonContextualFilterInput) {
+    stanfordPerson(contextualFilter: $filters) {
+        results {
+            ...FragmentNodeStanfordPersonTeaser
+        }
+        pageInfo {
+            ...FragmentViewPageInfo
+        }
+    }
+}
+
+query stanfordPublicationsApa($filters: StanfordPublicationsApaContextualFilterInput) {
+    stanfordPublicationsApa(contextualFilter: $filters) {
+        results {
+            ...FragmentNodeStanfordPublicationTeaser
+        }
+        pageInfo {
+            ...FragmentViewPageInfo
+        }
+    }
+}
+
+query stanfordPublicationsChicago($filters: StanfordPublicationsChicagoContextualFilterInput) {
+    stanfordPublicationsChicago(contextualFilter: $filters) {
+        results {
+            ...FragmentNodeStanfordPublicationTeaser
+        }
+        pageInfo {
+            ...FragmentViewPageInfo
+        }
+    }
+}
+
+query stanfordSharedTags($filters: StanfordSharedTagsContextualFilterInput) {
+    stanfordSharedTags(contextualFilter: $filters) {
+        results {
+            ...FragmentNodeTeaserUnion
+        }
+        pageInfo {
+            ...FragmentViewPageInfo
+        }
+    }
+}

@@ -3,10 +3,10 @@ import Citation from "@components/nodes/pages/stanford-publication/citation";
 import Button from "@components/elements/button";
 import {H1} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {PublicationNodeType} from "@lib/types";
+import {NodeStanfordPublication} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: PublicationNodeType
+  node: NodeStanfordPublication
   headingLevel?: string
 }
 
@@ -18,29 +18,29 @@ const StanfordPublicationPage = ({node, ...props}: Props) => {
           {node.title}
         </H1>
 
-        {node.su_publication_topics &&
+        {node.suPublicationTopics &&
           <div className="order-1">
-            {node.su_publication_topics[0].name}
+            {node.suPublicationTopics[0].name}
           </div>
         }
       </div>
 
       <div className="flex flex-col lg:flex-row gap-20">
-        {node.su_publication_components &&
+        {node.suPublicationComponents &&
           <div className="order-2 lg:order-1 flex-grow">
-            <Rows components={node.su_publication_components}/>
+            <Rows components={node.suPublicationComponents}/>
           </div>
         }
 
         <aside
           className="order-1 lg:order-2 lg:w-1/4 shrink-0 flex flex-col gap-10">
-          {node.su_publication_citation &&
-            <Citation citation={node.su_publication_citation}/>
+          {node.suPublicationCitation &&
+            <Citation citation={node.suPublicationCitation}/>
           }
 
-          {node.su_publication_cta &&
-            <Button href={node.su_publication_cta.url}>
-              {node.su_publication_cta.title}
+          {node.suPublicationCta &&
+            <Button href={node.suPublicationCta.url}>
+              {node.suPublicationCta.title}
             </Button>
           }
         </aside>

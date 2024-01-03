@@ -1,25 +1,26 @@
 import Rows from "@components/paragraphs/rows/rows";
 import Paragraph from "@components/paragraphs/paragraph";
 import {notFound} from "next/navigation";
+import {getEntityFromPath} from "@lib/gql/fetcher";
+import {NodeStanfordPage} from "@lib/gql/__generated__/drupal";
 import {isDraftMode} from "@lib/drupal/utils";
-import {getResourceByPath} from "@lib/drupal/get-resource";
-import {BasicPageNodeType} from "@lib/types";
 
 // Cache the home page for 24 hours. It should be the most modified and probably changes most frequent.
 export const revalidate = 86400;
 
 const Home = async () => {
-  const node = await getResourceByPath<BasicPageNodeType>('/', {draftMode: isDraftMode()});
-  if (!node) notFound();
+  const routeInfo = await getEntityFromPath<NodeStanfordPage>('/', isDraftMode());
+  if (!routeInfo?.entity) notFound();
+
   return (
     <article>
-      {node.su_page_banner &&
+      {routeInfo.entity.suPageBanner &&
         <header aria-label="Home Page banner">
-          <Paragraph paragraph={node.su_page_banner}/>
+          <Paragraph paragraph={routeInfo.entity.suPageBanner}/>
         </header>
       }
-      {node.su_page_components &&
-        <Rows components={node.su_page_components}/>
+      {routeInfo.entity.suPageComponents &&
+        <Rows components={routeInfo.entity.suPageComponents}/>
       }
     </article>
   )

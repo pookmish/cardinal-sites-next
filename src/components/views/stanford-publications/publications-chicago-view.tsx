@@ -1,13 +1,17 @@
 import LoadMoreList from "@components/elements/load-more-list";
 import StanfordPublicationListItem
   from "@components/nodes/list-item/stanford-publication/stanford-publication-list-item";
-import {PublicationNodeType} from "@lib/types";
+import {NodeStanfordPublication, Maybe} from "@lib/gql/__generated__/drupal";
 
 interface Props {
+  emptyMessage?: Maybe<string>
   headingLevel: string
-  items?: PublicationNodeType[]
+  items?: NodeStanfordPublication[]
 }
-const PublicationsChicagoView = async ({items = [],headingLevel}: Props) => {
+const PublicationsChicagoView = async ({items = [], emptyMessage, headingLevel}: Props) => {
+  if (items.length === 0) {
+    return emptyMessage ? <div>{emptyMessage}</div> : null;
+  }
   return (
     <LoadMoreList
       ulProps={{className: "list-unstyled mb-20"}}

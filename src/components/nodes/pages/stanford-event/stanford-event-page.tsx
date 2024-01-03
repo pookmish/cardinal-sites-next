@@ -9,19 +9,19 @@ import Rows from "@components/paragraphs/rows/rows";
 import {H1, H2, H3} from "@components/elements/headers";
 import ScheduleParagraph from "@components/paragraphs/stanford-schedule/schedule-paragraph";
 import {HtmlHTMLAttributes} from "react";
-import {EventNodeType} from "@lib/types";
+import {NodeStanfordEvent, ParagraphStanfordSchedule} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: EventNodeType
+  node: NodeStanfordEvent
   headingLevel?: string
 }
 
 const StanfordEventPage = ({node, ...props}: Props) => {
-  if (node.su_event_source?.url) redirect(node.su_event_source.url)
+  if (node.suEventSource?.url) redirect(node.suEventSource.url)
 
-  const startTime = new Date(node.su_event_date_time.value);
-  const endTime = new Date(node.su_event_date_time.end_value);
-  const timezone = node.su_event_date_time?.timezone || 'America/Los_Angeles';
+  const startTime = new Date(node.suEventDateTime.value * 1000);
+  const endTime = new Date(node.suEventDateTime.end_value * 1000);
+  const timezone = node.suEventDateTime.timezone || 'America/Los_Angeles';
 
   return (
     <article className="centered mt-32" {...props}>
@@ -30,23 +30,23 @@ const StanfordEventPage = ({node, ...props}: Props) => {
           {node.title}
         </H1>
 
-        {node.su_event_type &&
+        {node.suEventType &&
           <div className="order-1">
-            {node.su_event_type[0].name}
+            {node.suEventType[0].name}
           </div>
         }
 
       </div>
-      {node.su_event_subheadline &&
-        <div className="text-m2 font-bold mb-10">{node.su_event_subheadline}</div>
+      {node.suEventSubheadline &&
+        <div className="text-m2 font-bold mb-10">{node.suEventSubheadline}</div>
       }
-      {node.su_event_dek &&
-        <div className="mb-20">{node.su_event_dek}</div>
+      {node.suEventDek &&
+        <div className="mb-20">{node.suEventDek}</div>
       }
 
-      {node.su_event_sponsor &&
+      {node.suEventSponsor &&
         <div className="mb-20">
-          {node.su_event_sponsor.map((sponsor, i) =>
+          {node.suEventSponsor.map((sponsor, i) =>
             <div key={`${node.id}-sponsor-${i}`}>
               {sponsor}
             </div>
@@ -64,42 +64,42 @@ const StanfordEventPage = ({node, ...props}: Props) => {
           </time>
 
 
-          {(node.su_event_email || node.su_event_telephone) &&
+          {(node.suEventEmail || node.suEventTelephone) &&
             <div className="flex flex-col-2 gap-lg items-start">
               <PhoneIcon width={30} className="shrink-0"/>
               <div>
                 <H3 className="text-m1">Contact</H3>
 
-                {node.su_event_email &&
-                  <Link href={`mailto:${node.su_event_email}`}
+                {node.suEventEmail &&
+                  <Link href={`mailto:${node.suEventEmail}`}
                         className="block">
-                    {node.su_event_email}
+                    {node.suEventEmail}
                   </Link>
                 }
-                {node.su_event_telephone &&
-                  <Link href={`tel:${node.su_event_telephone}`}
+                {node.suEventTelephone &&
+                  <Link href={`tel:${node.suEventTelephone}`}
                         className="block">
-                    {node.su_event_telephone}
+                    {node.suEventTelephone}
                   </Link>
                 }
               </div>
             </div>
           }
 
-          {(node.su_event_location || node.su_event_map_link) &&
+          {(node.suEventLocation || node.suEventMapLink) &&
             <div className="flex flex-col-2 items-start gap-5">
               <MapPinIcon width={30} className="shrink-0"/>
               <div>
                 <H3 className="text-m1">Location</H3>
 
                 <div>
-                  {node.su_event_location &&
-                    <Address {...node.su_event_location}/>
+                  {node.suEventLocation &&
+                    <Address {...node.suEventLocation}/>
                   }
 
-                  {node.su_event_map_link?.url &&
-                    <Link href={node.su_event_map_link.url}>
-                      {node.su_event_map_link.title}
+                  {node.suEventMapLink?.url &&
+                    <Link href={node.suEventMapLink.url}>
+                      {node.suEventMapLink.title}
                     </Link>
                   }
                 </div>
@@ -108,12 +108,12 @@ const StanfordEventPage = ({node, ...props}: Props) => {
           }
 
 
-          {node.su_event_audience &&
+          {node.suEventAudience &&
             <div className="flex flex-col-2 items-start gap-5">
               <UserGroupIcon width={30} className="shrink-0"/>
               <div>
                 <H3 className="text-m1">This event is open to:</H3>
-                {node.su_event_audience.map(audience =>
+                {node.suEventAudience.map(audience =>
                   <div key={audience.id}>
                     {audience.name}
                   </div>
@@ -123,10 +123,10 @@ const StanfordEventPage = ({node, ...props}: Props) => {
           }
         </div>
 
-        {node.su_event_cta &&
+        {node.suEventCta &&
           <div className="mt-20">
-            <Button href={node.su_event_cta.url} centered>
-              {node.su_event_cta.title}
+            <Button href={node.suEventCta.url} centered>
+              {node.suEventCta.title}
             </Button>
           </div>
         }
@@ -134,21 +134,21 @@ const StanfordEventPage = ({node, ...props}: Props) => {
 
       <div className="lg:w-3/4 mx-auto">
         {node.body &&
-          <Wysiwyg html={node.body}/>
+          <Wysiwyg html={node.body.processed}/>
         }
       </div>
 
 
-      {node.su_event_components &&
+      {node.suEventComponents &&
         <div>
-          <Rows components={node.su_event_components}/>
+          <Rows components={node.suEventComponents}/>
         </div>
       }
 
-      {node.su_event_schedule &&
+      {node.suEventSchedule &&
         <div>
-          {node.su_event_schedule.map(scheduleInstance =>
-            <ScheduleParagraph paragraph={scheduleInstance} key={scheduleInstance.id}/>
+          {node.suEventSchedule.map(scheduleInstance =>
+            <ScheduleParagraph paragraph={scheduleInstance as ParagraphStanfordSchedule} key={scheduleInstance.id}/>
           )}
         </div>
       }

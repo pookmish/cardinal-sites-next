@@ -1,10 +1,10 @@
 import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {EventSeriesNodeType} from "@lib/types";
+import {NodeStanfordEventSeries} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: EventSeriesNodeType
+  node: NodeStanfordEventSeries
   headingLevel?: string
 }
 
@@ -14,7 +14,7 @@ const StanfordEventSeriesListItem = ({node, headingLevel, ...props}: Props) => {
     <article aria-labelledby={node.id} className="max-w-[500px] w-full mx-auto shadow-xl border border-black-20 p-10" {...props}>
 
       <Heading className="text-m2" id={node.id}>
-        <Link href={node.path.alias}>
+        <Link href={node.path}>
           {node.title}
         </Link>
       </Heading>

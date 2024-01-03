@@ -3,43 +3,43 @@ import StanfordPolicyCard from "@components/nodes/cards/stanford-policy/stanford
 import StringWithLines from "@components/elements/string-with-lines";
 import {HtmlHTMLAttributes} from "react";
 import {H1, H2, H3} from "@components/elements/headers";
-import {PolicyNodeType} from "@lib/types";
+import {NodeStanfordPolicy} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: PolicyNodeType
+  node: NodeStanfordPolicy
   headingLevel?: string
 }
 
 const StanfordPolicyPage = async ({node, ...props}: Props) => {
-  const changeLog = node.su_policy_changelog?.filter(change => change.su_policy_public) || []
+  const changeLog = node.suPolicyChangelog?.filter(change => change.suPolicyPublic) || []
   return (
     <article className="centered pt-32" {...props}>
       <H1>
         {node.title}
       </H1>
       <div className="flex flex-col gap-20">
-        {(node.su_policy_authority || node.su_policy_updated || node.su_policy_effective) &&
+        {(node.suPolicyAuthority || node.suPolicyUpdated || node.suPolicyEffective) &&
           <div>
-            {node.su_policy_authority &&
+            {node.suPolicyAuthority &&
               <div>
                 <strong>Authority: </strong>
-                {node.su_policy_authority}
+                {node.suPolicyAuthority}
               </div>
             }
-            {node.su_policy_updated &&
+            {node.suPolicyUpdated &&
               <div>
                 <strong>Last Updated: </strong>
-                {new Date(node.su_policy_updated).toLocaleDateString('en-us', {
+                {new Date(node.suPolicyUpdated.time).toLocaleDateString('en-us', {
                   month: "long",
                   day: "numeric",
                   year: "numeric"
                 })}
               </div>
             }
-            {node.su_policy_effective &&
+            {node.suPolicyEffective &&
               <div>
                 <strong>Effective Date: </strong>
-                {new Date(node.su_policy_effective).toLocaleDateString('en-us', {
+                {new Date(node.suPolicyEffective.time).toLocaleDateString('en-us', {
                   month: "long",
                   day: "numeric",
                   year: "numeric"
@@ -56,17 +56,17 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
             {changeLog.map(change =>
               <div key={change.id}>
                 <H3 className="flex gap-2 text-m0">
-                  <div>{new Date(change.su_policy_date).toLocaleDateString('en-us', {
+                  <div>{new Date(change.suPolicyDate.time).toLocaleDateString('en-us', {
                     month: "long",
                     day: "numeric",
                     year: "numeric"
                   })}</div>
                   <div className="w-[2px] bg-black shrink-0"/>
-                  <div>{change.su_policy_title}</div>
+                  <div>{change.suPolicyTitle}</div>
                 </H3>
 
                 <div>
-                  <StringWithLines text={change.su_policy_notes} key={change.id}/>
+                  <StringWithLines text={change.suPolicyNotes} key={change.id}/>
                 </div>
               </div>
             )}
@@ -77,13 +77,13 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
           <Wysiwyg html={node.body.processed}/>
         }
 
-        {node.su_policy_related &&
+        {node.suPolicyRelated &&
           <div>
             <H2 className="text-center">Related Policies</H2>
             <ul className="list-unstyled grid lg:grid-cols-3 gap-20">
-              {node.su_policy_related.map(policy =>
+              {node.suPolicyRelated.map(policy =>
                 <li key={policy.id}>
-                  <StanfordPolicyCard node={policy}/>
+                  <StanfordPolicyCard node={policy as NodeStanfordPolicy}/>
                 </li>
               )}
             </ul>

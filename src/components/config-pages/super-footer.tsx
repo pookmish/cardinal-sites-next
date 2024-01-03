@@ -2,8 +2,8 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import Link from "@components/elements/link";
 import {LockClosedIcon} from "@heroicons/react/24/outline";
 import {H2} from "@components/elements/headers";
+import {SuperFooterConfigPageType} from "@lib/drupal/drupal-jsonapi.types";
 import {getConfigPageResource} from "@lib/drupal/get-resource";
-import {SuperFooterConfigPageType} from "@lib/types";
 
 const SuperFooter = async () => {
   // Fetch from JSON API, it should return a cached version.

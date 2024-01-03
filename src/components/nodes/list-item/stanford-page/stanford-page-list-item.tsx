@@ -2,19 +2,19 @@ import Link from "@components/elements/link";
 import Image from "next/image";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {BasicPageNodeType} from "@lib/types";
-import {buildUrl} from "@lib/drupal/utils";
+import {Image as ImageType, NodeStanfordPage} from "@lib/gql/__generated__/drupal";
+import {getMediaFromEntityField} from "@lib/drupal/get-media-from-entity";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: BasicPageNodeType
+  node: NodeStanfordPage
   headingLevel?: string
 }
 
 const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
-  const image = node.su_page_image?.field_media_image || node.su_page_banner?.su_banner_image?.field_media_image
+  const image = getMediaFromEntityField<ImageType>(node.suPageImage) || getMediaFromEntityField<ImageType>(node.suPageBanner?.__typename === 'ParagraphStanfordBanner' ? node.suPageBanner?.suBannerImage : undefined);
 
-  const imageUrl = image?.uri.url
-  const imageAlt = image?.resourceIdObjMeta?.alt || '';
+  const imageUrl = image?.url
+  const imageAlt = image?.alt || '';
 
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
@@ -22,13 +22,13 @@ const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
       <div className="flex flex-col @4xl:flex-row justify-between gap-20" {...props}>
         <div className="order-2 @4xl:order-1">
           <Heading className="text-m2" id={node.id}>
-            <Link href={node.path.alias}>
+            <Link href={node.path}>
               {node.title}
             </Link>
           </Heading>
 
-          {node.su_page_description &&
-            <p>{node.su_page_description}</p>
+          {node.suPageDescription &&
+            <p>{node.suPageDescription}</p>
           }
         </div>
 
@@ -36,7 +36,7 @@ const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
           <div
             className="order-1 @4xl:order-2 relative aspect-[16/9] h-fit w-full @4xl:w-1/4 shrink-0">
             <Image
-              src={buildUrl(imageUrl).toString()}
+              src={imageUrl}
               alt={imageAlt}
               fill
               className="object-cover"

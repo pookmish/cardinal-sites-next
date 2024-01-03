@@ -27,10 +27,7 @@ type Story = StoryObj<typeof StanfordCourseListItem>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const CourseListItem: Story = {
   args: {...CourseCard.args},
-  render: ({headingLevel, path, ...args}) => {
-    args.path = {
-      alias: path
-    }
+  render: ({headingLevel, ...args}) => {
     return <StanfordCourseListItem node={args} headingLevel={headingLevel}/>
   },
 };

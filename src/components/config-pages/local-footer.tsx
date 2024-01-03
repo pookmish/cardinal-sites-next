@@ -19,14 +19,15 @@ import {H2} from "@components/elements/headers";
 import TwitterIcon from "@components/elements/icons/TwitterIcon";
 import YoutubeIcon from "@components/elements/icons/YoutubeIcon";
 import FacebookIcon from "@components/elements/icons/FacebookIcon";
+import {Maybe} from "@lib/gql/__generated__/drupal";
+import {LocalFooterConfigPageType} from "@lib/drupal/drupal-jsonapi.types";
 import {getConfigPageResource} from "@lib/drupal/get-resource";
-import {LocalFooterConfigPageType} from "@lib/types";
 import {buildUrl} from "@lib/drupal/utils";
 
 const LocalFooter = async () => {
   // Fetch from JSON API, it should return a cached version.
   const configPage = await getConfigPageResource<LocalFooterConfigPageType>('stanford_local_footer');
-  if(!configPage || !configPage.su_footer_enabled) return;
+  if (!configPage || !configPage.su_footer_enabled) return;
 
   const lockupProps = {
     useDefault: configPage.su_local_foot_use_loc,
@@ -157,15 +158,15 @@ const SocialIcon = ({url}: { url: string }) => {
 }
 
 export interface FooterLockupProps {
-  useDefault?: boolean
-  siteName?: string
-  lockupOption?: string
-  line1?: string
-  line2?: string
-  line3?: string
-  line4?: string
-  line5?: string
-  logoUrl?: string
+  useDefault?: Maybe<boolean>
+  siteName?: Maybe<string>
+  lockupOption?: Maybe<string>
+  line1?: Maybe<string>
+  line2?: Maybe<string>
+  line3?: Maybe<string>
+  line4?: Maybe<string>
+  line5?: Maybe<string>
+  logoUrl?: Maybe<string>
 }
 
 const FooterLockup = ({useDefault = true, siteName, lockupOption, ...props}: FooterLockupProps): JSX.Element => {

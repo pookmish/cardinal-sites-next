@@ -9,7 +9,7 @@ const meta: Meta<typeof StanfordPublicationCard> = {
   component: StanfordPublicationCard,
   tags: ['autodocs'],
   argTypes: {
-    su_publication_image: {
+    suPublicationImage: {
       options: ["image", "none"],
       control: {type: "select"}
     },
@@ -30,18 +30,15 @@ type Story = StoryObj<typeof StanfordPublicationCard>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const PublicationCard: Story = {
-  render: ({headingLevel, path, ...args}) => {
-    args.path = {
-      alias: path
-    }
-    args.su_publication_image = args.su_publication_image === "image" ? ImageMedia() : undefined;
+  render: ({headingLevel, ...args}) => {
+    args.suPublicationImage = args.suPublicationImage === "image" ? ImageMedia() : undefined;
     return <StanfordPublicationCard node={args} headingLevel={headingLevel}/>
   },
   args: {
     path: "/foo-bar",
     title: "title",
-    su_publication_image: "image",
-    su_publication_cta: {url: "#", title: "su_publication_cta"},
-    su_publication_topics: [{id: 1, name: "su_publication_topics1"}, {id: 2, name: "su_publication_topics2"}]
+    suPublicationImage: "image",
+    suPublicationCta: {url: "#", title: "su_publication_cta"},
+    suPublicationTopics: [{id: 1, name: "su_publication_topics1"}, {id: 2, name: "su_publication_topics2"}]
   },
 };

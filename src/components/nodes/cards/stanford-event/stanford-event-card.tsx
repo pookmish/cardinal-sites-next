@@ -2,19 +2,19 @@ import Link from "@components/elements/link";
 import {CalendarDaysIcon, MapPinIcon} from "@heroicons/react/20/solid";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {EventNodeType} from "@lib/types";
+import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: EventNodeType
+  node: NodeStanfordEvent
   headingLevel?: string
 }
 
 const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
 
-  const timezone: string = node.su_event_date_time?.timezone || 'America/Los_Angeles';
+  const timezone: string = node.suEventDateTime?.timezone || 'America/Los_Angeles';
 
-  const start = new Date(node.su_event_date_time.value);
-  const end = new Date(node.su_event_date_time.end_value);
+  const start = new Date(node.suEventDateTime.value * 1000);
+  const end = new Date(node.suEventDateTime.end_value * 1000);
 
   const startMonth = start.toLocaleDateString("en-US", {month: "short", timeZone: timezone})
   const startDay = parseInt(start.toLocaleDateString("en-US", {day: "numeric", timeZone: timezone}))
@@ -35,9 +35,9 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
         </div>
       </div>
 
-      {(node.su_event_type && node.su_event_type?.length > 0) &&
+      {(node.suEventType && node.suEventType?.length > 0) &&
         <div className="su-digital-red">
-          {node.su_event_type[0].name}
+          {node.suEventType[0].name}
         </div>
       }
 
@@ -54,10 +54,10 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
         {dateTimeString}
       </time>
 
-      {node.su_event_alt_loc &&
+      {node.suEventAltLoc &&
         <div className="flex items-center gap-5">
           <MapPinIcon width={30} className="shrink-0"/>
-          {node.su_event_alt_loc}
+          {node.suEventAltLoc}
         </div>
       }
     </article>

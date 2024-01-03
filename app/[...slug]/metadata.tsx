@@ -1,45 +1,45 @@
 import {decode} from 'html-entities';
 import {
-  BasicPageNodeType,
-  EventNodeType,
-  NewsNodeType,
-  PersonNodeType,
-  PolicyNodeType,
-  StanfordNode,
-  StanfordParagraph, WysiwygParagraphType
-} from "@lib/types";
-import {buildUrl} from "@lib/drupal/utils";
+  Image,
+  Maybe,
+  NodeStanfordEvent,
+  NodeStanfordNews,
+  NodeStanfordPage,
+  NodeStanfordPerson, NodeStanfordPolicy,
+  NodeUnion, ParagraphStanfordWysiwyg, ParagraphUnion
+} from "@lib/gql/__generated__/drupal";
+import {getMediaFromEntityField} from "@lib/drupal/get-media-from-entity";
 
-export const getNodeMetadata = (node: StanfordNode) => {
+export const getNodeMetadata = (node: NodeUnion) => {
   const defaultData = {
     title: node.title,
   }
-  switch (node.type) {
-    case 'node--stanford_page':
+  switch (node.__typename) {
+    case 'NodeStanfordPage':
       return {
         ...getBasicPageMetaData(node),
         ...defaultData
       }
 
-    case 'node--stanford_news':
+    case 'NodeStanfordNews':
       return {
         ...getNewsMetaData(node),
         ...defaultData
       }
 
-    case 'node--stanford_event':
+    case 'NodeStanfordEvent':
       return {
         ...getEventMetaData(node),
         ...defaultData
       }
 
-    case 'node--stanford_person':
+    case 'NodeStanfordPerson':
       return {
         ...getPersonMetaData(node),
         ...defaultData
       }
 
-    case 'node--stanford_policy':
+    case 'NodeStanfordPolicy':
       return {
         ...getPolicyMetaData(node),
         ...defaultData
@@ -49,13 +49,13 @@ export const getNodeMetadata = (node: StanfordNode) => {
   return defaultData;
 }
 
-const getBasicPageMetaData = (node: BasicPageNodeType) => {
-  const pageImage = node.su_page_image?.field_media_image;
-  const bannerImage =node.su_page_banner?.su_banner_image?.field_media_image
+const getBasicPageMetaData = (node: NodeStanfordPage) => {
+  const pageImage = getMediaFromEntityField<Image>(node.suPageImage);
+  const bannerImage = getMediaFromEntityField<Image>(node.suPageBanner?.__typename === 'ParagraphStanfordBanner' ? node.suPageBanner?.suBannerImage : undefined);
 
-  const imageUrl = pageImage?.image_style_uri.card_956x478 || bannerImage?.image_style_uri.card_956x478
-  const imageAlt = pageImage?.resourceIdObjMeta?.alt || bannerImage?.resourceIdObjMeta?.alt || '';
-  const description = node.su_page_description || getFirstText(node.su_page_components);
+  const imageUrl = pageImage?.url || bannerImage?.url
+  const imageAlt = pageImage?.alt || bannerImage?.alt || '';
+  const description = node.suPageDescription || getFirstText(node.suPageComponents);
 
   return {
     description: description,
@@ -68,18 +68,18 @@ const getBasicPageMetaData = (node: BasicPageNodeType) => {
   }
 }
 
-const getNewsMetaData = (node: NewsNodeType) => {
-  const pageImage = node.su_news_featured_media?.field_media_image;
-  const bannerImage = node.su_news_banner?.field_media_image;
+const getNewsMetaData = (node: NodeStanfordNews) => {
+  const pageImage = getMediaFromEntityField<Image>(node.suNewsFeaturedMedia);
+  const bannerImage = getMediaFromEntityField<Image>(node.suNewsBanner);
 
-  const imageUrl = pageImage?.image_style_uri.card_956x478 || bannerImage?.image_style_uri.card_956x478
-  const imageAlt = pageImage?.resourceIdObjMeta?.alt  || bannerImage?.resourceIdObjMeta?.alt  || '';
+  const imageUrl = pageImage?.url || bannerImage?.url
+  const imageAlt = pageImage?.alt || bannerImage?.alt || '';
 
-  const description = node.su_news_dek || getFirstText(node.su_news_components);
+  const description = node.suNewsDek || getFirstText(node.suNewsComponents);
 
   let publishTime;
-  if (node.su_news_publishing_date) {
-    publishTime = new Date(node.su_news_publishing_date).toISOString()
+  if (node.suNewsPublishingDate) {
+    publishTime = new Date(node.suNewsPublishingDate.time).toISOString()
   }
 
   return {
@@ -89,17 +89,17 @@ const getNewsMetaData = (node: NewsNodeType) => {
       title: node.title,
       description: description,
       publishedTime: publishTime ?? null,
-      tag: node.su_news_topics?.map(term => term.name) ?? [],
+      tag: node.suNewsTopics?.map(term => term.name) ?? [],
       images: getOpenGraphImage(imageUrl, imageAlt)
     }
   }
 }
 
-const getPersonMetaData = (node: PersonNodeType) => {
-  const pageImage = node.su_person_photo?.field_media_image;
-  const imageUrl = pageImage?.image_style_uri.card_956x478;
-  const imageAlt = pageImage?.resourceIdObjMeta?.alt || '';
-  const description = node.su_person_full_title ?? getCleanDescription(node.body);
+const getPersonMetaData = (node: NodeStanfordPerson) => {
+  const pageImage = getMediaFromEntityField<Image>(node.suPersonPhoto);
+  const imageUrl = pageImage?.url;
+  const imageAlt = pageImage?.alt || '';
+  const description = node.suPersonFullTitle ?? getCleanDescription(node.body?.processed);
 
   return {
     description: description,
@@ -107,15 +107,15 @@ const getPersonMetaData = (node: PersonNodeType) => {
       type: 'profile',
       title: node.title,
       description: description,
-      firstName: node.su_person_first_name,
-      lastName: node.su_person_last_name,
+      firstName: node.suPersonFirstName,
+      lastName: node.suPersonLastName,
       images: getOpenGraphImage(imageUrl, imageAlt)
     }
   }
 }
 
-const getEventMetaData = (node: EventNodeType) => {
-  const description = node.su_event_subheadline ?? getCleanDescription(node.body);
+const getEventMetaData = (node: NodeStanfordEvent) => {
+  const description = node.suEventSubheadline ?? getCleanDescription(node.body?.processed);
 
   return {
     description: description,
@@ -127,8 +127,8 @@ const getEventMetaData = (node: EventNodeType) => {
   }
 }
 
-const getPolicyMetaData = (node: PolicyNodeType) => {
-  const description = getCleanDescription(node.body?.summary || node.body?.processed);
+const getPolicyMetaData = (node: NodeStanfordPolicy) => {
+  const description = getCleanDescription(node.body?.processed);
 
   return {
     description: description,
@@ -140,10 +140,10 @@ const getPolicyMetaData = (node: PolicyNodeType) => {
   }
 }
 
-const getFirstText = (components?: StanfordParagraph[]) => {
-  const firstWysiwyg = components?.find(component => component.type === 'paragraph--stanford_wysiwyg') as WysiwygParagraphType;
+const getFirstText = (components?: Maybe<ParagraphUnion[]>) => {
+  const firstWysiwyg = components?.find(component => component.__typename === 'ParagraphStanfordWysiwyg') as ParagraphStanfordWysiwyg;
   if (firstWysiwyg) {
-    return getCleanDescription(firstWysiwyg.su_wysiwyg_text);
+    return getCleanDescription(firstWysiwyg.suWysiwygText?.processed);
   }
 }
 
@@ -159,7 +159,7 @@ const getOpenGraphImage = (imageUrl?: string, imageAlt?: string) => {
   if (imageUrl) {
     return [
       {
-        url: buildUrl(imageUrl).toString(),
+        url: imageUrl,
         width: 956,
         height: 478,
         alt: imageAlt,

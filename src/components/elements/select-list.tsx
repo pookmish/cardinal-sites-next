@@ -16,6 +16,7 @@ import {
 } from "react";
 import {ChevronDownIcon} from "@heroicons/react/20/solid";
 import {useIsClient} from "usehooks-ts";
+import {Maybe} from "@lib/gql/__generated__/drupal";
 
 interface OptionProps {
   rootRef: RefObject<HTMLUListElement>
@@ -82,17 +83,17 @@ function CustomOption(props: OptionProps) {
 
 interface Props {
   options: SelectOptionDefinition<string>[];
-  label?: string
-  ariaLabelledby?: string
+  label?: Maybe<string>
+  ariaLabelledby?: Maybe<string>
   defaultValue?: SelectValue<string, boolean>
   onChange?: (_event: MouseEvent | KeyboardEvent | FocusEvent | null, _value: SelectValue<string, boolean>) => void;
   multiple?: boolean
   disabled?: boolean
   value?: SelectValue<string, boolean>
   required?: boolean
-  emptyValue?: string
-  emptyLabel?: string
-  name?: string
+  emptyValue?: Maybe<string>
+  emptyLabel?: Maybe<string>
+  name?: Maybe<string>
 }
 
 const SelectList = ({options = [], label, multiple, ariaLabelledby, required, defaultValue, name, emptyValue, emptyLabel = "- None -", ...props}: Props) => {

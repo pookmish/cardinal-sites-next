@@ -1,8 +1,8 @@
 import type {Meta, StoryObj} from '@storybook/react';
 
 import {ImageMedia, VideoMedia} from "../media";
-import MediaCaptionParagraphDisplay
-  from "@components/paragraphs/stanford-media-caption/media-caption-paragraph-display";
+// @ts-ignore
+import MediaCaptionParagraphDisplay from "@components/paragraphs/stanford-media-caption/media-caption-paragraph-display";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<typeof MediaCaptionParagraphDisplay> = {
@@ -26,12 +26,12 @@ export const MediaCaption: Story = {
     if (args.media === 'image') {
       const image = ImageMedia();
       args.media = {
-        imageUrl: image.field_media_image.image_style_uri.breakpoint_2xl_2x,
-        imageAlt: image.field_media_image.resourceIdObjMeta.alt,
+        imageUrl: image.mediaImage.url,
+        imageAlt: image.mediaImage.alt,
       }
     }
     if (args.media === 'video') {
-      args.media = {videoUrl: VideoMedia().field_media_oembed_video};
+      args.media = {videoUrl: VideoMedia().mediaOembedVideo};
     }
     args.link = {
       url: args.linkUrl,

@@ -3,18 +3,18 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import Button from "@components/elements/button";
 import React from "react";
 import {H2} from "@components/elements/headers";
-import {DrupalLinkFieldType} from "@lib/types";
+import {Maybe, Link as LinkType} from "@lib/gql/__generated__/drupal";
 
 type Props = {
   media?: {
     imageUrl: string
-    imageAlt?: string
-    placeholder?: string
+    imageAlt?: Maybe<string>
+    placeholder?: Maybe<string>
   }
-  header?: string
-  supHeader?: string
-  body?: string
-  link?: DrupalLinkFieldType
+  header?: Maybe<string>
+  supHeader?: Maybe<string>
+  body?: Maybe<string>
+  link?: Maybe<LinkType>
 }
 
 const BannerParagraphDisplay = ({media, header, supHeader, body, link}: Props) => {

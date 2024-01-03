@@ -1,10 +1,10 @@
 import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {PublicationNodeType} from "@lib/types";
+import {NodeStanfordPublication} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: PublicationNodeType
+  node: NodeStanfordPublication
   headingLevel?: string
 }
 
@@ -15,7 +15,7 @@ const StanfordPublicationCard = ({node, headingLevel, ...props}: Props) => {
 
       <div className="flex flex-col">
         <Heading className="text-m2 order-last [&_a]:text-black [&_a]:hocus:text-digital-red" id={node.id}>
-          <Link href={node.path.alias}>
+          <Link href={node.path}>
             {node.title}
           </Link>
         </Heading>
@@ -24,9 +24,9 @@ const StanfordPublicationCard = ({node, headingLevel, ...props}: Props) => {
         </div>
       </div>
 
-      {node.su_publication_topics &&
+      {node.suPublicationTopics &&
         <div>
-          {node.su_publication_topics.map(topic =>
+          {node.suPublicationTopics.map(topic =>
             <div key={topic.id}>{topic.name}</div>
           )}
         </div>

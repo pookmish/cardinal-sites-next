@@ -2,16 +2,16 @@ import Image from "next/image";
 import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {PersonNodeType} from "@lib/types";
-import {buildUrl} from "@lib/drupal/utils";
+import {NodeStanfordPerson, Image as ImageType} from "@lib/gql/__generated__/drupal";
+import {getMediaFromEntityField} from "@lib/drupal/get-media-from-entity";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: PersonNodeType
+  node: NodeStanfordPerson
   headingLevel?: string
 }
 
 const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
-  const imageUrl = node.su_person_photo?.field_media_image?.uri.url;
+  const imageUrl = getMediaFromEntityField<ImageType>(node.suPersonPhoto)?.url
 
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
@@ -19,7 +19,7 @@ const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
       {imageUrl &&
         <div className="relative aspect-[1/1] mx-auto mb-20 w-3/5">
           <Image
-            src={buildUrl(imageUrl).toString()}
+            src={imageUrl}
             alt=""
             fill
             className="rounded-full object-cover"
@@ -28,13 +28,13 @@ const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
       }
 
       <Heading className="text-m2" id={node.id}>
-        <Link href={node.path.alias}>
+        <Link href={node.path}>
           {node.title}
         </Link>
       </Heading>
 
-      {node.su_person_full_title &&
-        <div>{node.su_person_full_title}</div>
+      {node.suPersonFullTitle &&
+        <div>{node.suPersonFullTitle}</div>
       }
     </article>
   )

@@ -7,33 +7,33 @@ import WysiwygParagraph from "@components/paragraphs/stanford-wysiwyg/wysiwyg-pa
 import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph";
 import ListParagraph from "@components/paragraphs/stanford-lists/list-paragraph";
 import {isDraftMode} from "@lib/drupal/utils";
-import {StanfordParagraph} from "@lib/types";
+import {ParagraphUnion} from "@lib/gql/__generated__/drupal";
 
-const Paragraph = async ({paragraph}: { paragraph: StanfordParagraph }) => {
+const Paragraph = async ({paragraph}: { paragraph: ParagraphUnion }) => {
   const draftMode = isDraftMode()
 
   const itemProps: Record<string, string> = {}
   if (draftMode) {
-    itemProps['data-type'] = paragraph.type || 'unknown';
+    itemProps['data-type'] = paragraph.__typename || 'unknown';
     itemProps['data-id'] = paragraph.id;
   }
 
-  switch (paragraph.type) {
-    case 'paragraph--stanford_banner':
+  switch (paragraph.__typename) {
+    case 'ParagraphStanfordBanner':
       return <BannerParagraph paragraph={paragraph} {...itemProps}/>
-    case 'paragraph--stanford_card':
+    case 'ParagraphStanfordCard':
       return <CardParagraph paragraph={paragraph} {...itemProps}/>
-    case 'paragraph--stanford_entity':
+    case 'ParagraphStanfordEntity':
       return <EntityParagraph paragraph={paragraph} {...itemProps}/>
-    case 'paragraph--stanford_gallery':
+    case 'ParagraphStanfordGallery':
       return <GalleryParagraph paragraph={paragraph} {...itemProps}/>
-    case 'paragraph--stanford_lists':
+    case 'ParagraphStanfordList':
       return <ListParagraph paragraph={paragraph} {...itemProps}/>
-    case 'paragraph--stanford_media_caption':
+    case 'ParagraphStanfordMediaCaption':
       return <MediaCaptionParagraph paragraph={paragraph} {...itemProps}/>
-    case 'paragraph--stanford_spacer':
+    case 'ParagraphStanfordSpacer':
       return <SpacerParagraph paragraph={paragraph} {...itemProps}/>
-    case 'paragraph--stanford_wysiwyg':
+    case 'ParagraphStanfordWysiwyg':
       return <WysiwygParagraph paragraph={paragraph} {...itemProps}/>
   }
 }

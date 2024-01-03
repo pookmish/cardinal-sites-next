@@ -1,10 +1,10 @@
 import {getConfigPageResource} from "@lib/drupal/get-resource";
+import {GlobalMessageConfigPageType} from "@lib/drupal/drupal-jsonapi.types";
 import {BellIcon, CheckCircleIcon, ExclamationTriangleIcon, InformationCircleIcon} from "@heroicons/react/20/solid";
 import {H2} from "@components/elements/headers";
 import Wysiwyg from "@components/elements/wysiwyg";
 import Link from "@components/elements/link";
 import {clsx} from "clsx";
-import {GlobalMessageConfigPageType} from "@lib/types";
 
 const GlobalMessage = async () => {
   const configPage = await getConfigPageResource<GlobalMessageConfigPageType>('stanford_global_message');

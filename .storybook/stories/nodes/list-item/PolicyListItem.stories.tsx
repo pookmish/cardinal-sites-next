@@ -10,10 +10,6 @@ const meta: Meta<typeof StanfordPolicyListItem> = {
   component: StanfordPolicyListItem,
   tags: ['autodocs'],
   argTypes: {
-    su_page_image: {
-      options: ["image", "none"],
-      control: {type: "select"}
-    },
     headingLevel: {
       options: ["h2", "h3"],
       control: {type: "select"}
@@ -32,11 +28,7 @@ type Story = StoryObj<typeof StanfordPolicyListItem>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const PolicyListItem: Story = {
   args: {...PolicyCard.args},
-  render: ({headingLevel, path, ...args}) => {
-    args.su_page_image = args.su_page_image === "image" ? ImageMedia() : undefined;
-    args.path = {
-      alias: path
-    }
+  render: ({headingLevel, ...args}) => {
     return <StanfordPolicyListItem node={args} headingLevel={headingLevel}/>
   },
 };

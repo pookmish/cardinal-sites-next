@@ -4,19 +4,20 @@ import {H2} from "@components/elements/headers";
 import Wysiwyg from "@components/elements/wysiwyg";
 import ActionLink from "@components/elements/action-link";
 import Button from "@components/elements/button";
+import {Maybe} from "@lib/gql/__generated__/drupal";
 
 type Props = {
   media?: {
-    imageUrl?: string
-    imageAlt?: string
-    videoUrl?: string
+    imageUrl?: Maybe<string>
+    imageAlt?: Maybe<string>
+    videoUrl?: Maybe<string>
   }
-  header?: string
-  supHeader?: string
-  body?: string
+  header?: Maybe<string>
+  supHeader?: Maybe<string>
+  body?: Maybe<string>
   link?: {
-    url?: string
-    title?: string
+    url?: Maybe<string>
+    title?: Maybe<string>
     style?: 'action' | 'button' | undefined
   }
 }

@@ -8,16 +8,16 @@ import Email from "@components/elements/email";
 import Link from "@components/elements/link";
 import {H1, H2} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {PersonNodeType} from "@lib/types";
-import {buildUrl} from "@lib/drupal/utils";
+import {NodeStanfordPerson, Image as ImageType} from "@lib/gql/__generated__/drupal";
+import {getMediaFromEntityField} from "@lib/drupal/get-media-from-entity";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: PersonNodeType
+  node: NodeStanfordPerson
   headingLevel?: string
 }
 
 const StanfordPersonPage = ({node, ...props}: Props) => {
-  const imageUrl = node.su_person_photo?.field_media_image?.uri.url;
+  const imageUrl = getMediaFromEntityField<ImageType>(node.suPersonPhoto)?.url
 
   return (
     <article className="centered mt-32" {...props}>
@@ -25,7 +25,7 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
         {imageUrl &&
           <div className="relative aspect-[1/1] w-[250px] shrink-0 mx-auto lg:mx-0">
             <Image
-              src={buildUrl(imageUrl).toString()}
+              src={imageUrl}
               alt=""
               fill
               className="rounded-full"
@@ -38,14 +38,14 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
             {node.title}
           </H1>
 
-          {node.su_person_short_title &&
+          {node.suPersonShortTitle &&
             <div className="order-1 mb-10">
-              {node.su_person_short_title}
+              {node.suPersonShortTitle}
             </div>
           }
-          {node.su_person_full_title &&
+          {node.suPersonFullTitle &&
             <div className="order-3 text-m1">
-              {node.su_person_full_title}
+              {node.suPersonFullTitle}
             </div>
           }
         </div>
@@ -53,16 +53,16 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
 
       <section className="flex flex-col lg:flex-row">
         <div className="flex-1 shrink-0">
-          {node.body && <Wysiwyg html={node.body}/>}
+          {node.body && <Wysiwyg html={node.body.processed}/>}
 
-          {node.su_person_components &&
-            <Rows components={node.su_person_components}/>
+          {node.suPersonComponents &&
+            <Rows components={node.suPersonComponents}/>
           }
 
-          {node.su_person_education &&
+          {node.suPersonEducation &&
             <div className="mb-10">
               <H2 className="text-m1">Education</H2>
-              {node.su_person_education.map((education, i) =>
+              {node.suPersonEducation.map((education, i) =>
                 <div key={`${node.id}-education-${i}`}>
                   {education}
                 </div>
@@ -70,24 +70,24 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
             </div>
           }
 
-          {node.su_person_research &&
+          {node.suPersonResearch &&
             <div className="mb-10">
               <H2 className="text-m1">Research</H2>
               <div className="grid grid-cols-2 gap-10">
-                {node.su_person_research.map((research, i) =>
+                {node.suPersonResearch.map((research, i) =>
                   <div key={`${node.id}-research-${i}`}>
-                    {research}
+                    {research.processed}
                   </div>
                 )}
               </div>
             </div>
           }
 
-          {node.su_person_affiliations &&
+          {node.suPersonAffiliations &&
             <div className="mb-10">
               <H2 className="text-m1">Stanford Affiliations</H2>
               <div className="grid grid-cols-2 gap-10">
-                {node.su_person_affiliations.map((affiliation, i) =>
+                {node.suPersonAffiliations.map((affiliation, i) =>
                   <div key={`${node.id}-affiliation-${i}`}>
                     <Button href={affiliation.url}>
                       {affiliation.title}
@@ -100,39 +100,39 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
 
         </div>
         <aside className="w-1/3 shrink-0">
-          {(node.su_person_telephone || node.su_person_mobile_phone || node.su_person_fax || node.su_person_email || node.su_person_mail_code) &&
+          {(node.suPersonTelephone || node.suPersonMobilePhone || node.suPersonFax || node.suPersonEmail || node.suPersonMailCode) &&
 
             <div className="flex items-start gap-10 mb-20">
               <PhoneIcon width={30} className="shrink-0"/>
               <div>
                 <H2 className="text-m1">Contact</H2>
 
-                {node.su_person_telephone &&
+                {node.suPersonTelephone &&
                   <div className="mb-10">
-                    p: <Telephone tel={node.su_person_telephone}/>
+                    p: <Telephone tel={node.suPersonTelephone}/>
                   </div>
                 }
-                {node.su_person_mobile_phone &&
+                {node.suPersonMobilePhone &&
                   <div className="mb-10">
-                    m: <Telephone tel={node.su_person_mobile_phone}/>
-                  </div>
-                }
-
-                {node.su_person_fax &&
-                  <div className="mb-10">
-                    f: <Telephone tel={node.su_person_fax}/>
+                    m: <Telephone tel={node.suPersonMobilePhone}/>
                   </div>
                 }
 
-                {node.su_person_email &&
+                {node.suPersonFax &&
                   <div className="mb-10">
-                    <Email email={node.su_person_email}/>
+                    f: <Telephone tel={node.suPersonFax}/>
                   </div>
                 }
 
-                {node.su_person_mail_code &&
+                {node.suPersonEmail &&
                   <div className="mb-10">
-                    Mail Code: {node.su_person_mail_code}
+                    <Email email={node.suPersonEmail}/>
+                  </div>
+                }
+
+                {node.suPersonMailCode &&
+                  <div className="mb-10">
+                    Mail Code: {node.suPersonMailCode}
                   </div>
                 }
 
@@ -140,31 +140,31 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
             </div>
           }
 
-          {(node.su_person_location_address || node.su_person_map_url) &&
+          {(node.suPersonLocationAddress || node.suPersonMapUrl) &&
             <div className="flex items-start gap-10 mb-20">
               <MapPinIcon width={30} className="shrink-0"/>
               <div>
                 <H2 className="text-m1">Location</H2>
-                {node.su_person_location_address &&
-                  <Wysiwyg html={node.su_person_location_address}/>
+                {node.suPersonLocationAddress &&
+                  <Wysiwyg html={node.suPersonLocationAddress.processed}/>
                 }
 
-                {node.su_person_map_url?.url &&
+                {node.suPersonMapUrl?.url &&
                   <div>
                     Map URL: <Link
-                    href={node.su_person_map_url.url}>{node.su_person_map_url.title || node.su_person_map_url.url}</Link>
+                    href={node.suPersonMapUrl.url}>{node.suPersonMapUrl.title || node.suPersonMapUrl.url}</Link>
                   </div>
                 }
               </div>
             </div>
           }
 
-          {node.su_person_links &&
+          {node.suPersonLinks &&
             <div className="flex items-start gap-10 mb-20">
               <LinkIcon width={30} className="shrink-0"/>
               <div>
                 <H2 className="text-m1">Links</H2>
-                {node.su_person_links.map((link, i) => {
+                {node.suPersonLinks.map((link, i) => {
                   if (!link.url) return;
                   return (
                     <Link key={`${node.id}-link-${i}`} href={link.url}>
@@ -176,9 +176,9 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
             </div>
           }
 
-          {node.su_person_profile_link?.url &&
-            <Button href={node.su_person_profile_link.url}>
-              {node.su_person_profile_link.title}
+          {node.suPersonProfileLink?.url &&
+            <Button href={node.suPersonProfileLink.url}>
+              {node.suPersonProfileLink.title}
             </Button>
           }
         </aside>

@@ -7,16 +7,16 @@ import {useMemo, useState} from "react";
 import LoadMoreList from "@components/elements/load-more-list";
 import StanfordEventListItem from "@components/nodes/list-item/stanford-event/stanford-event-list-item";
 import {SelectOptionDefinition, SelectValue} from "@mui/base/useSelect";
-import {DrupalTaxonomyTerm, EventNodeType} from "@lib/types";
+import {NodeStanfordEvent, TermUnion} from "@lib/gql/__generated__/drupal";
 
-const getTopicOptions = (eventItems: EventNodeType[] = [], topicTree: DrupalTaxonomyTerm[] = []): SelectOptionDefinition<string>[] => {
+const getTopicOptions = (eventItems: NodeStanfordEvent[] = [], topicTree: TermUnion[] = []): SelectOptionDefinition<string>[] => {
   const topicOptions: SelectOptionDefinition<string>[] = [];
 
-  const cleanTopic = (topic: DrupalTaxonomyTerm): boolean => {
-    if (topic.parent) return false;
+  const cleanTopic = (topic: TermUnion): boolean => {
+    if (topic.parent?.id) return false;
 
     return !!eventItems.find(event => {
-      return event.su_event_type?.map(eventTerm => eventTerm.id).includes(topic.id);
+      return event.suEventType?.map(eventTerm => eventTerm.id).includes(topic.id);
     });
   }
   topicTree = topicTree.filter(topic => cleanTopic(topic));
@@ -27,10 +27,10 @@ const getTopicOptions = (eventItems: EventNodeType[] = [], topicTree: DrupalTaxo
   return topicOptions.sort((a, b) => a.label < b.label ? -1 : (a.label > b.label ? 1 : 0));
 }
 
-const EventsFilteredListView = ({items, topics}: { items: EventNodeType[], topics: DrupalTaxonomyTerm[] }) => {
+const EventsFilteredListView = ({items, topics}: { items: NodeStanfordEvent[], topics: TermUnion[] }) => {
 
   const [chosenTopic, setChosenTopic] = useState<string>('');
-  const [displayedEvents, setDisplayedEvents] = useState<EventNodeType[]>(items);
+  const [displayedEvents, setDisplayedEvents] = useState<NodeStanfordEvent[]>(items);
 
   const topicTree = useMemo(() => getTaxonomyTree(topics), [topics]);
   const topicOptions = useMemo(() => getTopicOptions(items, topicTree), [items, topicTree]);
@@ -43,7 +43,7 @@ const EventsFilteredListView = ({items, topics}: { items: EventNodeType[], topic
     }
     const topicIds: string[] = [];
 
-    const buildChosenTopicIds = (topicTerm: DrupalTaxonomyTerm | undefined): void => {
+    const buildChosenTopicIds = (topicTerm: TermUnion | undefined): void => {
       if (!topicTerm) return;
 
       topicIds.push(topicTerm.id);
@@ -52,7 +52,7 @@ const EventsFilteredListView = ({items, topics}: { items: EventNodeType[], topic
     buildChosenTopicIds(topicTree.find(term => term.id === chosenTopic));
 
     const matchingEvents = items.filter(event => {
-      const eventTopics = event.su_event_type?.map(eventTerm => eventTerm.id)
+      const eventTopics = event.suEventType?.map(eventTerm => eventTerm.id)
       return topicIds.filter(value => eventTopics?.includes(value)).length > 0;
     });
 

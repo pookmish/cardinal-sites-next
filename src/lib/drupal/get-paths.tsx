@@ -1,8 +1,9 @@
 import {AccessToken, JsonApiParams, JsonApiResourceWithPath} from "next-drupal";
 import {getResourceCollection} from "@lib/drupal/get-resource";
-import {DrupalRedirect, PageProps, Params} from "@lib/types";
+import {PageProps, Params} from "@lib/types";
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getPathFromContext, isDraftMode} from "@lib/drupal/utils";
+import {DrupalRedirect} from "@lib/drupal/drupal-jsonapi.types";
 
 export const pathIsValid = async (path: string, type?: 'node' | 'redirect') => {
   if (isDraftMode()) return true;

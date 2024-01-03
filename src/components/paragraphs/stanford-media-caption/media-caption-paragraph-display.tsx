@@ -2,16 +2,16 @@ import Image from "next/image";
 import Oembed from "@components/elements/ombed";
 import Link from "@components/elements/link";
 import Wysiwyg from "@components/elements/wysiwyg";
-import {DrupalLinkFieldType} from "@lib/types";
+import {Maybe, Link as LinkType} from "@lib/gql/__generated__/drupal";
 
 type Props = {
   media?: {
-    imageUrl?: string
-    imageAlt?: string
-    videoUrl?: string
+    imageUrl?: Maybe<string>
+    imageAlt?: Maybe<string>
+    videoUrl?: Maybe<string>
   }
-  link?: DrupalLinkFieldType
-  caption?: string
+  link?: Maybe<LinkType>
+  caption?: Maybe<string>
 }
 
 const MediaCaptionParagraphDisplay = ({media, caption, link}: Props) => {

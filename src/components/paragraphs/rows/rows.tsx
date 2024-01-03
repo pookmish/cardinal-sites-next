@@ -1,25 +1,24 @@
 import OneColumn from "@components/paragraphs/rows/one-column";
 import TwoColumn from "@components/paragraphs/rows/two-column";
 import ThreeColumn from "@components/paragraphs/rows/three-column";
-import {LayoutParagraphType, StanfordParagraph} from "@lib/types";
-import {getResources} from "@lib/drupal/get-resource";
+import {ParagraphStanfordLayout, ParagraphUnion} from "@lib/gql/__generated__/drupal";
+import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
 
 type Layout = Record<string, {
-  item: LayoutParagraphType
+  item: ParagraphStanfordLayout
   layout: string
   config?: Record<string, any>
-  children: StanfordParagraph[]
+  children: ParagraphUnion[]
 }>
 
-const Rows = async ({components}: { components: StanfordParagraph[] }) => {
-  components = (await getResources<StanfordParagraph>(components)).filter(item => !!item?.id);
+const Rows = async ({components}: { components: ParagraphUnion[] }) => {
 
   const layouts: Layout = {};
 
   // Set the layouts first.
   components.map(item => {
-    if (item.type === 'paragraph--stanford_layout') {
-      const behaviors = item.behavior_settings;
+    if (item.__typename === 'ParagraphStanfordLayout') {
+      const behaviors = getParagraphBehaviors(item);
 
       layouts[item.id] = {
         item,
@@ -32,7 +31,7 @@ const Rows = async ({components}: { components: StanfordParagraph[] }) => {
 
   // Add the components to each of the layouts.
   components.map(item => {
-    const behaviors = item.behavior_settings;
+    const behaviors = getParagraphBehaviors(item);
     const parentUUID = behaviors?.layout_paragraphs?.parent_uuid
     if (parentUUID && layouts[parentUUID]) {
       layouts[parentUUID].children.push(item);
@@ -56,7 +55,7 @@ const Rows = async ({components}: { components: StanfordParagraph[] }) => {
 const Row = ({layout, layoutSettings, items}: {
   layout: string
   layoutSettings?: Record<string, any>
-  items: StanfordParagraph[]
+  items: ParagraphUnion[]
 }) => {
   return (
     <>

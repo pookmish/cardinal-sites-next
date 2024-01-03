@@ -2,21 +2,22 @@ import Image from "next/image";
 import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {NewsNodeType} from "@lib/types";
+import {Image as ImageType, NodeStanfordNews, TermUnion} from "@lib/gql/__generated__/drupal";
+import {getMediaFromEntityField} from "@lib/drupal/get-media-from-entity";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: NewsNodeType
+  node: NodeStanfordNews
   headingLevel?: string
 }
 
 const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
-  const image = node.su_news_featured_media?.field_media_image
+  const image = getMediaFromEntityField<ImageType>(node.suNewsFeaturedMedia)
   const imageUrl = image?.url;
   const imageAlt = image?.alt || '';
 
   const publishDate = node.suNewsPublishingDate && new Date(node.suNewsPublishingDate.time);
 
-  const topics= node.su_news_topics ? node.su_news_topics.slice(0, 3) : [];
+  const topics: TermUnion[] = node.suNewsTopics ? node.suNewsTopics.slice(0, 3) : [];
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <article aria-labelledby={node.id} className="@container" {...props}>
@@ -25,7 +26,7 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
 
           <Heading className="font-bold text-m2" id={node.id}>
             <Link
-              href={node.path.alias}
+              href={node.path}
               className="text-digital-red no-underline hocus:text-black hocus:underline order-2"
             >
               {node.title}
