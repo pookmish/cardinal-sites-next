@@ -24,13 +24,11 @@ const MainMenu = ({menuItems}: { menuItems: DrupalMenuItem[] }) => {
   const handleEscape = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape" && menuOpen) {
       closeMenu()
-
-      // @ts-ignore
       buttonRef.current?.focus();
     }
   }, [menuOpen, closeMenu]);
 
-  useEffect(closeMenu, [browserUrl, closeMenu]);
+  useEffect(() => closeMenu(), [browserUrl, closeMenu]);
 
   useEffect(() => {
     // Add keydown listener for escape button if the submenu is open.
@@ -80,7 +78,7 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
   const itemProps = useOutsideClick(closeSubmenu);
 
   // Close the submenu if the url changes.
-  useEffect(closeSubmenu, [browserUrl, closeSubmenu]);
+  useEffect(() => closeSubmenu(), [browserUrl, closeSubmenu]);
 
   useLayoutEffect(() => {
     // If the right side of the submenu is not visible, set the position to be on the left of the menu item.
@@ -95,7 +93,6 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
       buttonRef.current?.focus();
     }
   }, [submenuOpen, closeSubmenu]);
-
 
   useEffect(() => {
     // Add keydown listener for escape button if the submenu is open.

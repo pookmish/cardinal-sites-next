@@ -13,7 +13,6 @@ const Oembed = ({url, ...props}: Props) => {
   const ref = useRef<HTMLDivElement>(null)
   const entry = useIntersectionObserver(ref, {freezeOnceVisible: true});
   return (
-    // @ts-ignore
     <div {...props} ref={ref} className="relative aspect-[16/9] w-full">
       {!!entry?.isIntersecting && <Embed url={url} LoadingFallbackElement={<Loading/>}/>}
     </div>

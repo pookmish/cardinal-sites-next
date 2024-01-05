@@ -9,7 +9,8 @@ const Editori11y = () => {
     if (typeof Ed11y != 'undefined') {
       // @ts-ignore
       new Ed11y({
-        checkRoots: '#main-content'
+        checkRoots: '#main-content',
+        ignoreElements: 'nav'
       });
     }
   }

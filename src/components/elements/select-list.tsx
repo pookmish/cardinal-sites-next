@@ -113,9 +113,7 @@ const SelectList = ({options = [], label, multiple, ariaLabelledby, required, de
     ...props
   });
 
-  useEffect(() => {
-    listboxVisible && listboxRef.current?.focus();
-  }, [listboxVisible]);
+  useEffect(() => listboxRef.current?.focus(), [listboxVisible]);
 
   useLayoutEffect(() => {
     const parentContainer = listboxRef.current?.parentElement?.getBoundingClientRect();
