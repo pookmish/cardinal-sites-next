@@ -563,3 +563,18 @@ export type PublicationCitationType = JsonApiResource & {
   su_url?: DrupalLinkFieldType
   su_year?: number
 }
+
+export type DrupalRedirect = JsonApiResource & {
+  redirect_source: {
+    path: string,
+    query: []
+  },
+  redirect_redirect: {
+    uri: string,
+    title: string,
+    options: [],
+    target_uuid: string,
+    url: string
+  },
+  status_code: number
+}

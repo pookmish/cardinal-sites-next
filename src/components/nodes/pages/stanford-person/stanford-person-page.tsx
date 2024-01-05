@@ -52,7 +52,7 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
       </div>
 
       <section className="flex flex-col lg:flex-row">
-        <div>
+        <div className="flex-1 shrink-0">
           {node.body && <Wysiwyg html={node.body}/>}
 
           {node.su_person_components &&

@@ -1,5 +1,6 @@
 import {NextApiRequest, NextApiResponse} from "next";
 
+
 // The app router revalidation doesn't work on Vercel, but the pages router does.
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Check for secret to confirm this is a valid request.
