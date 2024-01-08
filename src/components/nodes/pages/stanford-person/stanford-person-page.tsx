@@ -29,6 +29,7 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
               alt=""
               fill
               className="rounded-full"
+              loading="eager"
             />
           </div>
         }

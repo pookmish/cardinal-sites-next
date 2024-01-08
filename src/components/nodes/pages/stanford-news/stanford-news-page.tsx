@@ -72,6 +72,7 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
               alt={bannerImageAlt}
               fill
               className="object-cover"
+              loading="eager"
             />
           </div>
           {node.suNewsBannerMediaCaption &&

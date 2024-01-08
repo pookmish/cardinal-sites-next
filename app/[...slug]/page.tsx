@@ -29,7 +29,7 @@ export const generateMetadata = async ({params}: PageProps): Promise<Metadata> =
   if (!await pathIsValid(path, 'node')) return {};
 
   try {
-    const routeInfo = await getEntityFromPath<NodeUnion>(path, isDraftMode())
+    const routeInfo = await getEntityFromPath<NodeUnion>(path)
     if (routeInfo?.entity) return getNodeMetadata(routeInfo.entity);
   } catch (e) {
   }

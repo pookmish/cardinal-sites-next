@@ -10,6 +10,7 @@ type Props = {
     imageUrl: string
     imageAlt?: Maybe<string>
     placeholder?: Maybe<string>
+    loading?: 'lazy' | 'eager'
   }
   header?: Maybe<string>
   supHeader?: Maybe<string>
@@ -31,6 +32,7 @@ const BannerParagraphDisplay = ({media, header, supHeader, body, link}: Props) =
             alt={imageAlt ?? ""}
             fill
             className="object-cover"
+            loading={media?.loading || 'lazy'}
           />
         }
       </div>

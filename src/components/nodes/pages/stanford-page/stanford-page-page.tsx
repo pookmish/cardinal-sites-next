@@ -1,9 +1,9 @@
 import Rows from "@components/paragraphs/rows/rows";
 import InteriorPage from "@components/layouts/interior-page";
-import Paragraph from "@components/paragraphs/paragraph";
 import {H1} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordPage} from "@lib/gql/__generated__/drupal";
+import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPage
@@ -15,9 +15,9 @@ const StanfordPagePage = ({node, ...props}: Props) => {
 
   return (
     <article {...props}>
-      {node.suPageBanner &&
+      {node.suPageBanner?.__typename === 'ParagraphStanfordBanner' &&
         <header aria-label="Page banner">
-          <Paragraph paragraph={node.suPageBanner}/>
+          <BannerParagraph paragraph={node.suPageBanner} eagerLoadImage/>
         </header>
       }
       <H1 className="mt-32 centered">
