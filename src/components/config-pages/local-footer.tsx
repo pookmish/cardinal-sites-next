@@ -21,12 +21,9 @@ import YoutubeIcon from "@components/elements/icons/YoutubeIcon";
 import FacebookIcon from "@components/elements/icons/FacebookIcon";
 import {Maybe} from "@lib/gql/__generated__/drupal";
 import {LocalFooterConfigPageType} from "@lib/drupal/drupal-jsonapi.types";
-import {getConfigPageResource} from "@lib/drupal/get-resource";
 import {buildUrl} from "@lib/drupal/utils";
 
-const LocalFooter = async () => {
-  // Fetch from JSON API, it should return a cached version.
-  const configPage = await getConfigPageResource<LocalFooterConfigPageType>('stanford_local_footer');
+const LocalFooter = ({configPage}:{configPage?: LocalFooterConfigPageType}) => {
   if (!configPage || !configPage.su_footer_enabled) return;
 
   const lockupProps = {

@@ -5,10 +5,6 @@ import {getAccessToken} from "@lib/drupal/get-access-token";
 import {cache} from "@lib/drupal/get-cache";
 
 export const graphqlClient = (accessToken?: string, requestConfig: RequestConfig = {}) => {
-  requestConfig = {
-    next: {revalidate: 60 * 60 * 24 * 365},
-    ...requestConfig
-  }
   const headers: Record<string, string> = {'Content-Type': 'application/json'}
   if (accessToken) headers.Authorization = `Bearer ${accessToken}`
 
@@ -36,8 +32,8 @@ export const getEntityFromPath = async <T extends NodeUnion | TermUnion, >(path:
     if (query.route?.__typename === 'RouteRedirect') return {redirect: query.route, entity};
     entity = (query.route?.__typename === 'RouteInternal' && query.route.entity) ? query.route.entity as T : undefined
 
-    // Just cache the entity for 30 seconds so that any remaining queries during the build process will result in the cached data.
-    if (entity) cache.set(cacheKey, entity, 30);
+    // Just cache the entity for 10 seconds so that any remaining queries during the build process will result in the cached data.
+    if (entity) cache.set(cacheKey, entity, 10);
   }
 
   return {entity, redirect: undefined};

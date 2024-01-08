@@ -7,10 +7,10 @@ import {PageProps} from "@lib/types";
 const JSONAPI_PREFIX = process.env.DRUPAL_JSONAPI_PREFIX || "/jsonapi"
 
 /*
- Draft mode works win in normal builds, use environment variable during development.
+ * Draft mode works when in normal builds. Use environment variable during development.
  */
 export const isDraftMode = (): boolean => {
-  return process.env.NODE_ENV == 'development' || draftMode().isEnabled;
+  return process.env.NODE_ENV === 'development' || draftMode().isEnabled;
 }
 
 export const buildUrl = (

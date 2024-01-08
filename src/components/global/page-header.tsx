@@ -4,10 +4,15 @@ import {getMenu} from "@lib/drupal/get-menu";
 import GlobalMessage from "@components/config-pages/global-message";
 import Lockup from "@components/elements/lockup/lockup";
 import {isDraftMode} from "@lib/drupal/utils";
+import {getConfigPageResource} from "@lib/drupal/get-resource";
+import {GlobalMessageConfigPageType} from "@lib/drupal/drupal-jsonapi.types";
 
 const PageHeader = async () => {
   const draftMode = isDraftMode();
   const {tree} = await getMenu('main', {draftMode})
+
+  // Fetch from JSON API, it should return a cached version.
+  const globalMessage = await getConfigPageResource<GlobalMessageConfigPageType>('stanford_global_message');
 
   return (
     <header className="shadow-lg">
@@ -21,7 +26,7 @@ const PageHeader = async () => {
           </a>
         </div>
       </div>
-      <GlobalMessage/>
+      <GlobalMessage configPage={globalMessage}/>
       <div className="relative shadow">
         <div className="centered min-h-50">
           <div className="flex w-full justify-between">

@@ -2,14 +2,36 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+### Setup Local Environment Variables:
+1. copy .env.example to .env.local
+2. The only necessary variable is the `NEXT_PUBLIC_DRUPAL_BASE_URL`. Set this to your local drupal installation url.
+  
+### Set Up Drupal Environment (Optional)
+You can configure your Drupal environment to use this as a "preview".
+
+1. In the Drupal environment, go to `/admin/config/services/next/sites/add` page.
+2. Enter a label of your choice.
+3. "Base URL" will be `http://localhost:3000`.
+4. "Preview URL" will be `http://localhost:3000/api/draft`.
+5. "Preview Secret" can be any string of your choice. This should match the `DRUPAL_PREVIEW_SECRET` environment variable.
+6. "Revalidate URL" `http://localhost:3000/api/revalidate`. Only necessary to test cache invalidations in preview mode.
+7. "Revalidate secret" will be any string of your choice. This should match `DRUPAL_REVALIDATE_SECRET` environment variable. . Only necessary to test cache invalidations in preview mode.
+8. To test authenticated "Draft Mode" navigate to `/admin/config/services/consumer`. At least 1 "Consumer" should already exist.
+   1. Edit the consumer
+   2. The "Client ID" can be any string of your choice. It should match the `DRUPAL_DRAFT_CLIENT` environment variable.
+   3. The "New Secret" can be any string of your choice. It should match the `DRUPAL_DRAFT_SECRET` environment variable.
+   4. Choose an appropriate "User", like any "Site Manager"
+   5. For "Scopes" select "Site Manager" and "Decoupled Site User"
+
+### Start Development Server:
 
 ```bash
-npm run dev
-# or
+# Install Dependencies
+yarn install
+# Run dev server
 yarn dev
-# or
-pnpm dev
+# Or run preview server
+yarn preview
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -17,6 +39,67 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+
+### Storybook
+
+Story book is a great way to edit components without the need for any Drupal connection. All stories and setup are saved in the [./.storybook directory](./.storybook).
+```bash
+yarn storybook
+```
+This will open a new browser window to [http://localhost:6006](http://localhost:6006). 
+
+View more [Storybook documentation](https://storybook.js.org/).
+
+### Linting
+
+This project uses both typescript checks and ESLinting. These are run on CI services, but not on production environments since the dev dependencies are not installed on production.
+
+```bash
+yarn lint
+```
+
+## API Connection
+
+This project makes use of both JSON API and GraphQL API endpoints from the Drupal environment. When a user is in "Draft 
+Mode", the APIs will use the `DRUPAL_DRAFT_CLIENT` & `DRUPAL_DRAFT_SECRET` environment variables to fetch an OAuth token.
+This token allows either API to fetch authenticated only data. But while in "draft mode", the pages will be built at
+request time. "Draft mode" should only be used for previewing content when a user is editing. "Draft mode" is only enabled
+when a user hits the [/api/draft](./app/api/draft/route.tsx) route from the Drupal environment. It establishes a cookie
+that is then used for subsequent page requests.
+
+### JSON API
+The JSON API is used for data points that are more simple and don't require very complex data such as paragraph entities. 
+Things like the config pages and the main menu are fetched from JSON API. These APIs also use GET methods. This way they 
+can be easily cached by Drupal/Varnish/CDN services and result in faster data transfer.
+
+JSON API functions are found in the [./src/lib/drupal directory](./src/lib/drupal). 
+
+### GraphQL
+GraphQL endpoint `/graphql` accepts POST methods only. These queries are intended for nodes and more complex data. This
+allows us to create very nested queries using unions and conditions. We can easily fetch every single piece of 
+information in a single request to build out the entire page, except views. Views are fetched separately to allow us to
+make them more dynamic in the future and also to avoid some unwanted errors that come from the first render in Drupal.
+
+GraphQL types and fetch methods are generated automatically using `yarn graphql`. If a content type, field, vocabulary, 
+paragraph type, etc. are created/edited/deleted in the Drupal environment, the queries in [./src/lib/gql](./src/lib/gql) 
+will need to be updated. Most of the changes can be implemented in the [fragments.drupal.gql](./src/lib/gql/fragments.drupal.gql) 
+file. To make it easy, Drupal provides fragments you can copy as a starting point. Navigate to `/admin/config/graphql_compose/fragments`
+to view those fragments. Once the fragments and/or queries have been modified, simply run `yarn graphql` to rebuild the
+typescript types and fetcher queries.
+
+## Cacheing
+
+Next.js caches data fetches pretty heavy. On top of that, in production builds, the data and pages are build and cached.
+If you experience any issues during development, delete the `.next` directory and restart your local server.
+
+In the layout and pages, we set the `revalidate` variable to `false`. This caches the page/layout build indefinitely.
+To allow the page to rebuild, we use the route [/api/revalidate](./src/pages/api/revalidate.tsx) which triggers Next.js
+to clear the cache and re-fetch the data to build that page. Next.js will immediately rebuild the url upon invalidating
+the page url. NOTE: there is a route handler in [app/api/app-revalidate/route.tsx](./app/api/app-revalidate/route.tsx).
+This route does not seem to work when deployed to Vercel hosting service. The route is there to occasionally test the
+invalidation and eventually will replace the route in the `src/pages` directory.
+
+- [Next.JS cache documentation](https://nextjs.org/docs/app/building-your-application/caching)
 
 ## Learn More
 
@@ -31,4 +114,4 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

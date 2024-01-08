@@ -1,3 +1,5 @@
+# Query specific entity types by their UUID value.
+
 query Media($uuid: ID!) {
     media(id: $uuid) {
         ...FragmentMediaUnion

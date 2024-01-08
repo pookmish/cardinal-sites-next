@@ -1,3 +1,5 @@
+# All the various fragments that could be used in the queries.
+
 fragment FragmentSuPolicyLog on SuPolicyLog {
     __typename
     id

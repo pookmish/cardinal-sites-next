@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
 
-import GlobalMessage from "../../../src/components/config-pages/global-message";
+import GlobalMessage from "@components/config-pages/global-message";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<typeof GlobalMessage> = {
@@ -8,18 +8,18 @@ const meta: Meta<typeof GlobalMessage> = {
   component: GlobalMessage,
   tags: ['autodocs'],
   argTypes: {
-    type: {
+    su_global_msg_type: {
       description: 'The type of global message',
       options: ['info', 'success', 'warning', 'error', 'plain'],
       control: {type: 'select'}
     },
-    message: {
+    su_global_msg_message: {
       description: "General message html text",
     },
-    label: {
+    su_global_msg_label: {
       description: "Text placed to the right of the icon"
     },
-    header: {
+    su_global_msg_header: {
       description: "H2 element at the top."
     },
     linkText: {
@@ -28,7 +28,7 @@ const meta: Meta<typeof GlobalMessage> = {
     linkUrl: {
       description: "Absolute or relative url"
     },
-    enabled: {
+    su_global_msg_enabled: {
       description: "Toggle the display on or off"
     },
     link: {
@@ -45,23 +45,23 @@ type Story = StoryObj<typeof GlobalMessage>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const SuccessMessage: Story = {
   render: ({linkUrl, linkText, ...args}) => {
-    if(linkUrl && linkText) {
-      args.link = {
+    if (linkUrl && linkText) {
+      args.su_global_msg_link = {
         title: linkText,
         url: linkUrl,
         uri: linkUrl,
       }
     }
-    return <GlobalMessage {...args}/>
+    return <GlobalMessage configPage={args}/>
   },
   args: {
-    type: 'success',
-    message: '<p>Rutrum nec ipsum lacus portaest cursus orci dolor gravida gravida eget nulla ipsum elementum leo enim vivamus quam lorem tempus quis cursus sem nec pellentesque. <a href="#">Link text</a></p><p><a class="su-button" href="#">Button text</a></p><p><a class="su-button--secondary" href="#">Secondary text</a></p>',
-    label: 'Placerat lacus ut eget leo.',
-    header: 'Accumsan eget amet id sollicitudin.',
+    su_global_msg_type: 'success',
+    su_global_msg_message: '<p>Rutrum nec ipsum lacus portaest cursus orci dolor gravida gravida eget nulla ipsum elementum leo enim vivamus quam lorem tempus quis cursus sem nec pellentesque. <a href="#">Link text</a></p><p><a class="su-button" href="#">Button text</a></p><p><a class="su-button--secondary" href="#">Secondary text</a></p>',
+    su_global_msg_label: 'Placerat lacus ut eget leo.',
+    su_global_msg_header: 'Accumsan eget amet id sollicitudin.',
     linkText: 'Sem quisque placerat quis suspendisse.',
     linkUrl: 'http://localhost',
-    enabled: true,
+    su_global_msg_enabled: true,
   },
 };
 
@@ -69,7 +69,7 @@ export const InfoMessage: Story = {
   render: SuccessMessage.render,
   args: {
     ...SuccessMessage.args,
-    type: "info",
+    su_global_msg_type: "info",
   }
 }
 
@@ -77,7 +77,7 @@ export const ErrorMessage: Story = {
   render: SuccessMessage.render,
   args: {
     ...SuccessMessage.args,
-    type: "error",
+    su_global_msg_type: "error",
   }
 }
 
@@ -85,7 +85,7 @@ export const WarningMessage: Story = {
   render: SuccessMessage.render,
   args: {
     ...SuccessMessage.args,
-    type: "warning",
+    su_global_msg_type: "warning",
   }
 }
 
@@ -94,6 +94,6 @@ export const PlainMessage: Story = {
   render: SuccessMessage.render,
   args: {
     ...SuccessMessage.args,
-    type: "plain",
+    su_global_msg_type: "plain",
   }
 }
