@@ -88,10 +88,10 @@ tasks:
       echo $SSH_PRIVATE_KEY | base64 -d > ~/.ssh/id_rsa &&
       chmod 600 ~/.ssh/id_rsa &&
       cd /workspace/front &&
-# git remote set-url origin git@github.com:SU-SWS/sulgryphon-nextjs.git &&
       [[ ! -z $GITCONFIG  ]] &&
       echo $GITCONFIG | base64 -d > ~/.gitconfig &&
       chmod 644 ~/.gitconfig
+#      git remote set-url origin git@github.com:SU-SWS/sulgryphon-nextjs.git
 
 vscode:
   extensions:
