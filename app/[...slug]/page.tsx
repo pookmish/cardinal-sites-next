@@ -15,25 +15,21 @@ const Page = async ({params}: PageProps) => {
   const path = getPathFromContext({params})
   if (!await pathIsValid(path)) notFound();
 
-  const routeInfo = await getEntityFromPath<NodeUnion>(path, isDraftMode())
-  if (routeInfo?.redirect?.url) redirect(routeInfo.redirect.url)
-  if (!routeInfo?.entity) notFound();
+  const {redirect: redirectPath, entity} = await getEntityFromPath<NodeUnion>(path, isDraftMode())
+  if (redirectPath?.url) redirect(redirectPath.url)
+  if (!entity) notFound();
 
   return (
-    <NodePage node={routeInfo.entity}/>
+    <NodePage node={entity}/>
   )
 }
 
 export const generateMetadata = async ({params}: PageProps): Promise<Metadata> => {
   const path = getPathFromContext({params})
-  if (!await pathIsValid(path, 'node')) return {};
+  if (isDraftMode() || !await pathIsValid(path, 'node')) return {};
 
-  try {
-    const routeInfo = await getEntityFromPath<NodeUnion>(path)
-    if (routeInfo?.entity) return getNodeMetadata(routeInfo.entity);
-  } catch (e) {
-  }
-  return {}
+  const {entity} = await getEntityFromPath<NodeUnion>(path, isDraftMode())
+  return entity ? getNodeMetadata(entity) : {};
 }
 
 export const generateStaticParams = async (): Promise<Params[]> => {

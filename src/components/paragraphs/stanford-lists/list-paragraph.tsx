@@ -100,7 +100,7 @@ const getViewItems = async (viewId: string, displayId: string, contextualFilter?
       break
   }
 
-  const client = graphqlClient(undefined, {next: {tags: cacheTags}});
+  const client = graphqlClient();
   let filters = getViewFilters(['term_node_taxonomy_name_depth'], contextualFilter)
   let graphqlResponse;
 

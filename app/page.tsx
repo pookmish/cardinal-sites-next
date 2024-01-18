@@ -11,30 +11,26 @@ import BannerParagraph from "@components/paragraphs/stanford-banner/banner-parag
 export const revalidate = 86400;
 
 const Home = async () => {
-  const routeInfo = await getEntityFromPath<NodeStanfordPage>('/', isDraftMode());
-  if (!routeInfo?.entity) notFound();
+  const {entity} = await getEntityFromPath<NodeStanfordPage>('/', isDraftMode());
+  if (!entity) notFound();
 
   return (
     <article>
-      {routeInfo.entity.suPageBanner?.__typename === 'ParagraphStanfordBanner' &&
+      {entity.suPageBanner?.__typename === 'ParagraphStanfordBanner' &&
         <header aria-label="Home Page banner">
-          <BannerParagraph paragraph={routeInfo.entity.suPageBanner} eagerLoadImage/>
+          <BannerParagraph paragraph={entity.suPageBanner} eagerLoadImage/>
         </header>
       }
-      {routeInfo.entity.suPageComponents &&
-        <Rows components={routeInfo.entity.suPageComponents}/>
+      {entity.suPageComponents &&
+        <Rows components={entity.suPageComponents}/>
       }
     </article>
   )
 }
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  try {
-    const routeInfo = await getEntityFromPath<NodeUnion>('/')
-    if (routeInfo?.entity) return getNodeMetadata(routeInfo.entity);
-  } catch (e) {
-  }
-  return {}
+  const {entity} = await getEntityFromPath<NodeUnion>('/')
+  return entity ? getNodeMetadata(entity) : {};
 }
 
 export default Home;

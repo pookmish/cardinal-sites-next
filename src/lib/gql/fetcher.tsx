@@ -16,7 +16,7 @@ export const graphqlClient = (accessToken?: string, requestConfig: RequestConfig
   return getSdk(client);
 }
 
-export const getEntityFromPath = cache(async <T extends NodeUnion | TermUnion, >(path: string, draftMode: boolean = false): Promise<{entity?: T, redirect?: RouteRedirect} | undefined> => {
+export const getEntityFromPath = cache(async <T extends NodeUnion | TermUnion, >(path: string, draftMode: boolean = false): Promise<{entity?: T, redirect?: RouteRedirect}> => {
   const cacheKey = path.replaceAll('/', ':');
   const token = await getAccessToken(draftMode);
   let entity = nodeCache.get<T>(cacheKey);
@@ -27,7 +27,7 @@ export const getEntityFromPath = cache(async <T extends NodeUnion | TermUnion, >
       query = await graphqlClient(token?.access_token).Route({path});
     } catch (e) {
       console.error(`Error fetching route data for '${path}'. ` + (e instanceof Error && e.message));
-      return;
+      return {entity, redirect: undefined};
     }
 
     if (query.route?.__typename === 'RouteRedirect') return {redirect: query.route, entity};

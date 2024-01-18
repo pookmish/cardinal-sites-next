@@ -24,7 +24,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
   const timezone = node.suEventDateTime.timezone || 'America/Los_Angeles';
 
   return (
-    <article className="centered mt-32" {...props}>
+    <article className="centered mt-32 flex flex-col gap-20" {...props}>
       <div className="flex flex-col">
         <H1 className="order-2">
           {node.title}
@@ -38,14 +38,14 @@ const StanfordEventPage = ({node, ...props}: Props) => {
 
       </div>
       {node.suEventSubheadline &&
-        <div className="text-m2 font-bold mb-10">{node.suEventSubheadline}</div>
+        <div className="text-m2 font-bold">{node.suEventSubheadline}</div>
       }
       {node.suEventDek &&
-        <div className="mb-20">{node.suEventDek}</div>
+        <div>{node.suEventDek}</div>
       }
 
       {node.suEventSponsor &&
-        <div className="mb-20">
+        <div>
           {node.suEventSponsor.map((sponsor, i) =>
             <div key={`${node.id}-sponsor-${i}`}>
               {sponsor}
@@ -55,7 +55,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
       }
 
 
-      <div className="border border-black-40 py-20 px-10 lg:px-48 lg:w-3/4 mx-auto mb-32">
+      <div className="border border-black-40 py-20 px-10 lg:px-48 lg:w-3/4 mx-auto">
         <H2 className="text-m2">Event Details:</H2>
         <div className="grid items-start lg:grid-cols-2 gap-20">
           <time className="flex items-center gap-5" dateTime={startTime.toISOString()}>
@@ -132,12 +132,12 @@ const StanfordEventPage = ({node, ...props}: Props) => {
         }
       </div>
 
-      <div className="lg:w-3/4 mx-auto">
-        {node.body &&
-          <Wysiwyg html={node.body.processed}/>
-        }
-      </div>
 
+      {node.body?.processed &&
+        <div className="lg:w-3/4 mx-auto">
+          <Wysiwyg html={node.body.processed}/>
+        </div>
+      }
 
       {node.suEventComponents &&
         <Rows components={node.suEventComponents}/>
