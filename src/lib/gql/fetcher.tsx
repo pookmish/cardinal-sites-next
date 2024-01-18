@@ -11,12 +11,20 @@ export const graphqlClient = (accessToken?: string, requestConfig: RequestConfig
 
   const client = new GraphQLClient(
     process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + '/graphql',
-    {headers, ...requestConfig}
+    {
+      headers,
+      // Use fetch function so Next.js will be able to cache it normally.
+      fetch: async (input: URL | RequestInfo, init?: RequestInit) => fetch(input, init),
+      ...requestConfig
+    }
   )
   return getSdk(client);
 }
 
-export const getEntityFromPath = cache(async <T extends NodeUnion | TermUnion, >(path: string, draftMode: boolean = false): Promise<{entity?: T, redirect?: RouteRedirect}> => {
+export const getEntityFromPath = cache(async <T extends NodeUnion | TermUnion, >(path: string, draftMode: boolean = false): Promise<{
+  entity?: T,
+  redirect?: RouteRedirect
+}> => {
   const cacheKey = path.replaceAll('/', ':');
   const token = await getAccessToken(draftMode);
   let entity = nodeCache.get<T>(cacheKey);

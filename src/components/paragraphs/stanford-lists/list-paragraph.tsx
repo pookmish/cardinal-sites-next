@@ -67,40 +67,40 @@ const getViewItems = async (viewId: string, displayId: string, contextualFilter?
   if (items) return items;
   items = [];
 
-  const cacheTags = ['views'];
+  const tags = ['views'];
   switch (`${viewId}--${displayId}`) {
     case 'stanford_basic_pages--basic_page_type_list':
     case 'stanford_basic_pages--viewfield_block_1':
-      cacheTags.push('views:stanford_page');
+      tags.push('views:stanford_page');
       break
 
     case 'stanford_courses--default_list_viewfield_block':
     case 'stanford_courses--vertical_teaser_viewfield_block':
-      cacheTags.push('views:stanford_course');
+      tags.push('views:stanford_course');
       break
 
     case 'stanford_events--cards':
     case 'stanford_events--list_page':
     case 'stanford_events--past_events_list_block':
-      cacheTags.push('views:stanford_event');
+      tags.push('views:stanford_event');
       break
 
     case 'stanford_news--block_1':
     case 'stanford_news--vertical_cards':
-      cacheTags.push('views:stanford_news');
+      tags.push('views:stanford_news');
       break
 
     case 'stanford_person--grid_list_all':
-      cacheTags.push('views:stanford_person');
+      tags.push('views:stanford_person');
       break
 
     case 'stanford_publications--apa_list':
     case 'stanford_publications--chicago_list':
-      cacheTags.push('views:stanford_publication');
+      tags.push('views:stanford_publication');
       break
   }
 
-  const client = graphqlClient();
+  const client = graphqlClient(undefined, {next: {tags}});
   let filters = getViewFilters(['term_node_taxonomy_name_depth'], contextualFilter)
   let graphqlResponse;
 
@@ -166,7 +166,7 @@ const getViewItems = async (viewId: string, displayId: string, contextualFilter?
   }
 
   // Cache for long enough that we don't re-fetch for the same view.
-  cache.set(cacheKey, items, 60 * 60);
+  cache.set(cacheKey, items, 60);
   return items;
 }
 
