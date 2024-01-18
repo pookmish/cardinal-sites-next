@@ -30,10 +30,11 @@ const CardParagraphDisplay = ({media, header, supHeader, body, link}: Props) => 
       {imageUrl &&
         <div className="relative aspect-[16/9] w-full">
           <Image
-            src={imageUrl}
-            alt={imageAlt ?? ""}
-            fill
             className="object-cover object-center"
+            src={imageUrl}
+            alt={imageAlt || ""}
+            fill
+            sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
           />
         </div>
       }

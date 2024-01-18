@@ -1,20 +1,14 @@
 import StanfordEventListItem from "@components/nodes/list-item/stanford-event/stanford-event-list-item";
 import LoadMoreList from "@components/elements/load-more-list";
 import EventsFilteredListView from "@components/views/stanford-events/events-filtered-list-view";
-import {NodeStanfordEvent, TermUnion, Maybe} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordEvent, TermUnion} from "@lib/gql/__generated__/drupal";
 
 interface Props {
-  emptyMessage?: Maybe<string>
   headingLevel: string
   items?: NodeStanfordEvent[]
 }
 
-const EventsListView = async ({items = [], emptyMessage, headingLevel}: Props) => {
-
-  if (items.length === 0) {
-    return emptyMessage ? <div>{emptyMessage}</div> : null;
-  }
-
+const EventsListView = async ({items = [], headingLevel}: Props) => {
   if (items.length >= 5) {
     const topics: TermUnion[] = [];
     items.map(event => event.suEventType?.map(topic => topics.push(topic)))

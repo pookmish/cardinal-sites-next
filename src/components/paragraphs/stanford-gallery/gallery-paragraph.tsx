@@ -21,12 +21,14 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
         <Wysiwyg html={paragraph.suGalleryDescription?.processed}/>
       }
 
-      {paragraph.suGalleryImages &&
-        <div className="grid @3xl:grid-cols-2 @6xl:grid-cols-3 gap-20">
+      {(paragraph.suGalleryImages && paragraph.suGalleryImages?.length > 0) &&
+        <ul className="list-unstyled grid @3xl:grid-cols-2 @6xl:grid-cols-3 gap-20">
           {paragraph.suGalleryImages.map(image =>
-            <GalleryImage image={image} key={image.id}/>
+            <li key={image.id} className="m-0">
+              <GalleryImage image={image}/>
+            </li>
           )}
-        </div>
+        </ul>
       }
 
       {paragraph.suGalleryButton &&
@@ -43,17 +45,17 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
 const GalleryImage = ({image}: { image: MediaUnion }) => {
   if (image.__typename !== 'MediaStanfordGalleryImage' || !image.suGalleryImage?.url) return;
   const imageUrl = image.suGalleryImage?.url
-  const imageAlt = image.suGalleryImage?.alt || ''
 
   return (
     <figure>
       <div className="relative aspect-[4/3] w-full">
-        <Link href={`/gallery-image/${image.id}`}>
+        <Link href={`/gallery-image/${image.id}`} className="block relative w-full h-full">
           <Image
-            src={imageUrl}
-            alt={imageAlt}
-            fill
             className="object-cover"
+            src={imageUrl}
+            alt={image.suGalleryImage?.alt || ''}
+            fill
+            sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
           />
         </Link>
       </div>

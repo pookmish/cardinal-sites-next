@@ -68,11 +68,12 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
         <figure className="mb-32">
           <div className="relative w-full aspect-[16/9]">
             <Image
+              className="object-cover"
               src={bannerImageUrl}
               alt={bannerImageAlt}
-              fill
-              className="object-cover"
               loading="eager"
+              fill
+              sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
             />
           </div>
           {node.suNewsBannerMediaCaption &&

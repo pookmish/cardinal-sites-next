@@ -252,8 +252,9 @@ const WysiwygImage = ({src, alt, height, width, className = ''}: {
       <Image
         className="object-cover object-center"
         src={src.trim()}
-        alt={alt ? alt.trim() : ""}
-        fill={true}
+        alt={alt?.trim() || ""}
+        fill
+        sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 1500px'}
       />
     </div>
   )

@@ -28,11 +28,12 @@ const BannerParagraphDisplay = ({media, header, supHeader, body, link}: Props) =
         className="aspect-[16/9] @6xl:aspect-auto relative @6xl:absolute w-full @6xl:h-full bg-cool-grey">
         {imageUrl &&
           <Image
-            src={imageUrl}
-            alt={imageAlt ?? ""}
-            fill
             className="object-cover"
+            src={imageUrl}
+            alt={imageAlt || ""}
             loading={media?.loading || 'lazy'}
+            fill
+            sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
           />
         }
       </div>

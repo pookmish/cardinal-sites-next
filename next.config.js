@@ -1,9 +1,7 @@
 const drupalUrl = new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL);
 
 const nextConfig = {
-  experimental: {
-    serverActions: true
-  },
+  experimental: {},
   typescript: {
     // Disable build errors since dev dependencies aren't loaded on prod. Rely on GitHub actions to throw any errors.
     ignoreBuildErrors: process.env.CI !== 'true',

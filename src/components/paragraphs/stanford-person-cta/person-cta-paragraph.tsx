@@ -14,16 +14,16 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const PersonCtaParagraph = ({paragraph, ...props}: Props) => {
   const image = getMediaFromEntityField<ImageType>(paragraph.suPersonCtaImage)
   const imageUrl = image?.url;
-  const imageAlt = image?.alt || '';
   return (
     <div className="centered flex gap-10" {...props}>
       {imageUrl &&
         <div className="relative aspect-[1/1] w-[200px]">
           <Image
-            src={imageUrl}
-            alt={imageAlt}
-            fill
             className="rounded-full"
+            src={imageUrl}
+            alt={image?.alt || ""}
+            fill
+            sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
           />
         </div>
       }

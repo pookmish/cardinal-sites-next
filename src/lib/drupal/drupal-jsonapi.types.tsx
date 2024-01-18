@@ -1,4 +1,4 @@
-import {Link} from "@lib/gql/__generated__/drupal";
+import {Link, Maybe} from "@lib/gql/__generated__/drupal";
 import {DrupalFile, JsonApiResource} from "next-drupal";
 
 export type LayoutParagraphBehaviors = {
@@ -137,17 +137,17 @@ export type SuperFooterConfigPageType = JsonApiResource & {
 }
 
 export type DrupalAddressFieldType = {
-  additional_name?: string
-  address_line1?: string
-  address_line2?: string
-  administrative_area?: string
-  country_code?: string
-  family_name?: string
-  given_name?: string
-  locality?: string
-  organization?: string
-  postal_code?: string
-  sorting_code?: string
+  additional_name?: Maybe<string>
+  address_line1?: Maybe<string>
+  address_line2?: Maybe<string>
+  administrative_area?: Maybe<string>
+  country_code?: Maybe<string>
+  family_name?: Maybe<string>
+  given_name?: Maybe<string>
+  locality?: Maybe<string>
+  organization?: Maybe<string>
+  postal_code?: Maybe<string>
+  sorting_code?: Maybe<string>
 }
 
 export type DrupalRedirect = JsonApiResource & {

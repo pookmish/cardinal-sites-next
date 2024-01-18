@@ -1,19 +1,13 @@
 import StanfordNewsListItem from "@components/nodes/list-item/stanford-news/stanford-news-list-item";
 import LoadMoreList from "@components/elements/load-more-list";
-import {NodeStanfordNews, Maybe} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordNews} from "@lib/gql/__generated__/drupal";
 
 interface Props {
-  emptyMessage?: Maybe<string>
   headingLevel: string
   items?: NodeStanfordNews[]
 }
 
-const NewsListView = async ({items = [], emptyMessage, headingLevel}: Props) => {
-
-  if (items.length === 0) {
-    return emptyMessage ? <div>{emptyMessage}</div> : null;
-  }
-
+const NewsListView = async ({items = [], headingLevel}: Props) => {
   return (
     <LoadMoreList
       buttonText={<>Load More<span className="sr-only">&nbsp;news</span></>}

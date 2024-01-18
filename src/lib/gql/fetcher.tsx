@@ -2,7 +2,8 @@ import {getSdk, NodeUnion, RouteQuery, RouteRedirect, TermUnion} from "@lib/gql/
 import {GraphQLClient} from "graphql-request";
 import type {RequestConfig} from "graphql-request/src/types";
 import {getAccessToken} from "@lib/drupal/get-access-token";
-import {cache} from "@lib/drupal/get-cache";
+import {cache as nodeCache} from "@lib/drupal/get-cache";
+import {cache} from "react";
 
 export const graphqlClient = (accessToken?: string, requestConfig: RequestConfig = {}) => {
   const headers: Record<string, string> = {'Content-Type': 'application/json'}
@@ -15,10 +16,10 @@ export const graphqlClient = (accessToken?: string, requestConfig: RequestConfig
   return getSdk(client);
 }
 
-export const getEntityFromPath = async <T extends NodeUnion | TermUnion, >(path: string, draftMode: boolean = false): Promise<{entity?: T, redirect?: RouteRedirect} | undefined> => {
-  const cacheKey = path.replaceAll('/', '--');
+export const getEntityFromPath = cache(async <T extends NodeUnion | TermUnion, >(path: string, draftMode: boolean = false): Promise<{entity?: T, redirect?: RouteRedirect} | undefined> => {
+  const cacheKey = path.replaceAll('/', ':');
   const token = await getAccessToken(draftMode);
-  let entity = cache.get<T>(cacheKey);
+  let entity = nodeCache.get<T>(cacheKey);
 
   if (!entity || token) {
     let query: RouteQuery;
@@ -33,8 +34,8 @@ export const getEntityFromPath = async <T extends NodeUnion | TermUnion, >(path:
     entity = (query.route?.__typename === 'RouteInternal' && query.route.entity) ? query.route.entity as T : undefined
 
     // Just cache the entity for 10 seconds so that any remaining queries during the build process will result in the cached data.
-    if (entity) cache.set(cacheKey, entity, 10);
+    if (entity) nodeCache.set(cacheKey, entity, 10);
   }
 
   return {entity, redirect: undefined};
-}
+})

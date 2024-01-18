@@ -2,7 +2,7 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import Button from "@components/elements/button";
 import View from "@components/views/view";
 import {H2} from "@components/elements/headers";
-import {HtmlHTMLAttributes} from "react";
+import {HtmlHTMLAttributes, Suspense} from "react";
 import {Maybe, NodeUnion, ParagraphStanfordList} from "@lib/gql/__generated__/drupal";
 
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
@@ -35,14 +35,19 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
         <Wysiwyg html={paragraph.suListDescription?.processed}/>
       }
 
-      {(viewId && displayId) &&
-        <View
-          viewId={viewId}
-          displayId={displayId}
-          items={viewItems}
-          emptyMessage={behaviors.list_paragraph?.empty_message}
-          headingLevel={paragraph.suListHeadline ? 'h3' : 'h2'}
-        />
+      {(viewItems.length > 0) &&
+        <Suspense fallback={null}>
+          <View
+            viewId={viewId}
+            displayId={displayId}
+            items={viewItems}
+            headingLevel={paragraph.suListHeadline ? 'h3' : 'h2'}
+          />
+        </Suspense>
+      }
+
+      {(viewItems.length === 0 && behaviors.list_paragraph?.empty_message) &&
+        <p>{behaviors.list_paragraph.empty_message}</p>
       }
 
       {paragraph.suListButton?.url &&
@@ -62,7 +67,40 @@ const getViewItems = async (viewId: string, displayId: string, contextualFilter?
   if (items) return items;
   items = [];
 
-  const client = graphqlClient();
+  const cacheTags = ['views'];
+  switch (`${viewId}--${displayId}`) {
+    case 'stanford_basic_pages--basic_page_type_list':
+    case 'stanford_basic_pages--viewfield_block_1':
+      cacheTags.push('views:stanford_page');
+      break
+
+    case 'stanford_courses--default_list_viewfield_block':
+    case 'stanford_courses--vertical_teaser_viewfield_block':
+      cacheTags.push('views:stanford_course');
+      break
+
+    case 'stanford_events--cards':
+    case 'stanford_events--list_page':
+    case 'stanford_events--past_events_list_block':
+      cacheTags.push('views:stanford_event');
+      break
+
+    case 'stanford_news--block_1':
+    case 'stanford_news--vertical_cards':
+      cacheTags.push('views:stanford_news');
+      break
+
+    case 'stanford_person--grid_list_all':
+      cacheTags.push('views:stanford_person');
+      break
+
+    case 'stanford_publications--apa_list':
+    case 'stanford_publications--chicago_list':
+      cacheTags.push('views:stanford_publication');
+      break
+  }
+
+  const client = graphqlClient(undefined, {next: {tags: cacheTags}});
   let filters = getViewFilters(['term_node_taxonomy_name_depth'], contextualFilter)
   let graphqlResponse;
 

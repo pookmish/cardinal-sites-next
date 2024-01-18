@@ -14,7 +14,6 @@ const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
   const image = getMediaFromEntityField<ImageType>(node.suPageImage) || getMediaFromEntityField<ImageType>(node.suPageBanner?.__typename === 'ParagraphStanfordBanner' ? node.suPageBanner?.suBannerImage : undefined);
 
   const imageUrl = image?.url
-  const imageAlt = image?.alt || '';
 
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
@@ -36,10 +35,11 @@ const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
           <div
             className="order-1 @4xl:order-2 relative aspect-[16/9] h-fit w-full @4xl:w-1/4 shrink-0">
             <Image
-              src={imageUrl}
-              alt={imageAlt}
-              fill
               className="object-cover"
+              src={imageUrl}
+              alt={image?.alt || ''}
+              fill
+              sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
             />
           </div>
         }

@@ -13,7 +13,6 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
   const image = getMediaFromEntityField<ImageType>(node.suNewsFeaturedMedia)
   const imageUrl = image?.url;
-  const imageAlt = image?.alt || '';
 
   const publishDate = node.suNewsPublishingDate && new Date(node.suNewsPublishingDate.time);
 
@@ -53,10 +52,11 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
         {imageUrl &&
           <div className="order-1 @3xl:order-2 relative aspect-[16/9] @3xl:w-1/4 mb-10 @3xl:mb-0 shrink-0">
             <Image
-              src={imageUrl}
-              alt={imageAlt}
-              fill
               className="object-cover"
+              src={imageUrl}
+              alt={image?.alt || ''}
+              fill
+              sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
             />
           </div>
         }

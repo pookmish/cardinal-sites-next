@@ -140,9 +140,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
 
 
       {node.suEventComponents &&
-        <div>
-          <Rows components={node.suEventComponents}/>
-        </div>
+        <Rows components={node.suEventComponents}/>
       }
 
       {node.suEventSchedule &&

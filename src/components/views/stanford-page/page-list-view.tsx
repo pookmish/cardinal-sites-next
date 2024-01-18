@@ -1,17 +1,13 @@
 import StanfordPageListItem from "@components/nodes/list-item/stanford-page/stanford-page-list-item";
 import LoadMoreList from "@components/elements/load-more-list";
-import {NodeStanfordPage, Maybe} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordPage} from "@lib/gql/__generated__/drupal";
 
 interface Props {
-  emptyMessage?: Maybe<string>
   headingLevel: string
   items?: NodeStanfordPage[]
 }
 
-const PageListView = async ({emptyMessage, items = [], headingLevel}: Props) => {
-  if (items.length === 0) {
-    return emptyMessage ? <div>{emptyMessage}</div> : null;
-  }
+const PageListView = async ({items = [], headingLevel}: Props) => {
   return (
     <LoadMoreList
       ulProps={{className: "list-unstyled mb-20"}}

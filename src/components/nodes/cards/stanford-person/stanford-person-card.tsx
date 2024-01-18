@@ -19,10 +19,11 @@ const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
       {imageUrl &&
         <div className="relative aspect-[1/1] mx-auto mb-20 w-3/5">
           <Image
+            className="rounded-full object-cover"
             src={imageUrl}
             alt=""
             fill
-            className="rounded-full object-cover"
+            sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
           />
         </div>
       }

@@ -23,10 +23,11 @@ const MediaCaptionParagraphDisplay = ({media, caption, link}: Props) => {
       {imageUrl &&
         <div className="relative aspect-[16/9] w-full">
           <Image
-            src={imageUrl}
-            alt={imageAlt ?? ""}
-            fill={true}
             className="object-cover"
+            src={imageUrl}
+            alt={imageAlt || ""}
+            fill
+            sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
           />
         </div>
       }

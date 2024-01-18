@@ -17,19 +17,17 @@ import {
   NodeStanfordPage,
   NodeStanfordPerson,
   NodeStanfordPublication,
-  NodeUnion,
-  Maybe
+  NodeUnion
 } from "@lib/gql/__generated__/drupal";
 
 interface Props {
   viewId: string;
   displayId: string;
-  emptyMessage?: Maybe<string>;
+  items: NodeUnion[]
   headingLevel?: string
-  items?: NodeUnion[]
 }
 
-const View = async ({viewId, displayId, emptyMessage, items, headingLevel = 'h3'}: Props) => {
+const View = async ({viewId, displayId, items, headingLevel = 'h3'}: Props) => {
   const component = `${viewId}--${displayId}`;
 
   switch (component) {
@@ -37,35 +35,30 @@ const View = async ({viewId, displayId, emptyMessage, items, headingLevel = 'h3'
       return <PageListView
         items={items as NodeStanfordPage[]}
         headingLevel={headingLevel}
-        emptyMessage={emptyMessage}
       />
 
     case 'stanford_news--vertical_cards':
       return <NewsCardView
         items={items as NodeStanfordNews[]}
         headingLevel={headingLevel}
-        emptyMessage={emptyMessage}
       />
 
     case 'stanford_news--block_1':
       return <NewsListView
         items={items as NodeStanfordNews[]}
         headingLevel={headingLevel}
-        emptyMessage={emptyMessage}
       />
 
     case 'stanford_person--grid_list_all':
       return <PersonCardView
         items={items as NodeStanfordPerson[]}
         headingLevel={headingLevel}
-        emptyMessage={emptyMessage}
       />
 
     case 'stanford_events--cards':
       return <EventsCardView
         items={items as NodeStanfordEvent[]}
         headingLevel={headingLevel}
-        emptyMessage={emptyMessage}
       />
 
     case 'stanford_events--past_events_list_block':
@@ -73,49 +66,42 @@ const View = async ({viewId, displayId, emptyMessage, items, headingLevel = 'h3'
       return <EventsListView
         items={items as NodeStanfordEvent[]}
         headingLevel={headingLevel}
-        emptyMessage={emptyMessage}
       />
 
     case 'stanford_basic_pages--viewfield_block_1':
       return <PageCardView
         items={items as NodeStanfordPage[]}
         headingLevel={headingLevel}
-        emptyMessage={emptyMessage}
       />
 
     case 'stanford_shared_tags--card_grid':
       return <SharedTagsCardView
         items={items}
         headingLevel={headingLevel}
-        emptyMessage={emptyMessage}
       />
 
     case 'stanford_courses--default_list_viewfield_block':
       return <CourseListView
         items={items as NodeStanfordCourse[]}
         headingLevel={headingLevel}
-        emptyMessage={emptyMessage}
       />
 
     case 'stanford_courses--vertical_teaser_viewfield_block':
       return <CourseCardView
         items={items as NodeStanfordCourse[]}
         headingLevel={headingLevel}
-        emptyMessage={emptyMessage}
       />
 
     case 'stanford_publications--apa_list':
       return <PublicationsApaView
         items={items as NodeStanfordPublication[]}
         headingLevel={headingLevel}
-        emptyMessage={emptyMessage}
       />
 
     case 'stanford_publications--chicago_list':
       return <PublicationsChicagoView
         items={items as NodeStanfordPublication[]}
         headingLevel={headingLevel}
-        emptyMessage={emptyMessage}
       />
   }
 }
