@@ -15,7 +15,7 @@ const StanfordPagePage = ({node, ...props}: Props) => {
 
   return (
     <article {...props}>
-      {node.suPageBanner?.__typename === 'ParagraphStanfordBanner' &&
+      {node.suPageBanner &&
         <header aria-label="Page banner">
           <BannerParagraph paragraph={node.suPageBanner} eagerLoadImage/>
         </header>

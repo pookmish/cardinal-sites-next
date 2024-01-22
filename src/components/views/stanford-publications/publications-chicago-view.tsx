@@ -7,6 +7,7 @@ interface Props {
   headingLevel: string
   items?: NodeStanfordPublication[]
 }
+
 const PublicationsChicagoView = async ({items = [], headingLevel}: Props) => {
   return (
     <LoadMoreList

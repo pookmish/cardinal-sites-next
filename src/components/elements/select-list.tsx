@@ -96,7 +96,18 @@ interface Props {
   name?: Maybe<string>
 }
 
-const SelectList = ({options = [], label, multiple, ariaLabelledby, required, defaultValue, name, emptyValue, emptyLabel = "- None -", ...props}: Props) => {
+const SelectList = ({
+  options = [],
+  label,
+  multiple,
+  ariaLabelledby,
+  required,
+  defaultValue,
+  name,
+  emptyValue,
+  emptyLabel = "- None -",
+  ...props
+}: Props) => {
   const labelId = useId();
   const labeledBy = ariaLabelledby ?? labelId;
 

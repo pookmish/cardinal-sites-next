@@ -1,6 +1,5 @@
 import {decode} from 'html-entities';
 import {
-  Image,
   Maybe,
   NodeStanfordEvent,
   NodeStanfordNews,
@@ -8,7 +7,6 @@ import {
   NodeStanfordPerson, NodeStanfordPolicy,
   NodeUnion, ParagraphStanfordWysiwyg, ParagraphUnion
 } from "@lib/gql/__generated__/drupal";
-import {getMediaFromEntityField} from "@lib/drupal/get-media-from-entity";
 
 export const getNodeMetadata = (node: NodeUnion) => {
   const defaultData = {
@@ -50,8 +48,8 @@ export const getNodeMetadata = (node: NodeUnion) => {
 }
 
 const getBasicPageMetaData = (node: NodeStanfordPage) => {
-  const pageImage = getMediaFromEntityField<Image>(node.suPageImage);
-  const bannerImage = getMediaFromEntityField<Image>(node.suPageBanner?.__typename === 'ParagraphStanfordBanner' ? node.suPageBanner?.suBannerImage : undefined);
+  const pageImage = node.suPageImage?.mediaImage
+  const bannerImage = node.suPageBanner?.suBannerImage?.mediaImage;
 
   const imageUrl = pageImage?.url || bannerImage?.url
   const imageAlt = pageImage?.alt || bannerImage?.alt || '';
@@ -69,8 +67,8 @@ const getBasicPageMetaData = (node: NodeStanfordPage) => {
 }
 
 const getNewsMetaData = (node: NodeStanfordNews) => {
-  const pageImage = getMediaFromEntityField<Image>(node.suNewsFeaturedMedia);
-  const bannerImage = getMediaFromEntityField<Image>(node.suNewsBanner);
+  const pageImage = node.suNewsFeaturedMedia?.mediaImage;
+  const bannerImage = node.suNewsBanner?.__typename === 'MediaImage' ? node.suNewsBanner.mediaImage : undefined;
 
   const imageUrl = pageImage?.url || bannerImage?.url
   const imageAlt = pageImage?.alt || bannerImage?.alt || '';
@@ -96,7 +94,7 @@ const getNewsMetaData = (node: NodeStanfordNews) => {
 }
 
 const getPersonMetaData = (node: NodeStanfordPerson) => {
-  const pageImage = getMediaFromEntityField<Image>(node.suPersonPhoto);
+  const pageImage = node.suPersonPhoto?.mediaImage;
   const imageUrl = pageImage?.url;
   const imageAlt = pageImage?.alt || '';
   const description = node.suPersonFullTitle ?? getCleanDescription(node.body?.processed);

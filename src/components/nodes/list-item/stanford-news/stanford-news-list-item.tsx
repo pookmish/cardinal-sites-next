@@ -2,8 +2,7 @@ import Image from "next/image";
 import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {Image as ImageType, NodeStanfordNews, TermUnion} from "@lib/gql/__generated__/drupal";
-import {getMediaFromEntityField} from "@lib/drupal/get-media-from-entity";
+import {NodeStanfordNews, TermUnion} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
@@ -11,8 +10,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
-  const image = getMediaFromEntityField<ImageType>(node.suNewsFeaturedMedia)
-  const imageUrl = image?.url;
+  const image = node.suNewsFeaturedMedia?.mediaImage
 
   const publishDate = node.suNewsPublishingDate && new Date(node.suNewsPublishingDate.time);
 
@@ -49,12 +47,12 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
           }
         </div>
 
-        {imageUrl &&
+        {image?.url &&
           <div className="order-1 @3xl:order-2 relative aspect-[16/9] @3xl:w-1/4 mb-10 @3xl:mb-0 shrink-0">
             <Image
               className="object-cover"
-              src={imageUrl}
-              alt={image?.alt || ''}
+              src={image.url}
+              alt={image.alt || ''}
               fill
               sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
             />

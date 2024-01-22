@@ -25,7 +25,7 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <article aria-labelledby={node.id}
-      className="mx-auto shadow-lg border border-black-20 p-10 flex flex-col gap-10 overflow-hidden" {...props}>
+             className="mx-auto shadow-lg border border-black-20 p-10 flex flex-col gap-10 overflow-hidden" {...props}>
       <div aria-hidden className="flex flex-col items-start w-fit">
         <div className="text-m0 font-semibold mb-4 w-full text-center">
           {startMonth.toUpperCase()}

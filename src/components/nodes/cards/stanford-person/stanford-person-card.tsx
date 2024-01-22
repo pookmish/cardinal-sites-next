@@ -2,8 +2,7 @@ import Image from "next/image";
 import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {NodeStanfordPerson, Image as ImageType} from "@lib/gql/__generated__/drupal";
-import {getMediaFromEntityField} from "@lib/drupal/get-media-from-entity";
+import {NodeStanfordPerson} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPerson
@@ -11,7 +10,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
-  const imageUrl = getMediaFromEntityField<ImageType>(node.suPersonPhoto)?.url
+  const imageUrl = node.suPersonPhoto?.mediaImage.url
 
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (

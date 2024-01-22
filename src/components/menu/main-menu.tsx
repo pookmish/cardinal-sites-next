@@ -121,7 +121,7 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
     // Child menu item styles.
     {
       'ml-5 lg:ml-0 lg:pl-5': level !== 0,
-      'border-digital-red':  level !== 0 && isCurrent,
+      'border-digital-red': level !== 0 && isCurrent,
       'border-transparent': level !== 0 && !isCurrent
     }
   )

@@ -3,7 +3,7 @@ import {NodeUnion} from "@lib/gql/__generated__/drupal";
 
 interface Props {
   headingLevel: string
-  items?:NodeUnion[]
+  items?: NodeUnion[]
 }
 
 const SharedTagsCardView = async ({items = [], headingLevel}: Props) => {

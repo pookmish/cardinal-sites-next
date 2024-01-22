@@ -15,7 +15,16 @@ type Props = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> & {
   prefetch?: boolean
 }
 
-export const Button = ({href, buttonElem = false, big = false, secondary = false, centered = false, children, className, ...props}: Props) => {
+export const Button = ({
+  href,
+  buttonElem = false,
+  big = false,
+  secondary = false,
+  centered = false,
+  children,
+  className,
+  ...props
+}: Props) => {
 
   const standardClasses = clsx(
     {

@@ -1,27 +1,22 @@
 import Image from "next/image";
 import Link from "@components/elements/link";
 import {HtmlHTMLAttributes} from "react";
-import {
-  ParagraphStanfordPersonCtum,
-  Image as ImageType
-} from "@lib/gql/__generated__/drupal";
-import {getMediaFromEntityField} from "@lib/drupal/get-media-from-entity";
+import {ParagraphStanfordPersonCtum,} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordPersonCtum
 }
 
 const PersonCtaParagraph = ({paragraph, ...props}: Props) => {
-  const image = getMediaFromEntityField<ImageType>(paragraph.suPersonCtaImage)
-  const imageUrl = image?.url;
+  const image = paragraph.suPersonCtaImage?.mediaImage
   return (
     <div className="centered flex gap-10" {...props}>
-      {imageUrl &&
+      {image?.url &&
         <div className="relative aspect-[1/1] w-[200px]">
           <Image
             className="rounded-full"
-            src={imageUrl}
-            alt={image?.alt || ""}
+            src={image.url}
+            alt={image.alt || ""}
             fill
             sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
           />

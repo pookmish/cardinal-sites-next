@@ -5,6 +5,7 @@ interface Props {
   headingLevel: string
   items?: NodeStanfordEvent[]
 }
+
 const EventsCardView = async ({items = [], headingLevel}: Props) => {
   return (
     <CardViewGrid items={items} headingLevel={headingLevel}/>

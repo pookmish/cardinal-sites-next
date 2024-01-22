@@ -23,7 +23,7 @@ import {Maybe} from "@lib/gql/__generated__/drupal";
 import {LocalFooterConfigPageType} from "@lib/drupal/drupal-jsonapi.types";
 import {buildUrl} from "@lib/drupal/utils";
 
-const LocalFooter = ({configPage}:{configPage?: LocalFooterConfigPageType}) => {
+const LocalFooter = ({configPage}: { configPage?: LocalFooterConfigPageType }) => {
   if (!configPage || !configPage.su_footer_enabled) return;
 
   const lockupProps = {

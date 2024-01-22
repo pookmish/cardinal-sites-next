@@ -1,15 +1,14 @@
 import React, {HtmlHTMLAttributes} from "react";
 import BannerParagraphDisplay from "@components/paragraphs/stanford-banner/banner-paragraph-display";
-import {Image, ParagraphStanfordBanner} from "@lib/gql/__generated__/drupal";
-import {getMediaFromEntityField} from "@lib/drupal/get-media-from-entity";
+import {ParagraphStanfordBanner} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordBanner
   eagerLoadImage?: boolean
 }
 
-const BannerParagraph: React.FC<Props> = ({paragraph, eagerLoadImage, ...props}: Props) => {
-  const image = getMediaFromEntityField<Image>(paragraph.suBannerImage);
+const BannerParagraph = ({paragraph, eagerLoadImage, ...props}: Props) => {
+  const image = paragraph.suBannerImage?.mediaImage
   const imageUrl = image?.url
   const imageAlt = image?.alt || '';
 

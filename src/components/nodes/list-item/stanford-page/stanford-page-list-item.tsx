@@ -2,8 +2,7 @@ import Link from "@components/elements/link";
 import Image from "next/image";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {Image as ImageType, NodeStanfordPage} from "@lib/gql/__generated__/drupal";
-import {getMediaFromEntityField} from "@lib/drupal/get-media-from-entity";
+import {NodeStanfordPage} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPage
@@ -11,9 +10,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
-  const image = getMediaFromEntityField<ImageType>(node.suPageImage) || getMediaFromEntityField<ImageType>(node.suPageBanner?.__typename === 'ParagraphStanfordBanner' ? node.suPageBanner?.suBannerImage : undefined);
-
-  const imageUrl = image?.url
+  const image = node.suPageImage?.mediaImage || node.suPageBanner?.suBannerImage?.mediaImage;
 
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
@@ -31,13 +28,13 @@ const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
           }
         </div>
 
-        {imageUrl &&
+        {image?.url &&
           <div
             className="order-1 @4xl:order-2 relative aspect-[16/9] h-fit w-full @4xl:w-1/4 shrink-0">
             <Image
               className="object-cover"
-              src={imageUrl}
-              alt={image?.alt || ''}
+              src={image.url}
+              alt={image.alt || ''}
               fill
               sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
             />

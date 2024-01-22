@@ -19,7 +19,8 @@ const StanfordPolicyCard = ({node, headingLevel, ...props}: Props) => {
 
   const teaserSummary = node.body?.summary || (trimmedBodyText + '...');
   return (
-    <article aria-labelledby={node.id} className="mx-auto shadow-xl border border-black-20 p-10 overflow-hidden" {...props}>
+    <article aria-labelledby={node.id}
+             className="mx-auto shadow-xl border border-black-20 p-10 overflow-hidden" {...props}>
 
       <Heading className="text-m2" id={node.id}>
         <Link href={node.path}>

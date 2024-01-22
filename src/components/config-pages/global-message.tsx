@@ -1,4 +1,3 @@
-
 import {GlobalMessageConfigPageType} from "@lib/drupal/drupal-jsonapi.types";
 import {BellIcon, CheckCircleIcon, ExclamationTriangleIcon, InformationCircleIcon} from "@heroicons/react/20/solid";
 import {H2} from "@components/elements/headers";
@@ -6,7 +5,7 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import Link from "@components/elements/link";
 import {clsx} from "clsx";
 
-const GlobalMessage = ({configPage}:{configPage?:GlobalMessageConfigPageType}) => {
+const GlobalMessage = ({configPage}: { configPage?: GlobalMessageConfigPageType }) => {
   if (!configPage || !configPage.su_global_msg_enabled) return;
 
   const wrapperClasses = clsx({

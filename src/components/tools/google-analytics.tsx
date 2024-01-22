@@ -2,7 +2,7 @@
 
 import {GoogleAnalytics as GA} from "nextjs-google-analytics";
 
-const GoogleAnalytics = ()  => {
+const GoogleAnalytics = () => {
   return <GA trackPageViews/>
 }
 export default GoogleAnalytics;

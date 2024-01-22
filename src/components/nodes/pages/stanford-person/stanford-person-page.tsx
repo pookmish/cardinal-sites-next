@@ -8,8 +8,7 @@ import Email from "@components/elements/email";
 import Link from "@components/elements/link";
 import {H1, H2} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {NodeStanfordPerson, Image as ImageType} from "@lib/gql/__generated__/drupal";
-import {getMediaFromEntityField} from "@lib/drupal/get-media-from-entity";
+import {NodeStanfordPerson} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPerson
@@ -17,7 +16,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordPersonPage = ({node, ...props}: Props) => {
-  const imageUrl = getMediaFromEntityField<ImageType>(node.suPersonPhoto)?.url
+  const imageUrl = node.suPersonPhoto?.mediaImage.url
 
   return (
     <article className="centered mt-32" {...props}>
