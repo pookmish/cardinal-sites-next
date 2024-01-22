@@ -49,7 +49,7 @@ const getNodePaths = async (): Promise<string[]> => {
     params.addPageOffset(page * 50);
 
     // Use JSON API to fetch the list of all node paths on the site.
-    fetchedData = await getPathsFromContext(contentTypes, {params: params.getQueryObject()})
+    fetchedData = await getPathsFromContext(contentTypes, {params: params.getQueryObject(), next: {tags: ['paths']}})
     paths = [...paths, ...fetchedData];
     fetchMore = fetchedData.length > 0;
     page++;
@@ -70,7 +70,10 @@ const getRedirectPaths = async (): Promise<string[]> => {
     params.addPageOffset(page * 50);
 
     // Use JSON API to fetch the list of all node paths on the site.
-    fetchedData = await getResourceCollection<DrupalRedirect>('redirect--redirect', {params: params.getQueryObject()})
+    fetchedData = await getResourceCollection<DrupalRedirect>('redirect--redirect', {
+      params: params.getQueryObject(),
+      next: {tags: ['paths']}
+    })
     redirects = [...redirects, ...fetchedData];
 
     fetchMore = fetchedData.length === 50;
@@ -81,7 +84,11 @@ const getRedirectPaths = async (): Promise<string[]> => {
 
 export const getPathsFromContext = async (
   types: string | string[],
-  options: { params?: JsonApiParams, accessToken?: AccessToken } = {}
+  options: {
+    params?: JsonApiParams
+    accessToken?: AccessToken
+    next?: NextFetchRequestConfig
+  } = {}
 ): Promise<PageProps[]> => {
   if (typeof types === "string") types = [types]
 
