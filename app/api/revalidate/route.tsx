@@ -12,10 +12,7 @@ export const GET = async (request: NextRequest) => {
   if (!path) {
     return NextResponse.json({message: 'Missing slug'}, {status: 400});
   }
-  const cacheTag = path.replace(/^\//, '').replaceAll('/', ':');
-
-  revalidateTag(cacheTag)
-  revalidateTag('paths')
+  revalidateTag('paths');
   revalidatePath(path);
-  return NextResponse.json({revalidated: true, path, tags: [cacheTag, 'paths']});
+  return NextResponse.json({revalidated: true, path, tags: ['paths']});
 }

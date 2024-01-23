@@ -29,7 +29,7 @@ export const getEntityFromPath = cache(async <T extends NodeUnion | TermUnion, >
 
   let query: RouteQuery;
   try {
-    query = await graphqlClient(token?.access_token).Route({path});
+    query = await graphqlClient(token?.access_token, {next: {tags: [`paths:${path}`]}}).Route({path});
   } catch (e) {
     console.error(`Error fetching route data for '${path}'. ` + (e instanceof Error && e.message));
     return {entity: undefined, redirect: undefined};
