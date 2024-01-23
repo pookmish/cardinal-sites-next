@@ -28,11 +28,13 @@ export const getAllDrupalPaths = cache(async (cacheBust?: boolean): Promise<Map<
 const getNodePaths = async (cacheBust?: boolean): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
   const pageLimit = 500;
+
   // Add a simple include so that it doesn't fetch all the data right now. The full node data comes later, we only need
   // the node paths.
   params.addInclude(['node_type']);
   params.addPageLimit(pageLimit);
 
+  // Append a parameter to bypass any cache between here and the Drupal backend.
   if (cacheBust) params.addCustomParam({'cache1': new Date().getTime()})
 
   const contentTypes = [
@@ -69,6 +71,7 @@ const getRedirectPaths = async (cacheBust?: boolean): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
   const pageLimit = 500;
   params.addPageLimit(pageLimit);
+
   if (cacheBust) params.addCustomParam({'cache1': new Date().getTime()})
 
   let redirects: DrupalRedirect[] = []

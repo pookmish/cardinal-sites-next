@@ -24,8 +24,9 @@ export const GET = async (request: NextRequest) => {
   }
   tagsInvalidated.map(tag => revalidateTag(tag));
 
+  // Fetch all the drupal paths with a cache busting string
   await getAllDrupalPaths(true);
   revalidatePath(path);
-  console.log('invalidated path', path);
+
   return NextResponse.json({revalidated: true, path, tags: tagsInvalidated});
 }
