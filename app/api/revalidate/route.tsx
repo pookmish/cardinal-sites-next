@@ -23,7 +23,7 @@ export const GET = async (request: NextRequest) => {
   }
   tagsInvalidated.map(tag => revalidateTag(tag));
 
-  await getAllDrupalPaths();
+  await getAllDrupalPaths(true);
   revalidatePath(path);
   return NextResponse.json({revalidated: true, path, tags: tagsInvalidated});
 }

@@ -17,19 +17,21 @@ export const pathIsValid = async (path: string, type?: 'node' | 'redirect') => {
   return allPaths.includes(path);
 }
 
-export const getAllDrupalPaths = async (): Promise<Map<string, string[]>> => {
+export const getAllDrupalPaths = async (cacheBust?: boolean): Promise<Map<string, string[]>> => {
   const paths = new Map();
-  paths.set('node', await getNodePaths())
-  paths.set('redirect', await getRedirectPaths())
+  paths.set('node', await getNodePaths(cacheBust))
+  paths.set('redirect', await getRedirectPaths(cacheBust))
   return paths;
 }
 
-const getNodePaths = async (): Promise<string[]> => {
+const getNodePaths = async (cacheBust?: boolean): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
   // Add a simple include so that it doesn't fetch all the data right now. The full node data comes later, we only need
   // the node paths.
   params.addInclude(['node_type']);
   params.addPageLimit(50);
+
+  if (cacheBust) params.addCustomParam({'cache': new Date().getTime()})
 
   const contentTypes = [
     'node--stanford_page',
@@ -61,7 +63,7 @@ const getNodePaths = async (): Promise<string[]> => {
   return paths.map(pagePath => getPathFromContext(pagePath)).filter(path => !!path);
 }
 
-const getRedirectPaths = async (): Promise<string[]> => {
+const getRedirectPaths = async (cacheBust?: boolean): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
   params.addPageLimit(50);
 
