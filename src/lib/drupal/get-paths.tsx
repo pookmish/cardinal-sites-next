@@ -31,7 +31,7 @@ const getNodePaths = async (cacheBust?: boolean): Promise<string[]> => {
   params.addInclude(['node_type']);
   params.addPageLimit(50);
 
-  if (cacheBust) params.addCustomParam({'cache': new Date().getTime()})
+  if (cacheBust) params.addCustomParam({'cache1': new Date().getTime()})
 
   const contentTypes = [
     'node--stanford_page',
@@ -66,6 +66,7 @@ const getNodePaths = async (cacheBust?: boolean): Promise<string[]> => {
 const getRedirectPaths = async (cacheBust?: boolean): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
   params.addPageLimit(50);
+  if (cacheBust) params.addCustomParam({'cache1': new Date().getTime()})
 
   let redirects: DrupalRedirect[] = []
   let fetchMore = true;
