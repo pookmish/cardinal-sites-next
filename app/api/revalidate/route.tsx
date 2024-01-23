@@ -14,8 +14,8 @@ export const GET = async (request: NextRequest) => {
   }
   const cacheTag = path.replace(/^\//, '').replaceAll('/', ':');
 
-  revalidatePath(path);
   revalidateTag(cacheTag)
   revalidateTag('paths')
+  revalidatePath(path);
   return NextResponse.json({revalidated: true, path, tags: [cacheTag, 'paths']});
 }
