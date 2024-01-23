@@ -40,7 +40,7 @@ export const generateStaticParams = async (): Promise<Params[]> => {
   if (nodePaths) {
     params = nodePaths.map(path => ({slug: path.split('/')}))
   }
-  return process.env.BUILD_COMPLETE === 'true' ? params : params.slice(0, 1);
+  return process.env.BUILD_COMPLETE === 'true' ? params : [];
 }
 
 export default Page;

@@ -4,6 +4,7 @@ import {PageProps, Params} from "@lib/types";
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getPathFromContext, isDraftMode} from "@lib/drupal/utils";
 import {DrupalRedirect} from "@lib/drupal/drupal-jsonapi.types";
+import {cache} from "react";
 
 export const pathIsValid = async (path: string, type?: 'node' | 'redirect') => {
   if (isDraftMode()) return true;
@@ -17,12 +18,12 @@ export const pathIsValid = async (path: string, type?: 'node' | 'redirect') => {
   return allPaths.includes(path);
 }
 
-export const getAllDrupalPaths = async (cacheBust?: boolean): Promise<Map<string, string[]>> => {
+export const getAllDrupalPaths = cache(async (cacheBust?: boolean): Promise<Map<string, string[]>> => {
   const paths = new Map();
   paths.set('node', await getNodePaths(cacheBust))
   paths.set('redirect', await getRedirectPaths(cacheBust))
   return paths;
-}
+})
 
 const getNodePaths = async (cacheBust?: boolean): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
