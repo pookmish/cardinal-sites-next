@@ -26,10 +26,11 @@ export const getAllDrupalPaths = async (cacheBust?: boolean): Promise<Map<string
 
 const getNodePaths = async (cacheBust?: boolean): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
+  const pageLimit = 500;
   // Add a simple include so that it doesn't fetch all the data right now. The full node data comes later, we only need
   // the node paths.
   params.addInclude(['node_type']);
-  params.addPageLimit(50);
+  params.addPageLimit(pageLimit);
 
   if (cacheBust) params.addCustomParam({'cache1': new Date().getTime()})
 
@@ -49,7 +50,7 @@ const getNodePaths = async (cacheBust?: boolean): Promise<string[]> => {
   let fetchedData: PageProps[] = []
   let page = 0;
   while (fetchMore) {
-    params.addPageOffset(page * 50);
+    params.addPageOffset(page * pageLimit);
 
     // Use JSON API to fetch the list of all node paths on the site.
     fetchedData = await getPathsFromContext(contentTypes, {
@@ -65,7 +66,8 @@ const getNodePaths = async (cacheBust?: boolean): Promise<string[]> => {
 
 const getRedirectPaths = async (cacheBust?: boolean): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
-  params.addPageLimit(50);
+  const pageLimit = 500;
+  params.addPageLimit(pageLimit);
   if (cacheBust) params.addCustomParam({'cache1': new Date().getTime()})
 
   let redirects: DrupalRedirect[] = []
@@ -74,7 +76,7 @@ const getRedirectPaths = async (cacheBust?: boolean): Promise<string[]> => {
   let page = 0;
 
   while (fetchMore) {
-    params.addPageOffset(page * 50);
+    params.addPageOffset(page * pageLimit);
 
     // Use JSON API to fetch the list of all node paths on the site.
     fetchedData = await getResourceCollection<DrupalRedirect>('redirect--redirect', {
@@ -83,7 +85,7 @@ const getRedirectPaths = async (cacheBust?: boolean): Promise<string[]> => {
     })
     redirects = [...redirects, ...fetchedData];
 
-    fetchMore = fetchedData.length === 50;
+    fetchMore = fetchedData.length === pageLimit;
     page++;
   }
   return redirects.map(redirect => redirect.redirect_source.path)
