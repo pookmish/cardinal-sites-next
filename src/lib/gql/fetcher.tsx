@@ -24,13 +24,12 @@ export const getEntityFromPath = cache(async <T extends NodeUnion | TermUnion, >
   entity?: T,
   redirect?: RouteRedirect
 }> => {
-  const cacheTag = path.replace(/^\//, '').replaceAll('/', ':');
   const token = await getAccessToken(draftMode);
   let entity: T | undefined;
 
   let query: RouteQuery;
   try {
-    query = await graphqlClient(token?.access_token, {next: {tags: [cacheTag]}}).Route({path});
+    query = await graphqlClient(token?.access_token).Route({path});
   } catch (e) {
     console.error(`Error fetching route data for '${path}'. ` + (e instanceof Error && e.message));
     return {entity: undefined, redirect: undefined};
