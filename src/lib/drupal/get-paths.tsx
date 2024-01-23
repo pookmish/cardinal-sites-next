@@ -13,6 +13,7 @@ export const pathIsValid = async (path: string, type?: 'node' | 'redirect') => {
   }
   let allPaths: string[] = [];
   drupalPaths.forEach(typePaths => allPaths = [...allPaths, ...typePaths])
+  console.log(`${path} is valid`, allPaths.includes(path))
   return allPaths.includes(path);
 }
 
