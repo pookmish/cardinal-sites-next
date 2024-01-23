@@ -2,12 +2,10 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import Button from "@components/elements/button";
 import View from "@components/views/view";
 import {H2} from "@components/elements/headers";
-import {HtmlHTMLAttributes, Suspense} from "react";
+import {cache, HtmlHTMLAttributes, Suspense} from "react";
 import {Maybe, NodeUnion, ParagraphStanfordList} from "@lib/gql/__generated__/drupal";
-
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
 import {graphqlClient} from "@lib/gql/fetcher";
-import {cache} from "@lib/drupal/get-cache";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordList
@@ -61,13 +59,10 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
   )
 }
 
-const getViewItems = async (viewId: string, displayId: string, contextualFilter?: Maybe<string[]>): Promise<NodeUnion[]> => {
-  const cacheKey = `views--${viewId}--${displayId}--` + contextualFilter?.join('-')
-  let items = cache.get<NodeUnion[]>(cacheKey);
-  if (items) return items;
-  items = [];
+const getViewItems = cache(async (viewId: string, displayId: string, contextualFilter?: Maybe<string[]>): Promise<NodeUnion[]> => {
+  let items: NodeUnion[] = []
 
-  const tags = ['views'];
+  const tags = ['views:all'];
   switch (`${viewId}--${displayId}`) {
     case 'stanford_basic_pages--basic_page_type_list':
     case 'stanford_basic_pages--viewfield_block_1':
@@ -164,11 +159,8 @@ const getViewItems = async (viewId: string, displayId: string, contextualFilter?
       console.error(`Unable to find query for view: ${viewId} display: ${displayId}`)
       break;
   }
-
-  // Cache for long enough that we don't re-fetch for the same view.
-  cache.set(cacheKey, items, 60);
   return items;
-}
+})
 
 const getViewFilters = (keys: string[], values?: Maybe<string[]>) => {
   if (!keys || !values) return;

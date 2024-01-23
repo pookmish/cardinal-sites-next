@@ -50,7 +50,10 @@ const getNodePaths = async (): Promise<string[]> => {
     params.addPageOffset(page * 50);
 
     // Use JSON API to fetch the list of all node paths on the site.
-    fetchedData = await getPathsFromContext(contentTypes, {params: params.getQueryObject(), next: {tags: ['paths']}})
+    fetchedData = await getPathsFromContext(contentTypes, {
+      params: params.getQueryObject(),
+      next: {tags: ['paths']}
+    })
     paths = [...paths, ...fetchedData];
     fetchMore = fetchedData.length > 0;
     page++;
