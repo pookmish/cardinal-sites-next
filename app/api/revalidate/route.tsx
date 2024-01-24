@@ -1,6 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
 import {revalidatePath, revalidateTag} from "next/cache";
-import {getAllDrupalPaths} from "@lib/drupal/get-paths";
 
 export const revalidate = 0;
 
@@ -23,9 +22,6 @@ export const GET = async (request: NextRequest) => {
     tagsInvalidated.push(path.replace('/', ':'))
   }
   tagsInvalidated.map(tag => revalidateTag(tag));
-
-  // Fetch all the drupal paths with a cache busting string
-  await getAllDrupalPaths(true);
   revalidatePath(path);
 
   return NextResponse.json({revalidated: true, path, tags: tagsInvalidated});

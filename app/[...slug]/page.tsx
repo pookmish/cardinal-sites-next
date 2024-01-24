@@ -10,6 +10,7 @@ import {NodeUnion} from "@lib/gql/__generated__/drupal";
 
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const revalidate = false;
+export const dynamic = 'force-static';
 
 const Page = async ({params}: PageProps) => {
   const path = getPathFromContext({params})

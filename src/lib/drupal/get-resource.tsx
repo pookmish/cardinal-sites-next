@@ -2,6 +2,7 @@ import {AccessToken, JsonApiResource, JsonApiOptions} from "next-drupal";
 import {buildUrl, buildHeaders, getJsonApiPathForResourceType} from "./utils";
 import {deserialize} from "@lib/drupal/deserialize";
 import {StanfordConfigPage} from "@lib/drupal/drupal-jsonapi.types";
+import {RequestInit} from "node/globals";
 
 export const getResourceCollection = async <T extends JsonApiResource, >(
   type: string,
@@ -10,7 +11,7 @@ export const getResourceCollection = async <T extends JsonApiResource, >(
     accessToken?: AccessToken,
     draftMode?: boolean,
     next?: NextFetchRequestConfig
-  } & JsonApiOptions,
+  } & JsonApiOptions & RequestInit,
 ): Promise<T[]> => {
   options = {deserialize: true, draftMode: false, ...options}
 
@@ -20,7 +21,7 @@ export const getResourceCollection = async <T extends JsonApiResource, >(
 
   const url = buildUrl(apiPath, {...options?.params,})
 
-  const response = await fetch(url.toString(), {next: {...options.next}, headers: await buildHeaders(options)})
+  const response = await fetch(url.toString(), {...options, headers: await buildHeaders(options)})
 
   if (!response.ok) throw new Error(response.statusText)
 

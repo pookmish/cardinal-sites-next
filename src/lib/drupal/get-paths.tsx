@@ -5,6 +5,7 @@ import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getPathFromContext, isDraftMode} from "@lib/drupal/utils";
 import {DrupalRedirect} from "@lib/drupal/drupal-jsonapi.types";
 import {cache} from "react";
+import {RequestInit} from "node/globals";
 
 export const pathIsValid = async (path: string, type?: 'node' | 'redirect') => {
   if (isDraftMode()) return true;
@@ -19,6 +20,7 @@ export const pathIsValid = async (path: string, type?: 'node' | 'redirect') => {
 }
 
 export const getAllDrupalPaths = cache(async (cacheBust?: boolean): Promise<Map<string, string[]>> => {
+  console.log('fetching all paths');
   const paths = new Map();
   paths.set('node', await getNodePaths(cacheBust))
   paths.set('redirect', await getRedirectPaths(cacheBust))
@@ -58,7 +60,8 @@ const getNodePaths = async (cacheBust?: boolean): Promise<string[]> => {
     // Use JSON API to fetch the list of all node paths on the site.
     fetchedData = await getPathsFromContext(contentTypes, {
       params: params.getQueryObject(),
-      next: {tags: ['paths']}
+      // We can use no-store here because it's a GET request and will be cached on the CMS.
+      cache: 'no-store'
     })
     paths = [...paths, ...fetchedData];
     fetchMore = fetchedData.length > 0;
@@ -85,7 +88,8 @@ const getRedirectPaths = async (cacheBust?: boolean): Promise<string[]> => {
     // Use JSON API to fetch the list of all node paths on the site.
     fetchedData = await getResourceCollection<DrupalRedirect>('redirect--redirect', {
       params: params.getQueryObject(),
-      next: {tags: ['paths']}
+      // We can use no-store here because it's a GET request and will be cached on the CMS.
+      cache: 'no-store'
     })
     redirects = [...redirects, ...fetchedData];
 
@@ -101,7 +105,7 @@ export const getPathsFromContext = async (
     params?: JsonApiParams
     accessToken?: AccessToken
     next?: NextFetchRequestConfig
-  } = {}
+  }  & RequestInit = {}
 ): Promise<PageProps[]> => {
   if (typeof types === "string") types = [types]
 
