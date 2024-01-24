@@ -1,7 +1,7 @@
 import {notFound, redirect} from "next/navigation";
 import NodePage from "@components/nodes/pages/node-page";
 import {Metadata} from "next";
-import {getAllDrupalPaths, pathIsValid} from "@lib/drupal/get-paths";
+import {getAllDrupalPaths} from "@lib/drupal/get-paths";
 import {getNodeMetadata} from "./metadata";
 import {getPathFromContext, isDraftMode} from "@lib/drupal/utils";
 import {PageProps, Params} from "@lib/types";
@@ -13,10 +13,11 @@ export const revalidate = false;
 export const dynamic = 'force-static';
 
 const Page = async ({params}: PageProps) => {
+  const draftMode = isDraftMode();
   const path = getPathFromContext({params})
-  if (!await pathIsValid(path)) notFound();
+  // if (!draftMode && !await pathIsValid(path)) notFound();
 
-  const {redirect: redirectPath, entity} = await getEntityFromPath<NodeUnion>(path, isDraftMode())
+  const {redirect: redirectPath, entity} = await getEntityFromPath<NodeUnion>(path, draftMode)
   if (redirectPath?.url) redirect(redirectPath.url)
   if (!entity) notFound();
 
@@ -42,6 +43,14 @@ export const generateStaticParams = async (): Promise<Params[]> => {
     params = nodePaths.map(path => ({slug: path.split('/')}))
   }
   return process.env.BUILD_COMPLETE === 'true' ? params : [];
+}
+
+const pathIsValid = async (path: string) => {
+  const drupalPaths = await getAllDrupalPaths();
+  let allPaths: string[] = [];
+  drupalPaths.forEach(typePaths => allPaths = [...allPaths, ...typePaths])
+
+  return allPaths.includes(path);
 }
 
 export default Page;

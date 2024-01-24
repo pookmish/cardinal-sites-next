@@ -2,25 +2,12 @@ import {AccessToken, JsonApiParams, JsonApiResourceWithPath} from "next-drupal";
 import {getResourceCollection} from "@lib/drupal/get-resource";
 import {PageProps, Params} from "@lib/types";
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
-import {getPathFromContext, isDraftMode} from "@lib/drupal/utils";
+import {getPathFromContext} from "@lib/drupal/utils";
 import {DrupalRedirect} from "@lib/drupal/drupal-jsonapi.types";
 import {cache} from "react";
 import {RequestInit} from "node/globals";
 
-export const pathIsValid = async (path: string, type?: 'node' | 'redirect') => {
-  if (isDraftMode()) return true;
-  const drupalPaths = await getAllDrupalPaths();
-  if (type) {
-    return drupalPaths.get(type)?.includes(path);
-  }
-  let allPaths: string[] = [];
-  drupalPaths.forEach(typePaths => allPaths = [...allPaths, ...typePaths])
-  console.log(`${path} is valid`, allPaths.includes(path))
-  return allPaths.includes(path);
-}
-
 export const getAllDrupalPaths = cache(async (cacheBust?: boolean): Promise<Map<string, string[]>> => {
-  console.log('fetching all paths');
   const paths = new Map();
   paths.set('node', await getNodePaths(cacheBust))
   paths.set('redirect', await getRedirectPaths(cacheBust))
