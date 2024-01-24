@@ -1,7 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
 import {revalidatePath, revalidateTag} from "next/cache";
-import {cache} from "@lib/drupal/get-cache";
-import {getAllDrupalPaths} from "@lib/drupal/get-paths";
 
 export const revalidate = 0;
 
@@ -25,7 +23,6 @@ export const GET = async (request: NextRequest) => {
   }
   tagsInvalidated.map(tag => revalidateTag(tag));
   revalidatePath(path);
-  cache.del('drupal-paths');
-  getAllDrupalPaths(true);
+
   return NextResponse.json({revalidated: true, path, tags: tagsInvalidated});
 }

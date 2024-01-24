@@ -4,20 +4,13 @@ import {PageProps, Params} from "@lib/types";
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getPathFromContext} from "@lib/drupal/utils";
 import {DrupalRedirect} from "@lib/drupal/drupal-jsonapi.types";
-import {cache} from "react";
-import {cache as nodeCache} from "@lib/drupal/get-cache";
 
-export const getAllDrupalPaths = cache(async (cacheBust?: boolean): Promise<Map<string, string[]>> => {
-  const cachedPaths = nodeCache.get<Map<string, string[]>>('drupal-paths');
-  if (cachedPaths) return cachedPaths;
-
-  console.log('fetch all paths');
+export const getAllDrupalPaths = async (cacheBust?: boolean): Promise<Map<string, string[]>> => {
   const paths = new Map();
   paths.set('node', await getNodePaths(cacheBust))
   paths.set('redirect', await getRedirectPaths(cacheBust))
-  nodeCache.set('drupal-paths', paths);
   return paths;
-})
+}
 
 const getNodePaths = async (cacheBust?: boolean): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
