@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {H2} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {MediaUnion, ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal";
+import {MediaStanfordGalleryImage, ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordGallery
@@ -42,9 +42,9 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
   )
 }
 
-const GalleryImage = ({image}: { image: MediaUnion }) => {
-  if (image.__typename !== 'MediaStanfordGalleryImage' || !image.suGalleryImage?.url) return;
+const GalleryImage = ({image}: { image: MediaStanfordGalleryImage }) => {
   const imageUrl = image.suGalleryImage?.url
+  if(!imageUrl) return;
 
   return (
     <figure>

@@ -13,7 +13,7 @@ const NodeCard = ({node, headingLevel}: { node: NodeUnion, headingLevel?: string
   const draftMode = isDraftMode();
   const itemProps: { [key: string]: string } = {};
   if (draftMode) {
-    itemProps['data-type'] = node.__typename ?? 'unknown';
+    itemProps['data-type'] = node.__typename || 'unknown';
     itemProps['data-id'] = node.id;
   }
   switch (node.__typename) {

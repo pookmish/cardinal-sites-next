@@ -28,7 +28,8 @@ export const getPathFromContext = (context: PageProps, prefix = ""): string => {
   let {slug} = context.params
 
   slug = Array.isArray(slug) ? slug.map((s) => encodeURIComponent(s)).join("/") : slug
-  return prefix ? `${prefix}/${slug}` : slug
+  slug = slug.replace(/^\//, '');
+  return prefix ? `${prefix}/${slug}` : `/${slug}`
 }
 
 export const buildHeaders = async ({accessToken, headers = {"Content-Type": "application/json"}, draftMode = false}: {

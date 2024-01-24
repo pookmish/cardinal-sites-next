@@ -62,8 +62,12 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
 const getViewItems = cache(async (viewId: string, displayId: string, contextualFilter?: Maybe<string[]>): Promise<NodeUnion[]> => {
   let items: NodeUnion[] = []
 
-  const tags = ['views:all'];
+  const tags = ['views'];
   switch (`${viewId}--${displayId}`) {
+    case 'stanford_shared_tags--card_grid':
+      tags.push('views:all');
+      break;
+
     case 'stanford_basic_pages--basic_page_type_list':
     case 'stanford_basic_pages--viewfield_block_1':
       tags.push('views:stanford_page');

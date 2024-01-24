@@ -5,14 +5,7 @@ import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getPathFromContext} from "@lib/drupal/utils";
 import {DrupalRedirect} from "@lib/drupal/drupal-jsonapi.types";
 
-export const getAllDrupalPaths = async (cacheBust?: boolean): Promise<Map<string, string[]>> => {
-  const paths = new Map();
-  paths.set('node', await getNodePaths(cacheBust))
-  paths.set('redirect', await getRedirectPaths(cacheBust))
-  return paths;
-}
-
-const getNodePaths = async (cacheBust?: boolean): Promise<string[]> => {
+export const getNodePaths = async (): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
   const pageLimit = 500;
 
@@ -20,9 +13,6 @@ const getNodePaths = async (cacheBust?: boolean): Promise<string[]> => {
   // the node paths.
   params.addInclude(['node_type']);
   params.addPageLimit(pageLimit);
-
-  // Append a parameter to bypass any cache between here and the Drupal backend.
-  if (cacheBust) params.addCustomParam({'cache1': Math.round(new Date().getTime() / 1000)})
 
   const contentTypes = [
     'node--stanford_page',
@@ -55,12 +45,10 @@ const getNodePaths = async (cacheBust?: boolean): Promise<string[]> => {
   return paths.map(pagePath => getPathFromContext(pagePath)).filter(path => !!path);
 }
 
-const getRedirectPaths = async (cacheBust?: boolean): Promise<string[]> => {
+export const getRedirectPaths = async (): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
   const pageLimit = 500;
   params.addPageLimit(pageLimit);
-
-  if (cacheBust) params.addCustomParam({'cache1': Math.round(new Date().getTime() / 1000)})
 
   let redirects: DrupalRedirect[] = []
   let fetchMore = true;
@@ -81,7 +69,7 @@ const getRedirectPaths = async (cacheBust?: boolean): Promise<string[]> => {
     fetchMore = fetchedData.length === pageLimit;
     page++;
   }
-  return redirects.map(redirect => redirect.redirect_source.path)
+  return redirects.map(redirect => `/${redirect.redirect_source.path}`)
 }
 
 export const getPathsFromContext = async (
