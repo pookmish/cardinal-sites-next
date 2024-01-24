@@ -12,6 +12,7 @@ export const GET = async (request: NextRequest) => {
   let path = request.nextUrl.searchParams.get('slug');
   if (!path || path.startsWith('/node/')) return NextResponse.json({message: 'Invalid slug'}, {status: 400});
 
+  console.log('invalidated', path);
   revalidatePath(path);
 
   const tagsInvalidated = ['paths', `paths:${path}`];
