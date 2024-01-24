@@ -2,7 +2,6 @@ import {AccessToken, JsonApiResource, JsonApiOptions} from "next-drupal";
 import {buildUrl, buildHeaders, getJsonApiPathForResourceType} from "./utils";
 import {deserialize} from "@lib/drupal/deserialize";
 import {StanfordConfigPage} from "@lib/drupal/drupal-jsonapi.types";
-import {RequestInit} from "node/globals";
 
 export const getResourceCollection = async <T extends JsonApiResource, >(
   type: string,
