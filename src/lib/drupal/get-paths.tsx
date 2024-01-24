@@ -29,6 +29,8 @@ export const pathIsValid = async (path: string): Promise<boolean> => {
 export const getAllDrupalPaths = async () => {
   const cachedPaths = nodeCache.get<Map<string, string[]>>('drupal-paths');
   if (cachedPaths) return cachedPaths;
+
+  console.log('fetching the path info');
   const paths = new Map<string, string[]>();
   paths.set('node', await getNodePaths());
   paths.set('redirect', await getRedirectPaths());

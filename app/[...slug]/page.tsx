@@ -35,7 +35,7 @@ export const generateMetadata = async ({params}: PageProps): Promise<Metadata> =
 
   const path = getPathFromContext({params})
   const allPaths = await getAllDrupalPaths();
-  if(!allPaths.get('node')?.includes(path)) return {}
+  if (!allPaths.get('node')?.includes(path)) return {}
 
   const {entity} = await getEntityFromPath<NodeUnion>(path, isDraftMode())
   return entity ? getNodeMetadata(entity) : {};
