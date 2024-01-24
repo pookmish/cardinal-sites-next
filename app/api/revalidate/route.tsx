@@ -20,7 +20,7 @@ export const GET = async (request: NextRequest) => {
 
   tagsInvalidated.map(tag => revalidateTag(tag));
 
-  if (!path.startsWith('/views/') && false) {
+  if (!path.startsWith('/views/')) {
     const {redirect, entity} = await getEntityFromPath(path);
     if (redirect) {
       await addValidPath(path, 'redirect')
