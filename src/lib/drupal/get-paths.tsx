@@ -6,15 +6,6 @@ import {getPathFromContext} from "@lib/drupal/utils";
 import {DrupalRedirect} from "@lib/drupal/drupal-jsonapi.types";
 import {cache as nodeCache} from "@lib/drupal/get-cache";
 
-export const addValidPath = async (path: string, type: string) => {
-  console.log('adding path to cache', path);
-  const paths = await getAllDrupalPaths();
-  const typePaths = paths.get(type) || [];
-  typePaths.push(path);
-  paths.set(type, [...new Set(typePaths)]);
-  nodeCache.set('drupal-paths', paths);
-}
-
 export const pathIsValid = async (path: string): Promise<boolean> => {
   const allPaths = await getAllDrupalPaths();
 
@@ -26,21 +17,22 @@ export const pathIsValid = async (path: string): Promise<boolean> => {
   return isValid;
 }
 
-export const getAllDrupalPaths = async () => {
+export const getAllDrupalPaths = async (bustCache?: boolean) => {
   const cachedPaths = nodeCache.get<Map<string, string[]>>('drupal-paths');
-  if (cachedPaths) return cachedPaths;
+  if (!bustCache && cachedPaths) return cachedPaths;
 
   console.log('fetching the path info');
   const paths = new Map<string, string[]>();
-  paths.set('node', await getNodePaths());
-  paths.set('redirect', await getRedirectPaths());
+  paths.set('node', await getNodePaths(bustCache));
+  paths.set('redirect', await getRedirectPaths(bustCache));
 
   nodeCache.set('drupal-paths', paths);
   return paths;
 }
 
-export const getNodePaths = async (): Promise<string[]> => {
+export const getNodePaths = async (bustCache?: boolean): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
+  if (bustCache) params.addFields('cache', [new Date().toLocaleTimeString()])
   const pageLimit = 500;
 
   // Add a simple include so that it doesn't fetch all the data right now. The full node data comes later, we only need
@@ -80,8 +72,9 @@ export const getNodePaths = async (): Promise<string[]> => {
   return paths.map(pagePath => getPathFromContext(pagePath)).filter(path => !!path);
 }
 
-export const getRedirectPaths = async (): Promise<string[]> => {
+export const getRedirectPaths = async (bustCache?: boolean): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
+  if (bustCache) params.addFields('cache', [new Date().toLocaleTimeString()])
   const pageLimit = 500;
   params.addPageLimit(pageLimit);
 

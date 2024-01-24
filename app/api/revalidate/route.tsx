@@ -1,7 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {revalidatePath, revalidateTag} from "next/cache";
-import {getEntityFromPath} from "@lib/gql/fetcher";
-import {addValidPath} from "@lib/drupal/get-paths";
+import {getAllDrupalPaths} from "@lib/drupal/get-paths";
 
 export const revalidate = 0;
 
@@ -20,17 +19,6 @@ export const GET = async (request: NextRequest) => {
 
   tagsInvalidated.map(tag => revalidateTag(tag));
 
-  if (!path.startsWith('/views/')) {
-    const {redirect, entity} = await getEntityFromPath(path);
-    if (redirect) {
-      await addValidPath(path, 'redirect')
-      await addValidPath(redirect.url, 'node')
-    }
-    if (entity) {
-      await addValidPath(entity.path, 'node')
-    }
-
-  }
-
+  await getAllDrupalPaths(true);
   return NextResponse.json({revalidated: true, path, tags: tagsInvalidated});
 }
