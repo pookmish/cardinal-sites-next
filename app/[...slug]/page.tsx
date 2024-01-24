@@ -1,7 +1,7 @@
 import {notFound, redirect} from "next/navigation";
 import NodePage from "@components/nodes/pages/node-page";
 import {Metadata} from "next";
-import {getAllDrupalPaths, getNodePaths} from "@lib/drupal/get-paths";
+import {getAllDrupalPaths, getNodePaths, pathIsValid} from "@lib/drupal/get-paths";
 import {getNodeMetadata} from "./metadata";
 import {getPathFromContext, isDraftMode} from "@lib/drupal/utils";
 import {PageProps, Params} from "@lib/types";
@@ -47,16 +47,6 @@ export const generateStaticParams = async (): Promise<Params[]> => {
   if (nodePaths) return nodePaths.filter(path => path !== '/')
     .map(path => ({slug: path.replace(/^\//, '').split('/')}))
   return [];
-}
-
-const pathIsValid = async (path: string): Promise<boolean> => {
-  const allPaths = await getAllDrupalPaths();
-
-  let isValid = false;
-  allPaths.forEach(typePaths => {
-    if (typePaths.includes(path)) isValid = true;
-  })
-  return isValid;
 }
 
 export default Page;

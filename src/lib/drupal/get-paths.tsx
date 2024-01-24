@@ -7,11 +7,22 @@ import {DrupalRedirect} from "@lib/drupal/drupal-jsonapi.types";
 import {cache as nodeCache} from "@lib/drupal/get-cache";
 
 export const addValidPath = async (path: string, type: string) => {
+  console.log('adding path to cache', path);
   const paths = await getAllDrupalPaths();
   const typePaths = paths.get(type) || [];
   typePaths.push(path);
   paths.set(type, [...new Set(typePaths)]);
   nodeCache.set('drupal-paths', paths);
+}
+
+export const pathIsValid = async (path: string): Promise<boolean> => {
+  const allPaths = await getAllDrupalPaths();
+
+  let isValid = false;
+  allPaths.forEach(typePaths => {
+    if (typePaths.includes(path)) isValid = true;
+  })
+  return isValid;
 }
 
 export const getAllDrupalPaths = async () => {
