@@ -15,7 +15,7 @@ export const dynamic = 'force-static';
 const Page = async ({params}: PageProps) => {
   const draftMode = isDraftMode();
   const path = getPathFromContext({params})
-  if (!draftMode && !await pathIsValid(path)) notFound();
+  if (!await pathIsValid(path)) notFound();
 
   const {redirect: redirectPath, entity} = await getEntityFromPath<NodeUnion>(path, draftMode)
   if (redirectPath?.url) redirect(redirectPath.url)
@@ -28,28 +28,25 @@ const Page = async ({params}: PageProps) => {
 
 export const generateMetadata = async ({params}: PageProps): Promise<Metadata> => {
   const path = getPathFromContext({params})
-  if (isDraftMode() || !await pathIsValid(path, 'node')) return {};
+  if (isDraftMode() || !await pathIsValid(path)) return {};
 
   const {entity} = await getEntityFromPath<NodeUnion>(path, isDraftMode())
   return entity ? getNodeMetadata(entity) : {};
 }
 
 export const generateStaticParams = async (): Promise<Params[]> => {
+  if (process.env.BUILD_COMPLETE !== 'true') return []
   const allPaths = await getAllDrupalPaths();
   const nodePaths = allPaths.get('node');
 
-  let params: Params[] = [];
-  if (nodePaths) {
-    params = nodePaths.map(path => ({slug: path.split('/')}))
-  }
-  return process.env.BUILD_COMPLETE === 'true' ? params : [];
+  if (nodePaths) return nodePaths.map(path => ({slug: path.split('/')}))
+  return [];
 }
 
 const pathIsValid = async (path: string) => {
-  const drupalPaths = await getAllDrupalPaths(true);
+  const drupalPaths = await getAllDrupalPaths();
   let allPaths: string[] = [];
   drupalPaths.forEach(typePaths => allPaths = [...allPaths, ...typePaths])
-
   return allPaths.includes(path);
 }
 

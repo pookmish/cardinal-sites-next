@@ -5,11 +5,17 @@ import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getPathFromContext} from "@lib/drupal/utils";
 import {DrupalRedirect} from "@lib/drupal/drupal-jsonapi.types";
 import {cache} from "react";
+import {cache as nodeCache} from "@lib/drupal/get-cache";
 
 export const getAllDrupalPaths = cache(async (cacheBust?: boolean): Promise<Map<string, string[]>> => {
+  const cachedPaths = nodeCache.get<Map<string, string[]>>('drupal-paths');
+  if (cachedPaths) return cachedPaths;
+
+  console.log('fetch all paths');
   const paths = new Map();
   paths.set('node', await getNodePaths(cacheBust))
   paths.set('redirect', await getRedirectPaths(cacheBust))
+  nodeCache.set('drupal-paths', paths);
   return paths;
 })
 
@@ -23,13 +29,7 @@ const getNodePaths = async (cacheBust?: boolean): Promise<string[]> => {
   params.addPageLimit(pageLimit);
 
   // Append a parameter to bypass any cache between here and the Drupal backend.
-  if (cacheBust) params.addCustomParam({
-    'cache1': new Date().toLocaleTimeString('en-us', {
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric"
-    })
-  })
+  if (cacheBust) params.addCustomParam({'cache1': Math.round(new Date().getTime() / 1000)})
 
   const contentTypes = [
     'node--stanford_page',
@@ -67,13 +67,7 @@ const getRedirectPaths = async (cacheBust?: boolean): Promise<string[]> => {
   const pageLimit = 500;
   params.addPageLimit(pageLimit);
 
-  if (cacheBust) params.addCustomParam({
-    'cache1': new Date().toLocaleTimeString('en-us', {
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric"
-    })
-  })
+  if (cacheBust) params.addCustomParam({'cache1': Math.round(new Date().getTime() / 1000)})
 
   let redirects: DrupalRedirect[] = []
   let fetchMore = true;
