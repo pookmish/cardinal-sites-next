@@ -15,7 +15,7 @@ export const dynamic = 'force-static';
 const Page = async ({params}: PageProps) => {
   const draftMode = isDraftMode();
   const path = getPathFromContext({params})
-  // if (!draftMode && !await pathIsValid(path)) notFound();
+  if (!draftMode && !await pathIsValid(path)) notFound();
 
   const {redirect: redirectPath, entity} = await getEntityFromPath<NodeUnion>(path, draftMode)
   if (redirectPath?.url) redirect(redirectPath.url)
@@ -46,7 +46,7 @@ export const generateStaticParams = async (): Promise<Params[]> => {
 }
 
 const pathIsValid = async (path: string) => {
-  const drupalPaths = await getAllDrupalPaths();
+  const drupalPaths = await getAllDrupalPaths(true);
   let allPaths: string[] = [];
   drupalPaths.forEach(typePaths => allPaths = [...allPaths, ...typePaths])
 
