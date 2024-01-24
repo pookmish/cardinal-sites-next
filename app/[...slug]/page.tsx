@@ -1,7 +1,7 @@
 import {notFound, redirect} from "next/navigation";
 import NodePage from "@components/nodes/pages/node-page";
 import {Metadata} from "next";
-import {getNodePaths, getRedirectPaths} from "@lib/drupal/get-paths";
+import {getAllDrupalPaths, getNodePaths} from "@lib/drupal/get-paths";
 import {getNodeMetadata} from "./metadata";
 import {getPathFromContext, isDraftMode} from "@lib/drupal/utils";
 import {PageProps, Params} from "@lib/types";
@@ -17,11 +17,7 @@ const Page = async ({params}: PageProps) => {
   const path = getPathFromContext({params})
 
   // When in draft mode, the user may be on an unpublished page. Don't check validity.
-  if (!draftMode) {
-    const nodePaths = await getNodePaths();
-    const redirects = await getRedirectPaths();
-    if (!nodePaths.includes(path) && !redirects.includes(path)) notFound();
-  }
+  if (!draftMode && !await pathIsValid(path)) notFound();
 
   const {redirect: redirectPath, entity} = await getEntityFromPath<NodeUnion>(path, draftMode)
 
@@ -37,9 +33,9 @@ export const generateMetadata = async ({params}: PageProps): Promise<Metadata> =
   // If the user is in draft mode, there's no need to emit any customized metadata.
   if (isDraftMode()) return {};
 
-  const nodePaths = await getNodePaths()
   const path = getPathFromContext({params})
-  if (!nodePaths.includes(path)) return {};
+  const allPaths = await getAllDrupalPaths();
+  if(!allPaths.get('node')?.includes(path)) return {}
 
   const {entity} = await getEntityFromPath<NodeUnion>(path, isDraftMode())
   return entity ? getNodeMetadata(entity) : {};
@@ -51,6 +47,16 @@ export const generateStaticParams = async (): Promise<Params[]> => {
   if (nodePaths) return nodePaths.filter(path => path !== '/')
     .map(path => ({slug: path.replace(/^\//, '').split('/')}))
   return [];
+}
+
+const pathIsValid = async (path: string): Promise<boolean> => {
+  const allPaths = await getAllDrupalPaths();
+
+  let isValid = false;
+  allPaths.forEach(typePaths => {
+    if (typePaths.includes(path)) isValid = true;
+  })
+  return isValid;
 }
 
 export default Page;

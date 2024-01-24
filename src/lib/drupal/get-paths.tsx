@@ -4,10 +4,29 @@ import {PageProps, Params} from "@lib/types";
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getPathFromContext} from "@lib/drupal/utils";
 import {DrupalRedirect} from "@lib/drupal/drupal-jsonapi.types";
+import {cache as nodeCache} from "@lib/drupal/get-cache";
+
+export const addValidPath = async (path: string, type: string) => {
+  const paths = await getAllDrupalPaths();
+  const typePaths = paths.get(type) || [];
+  typePaths.push(path);
+  paths.set(type, [...new Set(typePaths)]);
+  nodeCache.set('drupal-paths', paths);
+}
+
+export const getAllDrupalPaths = async () => {
+  const cachedPaths = nodeCache.get<Map<string, string[]>>('drupal-paths');
+  if (cachedPaths) return cachedPaths;
+  const paths = new Map<string, string[]>();
+  paths.set('node', await getNodePaths());
+  paths.set('redirect', await getRedirectPaths());
+
+  nodeCache.set('drupal-paths', paths);
+  return paths;
+}
 
 export const getNodePaths = async (): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
-  params.addFields('cache', [new Date().toLocaleTimeString()])
   const pageLimit = 500;
 
   // Add a simple include so that it doesn't fetch all the data right now. The full node data comes later, we only need
@@ -43,12 +62,12 @@ export const getNodePaths = async (): Promise<string[]> => {
     fetchMore = fetchedData.length > 0;
     page++;
   }
+
   return paths.map(pagePath => getPathFromContext(pagePath)).filter(path => !!path);
 }
 
 export const getRedirectPaths = async (): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
-  params.addFields('cache', [new Date().toLocaleTimeString()])
   const pageLimit = 500;
   params.addPageLimit(pageLimit);
 
@@ -71,6 +90,7 @@ export const getRedirectPaths = async (): Promise<string[]> => {
     fetchMore = fetchedData.length === pageLimit;
     page++;
   }
+
   return redirects.map(redirect => `/${redirect.redirect_source.path}`)
 }
 

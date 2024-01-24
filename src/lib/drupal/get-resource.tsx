@@ -2,6 +2,7 @@ import {AccessToken, JsonApiResource, JsonApiOptions} from "next-drupal";
 import {buildUrl, buildHeaders, getJsonApiPathForResourceType} from "./utils";
 import {deserialize} from "@lib/drupal/deserialize";
 import {StanfordConfigPage} from "@lib/drupal/drupal-jsonapi.types";
+import {cache} from "react";
 
 export const getResourceCollection = async <T extends JsonApiResource, >(
   type: string,
@@ -29,7 +30,7 @@ export const getResourceCollection = async <T extends JsonApiResource, >(
   return options.deserialize ? deserialize(json) : json
 }
 
-export const getConfigPageResource = async <T extends StanfordConfigPage>(
+export const getConfigPageResource = cache(async <T extends StanfordConfigPage>(
   name: string,
   options?: { deserialize?: boolean, next?: NextFetchRequestConfig } & JsonApiOptions
 ): Promise<T | undefined> => {
@@ -45,4 +46,4 @@ export const getConfigPageResource = async <T extends StanfordConfigPage>(
   }
 
   return response.at(0) as T;
-}
+})
