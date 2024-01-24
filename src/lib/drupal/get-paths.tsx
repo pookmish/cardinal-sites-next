@@ -7,6 +7,7 @@ import {DrupalRedirect} from "@lib/drupal/drupal-jsonapi.types";
 
 export const getNodePaths = async (): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
+  params.addFields('cache', [new Date().toLocaleTimeString()])
   const pageLimit = 500;
 
   // Add a simple include so that it doesn't fetch all the data right now. The full node data comes later, we only need
@@ -47,6 +48,7 @@ export const getNodePaths = async (): Promise<string[]> => {
 
 export const getRedirectPaths = async (): Promise<string[]> => {
   const params = new DrupalJsonApiParams();
+  params.addFields('cache', [new Date().toLocaleTimeString()])
   const pageLimit = 500;
   params.addPageLimit(pageLimit);
 
