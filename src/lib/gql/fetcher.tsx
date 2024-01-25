@@ -2,7 +2,6 @@ import {getSdk, NodeUnion, RouteQuery, RouteRedirect, TermUnion} from "@lib/gql/
 import {GraphQLClient} from "graphql-request";
 import type {RequestConfig} from "graphql-request/src/types";
 import {getAccessToken} from "@lib/drupal/get-access-token";
-import {cache as nodeCache} from "@lib/drupal/get-cache";
 import {cache} from "react";
 
 export const graphqlClient = (accessToken?: string, requestConfig: RequestConfig = {}) => {
@@ -25,25 +24,18 @@ export const getEntityFromPath = cache(async <T extends NodeUnion | TermUnion, >
   entity?: T,
   redirect?: RouteRedirect
 }> => {
-  const cacheKey = path.replaceAll('/', ':');
   const token = await getAccessToken(draftMode);
-  let entity = nodeCache.get<T>(cacheKey);
+  let entity: T | undefined;
 
-  if (!entity || token) {
-    let query: RouteQuery;
-    try {
-      query = await graphqlClient(token?.access_token).Route({path});
-    } catch (e) {
-      console.error(`Error fetching route data for '${path}'. ` + (e instanceof Error && e.message));
-      return {entity, redirect: undefined};
-    }
-
-    if (query.route?.__typename === 'RouteRedirect') return {redirect: query.route, entity};
-    entity = (query.route?.__typename === 'RouteInternal' && query.route.entity) ? query.route.entity as T : undefined
-
-    // Just cache the entity for 10 seconds so that any remaining queries during the build process will result in the cached data.
-    if (entity) nodeCache.set(cacheKey, entity, 10);
+  let query: RouteQuery;
+  try {
+    query = await graphqlClient(token?.access_token, {next: {tags: [`paths:${path}`]}}).Route({path});
+  } catch (e) {
+    console.error(`Error fetching route data for '${path}'. ` + (e instanceof Error && e.message));
+    return {entity: undefined, redirect: undefined};
   }
 
+  if (query.route?.__typename === 'RouteRedirect') return {redirect: query.route, entity: undefined};
+  entity = (query.route?.__typename === 'RouteInternal' && query.route.entity) ? query.route.entity as T : undefined
   return {entity, redirect: undefined};
 })

@@ -7,8 +7,9 @@ import {Metadata} from "next";
 import {getNodeMetadata} from "./[...slug]/metadata";
 import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph";
 
-// Cache the home page for 24 hours. It's the most likely to have view paragraphs, so let it invalidate more often.
-export const revalidate = 86400;
+// https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+export const revalidate = false;
+export const dynamic = 'force-static';
 
 const Home = async () => {
   const {entity} = await getEntityFromPath<NodeStanfordPage>('/', isDraftMode());
@@ -16,7 +17,7 @@ const Home = async () => {
 
   return (
     <article>
-      {entity.suPageBanner?.__typename === 'ParagraphStanfordBanner' &&
+      {entity.suPageBanner &&
         <header aria-label="Home Page banner">
           <BannerParagraph paragraph={entity.suPageBanner} eagerLoadImage/>
         </header>

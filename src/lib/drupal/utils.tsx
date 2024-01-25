@@ -28,7 +28,8 @@ export const getPathFromContext = (context: PageProps, prefix = ""): string => {
   let {slug} = context.params
 
   slug = Array.isArray(slug) ? slug.map((s) => encodeURIComponent(s)).join("/") : slug
-  return prefix ? `${prefix}/${slug}` : slug
+  slug = slug.replace(/^\//, '');
+  return prefix ? `${prefix}/${slug}` : `/${slug}`
 }
 
 export const buildHeaders = async ({accessToken, headers = {"Content-Type": "application/json"}, draftMode = false}: {
@@ -58,12 +59,8 @@ export const getJsonApiIndex = async (
 ): Promise<{ links: { [type: string]: { href: string } } }> => {
   const url = buildUrl(`${JSONAPI_PREFIX}`)
 
-  // As per https://www.drupal.org/node/2984034 /jsonapi is public.
-  // We only call buildHeaders if accessToken is explicitly set.
-  // This is for rare cases where /jsonapi might be protected.
-  // Cache this response for 1 year since it should almost never change.
   const response = await fetch(url.toString(), {
-    next: {revalidate: 31536000},
+    next: {tags: ['entity-types']},
     headers: options?.accessToken ? await buildHeaders(options) : {"Content-Type": "application/json"},
   })
 
