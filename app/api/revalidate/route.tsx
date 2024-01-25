@@ -11,11 +11,10 @@ export const GET = async (request: NextRequest) => {
   let path = request.nextUrl.searchParams.get('slug');
   if (!path || path.startsWith('/node/')) return NextResponse.json({message: 'Invalid slug'}, {status: 400});
 
-  console.log('invalidated', path);
   revalidatePath(path);
 
   const tagsInvalidated = ['paths', `paths:${path}`];
-  if (path.startsWith('/views/')) tagsInvalidated.push(path.substring(1).replaceAll('/', ':'))
+  if (path.startsWith('/tags/')) path.substring(6).split('/').map(tag => tagsInvalidated.push(tag))
 
   tagsInvalidated.map(tag => revalidateTag(tag));
   return NextResponse.json({revalidated: true, path, tags: tagsInvalidated});

@@ -26,7 +26,7 @@ export const getMenu = async (
   // No need to use GraphQL here.
   const url = buildUrl(`/jsonapi/menu_items/${name}`)
 
-  const response = await fetch(url.toString(), {next: {revalidate: 3600}, headers: await buildHeaders(options),})
+  const response = await fetch(url.toString(), {next: {tags: [`menu:${name}`]}, headers: await buildHeaders(options),})
 
   if (!response.ok) throw new Error(response.statusText)
 

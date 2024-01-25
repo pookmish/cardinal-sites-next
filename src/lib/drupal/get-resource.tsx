@@ -32,10 +32,13 @@ export const getResourceCollection = async <T extends JsonApiResource, >(
 
 export const getConfigPageResource = cache(async <T extends StanfordConfigPage>(
   name: string,
-  options?: { deserialize?: boolean, next?: NextFetchRequestConfig } & JsonApiOptions
+  options?: {
+    deserialize?: boolean
+    next?: NextFetchRequestConfig
+  } & JsonApiOptions & RequestInit
 ): Promise<T | undefined> => {
 
-  options = {next: {revalidate: 60 * 60 * 24 * 365}, ...options}
+  options = {next: {tags: [`config-page:${name}`]}, ...options}
 
   let response;
   try {
