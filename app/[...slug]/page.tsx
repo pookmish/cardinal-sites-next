@@ -16,10 +16,6 @@ const Page = async ({params}: PageProps) => {
   const draftMode = isDraftMode();
   const path = getPathFromContext({params})
 
-  const valid = await pathIsValid(path);
-  // When in draft mode, the user may be on an unpublished page. Don't check validity.
-  if (!valid) notFound();
-
   const {redirect: redirectPath, entity} = await getEntityFromPath<NodeUnion>(path, draftMode)
 
   if (redirectPath?.url) redirect(redirectPath.url)
