@@ -13,17 +13,21 @@ export const revalidate = false;
 export const dynamic = 'force-static';
 
 const Page = async ({params}: PageProps) => {
+  console.log(1);
   const draftMode = isDraftMode();
   const path = getPathFromContext({params})
-
+  console.log(2, path);
+  const valid = await pathIsValid(path);
   // When in draft mode, the user may be on an unpublished page. Don't check validity.
-  if (!await pathIsValid(path)) notFound();
+  if (!valid) notFound();
+  console.log(3);
 
   const {redirect: redirectPath, entity} = await getEntityFromPath<NodeUnion>(path, draftMode)
-
+console.log(4)
   if (redirectPath?.url) redirect(redirectPath.url)
+  console.log(5);
   if (!entity) notFound();
-
+console.log(6);
   return (
     <NodePage node={entity}/>
   )
