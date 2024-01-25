@@ -13,7 +13,7 @@ export const pathIsValid = async (path: string): Promise<boolean> => {
   allPaths.forEach(typePaths => {
     if (typePaths.includes(path)) isValid = true;
   })
-  console.log(`valid path ${path}`, isValid);
+return true;
   return isValid;
 }
 
