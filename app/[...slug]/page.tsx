@@ -1,7 +1,7 @@
 import {notFound, redirect} from "next/navigation";
 import NodePage from "@components/nodes/pages/node-page";
 import {Metadata} from "next";
-import {getAllDrupalPaths, getNodePaths, pathIsValid} from "@lib/drupal/get-paths";
+import {getNodePaths} from "@lib/drupal/get-paths";
 import {getNodeMetadata} from "./metadata";
 import {getPathFromContext, isDraftMode} from "@lib/drupal/utils";
 import {PageProps, Params} from "@lib/types";
@@ -13,10 +13,9 @@ export const revalidate = false;
 export const dynamic = 'force-static';
 
 const Page = async ({params}: PageProps) => {
-  const draftMode = isDraftMode();
   const path = getPathFromContext({params})
 
-  const {redirect: redirectPath, entity} = await getEntityFromPath<NodeUnion>(path, draftMode)
+  const {redirect: redirectPath, entity} = await getEntityFromPath<NodeUnion>(path, isDraftMode())
 
   if (redirectPath?.url) redirect(redirectPath.url)
   if (!entity) notFound();
@@ -31,10 +30,7 @@ export const generateMetadata = async ({params}: PageProps): Promise<Metadata> =
   if (isDraftMode()) return {};
 
   const path = getPathFromContext({params})
-  const allPaths = await getAllDrupalPaths();
-  if (!allPaths.get('node')?.includes(path)) return {}
-
-  const {entity} = await getEntityFromPath<NodeUnion>(path, isDraftMode())
+  const {entity} = await getEntityFromPath<NodeUnion>(path)
   return entity ? getNodeMetadata(entity) : {};
 }
 
