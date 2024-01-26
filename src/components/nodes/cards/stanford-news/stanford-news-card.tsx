@@ -31,7 +31,7 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
       <div className="p-20">
 
         <Heading className="text-m2 [&_a]:text-black" id={node.id}>
-          <Link href={node.path}>
+          <Link href={node.suNewsSource?.url || node.path}>
             {node.title}
           </Link>
         </Heading>
