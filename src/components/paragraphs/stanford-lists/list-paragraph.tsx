@@ -105,60 +105,75 @@ const getViewItems = cache(async (viewId: string, displayId: string, contextualF
 
   switch (`${viewId}--${displayId}`) {
     case 'stanford_basic_pages--basic_page_type_list':
+      filters = getViewFilters(['term_node_taxonomy_name_depth', 'type'], contextualFilter)
+      if (filters && Object.keys(filters).length === 2) filters.nid = '0'
       graphqlResponse = await client.stanfordBasicPages({filters});
       items = graphqlResponse.stanfordBasicPages?.results as unknown as NodeUnion[]
       break
+
     case 'stanford_basic_pages--viewfield_block_1':
       graphqlResponse = await client.stanfordBasicPagesCards({filters});
       items = graphqlResponse.stanfordBasicPagesCards?.results as unknown as NodeUnion[]
       break
+
     case 'stanford_courses--default_list_viewfield_block':
       graphqlResponse = await client.stanfordCourses({filters});
       items = graphqlResponse.stanfordCourses?.results as unknown as NodeUnion[]
       break
+
     case 'stanford_courses--vertical_teaser_viewfield_block':
       graphqlResponse = await client.stanfordCoursesCardGrid({filters});
       items = graphqlResponse.stanfordCoursesCardGrid?.results as unknown as NodeUnion[]
       break
+
     case 'stanford_events--cards':
       filters = getViewFilters(['term_node_taxonomy_name_depth', 'term_node_taxonomy_name_depth_1', 'term_node_taxonomy_name_depth_2', 'term_node_taxonomy_name_depth_3'], contextualFilter)
       graphqlResponse = await client.stanfordEventsCardGrid({filters});
       items = graphqlResponse.stanfordEventsCardGrid?.results as unknown as NodeUnion[]
       break
+
     case 'stanford_events--list_page':
       filters = getViewFilters(['term_node_taxonomy_name_depth', 'term_node_taxonomy_name_depth_1', 'term_node_taxonomy_name_depth_2', 'term_node_taxonomy_name_depth_3'], contextualFilter);
       graphqlResponse = await client.stanfordEvents({filters});
       items = graphqlResponse.stanfordEvents?.results as unknown as NodeUnion[]
       break
+
     case 'stanford_events--past_events_list_block':
       graphqlResponse = await client.stanfordEventsPastEvents({filters});
       items = graphqlResponse.stanfordEventsPastEvents?.results as unknown as NodeUnion[]
       break
+
     case 'stanford_news--block_1':
       graphqlResponse = await client.stanfordNewsDefaultList({filters});
       items = graphqlResponse.stanfordNewsDefaultList?.results as unknown as NodeUnion[]
       break
+
     case 'stanford_news--vertical_cards':
       graphqlResponse = await client.stanfordNewsCardGrid({filters});
       items = graphqlResponse.stanfordNewsCardGrid?.results as unknown as NodeUnion[]
       break
+
     case 'stanford_person--grid_list_all':
       graphqlResponse = await client.stanfordPerson({filters});
       items = graphqlResponse.stanfordPerson?.results as unknown as NodeUnion[]
       break
+
     case 'stanford_publications--apa_list':
       graphqlResponse = await client.stanfordPublicationsApa({filters});
       items = graphqlResponse.stanfordPublicationsApa?.results as unknown as NodeUnion[]
       break
+
     case 'stanford_publications--chicago_list':
       graphqlResponse = await client.stanfordPublicationsChicago({filters});
       items = graphqlResponse.stanfordPublicationsChicago?.results as unknown as NodeUnion[]
       break
+
     case 'stanford_shared_tags--card_grid':
       filters = getViewFilters(['term_node_taxonomy_name_depth', 'type'], contextualFilter)
       graphqlResponse = await client.stanfordSharedTags({filters});
       items = graphqlResponse.stanfordSharedTags?.results as unknown as NodeUnion[]
       break
+
     default:
       console.error(`Unable to find query for view: ${viewId} display: ${displayId}`)
       break;
