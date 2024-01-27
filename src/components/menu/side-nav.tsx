@@ -1,18 +1,19 @@
 import useActiveTrail from "@lib/hooks/useActiveTrail";
 import Link from "@components/elements/link";
-import {DrupalMenuItem} from "@lib/drupal/get-menu";
 import {clsx} from "clsx";
+import {MenuItem} from "@lib/gql/__generated__/drupal";
 
-const SideNav = ({menuItems, currentPath}: { menuItems: DrupalMenuItem[], currentPath?: string }) => {
+
+const SideNav = ({menuItems, currentPath}: { menuItems: MenuItem[], currentPath?: string }) => {
   const activeTrail: string[] = useActiveTrail(menuItems, currentPath);
 
   // Peel off the menu items from the parent.
   const topMenuItem = activeTrail.length > 0 ? menuItems.find(item => item.id === activeTrail[0]) : undefined;
   if (!topMenuItem) return null;
 
-  const subTree = topMenuItem.items || [];
+  const subTree = topMenuItem.children || [];
 
-  if (!subTree || (subTree.length <= 1 && typeof subTree[0]?.items)) {
+  if (!subTree || (subTree.length <= 1 && typeof subTree[0]?.children)) {
     return null;
   }
 
@@ -29,12 +30,12 @@ const SideNav = ({menuItems, currentPath}: { menuItems: DrupalMenuItem[], curren
   )
 }
 
-type MenuItemProps = DrupalMenuItem & {
+type MenuItemProps = MenuItem & {
   activeTrail: string[]
   level?: number
 }
 
-const MenuItem = ({id, url, title, items, activeTrail, level = 0}: MenuItemProps) => {
+const MenuItem = ({id, url, title, children, activeTrail, level = 0}: MenuItemProps) => {
   // Need to list them out each so tailwind will include each for styling.
   const leftPadding = [
     'pl-10',
@@ -57,15 +58,15 @@ const MenuItem = ({id, url, title, items, activeTrail, level = 0}: MenuItemProps
   return (
     <li className="m-0 p-0 border-b last:border-0">
       <Link
-        href={url}
+        href={url || '#'}
         className={linkClasses}
         aria-current={activeTrail.at(-1) === id ? "true" : undefined}
       >
         {title}
       </Link>
-      {(items && items.length > 0 && activeTrail.includes(id)) &&
+      {(children && children.length > 0 && activeTrail.includes(id)) &&
         <ul className={`border-t list-unstyled ${leftPadding[level]}`}>
-          {items.map(item =>
+          {children.map(item =>
             <MenuItem key={item.id} {...item} level={level + 1} activeTrail={activeTrail}/>
           )}
         </ul>

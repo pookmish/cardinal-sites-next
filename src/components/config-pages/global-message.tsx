@@ -1,36 +1,36 @@
-import {GlobalMessageConfigPageType} from "@lib/drupal/drupal-jsonapi.types";
 import {BellIcon, CheckCircleIcon, ExclamationTriangleIcon, InformationCircleIcon} from "@heroicons/react/20/solid";
 import {H2} from "@components/elements/headers";
 import Wysiwyg from "@components/elements/wysiwyg";
 import Link from "@components/elements/link";
 import {clsx} from "clsx";
+import {StanfordGlobalMessage} from "@lib/gql/__generated__/drupal";
 
-const GlobalMessage = ({configPage}: { configPage?: GlobalMessageConfigPageType }) => {
-  if (!configPage || !configPage.su_global_msg_enabled) return;
+const GlobalMessage = ({configPage}: { configPage?: StanfordGlobalMessage }) => {
+  if (!configPage || !configPage.suGlobalMsgEnabled) return;
 
   const wrapperClasses = clsx({
-    'bg-digital-blue-dark': configPage.su_global_msg_type === 'info',
-    'bg-illuminating-dark': configPage.su_global_msg_type === 'warning',
-    'bg-digital-green': configPage.su_global_msg_type === 'success',
-    'bg-foggy-light': configPage.su_global_msg_type === 'plain',
-    'bg-digital-red': configPage.su_global_msg_type === 'error',
-    'text-white': ['error', 'info', 'success'].includes(configPage.su_global_msg_type)
+    'bg-digital-blue-dark': configPage.suGlobalMsgType === 'info',
+    'bg-illuminating-dark': configPage.suGlobalMsgType === 'warning',
+    'bg-digital-green': configPage.suGlobalMsgType === 'success',
+    'bg-foggy-light': configPage.suGlobalMsgType === 'plain',
+    'bg-digital-red': configPage.suGlobalMsgType === 'error',
+    'text-white': ['error', 'info', 'success'].includes(configPage.suGlobalMsgType)
   });
   return (
     <div className={wrapperClasses + " py-10"}>
       <div className="centered flex flex-col lg:flex-row gap-10">
         <div className="flex items-center leading-none shrink-0">
-          <MessageIcon messageType={configPage.su_global_msg_type}/>
-          {configPage.su_global_msg_label}:
+          <MessageIcon messageType={configPage.suGlobalMsgType}/>
+          {configPage.suGlobalMsgLabel}:
         </div>
         <div className="[&_a]:text-white [&_a.btn]:bg-transparent [&_a.btn]:border-2 [&_a.btn]:border-white">
-          {configPage.su_global_msg_header && <H2>{configPage.su_global_msg_header}</H2>}
-          {configPage.su_global_msg_message &&
-            <Wysiwyg html={configPage.su_global_msg_message}/>
+          {configPage.suGlobalMsgHeader && <H2>{configPage.suGlobalMsgHeader}</H2>}
+          {configPage.suGlobalMsgMessage?.processed &&
+            <Wysiwyg html={configPage.suGlobalMsgMessage.processed}/>
           }
-          {configPage.su_global_msg_link?.url &&
-            <Link href={configPage.su_global_msg_link.url} className="text-white">
-              {configPage.su_global_msg_link.title}
+          {configPage.suGlobalMsgLink?.url &&
+            <Link href={configPage.suGlobalMsgLink.url} className="text-white">
+              {configPage.suGlobalMsgLink.title}
             </Link>
           }
         </div>
@@ -39,7 +39,7 @@ const GlobalMessage = ({configPage}: { configPage?: GlobalMessageConfigPageType 
   )
 }
 
-const MessageIcon = ({messageType}: { messageType: GlobalMessageConfigPageType['su_global_msg_type'] }) => {
+const MessageIcon = ({messageType}: { messageType: StanfordGlobalMessage['suGlobalMsgType'] }) => {
   switch (messageType) {
     case 'info':
       return <InformationCircleIcon width={40}/>

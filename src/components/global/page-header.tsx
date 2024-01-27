@@ -1,18 +1,13 @@
 import SiteSearchForm from "@components/search/site-search-form";
 import MainMenu from "@components/menu/main-menu";
-import {getMenu} from "@lib/drupal/get-menu";
 import GlobalMessage from "@components/config-pages/global-message";
 import Lockup from "@components/elements/lockup/lockup";
-import {isDraftMode} from "@lib/drupal/utils";
-import {getConfigPageResource} from "@lib/drupal/get-resource";
-import {GlobalMessageConfigPageType} from "@lib/drupal/drupal-jsonapi.types";
+import {getConfigPage, getMenu} from "@lib/gql/fetcher";
+import {StanfordGlobalMessage} from "@lib/gql/__generated__/drupal";
 
 const PageHeader = async () => {
-  const draftMode = isDraftMode();
-  const {tree} = await getMenu('main', {draftMode})
-
-  // Fetch from JSON API, it should return a cached version.
-  const globalMessage = await getConfigPageResource<GlobalMessageConfigPageType>('stanford_global_message');
+  const menuItems = await getMenu();
+  const globalMessageConfig = await getConfigPage<StanfordGlobalMessage>('StanfordGlobalMessage');
 
   return (
     <header className="shadow-lg">
@@ -26,7 +21,7 @@ const PageHeader = async () => {
           </a>
         </div>
       </div>
-      <GlobalMessage configPage={globalMessage}/>
+      <GlobalMessage configPage={globalMessageConfig}/>
       <div className="relative shadow">
         <div className="centered min-h-50">
           <div className="flex w-full justify-between">
@@ -35,7 +30,7 @@ const PageHeader = async () => {
           </div>
         </div>
 
-        <MainMenu menuItems={tree}/>
+        <MainMenu menuItems={menuItems}/>
       </div>
     </header>
   )

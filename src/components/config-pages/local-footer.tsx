@@ -19,22 +19,21 @@ import {H2} from "@components/elements/headers";
 import TwitterIcon from "@components/elements/icons/TwitterIcon";
 import YoutubeIcon from "@components/elements/icons/YoutubeIcon";
 import FacebookIcon from "@components/elements/icons/FacebookIcon";
-import {Maybe} from "@lib/gql/__generated__/drupal";
-import {LocalFooterConfigPageType} from "@lib/drupal/drupal-jsonapi.types";
+import {Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/drupal";
 import {buildUrl} from "@lib/drupal/utils";
 
-const LocalFooter = ({configPage}: { configPage?: LocalFooterConfigPageType }) => {
-  if (!configPage || !configPage.su_footer_enabled) return;
+const LocalFooter = ({configPage}: { configPage?: StanfordLocalFooter }) => {
+  if (!configPage || !configPage.suFooterEnabled) return;
 
   const lockupProps = {
-    useDefault: configPage.su_local_foot_use_loc,
-    lockupOption: configPage.su_local_foot_loc_op,
-    line1: configPage.su_local_foot_line_1,
-    line2: configPage.su_local_foot_line_2,
-    line3: configPage.su_local_foot_line_3,
-    line4: configPage.su_local_foot_line_4,
-    line5: configPage.su_local_foot_line_5,
-    logoUrl: !configPage.su_local_foot_use_logo && configPage.su_local_foot_loc_img?.uri.url ? buildUrl(configPage.su_local_foot_loc_img.uri.url).toString() : undefined,
+    useDefault: configPage.suLocalFootUseLoc,
+    lockupOption: configPage.suLocalFootLocOp,
+    line1: configPage.suLocalFootLine1,
+    line2: configPage.suLocalFootLine2,
+    line3: configPage.suLocalFootLine3,
+    line4: configPage.suLocalFootLine4,
+    line5: configPage.suLocalFootLine5,
+    logoUrl: !configPage.suLocalFootUseLogo && configPage.suLocalFootLocImg?.url ? buildUrl(configPage.suLocalFootLocImg?.url).toString() : undefined,
   }
 
   return (
@@ -48,13 +47,13 @@ const LocalFooter = ({configPage}: { configPage?: LocalFooterConfigPageType }) =
           className="grid md:grid-cols-2 lg:grid-cols-4 gap-32 [&_a]:font-normal [&_a]:no-underline [&_a:hover]:underline [&_a:hover]:text-black [&_a:focus]:underline [&_a:focus]:text-black [&_a]:transition">
           <div>
 
-            {configPage.su_local_foot_address &&
-              <Address {...configPage.su_local_foot_address}/>
+            {configPage.suLocalFootAddress &&
+              <Address {...configPage.suLocalFootAddress}/>
             }
 
-            {configPage.su_local_foot_action &&
+            {configPage.suLocalFootAction &&
               <ul className="list-unstyled">
-                {configPage.su_local_foot_action.map((link, index) => {
+                {configPage.suLocalFootAction.map((link, index) => {
                   if (!link.url) return;
                   return (
                     <li key={`footer-action-link-${index}`}>
@@ -67,9 +66,9 @@ const LocalFooter = ({configPage}: { configPage?: LocalFooterConfigPageType }) =
               </ul>
             }
 
-            {configPage.su_local_foot_social &&
+            {configPage.suLocalFootSocial &&
               <ul className="list-unstyled flex gap-2">
-                {configPage.su_local_foot_social.map((link, index) => {
+                {configPage.suLocalFootSocial.map((link, index) => {
                   if (!link.url) return;
                   return (
                     <li key={`footer-action-link-${index}`}>
@@ -83,17 +82,17 @@ const LocalFooter = ({configPage}: { configPage?: LocalFooterConfigPageType }) =
               </ul>
             }
 
-            {configPage.su_local_foot_pr_co &&
-              <Wysiwyg html={configPage.su_local_foot_pr_co}/>
+            {configPage.suLocalFootPrCo &&
+              <Wysiwyg html={configPage.suLocalFootPrCo.processed}/>
             }
           </div>
 
           <div>
-            {configPage.su_local_foot_prime_h &&
-              <H2 className="text-m1">{configPage.su_local_foot_prime_h}</H2>}
-            {configPage.su_local_foot_primary &&
+            {configPage.suLocalFootPrimeH &&
+              <H2 className="text-m1">{configPage.suLocalFootPrimeH}</H2>}
+            {configPage.suLocalFootPrimary &&
               <ul className="list-unstyled">
-                {configPage.su_local_foot_primary.map((link, index) => {
+                {configPage.suLocalFootPrimary.map((link, index) => {
                   if (!link.url) return;
                   return (
                     <li key={`footer-primary-link-${index}`}>
@@ -105,19 +104,19 @@ const LocalFooter = ({configPage}: { configPage?: LocalFooterConfigPageType }) =
                 })}
               </ul>
             }
-            {configPage.su_local_foot_se_co &&
-              <Wysiwyg html={configPage.su_local_foot_se_co}/>
+            {configPage.suLocalFootSeCo &&
+              <Wysiwyg html={configPage.suLocalFootSeCo.processed}/>
             }
 
           </div>
 
           <div>
-            {configPage.su_local_foot_second_h &&
-              <H2 className="text-m1">{configPage.su_local_foot_second_h}</H2>}
+            {configPage.suLocalFootSecondH &&
+              <H2 className="text-m1">{configPage.suLocalFootSecondH}</H2>}
 
-            {configPage.su_local_foot_second &&
+            {configPage.suLocalFootSecond &&
               <ul className="list-unstyled">
-                {configPage.su_local_foot_second.map((link, index) => {
+                {configPage.suLocalFootSecond.map((link, index) => {
                   if (!link.url) return;
                   return (
                     <li key={`footer-second-link-${index}`}>
@@ -130,15 +129,15 @@ const LocalFooter = ({configPage}: { configPage?: LocalFooterConfigPageType }) =
               </ul>
             }
 
-            {configPage.su_local_foot_tr2_co &&
-              <Wysiwyg html={configPage.su_local_foot_tr2_co}/>
+            {configPage.suLocalFootTr2Co &&
+              <Wysiwyg html={configPage.suLocalFootTr2Co.processed}/>
             }
 
           </div>
 
           <div>
-            {configPage.su_local_foot_tr_co &&
-              <Wysiwyg html={configPage.su_local_foot_tr_co}/>
+            {configPage.suLocalFootTrCo &&
+              <Wysiwyg html={configPage.suLocalFootTrCo.processed}/>
             }
           </div>
         </div>

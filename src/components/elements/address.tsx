@@ -1,23 +1,16 @@
 import {Address as AddressType} from "@lib/gql/__generated__/drupal";
-import {DrupalAddressFieldType} from "@lib/drupal/drupal-jsonapi.types";
-
-type Props = AddressType & DrupalAddressFieldType & {
+type Props = AddressType & {
   singleLine?: boolean
 }
 
 const Address = ({
   addressLine1,
-  address_line1,
   addressLine2,
-  address_line2,
   administrativeArea,
-  administrative_area,
   country,
-  country_code,
   locality,
   organization,
   postalCode,
-  postal_code,
   singleLine = false
 }: Props) => {
 
@@ -25,11 +18,11 @@ const Address = ({
   if (singleLine) {
     const parts = [
       organization,
-      addressLine1 || address_line1,
-      addressLine2 || address_line2,
+      addressLine1,
+      addressLine2,
       locality,
-      `${administrativeArea || administrative_area} ${postalCode || postal_code}`,
-      `${country?.code || country_code}`
+      `${administrativeArea} ${postalCode}`,
+      `${country?.code}`
     ];
     return (
       <address>{parts.filter(part => !!part).join(', ')}</address>
@@ -39,11 +32,11 @@ const Address = ({
   return (
     <address>
       {organization && <div className="font-semibold">{organization}</div>}
-      {(addressLine1 || address_line1) && <div>{addressLine1 || address_line1}</div>}
-      {(addressLine2 || address_line2) && <div>{addressLine2 || address_line2}</div>}
-      {(locality && (administrativeArea || administrative_area) && (postalCode || postal_code)) &&
-        <div>{locality}, {administrativeArea || administrative_area} {postalCode || postal_code}</div>}
-      {(country?.code || country_code) && <div>{country?.code || country_code}</div>}
+      {(addressLine1) && <div>{addressLine1}</div>}
+      {(addressLine2) && <div>{addressLine2}</div>}
+      {(locality && (administrativeArea) && (postalCode)) &&
+        <div>{locality}, {administrativeArea} {postalCode}</div>}
+      {(country?.code) && <div>{country?.code}</div>}
     </address>
   )
 }

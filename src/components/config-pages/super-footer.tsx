@@ -2,29 +2,29 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import Link from "@components/elements/link";
 import {LockClosedIcon} from "@heroicons/react/24/outline";
 import {H2} from "@components/elements/headers";
-import {SuperFooterConfigPageType} from "@lib/drupal/drupal-jsonapi.types";
+import {StanfordSuperFooter} from "@lib/gql/__generated__/drupal";
 
-const SuperFooter = ({configPage}: { configPage?: SuperFooterConfigPageType }) => {
+const SuperFooter = ({configPage}: { configPage?: StanfordSuperFooter }) => {
 
-  if (!configPage || !configPage.su_super_foot_enabled) return
+  if (!configPage || !configPage.suSuperFootEnabled) return
 
   return (
     <div className="py-20 bg-foggy-light border-b border-black-20">
       <div className="centered flex justify-between">
         <div className="flex-1">
-          {configPage.su_super_foot_title &&
-            <H2 className="text-m2">{configPage.su_super_foot_title}</H2>
+          {configPage.suSuperFootTitle &&
+            <H2 className="text-m2">{configPage.suSuperFootTitle}</H2>
           }
-          {configPage.su_super_foot_text &&
-            <Wysiwyg html={configPage.su_super_foot_text}/>
+          {configPage.suSuperFootText?.processed &&
+            <Wysiwyg html={configPage.suSuperFootText.processed}/>
           }
         </div>
 
         <div className="flex-1 text-right">
           <div className="inline-block">
-            {configPage.su_super_foot_link &&
+            {configPage.suSuperFootLink &&
               <>
-                {configPage.su_super_foot_link.map((link, index) => {
+                {configPage.suSuperFootLink.map((link, index) => {
                   if (!link.url) return;
                   return (
                     <Link
@@ -38,12 +38,12 @@ const SuperFooter = ({configPage}: { configPage?: SuperFooterConfigPageType }) =
               </>
             }
 
-            {configPage.su_super_foot_intranet?.url &&
+            {configPage.suSuperFootIntranet?.url &&
               <Link
-                href={configPage.su_super_foot_intranet.url}
+                href={configPage.suSuperFootIntranet.url}
                 className="flex items-center text-digital-red no-underline hocus:text-black hocus:underline"
               >
-                {configPage.su_super_foot_intranet.title}
+                {configPage.suSuperFootIntranet.title}
                 <LockClosedIcon width={20} className="ml-2"/>
               </Link>
             }
