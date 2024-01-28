@@ -1,9 +1,9 @@
 "use client";
 
-import {FormEvent, useEffect, useRef, useState} from "react";
+import {FormEvent, useRef, useState} from "react";
 import Link from "@components/elements/link";
-import {useSearchParams} from "next/navigation";
 import {ArrowPathIcon} from "@heroicons/react/20/solid";
+import {useRouter} from "next/navigation";
 
 export type SearchResult = {
   id: string
@@ -12,26 +12,37 @@ export type SearchResult = {
   changed: string
 }
 
-const SearchResults = ({search}: { search: (_search: string) => Promise<SearchResult[]> }) => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const params = useSearchParams();
-  const [results, setResults] = useState<SearchResult[]>([])
-  const [searchString, setSearchString] = useState<string>(params?.get('q') || '')
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+type SearchState = {
+  results: SearchResult[],
+  searchString: string
+  isLoading: boolean
+}
 
-  useEffect(() => {
-    search(params?.get('q') || '').then(nodes => setResults(nodes));
-  }, [params, search])
+type Props = {
+  search: (_search: string) => Promise<SearchResult[]>
+  initialSearchString: string
+  initialResults: SearchResult[]
+}
+
+const SearchResults = ({search, initialSearchString, initialResults}: Props) => {
+  const router = useRouter();
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const [searchState, setSearchState] = useState<SearchState>({
+    results: initialResults,
+    searchString: initialSearchString || '',
+    isLoading: false
+  });
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    setIsLoading(true)
+    setSearchState({...searchState, isLoading: true})
 
     const searchString = inputRef.current?.value || '';
+    router.push(`/search?q=${searchString}`, {scroll: false})
+
     search(searchString).then(results => {
-      setResults(results);
-      setSearchString(searchString);
-      setIsLoading(false)
+      setSearchState({results, searchString, isLoading: false})
     });
   }
 
@@ -45,30 +56,30 @@ const SearchResults = ({search}: { search: (_search: string) => Promise<SearchRe
           id="query"
           type="text"
           required
-          defaultValue={searchString}
+          defaultValue={searchState.searchString}
         />
         <button
           type="submit"
-          className={(isLoading ? "bg-black" : "bg-cardinal-red") + " text-white hocus:bg-black hocus:text-white px-10 py-5 no-underline hocus:underline transition cursor-pointer"}
-          disabled={isLoading}
+          className={(searchState.isLoading ? "bg-black" : "bg-cardinal-red") + " text-white hocus:bg-black hocus:text-white px-10 py-5 no-underline hocus:underline transition cursor-pointer"}
+          disabled={searchState.isLoading}
         >
           Search
         </button>
       </form>
 
       <div className="sr-only" aria-live="polite">
-        Showing {results.length} {!searchString ? 'suggestions.' : `results for ${searchString}.`}
+        Showing {searchState.results.length} {!searchState.searchString ? 'suggestions.' : `results for ${searchState.searchString}.`}
       </div>
-      {isLoading &&
+      {searchState.isLoading &&
         <div className="fixed top-0 left-0 bg-black w-screen h-screen opacity-30">
           <ArrowPathIcon width={50} className="animate-spin fixed top-1/2 left-1/2 text-white"/>
         </div>
       }
-      {results.length === 0 && <div>No results found for your search. Please try another keyword.</div>}
+      {searchState.results.length === 0 && <div>No results found for your search. Please try another keyword.</div>}
 
-      {results.length > 0 &&
+      {searchState.results.length > 0 &&
         <ul className="list-unstyled">
-          {results.map(result =>
+          {searchState.results.map(result =>
             <li key={result.id}
                 className="border-b border-black-20 last:border-0 py-20">
               <Link href={result.path} className="text-m2 font-bold">

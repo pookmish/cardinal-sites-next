@@ -12,7 +12,9 @@ export const revalidate = false;
 export const dynamic = 'force-static';
 
 const Home = async () => {
-  const {entity} = await getEntityFromPath<NodeStanfordPage>('/', isDraftMode());
+  const {entity, error} = await getEntityFromPath<NodeStanfordPage>('/', isDraftMode());
+
+  if (error) throw new Error(error);
   if (!entity) notFound();
 
   return (

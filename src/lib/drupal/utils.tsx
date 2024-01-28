@@ -32,14 +32,12 @@ export const getPathFromContext = (context: PageProps, prefix = ""): string => {
   return prefix ? `${prefix}/${slug}` : `/${slug}`
 }
 
-export const buildHeaders = async ({accessToken, headers = {"Content-Type": "application/json"}, draftMode = false}: {
+export const buildHeaders = async ({accessToken, headers = {}, draftMode = false}: {
   accessToken?: AccessToken
   headers?: HeadersInit
   draftMode?: boolean
 } = {}): Promise<Headers> => {
-  if (process.env.REQUEST_HEADERS) {
-    headers = {...headers, ...JSON.parse(process.env.REQUEST_HEADERS)};
-  }
+  if (process.env.REQUEST_HEADERS) headers = {...headers, ...JSON.parse(process.env.REQUEST_HEADERS)};
 
   const requestHeaders = new Headers(headers);
 

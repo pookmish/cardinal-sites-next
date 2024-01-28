@@ -3,6 +3,8 @@ import {redirect} from 'next/navigation'
 import {getEntityFromPath} from "@lib/gql/fetcher";
 import {NextRequest, NextResponse} from "next/server";
 
+export const revalidate = 0;
+
 export async function GET(request: NextRequest) {
 
   const secret = request.nextUrl.searchParams.get('secret')

@@ -4,6 +4,8 @@ import GlobalMessage from "@components/config-pages/global-message";
 import Lockup from "@components/elements/lockup/lockup";
 import {getConfigPage, getMenu} from "@lib/gql/fetcher";
 import {StanfordGlobalMessage} from "@lib/gql/__generated__/drupal";
+import Link from "@components/elements/link";
+import {isDraftMode} from "@lib/drupal/utils";
 
 const PageHeader = async () => {
   const menuItems = await getMenu();
@@ -19,6 +21,12 @@ const PageHeader = async () => {
           >
             Stanford University
           </a>
+
+          {isDraftMode() &&
+            <Link className="text-white no-underline hocus:underline hocus:text-white font-normal leading-none block float-right" href="/api/draft/disable" prefetch={false}>
+              Exit Preview Mode
+            </Link>
+          }
         </div>
       </div>
       <GlobalMessage configPage={globalMessageConfig}/>

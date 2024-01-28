@@ -6,6 +6,7 @@ import {cache, HtmlHTMLAttributes, Suspense} from "react";
 import {Maybe, NodeUnion, ParagraphStanfordList} from "@lib/gql/__generated__/drupal";
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
 import {graphqlClient} from "@lib/gql/fetcher";
+import {buildHeaders} from "@lib/drupal/utils";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordList
@@ -99,7 +100,8 @@ const getViewItems = cache(async (viewId: string, displayId: string, contextualF
       break
   }
 
-  const client = graphqlClient(undefined, {next: {tags}});
+  const headers = await buildHeaders();
+  const client = graphqlClient({headers, next: {tags}});
   let filters = getViewFilters(['term_node_taxonomy_name_depth'], contextualFilter)
   let graphqlResponse;
 

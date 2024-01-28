@@ -5,6 +5,7 @@ import {graphqlClient} from "@lib/gql/fetcher";
 import {MediaStanfordGalleryImage} from "@lib/gql/__generated__/drupal";
 
 const Page = async ({params: {uuid}}: { params: { uuid: string } }) => {
+
   const captionId = randomUUID();
   let media: MediaStanfordGalleryImage | undefined;
   try {
