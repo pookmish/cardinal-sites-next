@@ -75,10 +75,10 @@ can be easily cached by Drupal/Varnish/CDN services and result in faster data tr
 JSON API functions are found in the [./src/lib/drupal directory](./src/lib/drupal). 
 
 ### GraphQL
-GraphQL endpoint `/graphql` accepts POST methods only. These queries are intended for nodes and more complex data. This
-allows us to create very nested queries using unions and conditions. We can easily fetch every single piece of 
-information in a single request to build out the entire page, except views. Views are fetched separately to allow us to
-make them more dynamic in the future and also to avoid some unwanted errors that come from the first render in Drupal.
+GraphQL endpoint `/graphql` accepts POST methods only. GraphQL allows us to create very nested queries using unions. We 
+can easily fetch every single piece of information in a single request to build out the entire page, except views. Views
+are fetched separately to allow us to make them more dynamic in the future and also to avoid some unwanted errors that 
+come from the first render in Drupal.
 
 GraphQL types and fetch methods are generated automatically using `yarn graphql`. If a content type, field, vocabulary, 
 paragraph type, etc. are created/edited/deleted in the Drupal environment, the queries in [./src/lib/gql](./src/lib/gql) 
@@ -92,12 +92,35 @@ typescript types and fetcher queries.
 Next.js caches data fetches pretty heavy. On top of that, in production builds, the data and pages are build and cached.
 If you experience any issues during development, delete the `.next` directory and restart your local server.
 
-In the layout and pages, we set the `revalidate` variable to `false`. This caches the page/layout build indefinitely.
-To allow the page to rebuild, we use the route [/api/revalidate](./src/pages/api/revalidate.tsx) which triggers Next.js
-to clear the cache and re-fetch the data to build that page. Next.js will immediately rebuild the url upon invalidating
-the page url. NOTE: there is a route handler in [app/api/app-revalidate/route.tsx](./app/api/app-revalidate/route.tsx).
-This route does not seem to work when deployed to Vercel hosting service. The route is there to occasionally test the
-invalidation and eventually will replace the route in the `src/pages` directory.
+In the layout and pages, we set the `revalidate` variable to `false`. This caches the page and layout build indefinitely.
+Layouts and page caches are treated separately and can be invalidated independently of each other, while also allowing
+specific parts of each to be invalidated. A route handler is provided that allows the CMS system to invalidate 
+appropriate areas of the site. Making a `GET` request to `/api/revalidate?secret=[secret]&slug=/[slug]` with the correct
+parameters will accomplish this invalidation. Passing a slug in the form `/tags/foo:bar` will invalidate the cache tags
+for `foo:bar` using the [revalidateTag](https://nextjs.org/docs/app/api-reference/functions/revalidateTag) function. The
+reason for this is the Next.js Drupal module only provides a single API url for on demand invalidation. So we have to 
+implement our own logic.
+
+### Layout
+
+The layout consists of the global elements on all pages. This consists of the global header, footer, and the menu. Any
+site wide settings should also be used in the layout. The main menu in the header has cache tags: `menus` & `menu:main`.
+The config pages have the cache tag `config-pages` since all config pages are fetched with a single request.
+
+When a layout cache is invalidated, it has no impact on the route caches below. However, it will trigger every route to
+be rebuilt upon the next request. This shouldn't impact the CMS system since the route caches are still available.
+
+### Page
+
+Page routes are cache separately from Layouts. When invalidating a route or any fetch requests on the route, the layout
+caches will not be impacted. Using the route handler, if we invalidate the slug `/foo/bar` using the [revalidatePath](https://nextjs.org/docs/app/api-reference/functions/revalidatePath)
+function, it will invalidate any `fetch` request that was used to build that single page and no other pages. Requests
+like list paragraphs, or external fetches will be re-executed when the page is requested.
+
+Pages may contain list paragraphs. Those paragraphs have a separate `fetch` so they can be invalidated when a content
+changes in the CMS. Each view contains a cache tag in the form `views:[content_type]` that correlates to the content
+type in the Drupal CMS. When this cache tag is invalidated, any route that contains that list paragraph will be rebuilt,
+but only the list paragraph data will be re-fetched from the CMS.
 
 - [Next.JS cache documentation](https://nextjs.org/docs/app/building-your-application/caching)
 

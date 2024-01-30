@@ -1,7 +1,9 @@
 import {
+  getSdk,
   ConfigPagesQuery,
   ConfigPagesUnion,
-  getSdk, MenuAvailable, MenuItem,
+  MenuAvailable,
+  MenuItem,
   NodeUnion,
   RouteQuery,
   RouteRedirect,
@@ -64,7 +66,7 @@ export const getConfigPage = cache(async <T extends ConfigPagesUnion, >(configPa
 
 export const getMenu = cache(async (name?: MenuAvailable): Promise<MenuItem[]> => {
   const headers = await buildHeaders();
-  const menu = await graphqlClient({headers, next: {tags: [`menu:${name || "main"}`]}}).Menu({name});
+  const menu = await graphqlClient({headers, next: {tags: ['menus', `menu:${name || "main"}`]}}).Menu({name});
   return (menu.menu?.items || []) as MenuItem[];
 })
 
