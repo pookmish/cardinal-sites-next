@@ -2,7 +2,6 @@ import {redirect} from "next/navigation";
 import {getEventTimeString} from "@components/nodes/cards/stanford-event/stanford-event-card";
 import {CalendarDaysIcon, MapPinIcon, PhoneIcon, UserGroupIcon} from "@heroicons/react/20/solid";
 import Address from "@components/elements/address";
-import Link from "next/link";
 import Button from "@components/elements/button";
 import Wysiwyg from "@components/elements/wysiwyg";
 import Rows from "@components/paragraphs/rows/rows";
@@ -10,6 +9,9 @@ import {H1, H2, H3} from "@components/elements/headers";
 import ScheduleParagraph from "@components/paragraphs/stanford-schedule/schedule-paragraph";
 import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordEvent, ParagraphStanfordSchedule} from "@lib/gql/__generated__/drupal";
+import Email from "@components/elements/email";
+import Telephone from "@components/elements/telephone";
+import Link from "@components/elements/link";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
@@ -71,16 +73,14 @@ const StanfordEventPage = ({node, ...props}: Props) => {
                 <H3 className="text-m1">Contact</H3>
 
                 {node.suEventEmail &&
-                  <Link href={`mailto:${node.suEventEmail}`}
-                        className="block">
+                  <Email email={node.suEventEmail} className="block">
                     {node.suEventEmail}
-                  </Link>
+                  </Email>
                 }
                 {node.suEventTelephone &&
-                  <Link href={`tel:${node.suEventTelephone}`}
-                        className="block">
+                  <Telephone tel={node.suEventTelephone} className="block">
                     {node.suEventTelephone}
-                  </Link>
+                  </Telephone>
                 }
               </div>
             </div>

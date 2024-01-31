@@ -1,10 +1,10 @@
 import Wysiwyg from "@components/elements/wysiwyg";
 import Button from "@components/elements/button";
 import Image from "next/image";
-import Link from "next/link";
 import {H2} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {MediaStanfordGalleryImage, ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal";
+import Link from "@components/elements/link";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordGallery

@@ -12,7 +12,7 @@ type Props = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> & LinkPro
   children: ReactNode | ReactNode[]
 }
 
-const DrupalLink = ({href, className, prefetch = true, children, ...props}: Props) => {
+const DrupalLink = ({href, className, prefetch, children, ...props}: Props) => {
   if (!href || href === '' || typeof href !== 'string') {
     href = '#';
   }
@@ -47,7 +47,7 @@ const DrupalLink = ({href, className, prefetch = true, children, ...props}: Prop
   if (href.startsWith('mailto')) afterIcon = <EnvelopeIcon width={20} className="ml-4 inline-block"/>
 
   return (
-    <Link href={href} className={className} prefetch={prefetch && href.startsWith('/')} {...props}>
+    <Link href={href} className={className} prefetch={prefetch || false} {...props}>
       {children}
       {afterIcon}
     </Link>
