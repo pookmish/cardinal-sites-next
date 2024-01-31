@@ -2,7 +2,7 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import Button from "@components/elements/button";
 import View from "@components/views/view";
 import {H2} from "@components/elements/headers";
-import {cache, HtmlHTMLAttributes, Suspense} from "react";
+import {cache, HtmlHTMLAttributes} from "react";
 import {Maybe, NodeUnion, ParagraphStanfordList} from "@lib/gql/__generated__/drupal";
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
 import {graphqlClient} from "@lib/gql/fetcher";
@@ -34,15 +34,13 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
         <Wysiwyg html={paragraph.suListDescription?.processed}/>
       }
 
-      {(viewItems.length > 0) &&
-        <Suspense fallback={null}>
-          <View
-            viewId={viewId}
-            displayId={displayId}
-            items={viewItems}
-            headingLevel={paragraph.suListHeadline ? 'h3' : 'h2'}
-          />
-        </Suspense>
+      {viewItems &&
+        <View
+          viewId={viewId}
+          displayId={displayId}
+          items={viewItems}
+          headingLevel={paragraph.suListHeadline ? 'h3' : 'h2'}
+        />
       }
 
       {(viewItems.length === 0 && behaviors.list_paragraph?.empty_message) &&

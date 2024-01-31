@@ -8,6 +8,7 @@ import BannerParagraph from "@components/paragraphs/stanford-banner/banner-parag
 import ListParagraph from "@components/paragraphs/stanford-lists/list-paragraph";
 import {isDraftMode} from "@lib/drupal/utils";
 import {ParagraphUnion} from "@lib/gql/__generated__/drupal";
+import {Suspense} from "react";
 
 const Paragraph = async ({paragraph}: { paragraph: ParagraphUnion }) => {
   const draftMode = isDraftMode()
@@ -27,14 +28,19 @@ const Paragraph = async ({paragraph}: { paragraph: ParagraphUnion }) => {
       return <EntityParagraph paragraph={paragraph} {...itemProps}/>
     case 'ParagraphStanfordGallery':
       return <GalleryParagraph paragraph={paragraph} {...itemProps}/>
-    case 'ParagraphStanfordList':
-      return <ListParagraph paragraph={paragraph} {...itemProps}/>
     case 'ParagraphStanfordMediaCaption':
       return <MediaCaptionParagraph paragraph={paragraph} {...itemProps}/>
     case 'ParagraphStanfordSpacer':
       return <SpacerParagraph paragraph={paragraph} {...itemProps}/>
     case 'ParagraphStanfordWysiwyg':
       return <WysiwygParagraph paragraph={paragraph} {...itemProps}/>
+    case 'ParagraphStanfordList':
+      return (
+        <Suspense>
+          <ListParagraph paragraph={paragraph} {...itemProps}/>
+        </Suspense>
+      )
   }
+  console.log(`Unknown paragraph ${paragraph.__typename}. Item ${paragraph.id}.`);
 }
 export default Paragraph;
