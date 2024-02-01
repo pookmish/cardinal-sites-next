@@ -17,7 +17,8 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
   const publishDate = node.suNewsPublishingDate ? new Date(node.suNewsPublishingDate.time).toLocaleDateString("en-us", {
     month: "long",
     day: "numeric",
-    year: "numeric"
+    year: "numeric",
+    timezone: node.suNewsPublishingDate.timezone
   }) : undefined;
 
   let bannerImageUrl: string | undefined, bannerImageAlt: string = ""

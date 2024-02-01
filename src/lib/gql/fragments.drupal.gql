@@ -4,7 +4,7 @@ fragment FragmentSuPolicyLog on SuPolicyLog {
     __typename
     id
     suPolicyDate {
-        time
+        ...FragmentDateTime
     }
     suPolicyNotes
     suPolicyPublic
@@ -31,10 +31,10 @@ fragment FragmentNodeInterface on NodeInterface {
     status
     path
     changed {
-        time
+        ...FragmentDateTime
     }
     created {
-        time
+        ...FragmentDateTime
     }
 }
 
@@ -167,7 +167,7 @@ fragment FragmentNodeStanfordNews on NodeStanfordNews {
     }
     suNewsHideSocial
     suNewsPublishingDate {
-        time
+        ...FragmentDateTime
     }
     suNewsSource {
         url
@@ -246,7 +246,7 @@ fragment FragmentNodeStanfordPolicy on NodeStanfordPolicy {
     }
     suPolicyChapter
     suPolicyEffective {
-        time
+        ...FragmentDateTime
     }
     suPolicyPolicyNum
     suPolicyRelated {
@@ -256,7 +256,7 @@ fragment FragmentNodeStanfordPolicy on NodeStanfordPolicy {
     suPolicySubchapter
     suPolicyTitle
     suPolicyUpdated {
-        time
+        ...FragmentDateTime
     }
 }
 
@@ -318,11 +318,19 @@ fragment FragmentNodeStanfordEventSeriesTeaser on NodeStanfordEventSeries {
 
 fragment FragmentNodeStanfordNewsTeaser on NodeStanfordNews {
     ...FragmentNodeInterface
+    suNewsDek
     suNewsFeaturedMedia {
         ...FragmentMediaImage
     }
     suNewsTopics {
         ...FragmentTermInterface
+    }
+    suNewsPublishingDate {
+        ...FragmentDateTime
+    }
+    suNewsSource {
+        url
+        title
     }
 }
 
@@ -597,6 +605,11 @@ fragment FragmentMediaUnion on MediaUnion {
     ...FragmentMediaImage
     ...FragmentMediaStanfordGalleryImage
     ...FragmentMediaVideo
+}
+
+fragment FragmentDateTime on DateTime {
+    timezone
+    time
 }
 
 fragment FragmentSmartDateType on SmartDateType {

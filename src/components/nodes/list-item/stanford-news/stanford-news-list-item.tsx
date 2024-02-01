@@ -12,32 +12,44 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
   const image = node.suNewsFeaturedMedia?.mediaImage
 
-  const publishDate = node.suNewsPublishingDate && new Date(node.suNewsPublishingDate.time);
-
   const topics: TermUnion[] = node.suNewsTopics ? node.suNewsTopics.slice(0, 3) : [];
   const Heading = headingLevel === 'h3' ? H3 : H2;
+
+  const publishDate = node.suNewsPublishingDate ? new Date(node.suNewsPublishingDate.time).toLocaleDateString("en-us", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timezone: node.suNewsPublishingDate.timezone
+  }) : undefined;
+
   return (
     <article aria-labelledby={node.id} className="@container" {...props}>
       <div className="flex w-full justify-between flex-col @3xl:flex-row py-10">
-        <div className="order-2 @3xl::order-1 flex flex-col">
+        <div className="order-2 @3xl::order-1">
 
-          <Heading className="font-bold text-m2" id={node.id}>
-            <Link
-              href={node.path}
-              className="text-digital-red no-underline hocus:text-black hocus:underline order-2"
-            >
-              {node.title}
-            </Link>
-          </Heading>
+          <div className="flex flex-col gap-10">
+            <Heading className="order-last font-bold text-m2" id={node.id}>
+              <Link
+                href={node.suNewsSource?.url || node.path}
+                className="text-digital-red no-underline hocus:text-black hocus:underline order-2"
+              >
+                {node.title}
+              </Link>
+            </Heading>
 
-          {publishDate &&
-            <div className="order-1 mb-10">
-              {publishDate.toLocaleDateString('en-us', {month: 'long', day: 'numeric', year: 'numeric'})}
-            </div>
+            {publishDate &&
+              <div>
+                {publishDate}
+              </div>
+            }
+          </div>
+
+          {node.suNewsDek &&
+            <p>{node.suNewsDek}</p>
           }
 
           {topics &&
-            <div className="order-3">
+            <div className="font-bold">
               {topics.map((topic, index) =>
                 <span key={topic.id}>
                   {topic.name}{(index != 2 && index != topics.length - 1) ? ", " : ""}

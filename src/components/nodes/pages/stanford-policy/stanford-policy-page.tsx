@@ -32,7 +32,8 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
                 {new Date(node.suPolicyUpdated.time).toLocaleDateString('en-us', {
                   month: "long",
                   day: "numeric",
-                  year: "numeric"
+                  year: "numeric",
+                  timezone: node.suPolicyUpdated.timezone
                 })}
               </div>
             }
@@ -42,7 +43,8 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
                 {new Date(node.suPolicyEffective.time).toLocaleDateString('en-us', {
                   month: "long",
                   day: "numeric",
-                  year: "numeric"
+                  year: "numeric",
+                  timezone: node.suPolicyEffective.timezone
                 })}
               </div>
             }
@@ -59,7 +61,8 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
                   <div>{new Date(change.suPolicyDate.time).toLocaleDateString('en-us', {
                     month: "long",
                     day: "numeric",
-                    year: "numeric"
+                    year: "numeric",
+                    timezone: node.suPolicyDate.timezone
                   })}</div>
                   <div className="w-[2px] bg-black shrink-0"/>
                   <div>{change.suPolicyTitle}</div>
