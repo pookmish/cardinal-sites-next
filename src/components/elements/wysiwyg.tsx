@@ -43,7 +43,7 @@ const options: HTMLReactParserOptions = {
 
         case "div":
           delete nodeProps.role;
-          if (nodeProps.className?.indexOf('media-entity-wrapper') >= 0) {
+          if (!!nodeProps.className?.indexOf('media-entity-wrapper')) {
             return cleanMediaMarkup(domNode);
           }
           return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
@@ -129,7 +129,7 @@ const fixClasses = (classes: string | boolean = ''): undefined | string => {
 
   classes = classes.split(' ')
     .filter(className => className.trim().length >= 1)
-    .filter((value, index, self) => self.indexOf(value) === index)
+    .filter((value, index, self) => self?.indexOf(value) === index)
     .join(' ');
 
   return classes.trim();
@@ -198,14 +198,14 @@ const cleanMediaMarkup = (node: Element) => {
   if (image) {
     let {src, alt, width, height} = image;
 
-    if (src.startsWith('/')) {
+    if (src?.startsWith('/')) {
       src = process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + src;
     }
     const figCaption = getFigCaption(node);
 
     if (figCaption) {
       nodeProps.className += ' table';
-      if (nodeProps.className.indexOf('mx-auto') >= 0) nodeProps.className += ' w-full'
+      if (!!nodeProps.className?.indexOf('mx-auto')) nodeProps.className += ' w-full'
       delete nodeProps.role;
       return (
         <figure {...nodeProps}>

@@ -7,6 +7,7 @@ import Script from "next/script";
 import GoogleAnalytics from "@components/tools/google-analytics";
 import {isDraftMode} from "@lib/drupal/utils";
 import BackToTop from "@components/elements/back-to-top";
+import Link from "@components/elements/link";
 
 export const metadata = {
   // Update the metadataBase to the production domain.
@@ -16,6 +17,7 @@ export const metadata = {
 
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const revalidate = false;
+export const dynamic = 'force-static';
 
 const RootLayout = async ({children, modal}: { children: React.ReactNode, modal: React.ReactNode }) => {
   const draftMode = isDraftMode();
@@ -35,6 +37,11 @@ const RootLayout = async ({children, modal}: { children: React.ReactNode, modal:
     <nav aria-label="Skip Links">
       <a href="#main-content" className="skiplink">Skip to main content</a>
     </nav>
+
+    {/* Automatically exit "Draft" mode upon the page loading. This prevents unwanted uncached data fetching. */}
+    {draftMode &&
+      <Link href="/api/draft/disable" tabIndex={-1} className="sr-only">Disable Draft Mode</Link>
+    }
 
     <div className="flex flex-col min-h-screen">
       <PageHeader/>

@@ -65,9 +65,13 @@ Mode", the APIs will use the `DRUPAL_DRAFT_CLIENT` & `DRUPAL_DRAFT_SECRET` envir
 This token allows either API to fetch authenticated only data. But while in "draft mode", the pages will be built at
 request time. "Draft mode" should only be used for previewing content when a user is editing. "Draft mode" is only enabled
 when a user hits the [/api/draft](./app/api/draft/route.tsx) route from the Drupal environment. It establishes a cookie
-that is then used for subsequent page requests.
+that is then used for subsequent page requests. Note that while in "draft mode", every page load will request fresh data
+from the CMS system. This can have negative performance impacts on both platforms.
+
+[Draft mode documenation](https://nextjs.org/docs/app/building-your-application/configuring/draft-mode)
 
 ### JSON API
+
 The JSON API is used for data points that are more simple and don't require very complex data such as paragraph entities. 
 Things like the config pages and the main menu are fetched from JSON API. These APIs also use GET methods. This way they 
 can be easily cached by Drupal/Varnish/CDN services and result in faster data transfer.
@@ -75,6 +79,7 @@ can be easily cached by Drupal/Varnish/CDN services and result in faster data tr
 JSON API functions are found in the [./src/lib/drupal directory](./src/lib/drupal). 
 
 ### GraphQL
+
 GraphQL endpoint `/graphql` accepts POST methods only. GraphQL allows us to create very nested queries using unions. We 
 can easily fetch every single piece of information in a single request to build out the entire page, except views. Views
 are fetched separately to allow us to make them more dynamic in the future and also to avoid some unwanted errors that 
@@ -87,7 +92,7 @@ file. To make it easy, Drupal provides fragments you can copy as a starting poin
 to view those fragments. Once the fragments and/or queries have been modified, simply run `yarn graphql` to rebuild the
 typescript types and fetcher queries.
 
-## Cacheing
+## Cache
 
 Next.js caches data fetches pretty heavy. On top of that, in production builds, the data and pages are build and cached.
 If you experience any issues during development, delete the `.next` directory and restart your local server.
@@ -122,7 +127,20 @@ changes in the CMS. Each view contains a cache tag in the form `views:[content_t
 type in the Drupal CMS. When this cache tag is invalidated, any route that contains that list paragraph will be rebuilt,
 but only the list paragraph data will be re-fetched from the CMS.
 
+### Images/Files
+
+Images are optimized on the hosting platform. It is recommended to use the original image from the source so that the
+derived images will be at the best resolution quality. [Next.js](https://nextjs.org/docs/pages/api-reference/components/image)
+provides extensive documentation about image optimization. Optimized images will then be cached on the hosting provider
+and stored for 31 days, unless triggered to be cleared out. [Vercel](https://vercel.com/docs/image-optimization#caching)
+has documentation explaining how their cache is handled.
+
+Files, pdf, txt, etc., assets are referenced directly from the CMS. Their cache is managed by the Drupal hosting provider
+and/or Varnish/CDN/Etc.
+
+
 - [Next.JS cache documentation](https://nextjs.org/docs/app/building-your-application/caching)
+- [Vercel Edge Caching](https://vercel.com/docs/edge-network/caching)
 
 ## Learn More
 

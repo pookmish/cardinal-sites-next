@@ -9,16 +9,22 @@ type Props = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> & LinkPro
   href: string
 }
 
-const DrupalLink = ({href, className, prefetch, children, ...props}: Props) => {
+const DrupalLink = ({href, className, children, ...props}: Props) => {
+  // Make sure all links have a href.
+  href = href || '#'
   const drupalBase: string = (process.env.NEXT_PUBLIC_DRUPAL_BASE_URL ?? '').replace(/\/$/, '');
 
-  if (!href.indexOf('/files/')) {
+  if (href && !href.indexOf('/files/')) {
     href = href.replace(drupalBase, '').replace('<front>', '/');
   }
   className = className && className.length > 0 ? className : undefined;
 
   if (className?.includes('link--action')) {
-    return <ActionLink href={href} {...props}>{children}</ActionLink>
+    return (
+      <ActionLink href={href} {...props}>
+        {children}
+      </ActionLink>
+    )
   }
 
   if (className?.includes('button')) {
@@ -35,7 +41,7 @@ const DrupalLink = ({href, className, prefetch, children, ...props}: Props) => {
   }
 
   return (
-    <Link href={href} className={className} prefetch={prefetch || false} {...props}>
+    <Link href={href} className={className} {...props}>
       {children}
       {href.startsWith('mailto') &&
         <EnvelopeIcon width={20} className="ml-4 inline-block"/>

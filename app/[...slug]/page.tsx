@@ -14,8 +14,9 @@ export const dynamic = 'force-static';
 
 const Page = async ({params}: PageProps) => {
   const path = getPathFromContext({params})
+  const inDraft = isDraftMode();
 
-  const {redirect: redirectPath, entity, error} = await getEntityFromPath<NodeUnion>(path, isDraftMode())
+  const {redirect: redirectPath, entity, error} = await getEntityFromPath<NodeUnion>(path, inDraft)
 
   if (error) throw new Error(error);
   if (redirectPath?.url) redirect(redirectPath.url)

@@ -13,6 +13,7 @@ import {GraphQLClient} from "graphql-request";
 import type {RequestConfig} from "graphql-request/src/types";
 import {cache} from "react";
 import {buildHeaders} from "@lib/drupal/utils";
+import {cache as nodeCache} from "@lib/drupal/get-cache";
 
 export const graphqlClient = (requestConfig: RequestConfig = {}) => {
   const client = new GraphQLClient(
@@ -47,11 +48,10 @@ export const getEntityFromPath = cache(async <T extends NodeUnion | TermUnion, >
   return {entity, redirect: undefined, error: undefined};
 })
 
-export const getConfigPage = cache(async <T extends ConfigPagesUnion, >(configPageType: ConfigPagesUnion['__typename']): Promise<T | undefined> => {
+export const getConfigPage = async <T extends ConfigPagesUnion, >(configPageType: ConfigPagesUnion['__typename']): Promise<T | undefined> => {
   let query: ConfigPagesQuery;
   try {
-    const headers = await buildHeaders()
-    query = await graphqlClient({headers, next: {tags: ['config-pages']}}).ConfigPages();
+    query = await getConfigPagesData();
   } catch (e) {
     console.error('Unable to fetch config pages');
     return;
@@ -62,10 +62,22 @@ export const getConfigPage = cache(async <T extends ConfigPagesUnion, >(configPa
   if (query.stanfordLocalFooters.nodes[0]?.__typename === configPageType) return query.stanfordLocalFooters.nodes[0] as T;
   if (query.stanfordSuperFooters.nodes[0]?.__typename === configPageType) return query.stanfordSuperFooters.nodes[0] as T;
   if (query.lockupSettings.nodes[0]?.__typename === configPageType) return query.lockupSettings.nodes[0] as T;
+}
+
+const getConfigPagesData = cache(async (): Promise<ConfigPagesQuery> => {
+  // Config page data doesn't change if a user is in "Draft" mode or not, so the data can be cached for both situations.
+  const cachedData = nodeCache.get<ConfigPagesQuery>('config-pages')
+  if (cachedData) return cachedData;
+
+  const headers = await buildHeaders()
+  const query = await graphqlClient({headers, next: {tags: ['config-pages']}}).ConfigPages();
+
+  nodeCache.set('config-pages', query);
+  return query;
 })
 
-export const getMenu = cache(async (name?: MenuAvailable): Promise<MenuItem[]> => {
-  const headers = await buildHeaders();
+export const getMenu = cache(async (name?: MenuAvailable, draftMode?: boolean): Promise<MenuItem[]> => {
+  const headers = await buildHeaders({draftMode});
   const menu = await graphqlClient({headers, next: {tags: ['menus', `menu:${name || "main"}`]}}).Menu({name});
   return (menu.menu?.items || []) as MenuItem[];
 })
