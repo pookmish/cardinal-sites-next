@@ -22,8 +22,8 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
 
   // Fix difference between server side render and client side render. Replace any strange characters.
   const dateTimeString = getEventTimeString(start, end, timezone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
-  const goToPath = node.suEventSource?.url || node.path
   const Heading = headingLevel === 'h3' ? H3 : H2;
+
   return (
     <article aria-labelledby={node.id} className="w-full mx-auto py-10 flex gap-10" {...props}>
       <div aria-hidden className="flex flex-col items-start w-fit">
@@ -35,26 +35,30 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
         </div>
       </div>
       <div>
-        {node.suEventType &&
-          <div className="su-digital-red">
-            {node.suEventType[0].name}
-          </div>
-        }
+        <div className="flex flex-col">
+          <Heading className="text-m2" id={node.id}>
+            <Link
+              href={node.suEventSource?.url || node.path}
+              className="text-digital-red no-underline hocus:text-black hocus:underline"
+            >
+              {node.title}
+            </Link>
+          </Heading>
 
-
-        <Heading className="text-m2" id={node.id}>
-          <Link
-            href={goToPath}
-            className="text-digital-red no-underline hocus:text-black hocus:underline"
-          >
-            {node.title}
-          </Link>
-        </Heading>
+          {node.suEventType &&
+            <div className="su-digital-red order-first">
+              {node.suEventType[0].name}
+            </div>
+          }
+        </div>
 
         {node.suEventSubheadline &&
           <div className="text-m1 font-bold mb-5">
             {node.suEventSubheadline}
           </div>
+        }
+        {node.suEventDek &&
+          <p>{node.suEventDek}</p>
         }
 
         <time className="flex items-center gap-5 mb-5" dateTime={start.toISOString()}>

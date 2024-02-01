@@ -3,6 +3,7 @@ import {CalendarDaysIcon, MapPinIcon} from "@heroicons/react/20/solid";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal";
+import Address from "@components/elements/address";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
@@ -21,11 +22,10 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
 
   // Fix difference between server side render and client side render. Replace any strange characters.
   const dateTimeString = getEventTimeString(start, end, timezone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
-  const goToPath = node.suEventSource?.url || node.path
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <article aria-labelledby={node.id}
-             className="mx-auto shadow-lg border border-black-20 p-10 flex flex-col gap-10 overflow-hidden" {...props}>
+             className="mx-auto shadow-lg border border-black-20 p-10 flex flex-col gap-5 overflow-hidden" {...props}>
       <div aria-hidden className="flex flex-col items-start w-fit">
         <div className="text-m0 font-semibold mb-4 w-full text-center">
           {startMonth.toUpperCase()}
@@ -35,24 +35,39 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
         </div>
       </div>
 
-      {(node.suEventType && node.suEventType?.length > 0) &&
-        <div className="su-digital-red">
-          {node.suEventType[0].name}
+      <div className="flex flex-col">
+        <Heading className="text-m2 [&_a]:text-black [&_a]:hocus:text-digital-red" id={node.id}>
+          <Link href={node.suEventSource?.url || node.path}>
+            {node.title}
+          </Link>
+        </Heading>
+
+        {(node.suEventType && node.suEventType?.length > 0) &&
+          <div className="su-digital-red order-first">
+            {node.suEventType[0].name}
+          </div>
+        }
+      </div>
+
+      {node.suEventSubheadline &&
+        <div className="text-m1 font-bold mb-5">
+          {node.suEventSubheadline}
         </div>
       }
-
-
-      <Heading className="text-m2 [&_a]:text-black [&_a]:hocus:text-digital-red" id={node.id}>
-        <Link href={goToPath}>
-          {node.title}
-        </Link>
-      </Heading>
-
 
       <time className="flex items-center gap-5" dateTime={start.toISOString()}>
         <CalendarDaysIcon width={30} className="shrink-0"/>
         {dateTimeString}
       </time>
+
+      {node.suEventLocation &&
+        <div>
+          <div className="flex items-center gap-5">
+            <MapPinIcon width={30} className="shrink-0"/>
+            <Address {...node.suEventLocation}/>
+          </div>
+        </div>
+      }
 
       {node.suEventAltLoc &&
         <div className="flex items-center gap-5">

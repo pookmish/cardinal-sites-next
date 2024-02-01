@@ -303,11 +303,20 @@ fragment FragmentNodeStanfordCourseTeaser on NodeStanfordCourse {
 fragment FragmentNodeStanfordEventTeaser on NodeStanfordEvent {
     ...FragmentNodeInterface
     suEventAltLoc
+    suEventSubheadline
+    suEventDek
+    suEventLocation {
+        ...FragmentAddressType
+    }
     suEventDateTime {
         ...FragmentSmartDateType
     }
     suEventType {
         ...FragmentTermInterface
+    }
+    suEventSource {
+        url
+        title
     }
 }
 
@@ -351,6 +360,7 @@ fragment FragmentNodeStanfordPersonTeaser on NodeStanfordPerson {
         ...FragmentMediaImage
     }
     suPersonFullTitle
+    suPersonShortTitle
 }
 
 fragment FragmentNodeStanfordPolicyTeaser on NodeStanfordPolicy {

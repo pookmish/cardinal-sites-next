@@ -33,8 +33,8 @@ const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
         </Link>
       </Heading>
 
-      {node.suPersonFullTitle &&
-        <div>{node.suPersonFullTitle}</div>
+      {node.suPersonShortTitle &&
+        <div>{node.suPersonShortTitle}</div>
       }
     </article>
   )
