@@ -7,6 +7,7 @@ import {getPathFromContext, isDraftMode} from "@lib/drupal/utils";
 import {PageProps, Params} from "@lib/types";
 import {getEntityFromPath} from "@lib/gql/fetcher";
 import {NodeUnion} from "@lib/gql/__generated__/drupal";
+import UnpublishedBanner from "@components/elements/unpublished-banner";
 
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const revalidate = false;
@@ -23,7 +24,12 @@ const Page = async ({params}: PageProps) => {
   if (!entity) notFound();
 
   return (
-    <NodePage node={entity}/>
+    <>
+      <UnpublishedBanner status={entity.status}>
+        Unpublished Page
+      </UnpublishedBanner>
+      <NodePage node={entity}/>
+    </>
   )
 }
 

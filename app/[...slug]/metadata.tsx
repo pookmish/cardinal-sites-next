@@ -1,4 +1,5 @@
 import {decode} from 'html-entities';
+import {Metadata} from "next";
 import {
   Maybe,
   NodeStanfordEvent,
@@ -8,9 +9,10 @@ import {
   NodeUnion, ParagraphStanfordWysiwyg, ParagraphUnion
 } from "@lib/gql/__generated__/drupal";
 
-export const getNodeMetadata = (node: NodeUnion) => {
+export const getNodeMetadata = (node: NodeUnion): Metadata => {
   const defaultData = {
     title: node.title,
+    other: {}
   }
   switch (node.__typename) {
     case 'NodeStanfordPage':

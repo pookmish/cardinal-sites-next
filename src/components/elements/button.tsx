@@ -13,6 +13,7 @@ type Props = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> & {
   centered?: boolean
   onClick?: MouseEventHandler
   prefetch?: boolean
+  type?: HTMLButtonElement["type"]
 }
 
 export const Button = ({

@@ -19,21 +19,43 @@ import {H2} from "@components/elements/headers";
 import TwitterIcon from "@components/elements/icons/TwitterIcon";
 import YoutubeIcon from "@components/elements/icons/YoutubeIcon";
 import FacebookIcon from "@components/elements/icons/FacebookIcon";
-import {Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/drupal";
+import { Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/drupal";
 import {buildUrl} from "@lib/drupal/utils";
 
-const LocalFooter = ({configPage}: { configPage?: StanfordLocalFooter }) => {
-  if (!configPage || !configPage.suFooterEnabled) return;
+const LocalFooter = ({
+  suFooterEnabled,
+  suLocalFootAction,
+  suLocalFootAddress,
+  suLocalFootLine1,
+  suLocalFootLine2,
+  suLocalFootLine3,
+  suLocalFootLine4,
+  suLocalFootLine5,
+  suLocalFootLocImg,
+  suLocalFootLocOp,
+  suLocalFootPrCo,
+  suLocalFootPrimary,
+  suLocalFootPrimeH,
+  suLocalFootSeCo,
+  suLocalFootSecond,
+  suLocalFootSecondH,
+  suLocalFootSocial,
+  suLocalFootTr2Co,
+  suLocalFootTrCo,
+  suLocalFootUseLoc,
+  suLocalFootUseLogo,
+}: StanfordLocalFooter) => {
+  if (!suFooterEnabled) return;
 
   const lockupProps = {
-    useDefault: configPage.suLocalFootUseLoc,
-    lockupOption: configPage.suLocalFootLocOp,
-    line1: configPage.suLocalFootLine1,
-    line2: configPage.suLocalFootLine2,
-    line3: configPage.suLocalFootLine3,
-    line4: configPage.suLocalFootLine4,
-    line5: configPage.suLocalFootLine5,
-    logoUrl: !configPage.suLocalFootUseLogo && configPage.suLocalFootLocImg?.url ? buildUrl(configPage.suLocalFootLocImg?.url).toString() : undefined,
+    useDefault: suLocalFootUseLoc,
+    lockupOption: suLocalFootLocOp,
+    line1: suLocalFootLine1,
+    line2: suLocalFootLine2,
+    line3: suLocalFootLine3,
+    line4: suLocalFootLine4,
+    line5: suLocalFootLine5,
+    logoUrl: !suLocalFootUseLogo && suLocalFootLocImg?.url ? buildUrl(suLocalFootLocImg?.url).toString() : undefined,
   }
 
   return (
@@ -47,13 +69,13 @@ const LocalFooter = ({configPage}: { configPage?: StanfordLocalFooter }) => {
           className="grid md:grid-cols-2 lg:grid-cols-4 gap-32 [&_a]:font-normal [&_a]:no-underline [&_a:hover]:underline [&_a:hover]:text-black [&_a:focus]:underline [&_a:focus]:text-black [&_a]:transition">
           <div>
 
-            {configPage.suLocalFootAddress &&
-              <Address {...configPage.suLocalFootAddress}/>
+            {suLocalFootAddress &&
+              <Address {...suLocalFootAddress}/>
             }
 
-            {configPage.suLocalFootAction &&
+            {suLocalFootAction &&
               <ul className="list-unstyled">
-                {configPage.suLocalFootAction.map((link, index) => {
+                {suLocalFootAction.map((link, index) => {
                   if (!link.url) return;
                   return (
                     <li key={`footer-action-link-${index}`}>
@@ -66,9 +88,9 @@ const LocalFooter = ({configPage}: { configPage?: StanfordLocalFooter }) => {
               </ul>
             }
 
-            {configPage.suLocalFootSocial &&
+            {suLocalFootSocial &&
               <ul className="list-unstyled flex gap-2">
-                {configPage.suLocalFootSocial.map((link, index) => {
+                {suLocalFootSocial.map((link, index) => {
                   if (!link.url) return;
                   return (
                     <li key={`footer-action-link-${index}`}>
@@ -82,17 +104,17 @@ const LocalFooter = ({configPage}: { configPage?: StanfordLocalFooter }) => {
               </ul>
             }
 
-            {configPage.suLocalFootPrCo &&
-              <Wysiwyg html={configPage.suLocalFootPrCo.processed}/>
+            {suLocalFootPrCo &&
+              <Wysiwyg html={suLocalFootPrCo.processed}/>
             }
           </div>
 
           <div>
-            {configPage.suLocalFootPrimeH &&
-              <H2 className="text-m1">{configPage.suLocalFootPrimeH}</H2>}
-            {configPage.suLocalFootPrimary &&
+            {suLocalFootPrimeH &&
+              <H2 className="text-m1">{suLocalFootPrimeH}</H2>}
+            {suLocalFootPrimary &&
               <ul className="list-unstyled">
-                {configPage.suLocalFootPrimary.map((link, index) => {
+                {suLocalFootPrimary.map((link, index) => {
                   if (!link.url) return;
                   return (
                     <li key={`footer-primary-link-${index}`}>
@@ -104,19 +126,19 @@ const LocalFooter = ({configPage}: { configPage?: StanfordLocalFooter }) => {
                 })}
               </ul>
             }
-            {configPage.suLocalFootSeCo &&
-              <Wysiwyg html={configPage.suLocalFootSeCo.processed}/>
+            {suLocalFootSeCo &&
+              <Wysiwyg html={suLocalFootSeCo.processed}/>
             }
 
           </div>
 
           <div>
-            {configPage.suLocalFootSecondH &&
-              <H2 className="text-m1">{configPage.suLocalFootSecondH}</H2>}
+            {suLocalFootSecondH &&
+              <H2 className="text-m1">{suLocalFootSecondH}</H2>}
 
-            {configPage.suLocalFootSecond &&
+            {suLocalFootSecond &&
               <ul className="list-unstyled">
-                {configPage.suLocalFootSecond.map((link, index) => {
+                {suLocalFootSecond.map((link, index) => {
                   if (!link.url) return;
                   return (
                     <li key={`footer-second-link-${index}`}>
@@ -129,15 +151,15 @@ const LocalFooter = ({configPage}: { configPage?: StanfordLocalFooter }) => {
               </ul>
             }
 
-            {configPage.suLocalFootTr2Co &&
-              <Wysiwyg html={configPage.suLocalFootTr2Co.processed}/>
+            {suLocalFootTr2Co &&
+              <Wysiwyg html={suLocalFootTr2Co.processed}/>
             }
 
           </div>
 
           <div>
-            {configPage.suLocalFootTrCo &&
-              <Wysiwyg html={configPage.suLocalFootTrCo.processed}/>
+            {suLocalFootTrCo &&
+              <Wysiwyg html={suLocalFootTrCo.processed}/>
             }
           </div>
         </div>

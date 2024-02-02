@@ -1,4 +1,4 @@
-import {cache} from "./get-cache"
+import {cache} from "@lib/drupal/get-cache"
 
 interface AccessToken {
   token_type: string

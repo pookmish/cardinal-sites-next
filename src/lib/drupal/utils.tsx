@@ -1,6 +1,6 @@
 import {stringify} from "qs"
 import {AccessToken} from "next-drupal";
-import {getAccessToken} from "./get-access-token";
+import {getAccessToken} from "@lib/drupal/get-access-token";
 import {draftMode} from "next/headers";
 import {PageProps} from "@lib/types";
 

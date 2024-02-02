@@ -1,63 +1,50 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import Lockup from "@components/elements/lockup/lockup";
-import {lock} from "next/dist/client/components/react-dev-overlay/internal/components/Overlay/body-locker";
+import {ComponentProps} from "react";
+
+type ComponentStoryProps = ComponentProps<typeof Lockup> & {
+  logoUrl?: string
+}
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof Lockup> = {
+const meta: Meta<ComponentStoryProps> = {
   title: 'Design/Elements/Lockup',
   component: Lockup,
   tags: ['autodocs'],
   argTypes: {
-    option: {
+    suLockupOptions: {
       options: ['a', 'b', 'd', 'e', 'h', 'i', 'm', 'o', 'p', 'r', 's', 't', 'none'],
       control: {type: "select"}
     },
-    siteSettings: {
-      control: false,
+    suLockupEnabled: {
+      control: "boolean"
     },
-    lockupSettings: {
-      control: false,
+    suUseThemeLogo: {
+      control: "boolean"
     }
   }
 };
 
 export default meta;
-type Story = StoryObj<typeof Lockup>;
+type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const LockupDisplay: Story = {
-  render: (args) => {
-    const lockupSettings = {
-      su_use_theme_logo: args.themeLogo,
-      su_lockup_options: args.option,
-      su_lockup_enabled: args.enabled,
-      su_line_1: args.line1,
-      su_line_2: args.line2,
-      su_line_3: args.line3,
-      su_line_4: args.line4,
-      su_line_5: args.line5,
-      su_upload_logo_image: {
-        image_style_uri: {
-          responsive_medium: args.logoUrl
-        }
-      }
-    }
-    const siteSettings = {
-      siteName: args.siteName,
-    }
-    return <Lockup siteSettings={siteSettings} lockupSettings={lockupSettings}/>
+  render: ({logoUrl, ...args}) => {
+    if(logoUrl) args.suUploadLogoImage = {url: logoUrl, height: 50, width: 300, size: 123}
+    return <Lockup {...args}/>
   },
   args: {
-    line1: 'Line 1',
-    line2: 'Line 2',
-    line3: 'Line 3',
-    line4: 'Line 4',
-    line5: 'Line 5',
-    siteName: "Site Name",
-    themeLogo: true,
+    suLine1: "Line 1",
+    suLine2: "Line 2",
+    suLine3: "Line 3",
+    suLine4: "Line 4",
+    suLine5: "Line 5",
+    suSiteName: "Site Name",
+    suUseThemeLogo: true,
     logoUrl: "https://placekitten.com/300/50",
-    enabled: false,
-    option: 'none',
+    suLockupEnabled: true,
+    suLockupOptions: "none",
   },
 };
 
@@ -65,97 +52,97 @@ export const LockupA: Story = {
   render: LockupDisplay.render,
   args: {
     ...LockupDisplay.args,
-    option: "a"
+    suLockupOptions: "a"
   }
 }
 export const LockupB: Story = {
   render: LockupDisplay.render,
   args: {
     ...LockupDisplay.args,
-    option: "b"
+    suLockupOptions: "b"
   }
 }
 export const LockupD: Story = {
   render: LockupDisplay.render,
   args: {
     ...LockupDisplay.args,
-    option: "d"
+    suLockupOptions: "d"
   }
 }
 export const LockupE: Story = {
   render: LockupDisplay.render,
   args: {
     ...LockupDisplay.args,
-    option: "e"
+    suLockupOptions: "e"
   }
 }
 export const LockupH: Story = {
   render: LockupDisplay.render,
   args: {
     ...LockupDisplay.args,
-    option: "h"
+    suLockupOptions: "h"
   }
 }
 export const LockupI: Story = {
   render: LockupDisplay.render,
   args: {
     ...LockupDisplay.args,
-    option: "i"
+    suLockupOptions: "i"
   }
 }
 export const LockupM: Story = {
   render: LockupDisplay.render,
   args: {
     ...LockupDisplay.args,
-    option: "m"
+    suLockupOptions: "m"
   }
 }
 export const LockupN: Story = {
   render: LockupDisplay.render,
   args: {
     ...LockupDisplay.args,
-    option: "n"
+    suLockupOptions: "n"
   }
 }
 export const LockupO: Story = {
   render: LockupDisplay.render,
   args: {
     ...LockupDisplay.args,
-    option: "o"
+    suLockupOptions: "o"
   }
 }
 export const LockupP: Story = {
   render: LockupDisplay.render,
   args: {
     ...LockupDisplay.args,
-    option: "p"
+    suLockupOptions: "p"
   }
 }
 export const LockupR: Story = {
   render: LockupDisplay.render,
   args: {
     ...LockupDisplay.args,
-    option: "r"
+    suLockupOptions: "r"
   }
 }
 export const LockupS: Story = {
   render: LockupDisplay.render,
   args: {
     ...LockupDisplay.args,
-    option: "s"
+    suLockupOptions: "s"
   }
 }
 export const LockupT: Story = {
   render: LockupDisplay.render,
   args: {
     ...LockupDisplay.args,
-    option: "t"
+    suLockupOptions: "t"
   }
 }
 export const LockupNone: Story = {
   render: LockupDisplay.render,
   args: {
     ...LockupDisplay.args,
-    option: "none"
+    suLockupOptions: "none"
   }
 }

@@ -20,6 +20,7 @@ query Term($uuid: ID!) {
 query ConfigPages {
     stanfordBasicSiteSettings(first: 1) {
         nodes {
+            __typename
             suGoogleAnalytics
             suSiteAlgolia
             suSiteAlgoliaId
@@ -33,6 +34,7 @@ query ConfigPages {
     }
     stanfordGlobalMessages(first: 1) {
         nodes {
+            __typename
             suGlobalMsgEnabled
             suGlobalMsgHeader
             suGlobalMsgLabel
@@ -48,6 +50,7 @@ query ConfigPages {
     }
     stanfordLocalFooters(first: 1) {
         nodes {
+            __typename
             suFooterEnabled
             suLocalFootAction {
                 title
@@ -129,6 +132,7 @@ query ConfigPages {
     }
     stanfordSuperFooters(first: 1) {
         nodes {
+            __typename
             suSuperFootEnabled
             suSuperFootIntranet {
                 title
@@ -146,6 +150,7 @@ query ConfigPages {
     }
     lockupSettings(first: 1) {
        nodes {
+           __typename
             suLine1
             suLine2
             suLine3

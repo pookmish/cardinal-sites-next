@@ -1,10 +1,9 @@
 import useActiveTrail from "@lib/hooks/useActiveTrail";
 import Link from "@components/elements/link";
 import {clsx} from "clsx";
-import {MenuItem} from "@lib/gql/__generated__/drupal";
+import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal";
 
-
-const SideNav = ({menuItems, currentPath}: { menuItems: MenuItem[], currentPath?: string }) => {
+const SideNav = ({menuItems, currentPath}: { menuItems: MenuItemType[], currentPath?: string }) => {
   const activeTrail: string[] = useActiveTrail(menuItems, currentPath);
 
   // Peel off the menu items from the parent.
@@ -30,7 +29,7 @@ const SideNav = ({menuItems, currentPath}: { menuItems: MenuItem[], currentPath?
   )
 }
 
-type MenuItemProps = MenuItem & {
+type MenuItemProps = MenuItemType & {
   activeTrail: string[]
   level?: number
 }

@@ -10,8 +10,8 @@ const PageFooter = async () => {
 
   return (
     <footer>
-      <SuperFooter configPage={superFooterConfig}/>
-      <LocalFooter configPage={localFooterConfig}/>
+      {superFooterConfig && <SuperFooter {...superFooterConfig}/>}
+      {localFooterConfig && <LocalFooter {...localFooterConfig}/>}
 
       <div className="bg-cardinal-red py-10 [&_a]:text-white [&_a]:no-underline [&_a:hocus]:text-white ">
         <div className="centered lg:flex lg:items-start lg:gap-20">

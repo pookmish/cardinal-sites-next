@@ -10,10 +10,6 @@ const meta: Meta<typeof StanfordNewsListItem> = {
   component: StanfordNewsListItem,
   tags: ['autodocs'],
   argTypes: {
-    suNewsFeaturedMedia: {
-      options: ["image", "none"],
-      control: {type: "select"}
-    },
     headingLevel: {
       options: ["h2", "h3"],
       control: {type: "select"}
@@ -31,10 +27,5 @@ type Story = StoryObj<typeof StanfordNewsListItem>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const NewsListItem: Story = {
-  args: {...NewsCard.args},
-  render: ({headingLevel, ...args}) => {
-    args.suNewsFeaturedMedia = args.suNewsFeaturedMedia === "image" ? ImageMedia() : undefined;
-    return <StanfordNewsListItem node={args} headingLevel={headingLevel}/>
-  },
-
+  args: {...NewsCard.args}
 };

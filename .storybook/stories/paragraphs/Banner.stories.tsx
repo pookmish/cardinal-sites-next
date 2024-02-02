@@ -1,16 +1,21 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {ImageMedia} from "../media";
-
-// @ts-ignore
 import BannerParagraphDisplay from "@components/paragraphs/stanford-banner/banner-paragraph-display";
+import {ComponentProps} from "react";
+
+type ComponentStoryProps = ComponentProps<typeof BannerParagraphDisplay> & {
+  linkUrl?: string
+  linkTitle?: string
+  mediaChoice?: string
+}
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof BannerParagraphDisplay> = {
+const meta: Meta<ComponentStoryProps> = {
   title: 'Design/Paragraphs/Banner',
   component: BannerParagraphDisplay,
   tags: ['autodocs'],
   argTypes: {
-    media: {
+    mediaChoice: {
       options: ["image", "none"],
       control: {type: "select"}
     }
@@ -18,28 +23,29 @@ const meta: Meta<typeof BannerParagraphDisplay> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof BannerParagraphDisplay>;
+type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Banner: Story = {
-  render: (args) => {
+  render: ({linkUrl, linkTitle, mediaChoice, ...args}) => {
     const image = ImageMedia();
-    args.media = args.media === 'image' ? {
+    args.media = mediaChoice === 'image' ? {
       imageUrl: image.mediaImage.url,
       imageAlt: image.mediaImage.alt
-    }: undefined;
+    } : undefined;
     args.link = {
-      url: args.linkUrl,
-      title: args.linkTitle,
+      url: linkUrl,
+      title: linkTitle,
+      internal: false,
     }
     return <BannerParagraphDisplay {...args}/>
   },
   args: {
-    media: "image",
+    mediaChoice: "image",
     header: "header",
     supHeader: "supHeader",
     body: "body",
-    linkUrl:"http://localhost",
+    linkUrl: "http://localhost",
     linkTitle: "Link Title",
   },
 };

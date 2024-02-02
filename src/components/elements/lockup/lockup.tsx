@@ -12,25 +12,34 @@ import LockupR from "@components/elements/lockup/lockup-r";
 import LockupS from "@components/elements/lockup/lockup-s";
 import LockupT from "@components/elements/lockup/lockup-t";
 import LockupLogo from "@components/elements/lockup/lockup-logo";
-import {getConfigPage} from "@lib/gql/fetcher";
 import {LockupSetting, StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal";
 
-export const Lockup = async () => {
-  const siteSettingsConfig = await getConfigPage<StanfordBasicSiteSetting>('StanfordBasicSiteSetting')
-  const lockupSettingsConfig = await getConfigPage<LockupSetting>('LockupSetting')
+type Props = {
+  suLockupEnabled?: LockupSetting["suLockupEnabled"]
+  suUseThemeLogo?: LockupSetting["suUseThemeLogo"]
+  suUploadLogoImage?: LockupSetting["suUploadLogoImage"]
+  suSiteName?: StanfordBasicSiteSetting["suSiteName"]
+  suLine1?: LockupSetting["suLine1"]
+  suLine2?: LockupSetting["suLine2"]
+  suLine3?: LockupSetting["suLine3"]
+  suLine4?: LockupSetting["suLine4"]
+  suLine5?: LockupSetting["suLine5"]
+  suLockupOptions?: LockupSetting["suLockupOptions"]
+}
 
-  const logoUrl = !lockupSettingsConfig?.suUseThemeLogo ? lockupSettingsConfig?.suUploadLogoImage?.url : undefined;
+export const Lockup = ({suLockupEnabled, suUseThemeLogo, suUploadLogoImage,suSiteName, suLine1, suLine2, suLine3, suLine4, suLine5, suLockupOptions}: Props) => {
+  const logoUrl = !suUseThemeLogo ? suUploadLogoImage?.url : undefined;
   const lockupProps = {
-    line1: lockupSettingsConfig?.suLine1,
-    line2: lockupSettingsConfig?.suLine2,
-    line3: lockupSettingsConfig?.suLine3,
-    line4: lockupSettingsConfig?.suLine4,
-    line5: lockupSettingsConfig?.suLine5,
-    siteName: siteSettingsConfig?.suSiteName ?? "Stanford",
+    line1: suLine1,
+    line2: suLine2,
+    line3: suLine3,
+    line4: suLine4,
+    line5: suLine5,
+    siteName: suSiteName ?? "Stanford",
     logoUrl: logoUrl,
   }
 
-  if (!lockupSettingsConfig || lockupSettingsConfig.suLockupEnabled) {
+  if (!suLockupEnabled) {
     return (
       <div className="py-10">
         <Link href="/" className="flex no-underline">
@@ -40,7 +49,7 @@ export const Lockup = async () => {
             </div>
             <div
               className="lg:inline-block font-normal text-black text-m2">
-              {siteSettingsConfig?.suSiteName || "University"}
+              {suSiteName || "University"}
             </div>
           </div>
         </Link>
@@ -48,7 +57,7 @@ export const Lockup = async () => {
     )
   }
 
-  switch (lockupSettingsConfig?.suLockupOptions) {
+  switch (suLockupOptions) {
     case 'a':
       return <LockupA {...lockupProps}/>;
 

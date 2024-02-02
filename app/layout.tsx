@@ -8,6 +8,8 @@ import GoogleAnalytics from "@components/tools/google-analytics";
 import {isDraftMode} from "@lib/drupal/utils";
 import BackToTop from "@components/elements/back-to-top";
 import Link from "@components/elements/link";
+import {getConfigPage} from "@lib/gql/fetcher";
+import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal";
 
 export const metadata = {
   // Update the metadataBase to the production domain.
@@ -21,16 +23,16 @@ export const dynamic = 'force-static';
 
 const RootLayout = async ({children, modal}: { children: React.ReactNode, modal: React.ReactNode }) => {
   const draftMode = isDraftMode();
-
+  const siteSettingsConfig = await getConfigPage<StanfordBasicSiteSetting>('StanfordBasicSiteSetting')
   return (
     <html lang="en" className={`${sourceSansPro.className} font-sans`}>
     {draftMode && <Editori11y/>}
 
     {/* Add Google Analytics and SiteImprove when not in draft mode. */}
-    {(!draftMode && process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) &&
+    {(!draftMode && siteSettingsConfig?.suGoogleAnalytics) &&
       <>
         <Script async src="//siteimproveanalytics.com/js/siteanalyze_80352.js"/>
-        <GoogleAnalytics/>
+        <GoogleAnalytics gaMeasurementId={siteSettingsConfig?.suGoogleAnalytics}/>
       </>
     }
     <body>

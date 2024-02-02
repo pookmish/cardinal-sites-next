@@ -1,16 +1,23 @@
 import type {Meta, StoryObj} from '@storybook/react';
-
 import {ImageMedia, VideoMedia} from "../media";
-// @ts-ignore
-import MediaCaptionParagraphDisplay from "@components/paragraphs/stanford-media-caption/media-caption-paragraph-display";
+import MediaCaptionParagraphDisplay
+  from "@components/paragraphs/stanford-media-caption/media-caption-paragraph-display";
+import {ComponentProps} from "react";
+
+type ComponentStoryProps = ComponentProps<typeof MediaCaptionParagraphDisplay> & {
+  mediaChoice: string
+  linkUrl?: string
+  linkTitle?: string
+  linkStyle?: string
+}
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof MediaCaptionParagraphDisplay> = {
+const meta: Meta<ComponentStoryProps> = {
   title: 'Design/Paragraphs/Media Caption',
   component: MediaCaptionParagraphDisplay,
   tags: ['autodocs'],
   argTypes: {
-    media: {
+    mediaChoice: {
       options: ["image", "video", "none"],
       control: {type: "select"}
     }
@@ -18,25 +25,27 @@ const meta: Meta<typeof MediaCaptionParagraphDisplay> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof MediaCaptionParagraphDisplay>;
+type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const MediaCaption: Story = {
-  render: (args) => {
-    if (args.media === 'image') {
+  render: ({mediaChoice, linkUrl, linkTitle, linkStyle, ...args}) => {
+    if (mediaChoice === 'image') {
       const image = ImageMedia();
       args.media = {
         imageUrl: image.mediaImage.url,
         imageAlt: image.mediaImage.alt,
       }
     }
-    if (args.media === 'video') {
+    if (mediaChoice === 'video') {
       args.media = {videoUrl: VideoMedia().mediaOembedVideo};
     }
-    args.link = {
-      url: args.linkUrl,
-      title: args.linkTitle,
-      style: args.linkStyle,
+    if (linkUrl && linkTitle) {
+      args.link = {
+        url: linkUrl,
+        title: linkTitle,
+        internal: false,
+      }
     }
     return <MediaCaptionParagraphDisplay {...args}/>
   },
@@ -44,6 +53,6 @@ export const MediaCaption: Story = {
     caption: "caption",
     linkTitle: "Link Title",
     linkUrl: "http://localhost",
-    media: "image",
+    mediaChoice: "image",
   },
 };

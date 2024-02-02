@@ -1,10 +1,17 @@
 import type {Meta, StoryObj} from '@storybook/react';
-import {ImageMedia, VideoMedia} from "../media";
-// @ts-ignore
 import CardParagraphDisplay from "@components/paragraphs/stanford-card/card-paragraph-display";
+import {ImageMedia, VideoMedia} from "../media";
+import {ComponentProps} from "react";
+
+type ComponentStoryProps = ComponentProps<typeof CardParagraphDisplay> & {
+  linkUrl?: string
+  linkTitle?: string
+  mediaChoice?: string
+  linkStyle?: 'action' | 'button'
+}
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof CardParagraphDisplay> = {
+const meta: Meta<ComponentStoryProps> = {
   title: 'Design/Paragraphs/Card',
   component: CardParagraphDisplay,
   tags: ['autodocs'],
@@ -13,30 +20,27 @@ const meta: Meta<typeof CardParagraphDisplay> = {
       control: {type: "select"},
       options: ["action", "button"]
     },
-    media: {
+    mediaChoice: {
       options: ["image", "video", "none"],
       control: {type: "select"}
-    },
-    paragraph: {
-      control: false,
     }
   }
 };
 
 export default meta;
-type Story = StoryObj<typeof CardParagraphDisplay>;
+type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Card: Story = {
-  render: (args) => {
-    if (args.media === 'image') {
+  render: ({mediaChoice, ...args}) => {
+    if (mediaChoice === 'image') {
       const image = ImageMedia();
       args.media = {
         imageUrl: image.mediaImage.url,
         imageAlt: image.mediaImage.alt,
       }
     }
-    if (args.media === 'video') {
+    if (mediaChoice === 'video') {
       args.media = {videoUrl: VideoMedia().mediaOembedVideo};
     }
     args.link = {
@@ -52,7 +56,7 @@ export const Card: Story = {
     linkStyle: 'action',
     linkTitle: "Link Title",
     linkUrl: "http://localhost",
-    media: "image",
+    mediaChoice: "image",
     supHeader: "supHeader",
   },
 };

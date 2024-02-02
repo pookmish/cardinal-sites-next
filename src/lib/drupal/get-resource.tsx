@@ -1,5 +1,5 @@
 import {AccessToken, JsonApiResource, JsonApiOptions} from "next-drupal";
-import {buildUrl, buildHeaders, getJsonApiPathForResourceType} from "./utils";
+import {buildUrl, buildHeaders, getJsonApiPathForResourceType} from "@lib/drupal/utils";
 import {deserialize} from "@lib/drupal/deserialize";
 
 export const getResourceCollection = async <T extends JsonApiResource, >(

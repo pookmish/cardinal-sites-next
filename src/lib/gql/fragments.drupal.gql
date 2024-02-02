@@ -143,7 +143,7 @@ fragment FragmentNodeStanfordEventSeries on NodeStanfordEventSeries {
     }
     suEventSeriesDek
     suEventSeriesEvent {
-        ...FragmentNodeStanfordEvent
+        ...FragmentNodeStanfordEventTeaser
     }
     suEventSeriesSubheadline
     suEventSeriesType {
@@ -250,7 +250,6 @@ fragment FragmentNodeStanfordPolicy on NodeStanfordPolicy {
     }
     suPolicyPolicyNum
     suPolicyRelated {
-        ...FragmentNodeInterface
         ...FragmentNodeStanfordPolicyTeaser
     }
     suPolicySubchapter
@@ -263,7 +262,7 @@ fragment FragmentNodeStanfordPolicy on NodeStanfordPolicy {
 fragment FragmentNodeStanfordPublication on NodeStanfordPublication {
     ...FragmentNodeInterface
     suPublicationAuthorRef {
-        ...FragmentNodeStanfordPerson
+        ...FragmentNodeStanfordPersonTeaser
     }
     suPublicationComponents {
         ...FragmentParagraphUnion

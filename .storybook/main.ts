@@ -4,6 +4,18 @@ import type {StorybookConfig} from "@storybook/nextjs";
 const path = require("path");
 
 const config: StorybookConfig = {
+  framework: {
+    name: "@storybook/nextjs",
+    options: {
+      builder: {
+        useSWC: true,
+      },
+    },
+  },
+  typescript: {
+    reactDocgen: 'react-docgen',
+    check: false,
+  },
   stories: [
     "./stories/**/*.mdx",
     "./stories/**/*.stories.@(js|jsx|ts|tsx)"
@@ -22,10 +34,6 @@ const config: StorybookConfig = {
       },
     },
   ],
-  framework: {
-    name: "@storybook/nextjs",
-    options: {},
-  },
   docs: {
     autodocs: "tag",
   },
@@ -33,6 +41,6 @@ const config: StorybookConfig = {
     config.resolve.alias['@components'] = path.resolve(__dirname, '../src/components')
     config.resolve.alias['@lib'] = path.resolve(__dirname, '../src/lib')
     return config
-  }
+  },
 };
 export default config;

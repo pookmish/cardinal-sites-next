@@ -18,9 +18,10 @@
     "@mui/base": "^5.0.0-beta.33",
     "@tailwindcss/container-queries": "^0.1.1",
     "@types/node": "^20.11.16",
-    "@types/react": "^18.2.51",
+    "@types/react": "^18.2.53",
     "@types/react-dom": "^18.2.18",
     "@uidotdev/usehooks": "^2.4.1",
+    "algoliasearch": "^4.22.1",
     "autoprefixer": "^10.4.17",
     "axios": "^1.6.7",
     "clsx": "^2.1.0",
@@ -41,6 +42,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-focus-lock": "^2.9.7",
+    "react-instantsearch": "^7.5.4",
+    "react-instantsearch-nextjs": "^0.1.11",
     "react-tiny-oembed": "^1.1.0",
     "sharp": "^0.33.2",
     "tailwind-merge": "^2.2.1",
@@ -51,7 +54,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.1",
     "@graphql-codegen/near-operation-file-preset": "^3.0.0",
-    "@graphql-codegen/typescript-graphql-request": "^6.1.0",
+    "@graphql-codegen/typescript-graphql-request": "^6.2.0",
     "@graphql-codegen/typescript-operations": "^4.1.0",
     "@next/bundle-analyzer": "^14.1.0",
     "@storybook/addon-essentials": "^7.6.12",
@@ -66,7 +69,8 @@
     "encoding": "^0.1.13",
     "eslint-plugin-storybook": "^0.6.15",
     "eslint-plugin-unused-imports": "^3.0.0",
-    "storybook": "^7.6.12"
+    "storybook": "^7.6.12",
+    "tsconfig-paths-webpack-plugin": "^4.1.0"
   },
   "packageManager": "yarn@4.0.2"
 }

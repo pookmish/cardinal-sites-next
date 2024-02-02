@@ -1,10 +1,14 @@
 import type {Meta, StoryObj} from '@storybook/react';
-
-// @ts-ignore
 import WysiwygParagraph from "@components/paragraphs/stanford-wysiwyg/wysiwyg-paragraph";
+import {ComponentProps} from "react";
+import {ParagraphStanfordWysiwyg} from "@lib/gql/__generated__/drupal";
+
+type ComponentStoryProps = ComponentProps<typeof WysiwygParagraph> & {
+  text: string
+}
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof WysiwygParagraph> = {
+const meta: Meta<ComponentStoryProps> = {
   title: 'Design/Paragraphs/Wysiwyg',
   component: WysiwygParagraph,
   tags: ['autodocs'],
@@ -12,16 +16,16 @@ const meta: Meta<typeof WysiwygParagraph> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof WysiwygParagraph>;
+type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Wysiwyg: Story = {
-  render: (args) => {
-    args.suWysiwygText = {processed: args.suWysiwygText}
-    return <WysiwygParagraph paragraph={{...args}}/>
+  render: ({text, ...args}) => {
+
+    return <WysiwygParagraph paragraph={{suWysiwygText: {processed: text}} as ParagraphStanfordWysiwyg}/>
   },
   args: {
-    suWysiwygText: "<h1>Didn't melt fairer keepsakes since Fellowship elsewhere.</h1>\n" +
+    text: "<h1>Didn't melt fairer keepsakes since Fellowship elsewhere.</h1>\n" +
       "<h1><a href=\"#\">Didn't melt fairer keepsakes since Fellowship elsewhere.</a></h1>\n" +
       "<p>Woodlands payment Osgiliath tightening. Barad-dur follow belly comforts tender tough bell? Many that live deserve death. Some that die deserve life. Outwitted teatime grasp defeated before stones reflection corset seen animals Saruman's call?</p>\n" +
       "<h2>Tad survive ensnare joy mistake courtesy Bagshot Row.</h2>\n" +

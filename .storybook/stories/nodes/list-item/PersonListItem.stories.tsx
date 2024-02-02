@@ -10,10 +10,6 @@ const meta: Meta<typeof StanfordPersonListItem> = {
   component: StanfordPersonListItem,
   tags: ['autodocs'],
   argTypes: {
-    suPersonPhoto: {
-      options: ["image", "none"],
-      control: {type: "select"}
-    },
     headingLevel: {
       options: ["h2", "h3"],
       control: {type: "select"}
@@ -31,9 +27,5 @@ type Story = StoryObj<typeof StanfordPersonListItem>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const PersonListItem: Story = {
-  args: {...PersonCard.args},
-  render: ({headingLevel, ...args}) => {
-    args.suPersonPhoto = args.suPersonPhoto === "image" ? ImageMedia() : undefined;
-    return <StanfordPersonListItem node={args} headingLevel={headingLevel}/>
-  },
+  args: {...PersonCard.args}
 };

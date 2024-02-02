@@ -11,9 +11,9 @@ import useOutsideClick from "@lib/hooks/useOutsideClick";
 import {usePathname} from "next/navigation";
 import {useBoolean} from "usehooks-ts";
 import {clsx} from "clsx";
-import {MenuItem} from "@lib/gql/__generated__/drupal";
+import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal";
 
-const MainMenu = ({menuItems}: { menuItems: MenuItem[] }) => {
+const MainMenu = ({menuItems}: { menuItems: MenuItemType[] }) => {
   const buttonRef = useRef<HTMLButtonElement | null>(null)
   const {value: menuOpen, setFalse: closeMenu, toggle: toggleMenu} = useBoolean(false)
   const browserUrl = useNavigationEvent()
@@ -63,7 +63,7 @@ const MainMenu = ({menuItems}: { menuItems: MenuItem[] }) => {
   )
 }
 
-type MenuItemProps = MenuItem & {
+type MenuItemProps = MenuItemType & {
   activeTrail: string[]
   level?: number
 }

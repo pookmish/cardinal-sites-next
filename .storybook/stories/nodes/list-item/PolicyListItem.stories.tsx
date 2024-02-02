@@ -27,8 +27,5 @@ type Story = StoryObj<typeof StanfordPolicyListItem>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const PolicyListItem: Story = {
-  args: {...PolicyCard.args},
-  render: ({headingLevel, ...args}) => {
-    return <StanfordPolicyListItem node={args} headingLevel={headingLevel}/>
-  },
+  args: {...PolicyCard.args}
 };

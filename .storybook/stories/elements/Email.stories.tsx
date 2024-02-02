@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 import Email from "@components/elements/email";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -6,9 +6,7 @@ const meta: Meta<typeof Email> = {
   title: 'Design/Elements/Email',
   component: Email,
   tags: ['autodocs'],
-  argTypes: {
-
-  }
+  argTypes: {}
 };
 
 export default meta;

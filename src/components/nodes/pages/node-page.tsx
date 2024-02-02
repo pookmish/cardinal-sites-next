@@ -10,21 +10,6 @@ import {isDraftMode} from "@lib/drupal/utils";
 import {NodeUnion} from "@lib/gql/__generated__/drupal";
 
 const NodePage = ({node}: { node: NodeUnion }) => {
-  return (
-    <>
-      {!node.status &&
-        <div className="bg-illuminating text-4xl p-5">
-          <div className="centered-container">
-            Unpublished Page
-          </div>
-        </div>
-      }
-      <Node node={node}/>
-    </>
-  )
-}
-
-const Node = ({node}: { node: NodeUnion }) => {
   const draftMode = isDraftMode();
   const itemProps: { [key: string]: string } = {};
 

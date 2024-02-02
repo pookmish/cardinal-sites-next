@@ -3,6 +3,7 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import {H1} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal";
+import {isDraftMode} from "@lib/drupal/utils";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordCourse
@@ -10,7 +11,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordCoursePage = ({node, ...props}: Props) => {
-  if (node.suCourseLink?.url) redirect(node.suCourseLink?.url);
+  if (node.suCourseLink?.url && !isDraftMode()) redirect(node.suCourseLink?.url);
   return (
     <article className="centered my-32" {...props}>
       <H1>
