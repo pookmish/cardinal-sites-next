@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {NodeStanfordNews, TermUnion} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordNews} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
@@ -19,7 +19,7 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
     month: "long",
     day: "numeric",
     year: "numeric",
-    timezone: node.suNewsPublishingDate.timezone
+    timeZone: node.suNewsPublishingDate.timezone
   }) : undefined;
 
   return (
@@ -38,11 +38,19 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
       }
       <div className="p-20">
 
+        <div className="flex flex-col">
         <Heading className="text-m2 [&_a]:text-black" id={node.id}>
           <Link href={node.suNewsSource?.url || node.path}>
             {node.title}
           </Link>
         </Heading>
+
+        {publishDate &&
+          <div className="order-first">
+            {publishDate}
+          </div>
+        }
+        </div>
 
         {topics &&
           <div>

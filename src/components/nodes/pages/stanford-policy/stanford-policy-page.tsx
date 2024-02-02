@@ -33,7 +33,7 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
                   month: "long",
                   day: "numeric",
                   year: "numeric",
-                  timezone: node.suPolicyUpdated.timezone
+                  timeZone: node.suPolicyUpdated.timezone
                 })}
               </div>
             }
@@ -44,7 +44,7 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
                   month: "long",
                   day: "numeric",
                   year: "numeric",
-                  timezone: node.suPolicyEffective.timezone
+                  timeZone: node.suPolicyEffective.timezone
                 })}
               </div>
             }
@@ -62,7 +62,7 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
                     month: "long",
                     day: "numeric",
                     year: "numeric",
-                    timezone: node.suPolicyDate.timezone
+                    timeZone: change.suPolicyDate.timezone
                   })}</div>
                   <div className="w-[2px] bg-black shrink-0"/>
                   <div>{change.suPolicyTitle}</div>

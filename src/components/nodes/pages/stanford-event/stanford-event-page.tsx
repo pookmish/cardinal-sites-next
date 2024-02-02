@@ -23,7 +23,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
 
   const startTime = new Date(node.suEventDateTime.value * 1000);
   const endTime = new Date(node.suEventDateTime.end_value * 1000);
-  const timezone = node.suEventDateTime.timezone || 'America/Los_Angeles';
+  const timeZone = node.suEventDateTime.timezone || 'America/Los_Angeles';
 
   return (
     <article className="centered mt-32 flex flex-col gap-20" {...props}>
@@ -62,7 +62,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
         <div className="grid items-start lg:grid-cols-2 gap-20">
           <time className="flex items-center gap-5" dateTime={startTime.toISOString()}>
             <CalendarDaysIcon width={30} className="shrink-0"/>
-            {getEventTimeString(startTime, endTime, timezone)}
+            {getEventTimeString(startTime, endTime, timeZone)}
           </time>
 
 

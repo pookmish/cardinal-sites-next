@@ -19,7 +19,7 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
     month: "long",
     day: "numeric",
     year: "numeric",
-    timezone: node.suNewsPublishingDate.timezone
+    timeZone: node.suNewsPublishingDate.timezone
   }) : undefined;
 
   return (

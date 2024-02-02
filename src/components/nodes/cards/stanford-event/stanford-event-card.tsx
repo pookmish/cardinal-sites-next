@@ -12,16 +12,16 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
 
-  const timezone: string = node.suEventDateTime?.timezone || 'America/Los_Angeles';
+  const timeZone = node.suEventDateTime.timezone || 'America/Los_Angeles';
 
   const start = new Date(node.suEventDateTime.value * 1000);
   const end = new Date(node.suEventDateTime.end_value * 1000);
 
-  const startMonth = start.toLocaleDateString("en-US", {month: "short", timeZone: timezone})
-  const startDay = parseInt(start.toLocaleDateString("en-US", {day: "numeric", timeZone: timezone}))
+  const startMonth = start.toLocaleDateString("en-US", {month: "short", timeZone})
+  const startDay = parseInt(start.toLocaleDateString("en-US", {day: "numeric", timeZone}))
 
   // Fix difference between server side render and client side render. Replace any strange characters.
-  const dateTimeString = getEventTimeString(start, end, timezone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
+  const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <article aria-labelledby={node.id}
@@ -80,27 +80,27 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
 }
 
 
-export const getEventTimeString = (start: Date, end: Date, timezone: string): string => {
+export const getEventTimeString = (start: Date, end: Date, timeZone: string): string => {
   const startHour = parseInt(start.toLocaleTimeString("en-US", {
     hour: "numeric",
     hour12: false,
-    timeZone: timezone
+    timeZone
   }))
   const startMinute = parseInt(start.toLocaleTimeString("en-US", {
     minute: "numeric",
     hour12: false,
-    timeZone: timezone
+    timeZone
   }))
 
   const endHour = parseInt(end.toLocaleTimeString("en-US", {
     hour: "numeric",
     hour12: false,
-    timeZone: timezone
+    timeZone
   }))
   const endMinute = parseInt(end.toLocaleTimeString("en-US", {
     minute: "numeric",
     hour12: false,
-    timeZone: timezone
+    timeZone
   }))
 
   let dateTimeString: string;
@@ -111,12 +111,12 @@ export const getEventTimeString = (start: Date, end: Date, timezone: string): st
       month: "long",
       day: "numeric",
       year: "numeric",
-      timeZone: timezone
+      timeZone
     }) + ' - ' + end.toLocaleDateString("en-US", {
       month: "long",
       day: "numeric",
       year: "numeric",
-      timeZone: timezone
+      timeZone
     })
     return dateTimeString;
   }
@@ -133,7 +133,7 @@ export const getEventTimeString = (start: Date, end: Date, timezone: string): st
       month: "long",
       day: "numeric",
       year: "numeric",
-      timeZone: timezone
+      timeZone
     });
   }
 
@@ -145,19 +145,19 @@ export const getEventTimeString = (start: Date, end: Date, timezone: string): st
       month: "long",
       day: "numeric",
       year: "numeric",
-      timeZone: timezone
+      timeZone
     });
     dateTimeString += " | " + start.toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "numeric",
-      timeZone: timezone
+      timeZone
     });
     dateTimeString += ' - ';
     dateTimeString += end.toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "numeric",
       timeZoneName: "short",
-      timeZone: timezone
+      timeZone
     })
     return dateTimeString;
   }
@@ -167,7 +167,7 @@ export const getEventTimeString = (start: Date, end: Date, timezone: string): st
     hour: "numeric",
     minute: "numeric",
     timeZoneName: "short",
-    timeZone: timezone
+    timeZone
   })
 }
 
