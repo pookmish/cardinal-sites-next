@@ -1,7 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import CardParagraphDisplay from "@components/paragraphs/stanford-card/card-paragraph-display";
-import {ImageMedia, VideoMedia} from "../media";
 import {ComponentProps} from "react";
+import {getStoryBookImage, getStoryBookVideo} from "../storybook-entities";
 
 type ComponentStoryProps = ComponentProps<typeof CardParagraphDisplay> & {
   linkUrl?: string
@@ -34,14 +34,14 @@ type Story = StoryObj<ComponentStoryProps>;
 export const Card: Story = {
   render: ({mediaChoice, ...args}) => {
     if (mediaChoice === 'image') {
-      const image = ImageMedia();
+      const image = getStoryBookImage();
       args.media = {
         imageUrl: image.mediaImage.url,
         imageAlt: image.mediaImage.alt,
       }
     }
     if (mediaChoice === 'video') {
-      args.media = {videoUrl: VideoMedia().mediaOembedVideo};
+      args.media = {videoUrl: getStoryBookVideo().mediaOembedVideo};
     }
     args.link = {
       url: args.linkUrl,

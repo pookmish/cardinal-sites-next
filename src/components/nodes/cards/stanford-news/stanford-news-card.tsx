@@ -15,7 +15,7 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
   const topics = node.suNewsTopics?.slice(0, 3) || [];
   const Heading = headingLevel === 'h3' ? H3 : H2;
 
-  const publishDate = node.suNewsPublishingDate ? new Date(node.suNewsPublishingDate.time).toLocaleDateString("en-us", {
+  const publishDate = node.suNewsPublishingDate?.time ? new Date(node.suNewsPublishingDate.time).toLocaleDateString("en-us", {
     month: "long",
     day: "numeric",
     year: "numeric",

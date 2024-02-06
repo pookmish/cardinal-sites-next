@@ -41,19 +41,19 @@ export const StanfordEventData = () => {
       givenName: null,
       additionalName: null,
       familyName: null,
-      organization: 'akjvela',
-      addressLine1: '1905 Evelyn St',
+      organization: 'Green Ridge',
+      addressLine1: '766 Green Ridge Park',
       addressLine2: null,
-      postalCode: '56187',
+      postalCode: '99999',
       sortingCode: null,
       dependentLocality: null,
-      locality: 'Worthington',
-      administrativeArea: 'MN'
+      locality: 'Washington',
+      administrativeArea: 'DC'
     },
     suEventMapLink: null,
     suEventSchedule: null,
     suEventSource: {
-      url: 'https://docs.google.com/forms/d/e/1FAIpQLSdzOKMwQ_Mo6XL9F7ytGI8LoUmeI2zHF6FccOYlnUfzVjSJjQ/viewform',
+      url: 'http://localhost',
       title: ''
     },
     suEventSponsor: null,

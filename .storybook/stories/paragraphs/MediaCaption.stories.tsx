@@ -1,8 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react';
-import {ImageMedia, VideoMedia} from "../media";
-import MediaCaptionParagraphDisplay
-  from "@components/paragraphs/stanford-media-caption/media-caption-paragraph-display";
+import MediaCaptionParagraphDisplay from "@components/paragraphs/stanford-media-caption/media-caption-paragraph-display";
 import {ComponentProps} from "react";
+import {getStoryBookImage, getStoryBookVideo} from "../storybook-entities";
 
 type ComponentStoryProps = ComponentProps<typeof MediaCaptionParagraphDisplay> & {
   mediaChoice: string
@@ -31,14 +30,14 @@ type Story = StoryObj<ComponentStoryProps>;
 export const MediaCaption: Story = {
   render: ({mediaChoice, linkUrl, linkTitle, linkStyle, ...args}) => {
     if (mediaChoice === 'image') {
-      const image = ImageMedia();
+      const image = getStoryBookImage();
       args.media = {
         imageUrl: image.mediaImage.url,
         imageAlt: image.mediaImage.alt,
       }
     }
     if (mediaChoice === 'video') {
-      args.media = {videoUrl: VideoMedia().mediaOembedVideo};
+      args.media = {videoUrl: getStoryBookVideo().mediaOembedVideo};
     }
     if (linkUrl && linkTitle) {
       args.link = {

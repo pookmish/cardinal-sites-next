@@ -9,35 +9,6 @@ export const StanfordEventSeriesData = () => {
     path: "/event/series/test-event-series",
     changed: {timezone: "America/Los_Angeles", time: "2024-02-05T13:12:15-08:00"},
     created: {timezone: "America/Los_Angeles", time: "2024-02-05T13:12:11-08:00"},
-    suEventSeriesComponents: [{
-      __typename: "ParagraphStanfordLayout",
-      id: "834654cd-af23-4f57-91c1-47b3883cf62d",
-      behaviors: "{\"layout_paragraphs\":{\"layout\":\"layout_paragraphs_2_column\",\"config\":{\"label\":\"\",\"column_widths\":\"50-50\"},\"parent_uuid\":null,\"region\":null}}"
-    }, {
-      __typename: "ParagraphStanfordWysiwyg",
-      id: "67c11758-1b97-4f4b-8ed0-74a9923f9963",
-      behaviors: "{\"layout_paragraphs\":{\"parent_uuid\":\"834654cd-af23-4f57-91c1-47b3883cf62d\",\"region\":\"left\"}}",
-      suWysiwygText: {processed: "<p>Dolor orci tortor diam sed nunc nunc accumsan quis mi erat eget arcu congue commodo enim metus consectetur sed quis congue eros purus pellentesque orci.</p><p>Quam nunc scelerisque fusce eget sed eget nunc a ac nunc commodo felis nisl facilisis adipiscing enim maximus et hendrerit dolor rutrum ac adipiscing ut.</p>"}
-    }, {
-      __typename: "ParagraphStanfordCard",
-      id: "30f18fca-f5f0-4b5f-8107-98903a81195e",
-      behaviors: "{\"su_card_styles\":[],\"layout_paragraphs\":{\"parent_uuid\":\"834654cd-af23-4f57-91c1-47b3883cf62d\",\"region\":\"right\"}}",
-      suCardHeader: "Headline",
-      suCardSuperHeader: "Superhead",
-      suCardBody: {processed: "<p>Dolor orci tortor diam sed nunc nunc accumsan quis mi erat eget arcu congue commodo enim metus consectetur sed quis congue eros purus pellentesque orci.</p><p>Quam nunc scelerisque fusce eget sed eget nunc a ac nunc commodo felis nisl facilisis adipiscing enim maximus et hendrerit dolor rutrum ac adipiscing ut.</p>"},
-      suCardLink: {url: "http://localhost", title: "Local host Link"},
-      suCardMedia: {
-        __typename: "MediaImage",
-        id: "ac240bd8-c0b5-4b0f-ab86-7e36e3f393f5",
-        name: "Dalle Padlock",
-        mediaImage: {
-          url: "http://docroot.cardinalsites.loc/sites/default/files/media/image/dalle_padlock_0.png",
-          alt: null,
-          height: 1024,
-          width: 1792
-        }
-      }
-    }],
     suEventSeriesDek: "Dek field",
     suEventSeriesEvent: [{
       __typename: "NodeStanfordEvent",

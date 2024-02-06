@@ -1,11 +1,15 @@
 import type {Meta, StoryObj} from '@storybook/react';
-
 import StanfordPolicyListItem from "@components/nodes/list-item/stanford-policy/stanford-policy-list-item";
-import {ImageMedia} from "../../media";
 import {PolicyCard} from "../cards/PolicyCard.stories";
+import {ComponentProps} from "react";
+
+type ComponentStoryProps = ComponentProps<typeof StanfordPolicyListItem> & {
+  title: string
+  body?: string
+}
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof StanfordPolicyListItem> = {
+const meta: Meta<ComponentStoryProps> = {
   title: 'Design/Nodes/List Item/Policy List Item',
   component: StanfordPolicyListItem,
   tags: ['autodocs'],
@@ -23,9 +27,14 @@ const meta: Meta<typeof StanfordPolicyListItem> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof StanfordPolicyListItem>;
+type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const PolicyListItem: Story = {
+  render: ({title, body, node, ...args}) => {
+    node.title = title;
+    node.body = {processed: body};
+    return <StanfordPolicyListItem node={node} {...args}/>
+  },
   args: {...PolicyCard.args}
 };

@@ -1,7 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react';
-import {ImageMedia} from "../media";
 import BannerParagraphDisplay from "@components/paragraphs/stanford-banner/banner-paragraph-display";
 import {ComponentProps} from "react";
+import {getStoryBookImage} from "../storybook-entities";
 
 type ComponentStoryProps = ComponentProps<typeof BannerParagraphDisplay> & {
   linkUrl?: string
@@ -28,7 +28,7 @@ type Story = StoryObj<ComponentStoryProps>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Banner: Story = {
   render: ({linkUrl, linkTitle, mediaChoice, ...args}) => {
-    const image = ImageMedia();
+    const image = getStoryBookImage();
     args.media = mediaChoice === 'image' ? {
       imageUrl: image.mediaImage.url,
       imageAlt: image.mediaImage.alt
