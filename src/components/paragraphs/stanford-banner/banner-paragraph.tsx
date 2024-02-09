@@ -8,14 +8,12 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const BannerParagraph = ({paragraph, eagerLoadImage, ...props}: Props) => {
-  const image = paragraph.suBannerImage?.mediaImage
-  const imageUrl = image?.url
-  const imageAlt = image?.alt || '';
-
   return (
     <div {...props}>
       <BannerParagraphDisplay
-        media={imageUrl ? {imageUrl, imageAlt, loading: eagerLoadImage ? 'eager' : 'lazy'} : undefined}
+        imageUrl={paragraph.suBannerImage?.mediaImage.url}
+        imageAlt={paragraph.suBannerImage?.mediaImage.alt}
+        imageLoading={eagerLoadImage ? 'eager':'lazy'}
         header={paragraph.suBannerHeader}
         supHeader={paragraph.suBannerSupHeader}
         body={paragraph.suBannerBody?.processed}

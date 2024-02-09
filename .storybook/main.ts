@@ -1,7 +1,5 @@
-// @ts-nocheck
+import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import type {StorybookConfig} from "@storybook/nextjs";
-
-const path = require("path");
 
 const config: StorybookConfig = {
   framework: {
@@ -38,8 +36,7 @@ const config: StorybookConfig = {
     autodocs: "tag",
   },
   webpackFinal: async (config) => {
-    config.resolve.alias['@components'] = path.resolve(__dirname, '../src/components')
-    config.resolve.alias['@lib'] = path.resolve(__dirname, '../src/lib')
+    if (config.resolve) config.resolve.plugins = [new TsconfigPathsPlugin()];
     return config
   },
 };

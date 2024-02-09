@@ -1,12 +1,11 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import BannerParagraphDisplay from "@components/paragraphs/stanford-banner/banner-paragraph-display";
 import {ComponentProps} from "react";
-import {getStoryBookImage} from "../storybook-entities";
 
 type ComponentStoryProps = ComponentProps<typeof BannerParagraphDisplay> & {
   linkUrl?: string
   linkTitle?: string
-  mediaChoice?: string
+  imageUrl?: string
 }
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -15,10 +14,6 @@ const meta: Meta<ComponentStoryProps> = {
   component: BannerParagraphDisplay,
   tags: ['autodocs'],
   argTypes: {
-    mediaChoice: {
-      options: ["image", "none"],
-      control: {type: "select"}
-    }
   }
 };
 
@@ -27,12 +22,7 @@ type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Banner: Story = {
-  render: ({linkUrl, linkTitle, mediaChoice, ...args}) => {
-    const image = getStoryBookImage();
-    args.media = mediaChoice === 'image' ? {
-      imageUrl: image.mediaImage.url,
-      imageAlt: image.mediaImage.alt
-    } : undefined;
+  render: ({linkUrl, linkTitle, imageUrl, ...args}) => {
     args.link = {
       url: linkUrl,
       title: linkTitle,
@@ -41,7 +31,7 @@ export const Banner: Story = {
     return <BannerParagraphDisplay {...args}/>
   },
   args: {
-    mediaChoice: "image",
+    imageUrl: "image",
     header: "header",
     supHeader: "supHeader",
     body: "body",

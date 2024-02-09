@@ -4,12 +4,12 @@ import PageHeader from "@components/global/page-header";
 import PageFooter from "@components/global/page-footer";
 import Editori11y from "@components/tools/editorially";
 import Script from "next/script";
-import GoogleAnalytics from "@components/tools/google-analytics";
 import {isDraftMode} from "@lib/drupal/utils";
 import BackToTop from "@components/elements/back-to-top";
 import Link from "@components/elements/link";
 import {getConfigPage} from "@lib/gql/fetcher";
 import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal";
+import {GoogleAnalytics} from "@next/third-parties/google";
 
 export const metadata = {
   // Update the metadataBase to the production domain.
@@ -32,7 +32,7 @@ const RootLayout = async ({children, modal}: { children: React.ReactNode, modal:
     {(!draftMode && siteSettingsConfig?.suGoogleAnalytics) &&
       <>
         <Script async src="//siteimproveanalytics.com/js/siteanalyze_80352.js"/>
-        <GoogleAnalytics gaMeasurementId={siteSettingsConfig?.suGoogleAnalytics}/>
+        <GoogleAnalytics gaId={siteSettingsConfig?.suGoogleAnalytics}/>
       </>
     }
     <body>

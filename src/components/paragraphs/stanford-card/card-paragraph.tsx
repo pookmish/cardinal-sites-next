@@ -8,7 +8,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const CardParagraph = ({paragraph, ...props}: Props) => {
-  const behaviors = getParagraphBehaviors(paragraph);
+  const behaviors = getParagraphBehaviors(paragraph)
 
   let imageUrl: string | undefined,
     imageAlt: string | undefined,
@@ -26,7 +26,8 @@ const CardParagraph = ({paragraph, ...props}: Props) => {
   return (
     <div {...props}>
       <CardParagraphDisplay
-        media={imageUrl || videoUrl ? {imageUrl, imageAlt, videoUrl} : undefined}
+        image={{url: imageUrl, alt: imageAlt}}
+        videoUrl={videoUrl}
         header={paragraph.suCardHeader}
         supHeader={paragraph.suCardSuperHeader}
         body={paragraph.suCardBody?.processed}

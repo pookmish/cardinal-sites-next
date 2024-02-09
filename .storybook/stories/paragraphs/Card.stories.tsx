@@ -35,13 +35,13 @@ export const Card: Story = {
   render: ({mediaChoice, ...args}) => {
     if (mediaChoice === 'image') {
       const image = getStoryBookImage();
-      args.media = {
-        imageUrl: image.mediaImage.url,
-        imageAlt: image.mediaImage.alt,
+      args.image = {
+        url: image.mediaImage.url,
+        alt: image.mediaImage.alt,
       }
     }
     if (mediaChoice === 'video') {
-      args.media = {videoUrl: getStoryBookVideo().mediaOembedVideo};
+      args.videoUrl = getStoryBookVideo().mediaOembedVideo;
     }
     args.link = {
       url: args.linkUrl,

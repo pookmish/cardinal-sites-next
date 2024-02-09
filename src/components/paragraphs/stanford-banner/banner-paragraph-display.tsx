@@ -6,22 +6,19 @@ import {H2} from "@components/elements/headers";
 import {Maybe, Link as LinkType} from "@lib/gql/__generated__/drupal";
 
 type Props = {
-  media?: {
-    imageUrl: string
-    imageAlt?: Maybe<string>
-    placeholder?: Maybe<string>
-    loading?: 'lazy' | 'eager'
-  }
+  imageUrl?: Maybe<string>
+  imageAlt?: Maybe<string>
+  imageLoading?: 'lazy' | 'eager'
+
   header?: Maybe<string>
   supHeader?: Maybe<string>
   body?: Maybe<string>
   link?: Maybe<LinkType>
 }
 
-const BannerParagraphDisplay = ({media, header, supHeader, body, link}: Props) => {
+const BannerParagraphDisplay = ({imageUrl, imageAlt, imageLoading, header, supHeader, body, link}: Props) => {
   const hasCard = header || link || body || supHeader
 
-  const {imageUrl, imageAlt} = media ?? {};
   return (
     <div className="@container md:min-h-[400px] mb-20">
       <div
@@ -31,7 +28,7 @@ const BannerParagraphDisplay = ({media, header, supHeader, body, link}: Props) =
             className="object-cover"
             src={imageUrl}
             alt={imageAlt || ""}
-            loading={media?.loading || 'lazy'}
+            loading={imageLoading || 'lazy'}
             fill
             sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
           />

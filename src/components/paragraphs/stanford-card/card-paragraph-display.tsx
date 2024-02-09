@@ -7,11 +7,11 @@ import Button from "@components/elements/button";
 import {Maybe} from "@lib/gql/__generated__/drupal";
 
 type Props = {
-  media?: {
-    imageUrl?: Maybe<string>
-    imageAlt?: Maybe<string>
-    videoUrl?: Maybe<string>
+  image?: {
+    url?: Maybe<string>
+    alt?: Maybe<string>
   }
+  videoUrl?: Maybe<string>
   header?: Maybe<string>
   supHeader?: Maybe<string>
   body?: Maybe<string>
@@ -22,17 +22,17 @@ type Props = {
   }
 }
 
-const CardParagraphDisplay = ({media, header, supHeader, body, link}: Props) => {
-  const {imageUrl, imageAlt, videoUrl} = media ?? {};
+const CardParagraphDisplay = ({image, videoUrl, header, supHeader, body, link}: Props) => {
+
   return (
     <div
       className="centered lg:max-w-[980px] w-full shadow-lg border border-black-10">
-      {imageUrl &&
+      {image?.url &&
         <div className="relative aspect-[16/9] w-full">
           <Image
             className="object-cover object-center"
-            src={imageUrl}
-            alt={imageAlt || ""}
+            src={image.url}
+            alt={image.alt || ""}
             fill
             sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
           />
