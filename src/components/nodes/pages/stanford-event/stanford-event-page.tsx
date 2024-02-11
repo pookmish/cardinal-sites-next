@@ -16,7 +16,7 @@ import {isDraftMode} from "@lib/drupal/utils";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
-  headingLevel?: string
+  headingLevel?: "h2" | "h3"
 }
 
 const StanfordEventPage = ({node, ...props}: Props) => {

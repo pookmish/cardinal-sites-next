@@ -5,7 +5,7 @@ import {NodeStanfordPolicy} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPolicy
-  headingLevel?: string
+  headingLevel?: "h2" | "h3"
 }
 
 const StanfordPolicyListItem = ({node, headingLevel, ...props}: Props) => {

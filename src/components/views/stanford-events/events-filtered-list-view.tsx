@@ -72,7 +72,7 @@ const EventsFilteredListView = ({items, topics}: { items: NodeStanfordEvent[], t
         </div>
         <Button onClick={filterEvents}>Filter</Button>
       </form>
-      <div aria-live="polite">Showing {displayedEvents.length} of {items.length} events.</div>
+      <div aria-live="polite" aria-atomic="true">Showing {displayedEvents.length} of {items.length} events.</div>
       <LoadMoreList
         key={displayedEvents.map(event => event.id).join(',')}
         buttonText={<>Load More<span className="sr-only">&nbsp;Events</span></>}

@@ -1,10 +1,10 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import WysiwygParagraph from "@components/paragraphs/stanford-wysiwyg/wysiwyg-paragraph";
 import {ComponentProps} from "react";
-import {ParagraphStanfordWysiwyg} from "@lib/gql/__generated__/drupal";
+import {ParagraphStanfordWysiwyg, Text} from "@lib/gql/__generated__/drupal";
 
 type ComponentStoryProps = ComponentProps<typeof WysiwygParagraph> & {
-  text: string
+  text: Text["processed"]
 }
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -21,7 +21,6 @@ type Story = StoryObj<ComponentStoryProps>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Wysiwyg: Story = {
   render: ({text, ...args}) => {
-
     return <WysiwygParagraph paragraph={{suWysiwygText: {processed: text}} as ParagraphStanfordWysiwyg}/>
   },
   args: {

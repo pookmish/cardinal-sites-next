@@ -3,10 +3,11 @@ import StanfordPublicationCard from "@components/nodes/cards/stanford-publicatio
 import {StanfordPublicationData} from "../StanfordPublication.data";
 import {ComponentProps} from "react";
 import {getStoryBookTaxonomyTerm} from "../../storybook-entities";
+import {NodeStanfordPublication, TermStanfordPublicationTopic} from "@lib/gql/__generated__/drupal";
 
 type ComponentStoryProps = ComponentProps<typeof StanfordPublicationCard> & {
-  title: string
-  suPublicationTopics?: string[]
+  title: NodeStanfordPublication["title"]
+  suPublicationTopics?: TermStanfordPublicationTopic["name"][]
 }
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction

@@ -14,20 +14,22 @@ import LockupT from "@components/elements/lockup/lockup-t";
 import LockupLogo from "@components/elements/lockup/lockup-logo";
 import {LockupSetting, StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal";
 
-type Props = {
-  suLockupEnabled?: LockupSetting["suLockupEnabled"]
-  suUseThemeLogo?: LockupSetting["suUseThemeLogo"]
-  suUploadLogoImage?: LockupSetting["suUploadLogoImage"]
-  suSiteName?: StanfordBasicSiteSetting["suSiteName"]
-  suLine1?: LockupSetting["suLine1"]
-  suLine2?: LockupSetting["suLine2"]
-  suLine3?: LockupSetting["suLine3"]
-  suLine4?: LockupSetting["suLine4"]
-  suLine5?: LockupSetting["suLine5"]
-  suLockupOptions?: LockupSetting["suLockupOptions"]
-}
+type Props =
+  Omit<LockupSetting, "__typename" | "id" | "metatag"> &
+  Omit<StanfordBasicSiteSetting, "__typename" | "id" | "metatag">
 
-export const Lockup = ({suLockupEnabled, suUseThemeLogo, suUploadLogoImage,suSiteName, suLine1, suLine2, suLine3, suLine4, suLine5, suLockupOptions}: Props) => {
+export const Lockup = ({
+  suLockupEnabled,
+  suUseThemeLogo,
+  suUploadLogoImage,
+  suSiteName,
+  suLine1,
+  suLine2,
+  suLine3,
+  suLine4,
+  suLine5,
+  suLockupOptions
+}: Props) => {
   const logoUrl = !suUseThemeLogo ? suUploadLogoImage?.url : undefined;
   const lockupProps = {
     line1: suLine1,

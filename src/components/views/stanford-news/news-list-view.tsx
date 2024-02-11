@@ -3,7 +3,7 @@ import LoadMoreList from "@components/elements/load-more-list";
 import {NodeStanfordNews} from "@lib/gql/__generated__/drupal";
 
 interface Props {
-  headingLevel: string
+  headingLevel?: "h2" | "h3"
   items?: NodeStanfordNews[]
 }
 

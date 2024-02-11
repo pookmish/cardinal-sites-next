@@ -7,7 +7,7 @@ import {isDraftMode} from "@lib/drupal/utils";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordCourse
-  headingLevel?: string
+  headingLevel?: "h2" | "h3"
 }
 
 const StanfordCoursePage = ({node, ...props}: Props) => {

@@ -6,7 +6,7 @@ import {NodeStanfordNews, TermUnion} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
-  headingLevel?: string
+  headingLevel?: "h2" | "h3"
 }
 
 const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {

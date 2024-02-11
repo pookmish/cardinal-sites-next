@@ -7,7 +7,7 @@ import Address from "@components/elements/address";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
-  headingLevel?: string
+  headingLevel?: "h2" | "h3"
 }
 
 const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {

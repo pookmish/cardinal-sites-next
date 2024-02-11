@@ -1,9 +1,10 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import Lockup from "@components/elements/lockup/lockup";
 import {ComponentProps} from "react";
+import {Image} from "@lib/gql/__generated__/drupal";
 
 type ComponentStoryProps = ComponentProps<typeof Lockup> & {
-  logoUrl?: string
+  logoUrl?: Image["url"]
 }
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction

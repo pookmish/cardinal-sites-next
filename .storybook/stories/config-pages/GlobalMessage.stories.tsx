@@ -1,11 +1,12 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import GlobalMessage from "@components/config-pages/global-message";
 import {ComponentProps} from "react";
+import {Link, Text} from "@lib/gql/__generated__/drupal";
 
 type ComponentStoryProps = ComponentProps<typeof GlobalMessage> & {
-  messageText?: string
-  linkUrl?: string
-  linkTitle?: string
+  messageText?: Text["processed"]
+  linkUrl?: Link["url"]
+  linkTitle?: Link["title"]
 }
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction

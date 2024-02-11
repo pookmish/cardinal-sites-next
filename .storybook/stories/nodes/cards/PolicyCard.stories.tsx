@@ -3,10 +3,11 @@ import type {Meta, StoryObj} from '@storybook/react';
 import StanfordPolicyCard from "@components/nodes/cards/stanford-policy/stanford-policy-card";
 import {StanfordPolicyData} from "../StanfordPolicy.data";
 import {ComponentProps} from "react";
+import {NodeStanfordPolicy, Text} from "@lib/gql/__generated__/drupal";
 
 type ComponentStoryProps = ComponentProps<typeof StanfordPolicyCard> & {
-  title: string
-  body?: string
+  title: NodeStanfordPolicy["title"]
+  body?: Text["processed"]
 }
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction

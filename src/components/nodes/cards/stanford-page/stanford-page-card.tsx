@@ -6,7 +6,7 @@ import {NodeStanfordPage} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPage
-  headingLevel?: string
+  headingLevel?: "h2" | "h3"
 }
 
 const StanfordPageCard = ({node, headingLevel, ...props}: Props) => {

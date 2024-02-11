@@ -4,7 +4,7 @@ import EventsFilteredListView from "@components/views/stanford-events/events-fil
 import {NodeStanfordEvent, TermUnion} from "@lib/gql/__generated__/drupal";
 
 interface Props {
-  headingLevel: string
+  headingLevel?: "h2" | "h3"
   items?: NodeStanfordEvent[]
 }
 

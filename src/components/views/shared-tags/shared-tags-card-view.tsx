@@ -2,7 +2,7 @@ import CardViewGrid from "@components/views/card-view-grid";
 import {NodeUnion} from "@lib/gql/__generated__/drupal";
 
 interface Props {
-  headingLevel: string
+  headingLevel?: "h2" | "h3"
   items?: NodeUnion[]
 }
 

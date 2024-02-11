@@ -9,7 +9,7 @@ import StanfordPublicationCard from "@components/nodes/cards/stanford-publicatio
 import {isDraftMode} from "@lib/drupal/utils";
 import {NodeUnion} from "@lib/gql/__generated__/drupal";
 
-const NodeCard = ({node, headingLevel}: { node: NodeUnion, headingLevel?: string }) => {
+const NodeCard = ({node, headingLevel}: { node: NodeUnion, headingLevel?: "h2" | "h3" }) => {
   const draftMode = isDraftMode();
   const itemProps: { [key: string]: string } = {};
   if (draftMode) {

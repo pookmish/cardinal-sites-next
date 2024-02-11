@@ -5,7 +5,7 @@ import {NodeStanfordEvent, NodeStanfordEventSeries} from "@lib/gql/__generated__
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEventSeries
-  headingLevel?: string
+  headingLevel?: "h2" | "h3"
 }
 
 const StanfordEventSeriesPage = ({node, ...props}: Props) => {

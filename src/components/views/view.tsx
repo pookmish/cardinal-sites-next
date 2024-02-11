@@ -24,10 +24,10 @@ interface Props {
   viewId: string;
   displayId: string;
   items: NodeUnion[]
-  headingLevel?: string
+  headingLevel?: "h2" | "h3"
 }
 
-const View = async ({viewId, displayId, items, headingLevel = 'h3'}: Props) => {
+const View = async ({viewId, displayId, items, headingLevel = "h3"}: Props) => {
   const component = `${viewId}--${displayId}`;
 
   switch (component) {

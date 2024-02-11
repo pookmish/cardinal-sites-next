@@ -5,7 +5,7 @@ import {ComponentProps} from "react";
 import {NodeStanfordEventSeries} from "@lib/gql/__generated__/drupal";
 
 type ComponentStoryProps = ComponentProps<typeof StanfordEventSeriesListItem> & {
-  title: string
+  title: NodeStanfordEventSeries["title"]
   suEventSeriesDek?: NodeStanfordEventSeries["suEventSeriesDek"]
 }
 

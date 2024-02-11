@@ -7,7 +7,7 @@ import BannerParagraph from "@components/paragraphs/stanford-banner/banner-parag
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPage
-  headingLevel?: string
+  headingLevel?: "h2" | "h3"
 }
 
 const StanfordPagePage = ({node, ...props}: Props) => {

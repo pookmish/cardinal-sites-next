@@ -3,12 +3,13 @@ import StanfordNewsCard from "@components/nodes/cards/stanford-news/stanford-new
 import {StanfordNewsData} from "../StanfordNews.data";
 import {ComponentProps} from "react";
 import {getStoryBookImage, getStoryBookTaxonomyTerm} from "../../storybook-entities";
+import {DateTime, Image, NodeStanfordNews, TermStanfordNewsTopic} from "@lib/gql/__generated__/drupal";
 
 type ComponentStoryProps = ComponentProps<typeof StanfordNewsCard> & {
-  title: string
-  suNewsFeaturedMedia?: string
-  suNewsTopics?: string[]
-  suNewsPublishingDate?: number
+  title: NodeStanfordNews["title"]
+  suNewsFeaturedMedia?: Image["url"]
+  suNewsTopics?: TermStanfordNewsTopic["name"][]
+  suNewsPublishingDate?: DateTime["timestamp"]
 }
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -23,10 +24,6 @@ const meta: Meta<ComponentStoryProps> = {
     },
     suNewsPublishingDate: {
       control: "date"
-    },
-    suNewsFeaturedMedia: {
-      options: ["image", "none"],
-      control: {type: "select"}
     },
     node: {
       table: {
@@ -49,8 +46,7 @@ export const NewsCard: Story = {
       time: new Date(suNewsPublishingDate).toISOString(),
       timezone: "America/Los_Angeles",
     }
-    if (suNewsFeaturedMedia === "image") node.suNewsFeaturedMedia = getStoryBookImage()
-    if (suNewsFeaturedMedia === "none") node.suNewsFeaturedMedia = undefined
+    node.suNewsFeaturedMedia = suNewsFeaturedMedia ? getStoryBookImage() : undefined
 
     node.suNewsTopics = [];
     if (suNewsTopics) {

@@ -3,12 +3,12 @@ import type {Meta, StoryObj} from '@storybook/react';
 import StanfordPersonCard from "@components/nodes/cards/stanford-person/stanford-person-card";
 import {StanfordPersonData} from "../StanfordPerson.data";
 import {ComponentProps} from "react";
-import {NodeStanfordPerson} from "@lib/gql/__generated__/drupal";
+import {Image, NodeStanfordPerson} from "@lib/gql/__generated__/drupal";
 import {getStoryBookImage} from "../../storybook-entities";
 
 type ComponentStoryProps = ComponentProps<typeof StanfordPersonCard> & {
-  title: string
-  suPersonPhoto: "image" | "none"
+  title: NodeStanfordPerson["title"]
+  suPersonPhoto: Image["url"]
   suPersonShortTitle?: NodeStanfordPerson["suPersonShortTitle"]
 }
 
@@ -21,10 +21,6 @@ const meta: Meta<ComponentStoryProps> = {
     headingLevel: {
       options: ["h2", "h3"],
       control: {type: "select"}
-    },
-    suPersonPhoto: {
-      options: ["image", "none"],
-      control: "select"
     },
     node: {
       table: {
@@ -42,9 +38,7 @@ export const PersonCard: Story = {
   render: ({title, suPersonPhoto, suPersonShortTitle, node, ...args}) => {
     node.title = title;
     node.suPersonShortTitle = suPersonShortTitle;
-
-    if (suPersonPhoto === "image") node.suPersonPhoto = getStoryBookImage()
-    if (suPersonPhoto === "none") node.suPersonPhoto = undefined
+    node.suPersonPhoto = suPersonPhoto ? getStoryBookImage() : undefined;
     return <StanfordPersonCard node={node} {...args}/>
   },
   args: {

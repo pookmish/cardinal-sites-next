@@ -2,14 +2,14 @@ import type {Meta, StoryObj} from '@storybook/react';
 import StanfordEventCard from "@components/nodes/cards/stanford-event/stanford-event-card";
 import {StanfordEventData} from "../StanfordEvent.data";
 import {ComponentProps} from "react";
-import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordEvent, SmartDateType, TermStanfordEventType} from "@lib/gql/__generated__/drupal";
 import {getStoryBookTaxonomyTerm} from "../../storybook-entities";
 
 type ComponentStoryProps = ComponentProps<typeof StanfordEventCard> & {
-  suEventDateTime_start: number
-  suEventDateTime_end: number
-  title: string
-  suEventType?: string
+  suEventDateTime_start: SmartDateType["value"]
+  suEventDateTime_end: SmartDateType["end_value"]
+  title: NodeStanfordEvent["title"]
+  suEventType?: TermStanfordEventType["name"]
   suEventSubheadline?: NodeStanfordEvent["suEventSubheadline"]
   suEventAltLoc?: NodeStanfordEvent["suEventAltLoc"]
 }

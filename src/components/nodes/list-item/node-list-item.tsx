@@ -11,7 +11,7 @@ import StanfordPublicationListItem
 import {isDraftMode} from "@lib/drupal/utils";
 import {NodeUnion} from "@lib/gql/__generated__/drupal";
 
-const NodeListItem = ({node, headingLevel}: { node: NodeUnion, headingLevel?: string }) => {
+const NodeListItem = ({node, headingLevel}: { node: NodeUnion, headingLevel?: "h2" | "h3" }) => {
   const draftMode = isDraftMode();
   const itemProps: { [key: string]: string } = {};
   if (draftMode) {

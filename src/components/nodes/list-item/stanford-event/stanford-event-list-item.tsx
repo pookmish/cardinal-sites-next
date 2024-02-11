@@ -8,7 +8,7 @@ import {getEventTimeString} from "@components/nodes/cards/stanford-event/stanfor
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
-  headingLevel?: string
+  headingLevel?: "h2" | "h3"
 }
 
 const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {

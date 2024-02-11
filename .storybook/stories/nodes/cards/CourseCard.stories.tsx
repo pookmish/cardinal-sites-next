@@ -2,12 +2,12 @@ import type {Meta, StoryObj} from '@storybook/react';
 import StanfordCourseCard from "@components/nodes/cards/stanford-course/stanford-course-card";
 import {StanfordCourseData} from "../StanfordCourse.data";
 import {ComponentProps} from "react";
-import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordCourse, TermSuCourseSubject} from "@lib/gql/__generated__/drupal";
 import {getStoryBookTaxonomyTerm} from "../../storybook-entities";
 
 type ComponentStoryProps = ComponentProps<typeof StanfordCourseCard> & {
-  title: string
-  suCourseSubject?: string
+  title: NodeStanfordCourse["title"]
+  suCourseSubject?: TermSuCourseSubject["name"]
   suCourseCode?: NodeStanfordCourse["suCourseCode"]
   suCourseAcademicYear?: NodeStanfordCourse["suCourseAcademicYear"]
 }

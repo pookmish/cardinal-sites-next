@@ -2,13 +2,13 @@ import type {Meta, StoryObj} from '@storybook/react';
 import StanfordPageCard from "@components/nodes/cards/stanford-page/stanford-page-card";
 import {StanfordPageData} from "../StanfordPage.data";
 import {ComponentProps} from "react";
-import {Maybe} from "@lib/gql/__generated__/drupal";
+import {Text, Image, NodeStanfordPage} from "@lib/gql/__generated__/drupal";
 import {getStoryBookImage} from "../../storybook-entities";
 
 type ComponentStoryProps = ComponentProps<typeof StanfordPageCard> & {
-  title: string
-  suPageImage?: string
-  suPageDescription?: Maybe<string>
+  title: NodeStanfordPage["title"]
+  suPageImage?: Image["url"]
+  suPageDescription?: Text["processed"]
 }
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<ComponentStoryProps> = {
