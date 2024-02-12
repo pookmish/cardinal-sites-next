@@ -84,7 +84,7 @@ tasks:
       [[ ! -z $GITCONFIG  ]] &&
       echo $GITCONFIG | base64 -d > ~/.gitconfig &&
       chmod 644 ~/.gitconfig
-#      git remote set-url origin git@github.com:SU-SWS/sulgryphon-nextjs.git
+      git remote set-url origin $(echo $GITPOD_WORKSPACE_CONTEXT_URL | sed 's/https:\/\/github.com\//git@github.com:/' | sed 's/\/$/.git/')
 
 vscode:
   extensions:
