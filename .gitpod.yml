@@ -3,15 +3,6 @@ additionalRepositories:
   - url: https://github.com/SU-SWS/acsf-cardinalsites-public
     checkoutLocation: back
 checkoutLocation: front
-github:
-  prebuilds:
-    master: true
-    branches: true
-    pullRequests: true
-    pullRequestsFromForks: false
-    addCheck: false
-    addComment: false
-    addBadge: true
 ports:
   - name: database
     description: Mysql database
@@ -52,6 +43,7 @@ tasks:
       blt settings &&
       blt drupal:install -n &&
       cd /workspace/front &&
+      cp .env.example .env.local
       yarn install
     command: |
       cd /workspace/back &&
@@ -72,6 +64,7 @@ tasks:
       echo 'Connecting Drupal to Frontend' &&
       cd /workspace/front &&
       yarn install &&
+      sed -i -r "s|NEXT_PUBLIC_DRUPAL_BASE_URL.*|NEXT_PUBLIC_DRUPAL_BASE_URL=$NEXT_PUBLIC_DRUPAL_BASE_URL|g" .env.local &&
       yarn dev &
       gp ports await 3000 &&
       gp url 3000 | xargs gp preview --external

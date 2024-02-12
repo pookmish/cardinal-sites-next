@@ -34,7 +34,7 @@
     "graphql-request": "^6.1.0",
     "graphql-tag": "^2.12.6",
     "html-entities": "^2.4.0",
-    "html-react-parser": "^5.1.2",
+    "html-react-parser": "^5.1.4",
     "next": "^14.1.0",
     "next-drupal": "^1.6.0",
     "postcss": "^8.4.35",
