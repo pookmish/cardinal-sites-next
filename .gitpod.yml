@@ -87,7 +87,7 @@ tasks:
       [[ ! -z $GITCONFIG  ]] &&
       echo $GITCONFIG | base64 -d > ~/.gitconfig &&
       chmod 644 ~/.gitconfig
-      git remote set-url origin $(echo $GITPOD_WORKSPACE_CONTEXT_URL | sed 's/https:\/\/github.com\//git@github.com:/' | sed 's/\/$/.git/')
+      git remote set-url origin $(echo $GITPOD_WORKSPACE_CONTEXT | jq -r .repository.cloneUrl | sed -E 's|^.*.com/(.*)$|git@github.com:\1|')
 
 vscode:
   extensions:
