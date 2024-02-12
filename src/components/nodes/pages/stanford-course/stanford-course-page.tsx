@@ -2,52 +2,53 @@ import {redirect} from "next/navigation";
 import Wysiwyg from "@components/elements/wysiwyg";
 import {H1} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {CourseNodeType} from "@lib/types";
+import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal";
+import {isDraftMode} from "@lib/drupal/utils";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: CourseNodeType
-  headingLevel?: string
+  node: NodeStanfordCourse
+  headingLevel?: "h2" | "h3"
 }
 
 const StanfordCoursePage = ({node, ...props}: Props) => {
-  if (node.su_course_link?.url) redirect(node.su_course_link?.url);
+  if (node.suCourseLink?.url && !isDraftMode()) redirect(node.suCourseLink?.url);
   return (
     <article className="centered my-32" {...props}>
       <H1>
         {node.title}
       </H1>
       <div className="flex flex-col gap-10">
-        {node.su_course_subject &&
-          <div>{node.su_course_subject.name}</div>
+        {node.suCourseSubject &&
+          <div>{node.suCourseSubject.name}</div>
         }
 
-        {node.su_course_code &&
-          <div>{node.su_course_code}</div>
+        {node.suCourseCode &&
+          <div>{node.suCourseCode}</div>
         }
 
         {node.body &&
-          <Wysiwyg html={node.body}/>
+          <Wysiwyg html={node.body.processed}/>
         }
 
-        {node.su_course_tags &&
+        {node.suCourseTags &&
           <div>
-            {node.su_course_tags.map(tag =>
+            {node.suCourseTags.map(tag =>
               <div key={tag.id}>{tag.name}</div>
             )}
           </div>
         }
 
-        {node.su_course_quarters &&
+        {node.suCourseQuarters &&
           <div>
-            {node.su_course_quarters.map(quarter =>
+            {node.suCourseQuarters.map(quarter =>
               <div key={quarter.id}>{quarter.name}</div>
             )}
           </div>
         }
 
-        {node.su_course_instructors &&
+        {node.suCourseInstructors &&
           <div>
-            {node.su_course_instructors.map((instructor, i) =>
+            {node.suCourseInstructors.map((instructor, i) =>
               <div key={`instructor-${i}`}>{instructor}</div>
             )}
           </div>

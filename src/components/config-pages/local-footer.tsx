@@ -19,24 +19,43 @@ import {H2} from "@components/elements/headers";
 import TwitterIcon from "@components/elements/icons/TwitterIcon";
 import YoutubeIcon from "@components/elements/icons/YoutubeIcon";
 import FacebookIcon from "@components/elements/icons/FacebookIcon";
-import {getConfigPageResource} from "@lib/drupal/get-resource";
-import {LocalFooterConfigPageType} from "@lib/types";
+import { Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/drupal";
 import {buildUrl} from "@lib/drupal/utils";
 
-const LocalFooter = async () => {
-  // Fetch from JSON API, it should return a cached version.
-  const configPage = await getConfigPageResource<LocalFooterConfigPageType>('stanford_local_footer');
-  if(!configPage || !configPage.su_footer_enabled) return;
+const LocalFooter = ({
+  suFooterEnabled,
+  suLocalFootAction,
+  suLocalFootAddress,
+  suLocalFootLine1,
+  suLocalFootLine2,
+  suLocalFootLine3,
+  suLocalFootLine4,
+  suLocalFootLine5,
+  suLocalFootLocImg,
+  suLocalFootLocOp,
+  suLocalFootPrCo,
+  suLocalFootPrimary,
+  suLocalFootPrimeH,
+  suLocalFootSeCo,
+  suLocalFootSecond,
+  suLocalFootSecondH,
+  suLocalFootSocial,
+  suLocalFootTr2Co,
+  suLocalFootTrCo,
+  suLocalFootUseLoc,
+  suLocalFootUseLogo,
+}: StanfordLocalFooter) => {
+  if (!suFooterEnabled) return;
 
   const lockupProps = {
-    useDefault: configPage.su_local_foot_use_loc,
-    lockupOption: configPage.su_local_foot_loc_op,
-    line1: configPage.su_local_foot_line_1,
-    line2: configPage.su_local_foot_line_2,
-    line3: configPage.su_local_foot_line_3,
-    line4: configPage.su_local_foot_line_4,
-    line5: configPage.su_local_foot_line_5,
-    logoUrl: !configPage.su_local_foot_use_logo && configPage.su_local_foot_loc_img?.uri.url ? buildUrl(configPage.su_local_foot_loc_img.uri.url).toString() : undefined,
+    useDefault: suLocalFootUseLoc,
+    lockupOption: suLocalFootLocOp,
+    line1: suLocalFootLine1,
+    line2: suLocalFootLine2,
+    line3: suLocalFootLine3,
+    line4: suLocalFootLine4,
+    line5: suLocalFootLine5,
+    logoUrl: !suLocalFootUseLogo && suLocalFootLocImg?.url ? buildUrl(suLocalFootLocImg?.url).toString() : undefined,
   }
 
   return (
@@ -50,13 +69,13 @@ const LocalFooter = async () => {
           className="grid md:grid-cols-2 lg:grid-cols-4 gap-32 [&_a]:font-normal [&_a]:no-underline [&_a:hover]:underline [&_a:hover]:text-black [&_a:focus]:underline [&_a:focus]:text-black [&_a]:transition">
           <div>
 
-            {configPage.su_local_foot_address &&
-              <Address {...configPage.su_local_foot_address}/>
+            {suLocalFootAddress &&
+              <Address {...suLocalFootAddress}/>
             }
 
-            {configPage.su_local_foot_action &&
+            {suLocalFootAction &&
               <ul className="list-unstyled">
-                {configPage.su_local_foot_action.map((link, index) => {
+                {suLocalFootAction.map((link, index) => {
                   if (!link.url) return;
                   return (
                     <li key={`footer-action-link-${index}`}>
@@ -69,9 +88,9 @@ const LocalFooter = async () => {
               </ul>
             }
 
-            {configPage.su_local_foot_social &&
+            {suLocalFootSocial &&
               <ul className="list-unstyled flex gap-2">
-                {configPage.su_local_foot_social.map((link, index) => {
+                {suLocalFootSocial.map((link, index) => {
                   if (!link.url) return;
                   return (
                     <li key={`footer-action-link-${index}`}>
@@ -85,17 +104,17 @@ const LocalFooter = async () => {
               </ul>
             }
 
-            {configPage.su_local_foot_pr_co &&
-              <Wysiwyg html={configPage.su_local_foot_pr_co}/>
+            {suLocalFootPrCo &&
+              <Wysiwyg html={suLocalFootPrCo.processed}/>
             }
           </div>
 
           <div>
-            {configPage.su_local_foot_prime_h &&
-              <H2 className="text-m1">{configPage.su_local_foot_prime_h}</H2>}
-            {configPage.su_local_foot_primary &&
+            {suLocalFootPrimeH &&
+              <H2 className="text-m1">{suLocalFootPrimeH}</H2>}
+            {suLocalFootPrimary &&
               <ul className="list-unstyled">
-                {configPage.su_local_foot_primary.map((link, index) => {
+                {suLocalFootPrimary.map((link, index) => {
                   if (!link.url) return;
                   return (
                     <li key={`footer-primary-link-${index}`}>
@@ -107,19 +126,19 @@ const LocalFooter = async () => {
                 })}
               </ul>
             }
-            {configPage.su_local_foot_se_co &&
-              <Wysiwyg html={configPage.su_local_foot_se_co}/>
+            {suLocalFootSeCo &&
+              <Wysiwyg html={suLocalFootSeCo.processed}/>
             }
 
           </div>
 
           <div>
-            {configPage.su_local_foot_second_h &&
-              <H2 className="text-m1">{configPage.su_local_foot_second_h}</H2>}
+            {suLocalFootSecondH &&
+              <H2 className="text-m1">{suLocalFootSecondH}</H2>}
 
-            {configPage.su_local_foot_second &&
+            {suLocalFootSecond &&
               <ul className="list-unstyled">
-                {configPage.su_local_foot_second.map((link, index) => {
+                {suLocalFootSecond.map((link, index) => {
                   if (!link.url) return;
                   return (
                     <li key={`footer-second-link-${index}`}>
@@ -132,15 +151,15 @@ const LocalFooter = async () => {
               </ul>
             }
 
-            {configPage.su_local_foot_tr2_co &&
-              <Wysiwyg html={configPage.su_local_foot_tr2_co}/>
+            {suLocalFootTr2Co &&
+              <Wysiwyg html={suLocalFootTr2Co.processed}/>
             }
 
           </div>
 
           <div>
-            {configPage.su_local_foot_tr_co &&
-              <Wysiwyg html={configPage.su_local_foot_tr_co}/>
+            {suLocalFootTrCo &&
+              <Wysiwyg html={suLocalFootTrCo.processed}/>
             }
           </div>
         </div>
@@ -157,15 +176,15 @@ const SocialIcon = ({url}: { url: string }) => {
 }
 
 export interface FooterLockupProps {
-  useDefault?: boolean
-  siteName?: string
-  lockupOption?: string
-  line1?: string
-  line2?: string
-  line3?: string
-  line4?: string
-  line5?: string
-  logoUrl?: string
+  useDefault?: Maybe<boolean>
+  siteName?: Maybe<string>
+  lockupOption?: Maybe<string>
+  line1?: Maybe<string>
+  line2?: Maybe<string>
+  line3?: Maybe<string>
+  line4?: Maybe<string>
+  line5?: Maybe<string>
+  logoUrl?: Maybe<string>
 }
 
 const FooterLockup = ({useDefault = true, siteName, lockupOption, ...props}: FooterLockupProps): JSX.Element => {

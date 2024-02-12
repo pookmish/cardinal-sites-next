@@ -2,16 +2,15 @@ import Image from "next/image";
 import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {PersonNodeType} from "@lib/types";
-import {buildUrl} from "@lib/drupal/utils";
+import {NodeStanfordPerson} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: PersonNodeType
-  headingLevel?: string
+  node: NodeStanfordPerson
+  headingLevel?: "h2" | "h3"
 }
 
 const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
-  const imageUrl = node.su_person_photo?.field_media_image?.uri.url;
+  const imageUrl = node.suPersonPhoto?.mediaImage.url
 
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
@@ -19,22 +18,23 @@ const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
       {imageUrl &&
         <div className="relative aspect-[1/1] mx-auto mb-20 w-3/5">
           <Image
-            src={buildUrl(imageUrl).toString()}
+            className="rounded-full object-cover"
+            src={imageUrl}
             alt=""
             fill
-            className="rounded-full object-cover"
+            sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
           />
         </div>
       }
 
       <Heading className="text-m2" id={node.id}>
-        <Link href={node.path.alias}>
+        <Link href={node.path}>
           {node.title}
         </Link>
       </Heading>
 
-      {node.su_person_full_title &&
-        <div>{node.su_person_full_title}</div>
+      {node.suPersonShortTitle &&
+        <div>{node.suPersonShortTitle}</div>
       }
     </article>
   )

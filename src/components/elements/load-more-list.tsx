@@ -48,7 +48,7 @@ const LoadMoreList = ({buttonText, children, ulProps, liProps, itemsPerPage = 20
       </ul>
 
       {items.length > itemsPerPage &&
-        <span className="sar-only" aria-live="polite">
+        <span className="sr-only" aria-live="polite" aria-atomic="true">
           Showing {itemsToShow.length} of {items.length} total items.
         </span>
       }

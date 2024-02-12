@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 import Telephone from "@components/elements/telephone";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -6,9 +6,7 @@ const meta: Meta<typeof Telephone> = {
   title: 'Design/Elements/Telephone',
   component: Telephone,
   tags: ['autodocs'],
-  argTypes: {
-
-  }
+  argTypes: {}
 };
 
 export default meta;

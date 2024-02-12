@@ -1,12 +1,12 @@
 import CardViewGrid from "@components/views/card-view-grid";
-import {StanfordNode} from "@lib/types";
+import {NodeUnion} from "@lib/gql/__generated__/drupal";
 
 interface Props {
-  headingLevel: string
-  items?: StanfordNode[]
+  headingLevel?: "h2" | "h3"
+  items?: NodeUnion[]
 }
 
-const SharedTagsCardView = async ({items = [],headingLevel}: Props) => {
+const SharedTagsCardView = async ({items = [], headingLevel}: Props) => {
   return (
     <CardViewGrid items={items} headingLevel={headingLevel}/>
   )

@@ -1,10 +1,10 @@
 import StanfordPageListItem from "@components/nodes/list-item/stanford-page/stanford-page-list-item";
 import LoadMoreList from "@components/elements/load-more-list";
-import {BasicPageNodeType} from "@lib/types";
+import {NodeStanfordPage} from "@lib/gql/__generated__/drupal";
 
 interface Props {
-  headingLevel: string
-  items?: BasicPageNodeType[]
+  headingLevel?: "h2" | "h3"
+  items?: NodeStanfordPage[]
 }
 
 const PageListView = async ({items = [], headingLevel}: Props) => {

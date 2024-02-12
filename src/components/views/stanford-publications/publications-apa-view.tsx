@@ -1,9 +1,9 @@
 import CardViewGrid from "@components/views/card-view-grid";
-import {PublicationNodeType} from "@lib/types";
+import {NodeStanfordPublication} from "@lib/gql/__generated__/drupal";
 
 interface Props {
-  headingLevel: string
-  items?: PublicationNodeType[]
+  headingLevel?: "h2" | "h3"
+  items?: NodeStanfordPublication[]
 }
 
 const PublicationsApaView = async ({items = [], headingLevel}: Props) => {

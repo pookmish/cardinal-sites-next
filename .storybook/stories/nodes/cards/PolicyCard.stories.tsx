@@ -1,19 +1,21 @@
 import type {Meta, StoryObj} from '@storybook/react';
 
 import StanfordPolicyCard from "@components/nodes/cards/stanford-policy/stanford-policy-card";
-import {ImageMedia} from "../../media";
-import {DrupalWysiwygFieldType, PolicyChangeLogType} from "@lib/types";
+import {StanfordPolicyData} from "../StanfordPolicy.data";
+import {ComponentProps} from "react";
+import {NodeStanfordPolicy, Text} from "@lib/gql/__generated__/drupal";
+
+type ComponentStoryProps = ComponentProps<typeof StanfordPolicyCard> & {
+  title: NodeStanfordPolicy["title"]
+  body?: Text["processed"]
+}
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof StanfordPolicyCard> = {
+const meta: Meta<ComponentStoryProps> = {
   title: 'Design/Nodes/Cards/Policy Card',
   component: StanfordPolicyCard,
   tags: ['autodocs'],
   argTypes: {
-    su_page_image: {
-      options: ["image", "none"],
-      control: {type: "select"}
-    },
     headingLevel: {
       options: ["h2", "h3"],
       control: {type: "select"}
@@ -27,31 +29,19 @@ const meta: Meta<typeof StanfordPolicyCard> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof StanfordPolicyCard>;
+type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const PolicyCard: Story = {
-  render: ({headingLevel, body, summary, path, ...args}) => {
-    args.path = {
-      alias: path
-    }
-    args.body = {
-      body,
-      summary
-    }
-    return <StanfordPolicyCard node={args} headingLevel={headingLevel}/>
+  render: ({title, body, node, ...args}) => {
+    node.title = title;
+    node.body = {processed: body};
+    return <StanfordPolicyCard node={node} {...args}/>
   },
   args: {
-    path: "/foo-bar",
-    title: "title",
-    body: "Portaest pellentesque elementum portaest gravida adipiscing fusce pellentesque placerat scelerisque tortor facilisis ex magna elit maecenas nec adipiscing pellentesque sollicitudin scelerisque sed tempus molestie rutrum.",
-    summary: "Portaest pellentesque elementum portaest gravida adipiscing",
-    su_policy_authority: "su_policy_authority",
-    su_policy_chapter: "su_policy_chapter",
-    su_policy_effective: "su_policy_effective",
-    su_policy_policy_num: "su_policy_policy_num",
-    su_policy_subchapter: "su_policy_subchapter",
-    su_policy_title: "su_policy_title",
-    su_policy_updated: "su_policy_updated",
+    title: StanfordPolicyData().title,
+    body: StanfordPolicyData().body?.processed,
+    headingLevel: "h2",
+    node: StanfordPolicyData()
   },
 };

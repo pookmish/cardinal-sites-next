@@ -1,33 +1,47 @@
-import MediaCaptionParagraphDisplay
-  from "@components/paragraphs/stanford-media-caption/media-caption-paragraph-display";
 import {HtmlHTMLAttributes} from "react";
-import {MediaCaptionParagraphType} from "@lib/types";
-import {buildUrl} from "@lib/drupal/utils";
+import {ParagraphStanfordMediaCaption} from "@lib/gql/__generated__/drupal";
+import Image from "next/image";
+import Oembed from "@components/elements/ombed";
+import Link from "@components/elements/link";
+import Wysiwyg from "@components/elements/wysiwyg";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  paragraph: MediaCaptionParagraphType
+  paragraph: ParagraphStanfordMediaCaption
 }
 
 const MediaCaptionParagraph = ({paragraph, ...props}: Props) => {
-  let imageUrl: string | undefined,
-    imageAlt: string | undefined,
-    videoUrl: string | undefined
-
-  if (paragraph.su_media_caption_media?.type === 'media--image') {
-    imageUrl = paragraph.su_media_caption_media.field_media_image?.uri.url;
-    imageAlt = paragraph.su_media_caption_media.field_media_image?.resourceIdObjMeta?.alt || '';
-  }
-  if (paragraph.su_media_caption_media?.type === 'media--video') {
-    videoUrl = paragraph.su_media_caption_media.field_media_oembed_video
-  }
+  const image = paragraph.suMediaCaptionMedia?.__typename === 'MediaImage' ? paragraph.suMediaCaptionMedia.mediaImage : undefined;
+  const videoUrl = paragraph.suMediaCaptionMedia?.__typename === 'MediaVideo' && paragraph.suMediaCaptionMedia.mediaOembedVideo;
 
   return (
     <div {...props}>
-      <MediaCaptionParagraphDisplay
-        media={imageUrl || videoUrl ? {imageUrl: imageUrl && buildUrl(imageUrl).toString(), imageAlt, videoUrl} : undefined}
-        link={paragraph.su_media_caption_link}
-        caption={paragraph.su_media_caption_caption}
-      />
+      <figure
+        className="centered lg:max-w-[980px]">
+        {image?.url &&
+          <div className="relative aspect-[16/9] w-full">
+            <Image
+              className="object-cover"
+              src={image.url}
+              alt={image.alt || ""}
+              fill
+              sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
+            />
+          </div>
+        }
+        {videoUrl && <Oembed url={videoUrl}/>}
+
+        <figcaption className="text-right">
+          {paragraph.suMediaCaptionLink?.url &&
+            <Link href={paragraph.suMediaCaptionLink.url} className="">
+              {paragraph.suMediaCaptionLink.title}
+            </Link>
+          }
+
+          {paragraph.suMediaCaptionCaption &&
+            <Wysiwyg html={paragraph.suMediaCaptionCaption.processed}/>
+          }
+        </figcaption>
+      </figure>
     </div>
   )
 }

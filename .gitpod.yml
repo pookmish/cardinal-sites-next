@@ -3,15 +3,6 @@ additionalRepositories:
   - url: https://github.com/SU-SWS/acsf-cardinalsites-public
     checkoutLocation: back
 checkoutLocation: front
-github:
-  prebuilds:
-    master: true
-    branches: true
-    pullRequests: true
-    pullRequestsFromForks: false
-    addCheck: false
-    addComment: false
-    addBadge: true
 ports:
   - name: database
     description: Mysql database
@@ -39,6 +30,9 @@ tasks:
     init: >
       eval $(gp env -e APACHE_DOCROOT_IN_REPO=../back/docroot) &&
       cd /workspace/back &&
+      rm -rf config/default &&
+      mkdir -p config/default &&
+      touch config/default/core.extension.yml &&
       git checkout composer.* &&
       composer install --no-interaction &&
       mkdir -p blt &&
@@ -52,6 +46,7 @@ tasks:
       blt settings &&
       blt drupal:install -n &&
       cd /workspace/front &&
+      cp .env.example .env.local &&
       yarn install
     command: |
       cd /workspace/back &&
@@ -72,6 +67,7 @@ tasks:
       echo 'Connecting Drupal to Frontend' &&
       cd /workspace/front &&
       yarn install &&
+      sed -i -r "s|NEXT_PUBLIC_DRUPAL_BASE_URL.*|NEXT_PUBLIC_DRUPAL_BASE_URL=$NEXT_PUBLIC_DRUPAL_BASE_URL|g" .env.local &&
       yarn dev &
       gp ports await 3000 &&
       gp url 3000 | xargs gp preview --external
@@ -91,7 +87,7 @@ tasks:
       [[ ! -z $GITCONFIG  ]] &&
       echo $GITCONFIG | base64 -d > ~/.gitconfig &&
       chmod 644 ~/.gitconfig
-#      git remote set-url origin git@github.com:SU-SWS/sulgryphon-nextjs.git
+      git remote set-url origin $(echo $GITPOD_WORKSPACE_CONTEXT | jq -r .repository.cloneUrl | sed -E 's|^.*.com/(.*)$|git@github.com:\1|')
 
 vscode:
   extensions:

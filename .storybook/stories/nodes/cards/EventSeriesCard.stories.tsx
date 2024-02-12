@@ -1,10 +1,17 @@
 import type {Meta, StoryObj} from '@storybook/react';
 
 import StanfordEventSeriesCard from "@components/nodes/cards/stanford-event-series/stanford-event-series-card";
-import {ImageMedia} from "../../media";
+import {StanfordEventSeriesData} from "../StanfordEventSeries.data";
+import {ComponentProps} from "react";
+import {NodeStanfordEventSeries} from "@lib/gql/__generated__/drupal";
+
+type ComponentStoryProps = ComponentProps<typeof StanfordEventSeriesCard> & {
+  title: NodeStanfordEventSeries["title"]
+  suEventSeriesDek?: NodeStanfordEventSeries["suEventSeriesDek"]
+}
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof StanfordEventSeriesCard> = {
+const meta: Meta<ComponentStoryProps> = {
   title: 'Design/Nodes/Cards/Event Series Card',
   component: StanfordEventSeriesCard,
   tags: ['autodocs'],
@@ -22,25 +29,19 @@ const meta: Meta<typeof StanfordEventSeriesCard> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof StanfordEventSeriesCard>;
+type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const EventSeriesCard: Story = {
-  render: ({headingLevel, path, ...args}) => {
-    args.path = {
-      alias: path
-    }
-
-    return <StanfordEventSeriesCard node={args} headingLevel={headingLevel}/>
+  render: ({title, suEventSeriesDek, node, ...args}) => {
+    node.title = title;
+    node.suEventSeriesDek = suEventSeriesDek;
+    return <StanfordEventSeriesCard node={node} {...args}/>
   },
   args: {
-    path: "/foo-bar",
-    title: "title",
-    su_event_series_dek: "su_event_series_dek",
-    su_event_series_event: [],
-    su_event_series_subheadline: "su_event_series_subheadline",
-    su_event_series_type: [{id: 1, name: "su_event_series_type1"}, {id: 2, name: "su_event_series_type2"}],
-    su_event_series_weight: 987,
-    su_shared_tags: [{id: 1, name: "su_shared_tags1"}, {id: 1, name: "su_shared_tags2"}]
+    title: StanfordEventSeriesData().title,
+    suEventSeriesDek: StanfordEventSeriesData().suEventSeriesDek,
+    headingLevel: "h2",
+    node: StanfordEventSeriesData()
   },
 };

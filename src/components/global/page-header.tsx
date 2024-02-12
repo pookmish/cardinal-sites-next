@@ -1,13 +1,21 @@
 import SiteSearchForm from "@components/search/site-search-form";
 import MainMenu from "@components/menu/main-menu";
-import {getMenu} from "@lib/drupal/get-menu";
 import GlobalMessage from "@components/config-pages/global-message";
 import Lockup from "@components/elements/lockup/lockup";
+import {getConfigPage, getMenu} from "@lib/gql/fetcher";
+import {
+  LockupSetting,
+  MenuAvailable,
+  StanfordBasicSiteSetting,
+  StanfordGlobalMessage
+} from "@lib/gql/__generated__/drupal";
 import {isDraftMode} from "@lib/drupal/utils";
 
 const PageHeader = async () => {
-  const draftMode = isDraftMode();
-  const {tree} = await getMenu('main', {draftMode})
+  const menuItems = await getMenu(MenuAvailable.Main, isDraftMode());
+  const globalMessageConfig = await getConfigPage<StanfordGlobalMessage>('StanfordGlobalMessage');
+  const siteSettingsConfig = await getConfigPage<StanfordBasicSiteSetting>('StanfordBasicSiteSetting')
+  const lockupSettingsConfig = await getConfigPage<LockupSetting>('LockupSetting')
 
   return (
     <header className="shadow-lg">
@@ -21,16 +29,16 @@ const PageHeader = async () => {
           </a>
         </div>
       </div>
-      <GlobalMessage/>
+      {globalMessageConfig && <GlobalMessage {...globalMessageConfig}/>}
       <div className="relative shadow">
         <div className="centered min-h-50">
           <div className="flex w-full justify-between">
-            <Lockup/>
+            <Lockup {...siteSettingsConfig} {...lockupSettingsConfig}/>
             <SiteSearchForm className="hidden lg:block"/>
           </div>
         </div>
 
-        <MainMenu menuItems={tree}/>
+        <MainMenu menuItems={menuItems}/>
       </div>
     </header>
   )

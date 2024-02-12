@@ -1,10 +1,10 @@
 import StanfordCourseListItem from "@components/nodes/list-item/stanford-course/stanford-course-list-item";
 import LoadMoreList from "@components/elements/load-more-list";
-import {CourseNodeType} from "@lib/types";
+import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal";
 
 interface Props {
-  headingLevel: string
-  items?: CourseNodeType[]
+  headingLevel?: "h2" | "h3"
+  items?: NodeStanfordCourse[]
 }
 
 const CourseListView = async ({items = [], headingLevel}: Props) => {

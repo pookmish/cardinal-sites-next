@@ -7,48 +7,33 @@ import StanfordPublicationPage from "@components/nodes/pages/stanford-publicatio
 import StanfordCoursePage from "@components/nodes/pages/stanford-course/stanford-course-page";
 import StanfordEventSeriesPage from "@components/nodes/pages/stanford-event-series/stanford-event-series-page";
 import {isDraftMode} from "@lib/drupal/utils";
-import {StanfordNode} from "@lib/types";
+import {NodeUnion} from "@lib/gql/__generated__/drupal";
 
-const NodePage = ({node}: { node: StanfordNode }) => {
-  return (
-    <>
-      {!node.status &&
-        <div className="bg-illuminating text-4xl p-5">
-          <div className="centered-container">
-            Unpublished Page
-          </div>
-        </div>
-      }
-      <Node node={node}/>
-    </>
-  )
-}
-
-const Node = ({node}: { node: StanfordNode }) => {
+const NodePage = ({node}: { node: NodeUnion }) => {
   const draftMode = isDraftMode();
   const itemProps: { [key: string]: string } = {};
 
   if (draftMode) {
-    itemProps['data-type'] = node.type || 'unknown';
+    itemProps['data-type'] = node.__typename || 'unknown';
     itemProps['data-id'] = node.id;
   }
 
-  switch (node.type) {
-    case 'node--stanford_course':
+  switch (node.__typename) {
+    case 'NodeStanfordCourse':
       return <StanfordCoursePage node={node} {...itemProps}/>
-    case 'node--stanford_event':
+    case 'NodeStanfordEvent':
       return <StanfordEventPage node={node} {...itemProps}/>
-    case 'node--stanford_event_series':
+    case 'NodeStanfordEventSeries':
       return <StanfordEventSeriesPage node={node} {...itemProps}/>
-    case 'node--stanford_news':
+    case 'NodeStanfordNews':
       return <StanfordNewsPage node={node} {...itemProps}/>
-    case 'node--stanford_page':
+    case 'NodeStanfordPage':
       return <StanfordPagePage node={node} {...itemProps}/>
-    case 'node--stanford_person':
+    case 'NodeStanfordPerson':
       return <StanfordPersonPage node={node} {...itemProps}/>
-    case 'node--stanford_policy':
+    case 'NodeStanfordPolicy':
       return <StanfordPolicyPage node={node} {...itemProps}/>
-    case 'node--stanford_publication':
+    case 'NodeStanfordPublication':
       return <StanfordPublicationPage node={node} {...itemProps}/>
   }
 }

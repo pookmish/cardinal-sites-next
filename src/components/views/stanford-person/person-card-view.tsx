@@ -1,9 +1,9 @@
 import CardViewGrid from "@components/views/card-view-grid";
-import {PersonNodeType} from "@lib/types";
+import {NodeStanfordPerson} from "@lib/gql/__generated__/drupal";
 
 interface Props {
-  headingLevel: string
-  items?: PersonNodeType[]
+  headingLevel?: "h2" | "h3"
+  items?: NodeStanfordPerson[]
 }
 
 const PersonCardView = async ({items = [], headingLevel}: Props) => {

@@ -24,6 +24,7 @@
     "next-env.d.ts",
     "src/**/*.tsx",
     "app/**/*.tsx",
+    ".storybook/stories/**/*.tsx",
     ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]

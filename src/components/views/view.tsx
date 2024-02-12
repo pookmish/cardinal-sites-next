@@ -11,66 +11,66 @@ import CourseCardView from "@components/views/stanford-courses/course-card-view"
 import PublicationsApaView from "@components/views/stanford-publications/publications-apa-view";
 import PublicationsChicagoView from "@components/views/stanford-publications/publications-chicago-view";
 import {
-  BasicPageNodeType,
-  CourseNodeType,
-  EventNodeType,
-  NewsNodeType,
-  PersonNodeType,
-  PublicationNodeType,
-  StanfordNode
-} from "@lib/types";
+  NodeStanfordCourse,
+  NodeStanfordEvent,
+  NodeStanfordNews,
+  NodeStanfordPage,
+  NodeStanfordPerson,
+  NodeStanfordPublication,
+  NodeUnion
+} from "@lib/gql/__generated__/drupal";
 
 interface Props {
   viewId: string;
   displayId: string;
-  headingLevel?: string
-  items?: StanfordNode[]
+  items: NodeUnion[]
+  headingLevel?: "h2" | "h3"
 }
 
-const View = async ({viewId, displayId, items, headingLevel = 'h3'}: Props) => {
+const View = async ({viewId, displayId, items, headingLevel = "h3"}: Props) => {
   const component = `${viewId}--${displayId}`;
 
   switch (component) {
     case 'stanford_basic_pages--basic_page_type_list':
       return <PageListView
-        items={items as BasicPageNodeType[]}
+        items={items as NodeStanfordPage[]}
         headingLevel={headingLevel}
       />
 
     case 'stanford_news--vertical_cards':
       return <NewsCardView
-        items={items as NewsNodeType[]}
+        items={items as NodeStanfordNews[]}
         headingLevel={headingLevel}
       />
 
     case 'stanford_news--block_1':
       return <NewsListView
-        items={items as NewsNodeType[]}
+        items={items as NodeStanfordNews[]}
         headingLevel={headingLevel}
       />
 
     case 'stanford_person--grid_list_all':
       return <PersonCardView
-        items={items as PersonNodeType[]}
+        items={items as NodeStanfordPerson[]}
         headingLevel={headingLevel}
       />
 
     case 'stanford_events--cards':
       return <EventsCardView
-        items={items as EventNodeType[]}
+        items={items as NodeStanfordEvent[]}
         headingLevel={headingLevel}
       />
 
     case 'stanford_events--past_events_list_block':
     case 'stanford_events--list_page':
       return <EventsListView
-        items={items as EventNodeType[]}
+        items={items as NodeStanfordEvent[]}
         headingLevel={headingLevel}
       />
 
     case 'stanford_basic_pages--viewfield_block_1':
       return <PageCardView
-        items={items as BasicPageNodeType[]}
+        items={items as NodeStanfordPage[]}
         headingLevel={headingLevel}
       />
 
@@ -82,25 +82,25 @@ const View = async ({viewId, displayId, items, headingLevel = 'h3'}: Props) => {
 
     case 'stanford_courses--default_list_viewfield_block':
       return <CourseListView
-        items={items as CourseNodeType[]}
+        items={items as NodeStanfordCourse[]}
         headingLevel={headingLevel}
       />
 
     case 'stanford_courses--vertical_teaser_viewfield_block':
       return <CourseCardView
-        items={items as CourseNodeType[]}
+        items={items as NodeStanfordCourse[]}
         headingLevel={headingLevel}
       />
 
     case 'stanford_publications--apa_list':
       return <PublicationsApaView
-        items={items as PublicationNodeType[]}
+        items={items as NodeStanfordPublication[]}
         headingLevel={headingLevel}
       />
 
     case 'stanford_publications--chicago_list':
       return <PublicationsChicagoView
-        items={items as PublicationNodeType[]}
+        items={items as NodeStanfordPublication[]}
         headingLevel={headingLevel}
       />
   }

@@ -2,19 +2,15 @@ import Link from "@components/elements/link";
 import Image from "next/image";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {BasicPageNodeType} from "@lib/types";
-import {buildUrl} from "@lib/drupal/utils";
+import {NodeStanfordPage} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: BasicPageNodeType
-  headingLevel?: string
+  node: NodeStanfordPage
+  headingLevel?: "h2" | "h3"
 }
 
 const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
-  const image = node.su_page_image?.field_media_image || node.su_page_banner?.su_banner_image?.field_media_image
-
-  const imageUrl = image?.uri.url
-  const imageAlt = image?.resourceIdObjMeta?.alt || '';
+  const image = node.suPageImage?.mediaImage || node.suPageBanner?.suBannerImage?.mediaImage;
 
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
@@ -22,24 +18,25 @@ const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
       <div className="flex flex-col @4xl:flex-row justify-between gap-20" {...props}>
         <div className="order-2 @4xl:order-1">
           <Heading className="text-m2" id={node.id}>
-            <Link href={node.path.alias}>
+            <Link href={node.path}>
               {node.title}
             </Link>
           </Heading>
 
-          {node.su_page_description &&
-            <p>{node.su_page_description}</p>
+          {node.suPageDescription &&
+            <p>{node.suPageDescription}</p>
           }
         </div>
 
-        {imageUrl &&
+        {image?.url &&
           <div
             className="order-1 @4xl:order-2 relative aspect-[16/9] h-fit w-full @4xl:w-1/4 shrink-0">
             <Image
-              src={buildUrl(imageUrl).toString()}
-              alt={imageAlt}
-              fill
               className="object-cover"
+              src={image.url}
+              alt={image.alt || ''}
+              fill
+              sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
             />
           </div>
         }

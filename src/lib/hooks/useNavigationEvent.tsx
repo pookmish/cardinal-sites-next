@@ -5,18 +5,18 @@ import {useEffect, useState} from "react";
 import {syncDrupalPreviewRoutes} from "@lib/drupal/sync-drupal-preview-path";
 
 const useNavigationEvent = () => {
-  const [url, setUrl] = useState<string | null>();
+  const [url, setUrl] = useState<string>();
   const pathname = usePathname();
 
   useEffect(() => {
     if (!pathname) return;
 
     if (pathname !== url && !(pathname?.startsWith('/gallery-image/'))) {
-      setUrl(pathname ? pathname : null);
+      setUrl(pathname);
     }
   }, [url, pathname]);
 
-  useEffect(() => syncDrupalPreviewRoutes(url || ''), [url])
+  useEffect(() => syncDrupalPreviewRoutes(url), [url])
   return url;
 }
 

@@ -5,11 +5,12 @@ import Oembed from "@components/elements/ombed";
 import React, {ComponentProps, HtmlHTMLAttributes} from "react";
 import {H2, H3, H4, H5, H6} from "@components/elements/headers";
 import {twMerge} from "tailwind-merge";
+import {Maybe} from "@lib/gql/__generated__/drupal";
 import Mathjax from "@components/tools/mathjax";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   html: string
-  className?: string
+  className?: Maybe<string>
 }
 
 const Wysiwyg = ({html, className = "", ...props}: Props) => {
@@ -42,7 +43,7 @@ const options: HTMLReactParserOptions = {
 
         case "div":
           delete nodeProps.role;
-          if (nodeProps.className?.indexOf('media-entity-wrapper') >= 0) {
+          if (!!nodeProps.className?.indexOf('media-entity-wrapper')) {
             return cleanMediaMarkup(domNode);
           }
           return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
@@ -128,7 +129,7 @@ const fixClasses = (classes: string | boolean = ''): undefined | string => {
 
   classes = classes.split(' ')
     .filter(className => className.trim().length >= 1)
-    .filter((value, index, self) => self.indexOf(value) === index)
+    .filter((value, index, self) => self?.indexOf(value) === index)
     .join(' ');
 
   return classes.trim();
@@ -197,14 +198,14 @@ const cleanMediaMarkup = (node: Element) => {
   if (image) {
     let {src, alt, width, height} = image;
 
-    if (src.startsWith('/')) {
+    if (src?.startsWith('/')) {
       src = process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + src;
     }
     const figCaption = getFigCaption(node);
 
     if (figCaption) {
       nodeProps.className += ' table';
-      if (nodeProps.className.indexOf('mx-auto') >= 0) nodeProps.className += ' w-full'
+      if (!!nodeProps.className?.indexOf('mx-auto')) nodeProps.className += ' w-full'
       delete nodeProps.role;
       return (
         <figure {...nodeProps}>
@@ -230,9 +231,9 @@ const cleanMediaMarkup = (node: Element) => {
 
 const WysiwygImage = ({src, alt, height, width, className = ''}: {
   src: string,
-  alt?: string,
-  height?: string,
-  width?: string,
+  alt?: Maybe<string>,
+  height?: Maybe<string>,
+  width?: Maybe<string>,
   className?: string
 }) => {
   if (width && height) {
@@ -251,8 +252,9 @@ const WysiwygImage = ({src, alt, height, width, className = ''}: {
       <Image
         className="object-cover object-center"
         src={src.trim()}
-        alt={alt ? alt.trim() : ""}
-        fill={true}
+        alt={alt?.trim() || ""}
+        fill
+        sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 1500px'}
       />
     </div>
   )

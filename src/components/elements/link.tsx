@@ -1,6 +1,4 @@
-"use client";
-
-import {HtmlHTMLAttributes, ReactNode} from "react";
+import {HtmlHTMLAttributes} from "react";
 import Link from "next/link";
 import {EnvelopeIcon} from "@heroicons/react/24/outline";
 import ActionLink from "@components/elements/action-link";
@@ -9,14 +7,11 @@ import {LinkProps} from "next/dist/client/link";
 
 type Props = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> & LinkProps & {
   href: string
-  children: ReactNode | ReactNode[]
 }
 
-const DrupalLink = ({href, className, prefetch = true, children, ...props}: Props) => {
-  if (!href || href === '' || typeof href !== 'string') {
-    href = '#';
-  }
-
+const DrupalLink = ({href, className, children, ...props}: Props) => {
+  // Make sure all links have a href.
+  href = href || '#'
   const drupalBase: string = (process.env.NEXT_PUBLIC_DRUPAL_BASE_URL ?? '').replace(/\/$/, '');
 
   if (href && !href.indexOf('/files/')) {
@@ -24,32 +19,33 @@ const DrupalLink = ({href, className, prefetch = true, children, ...props}: Prop
   }
   className = className && className.length > 0 ? className : undefined;
 
-  if (className) {
-    if (className.includes('link--action')) {
-      return <ActionLink href={href} {...props}>{children}</ActionLink>
-    }
-
-    if (className.includes('button')) {
-      return (
-        <Button
-          href={href}
-          big={className.includes('--big')}
-          secondary={className.includes('--secondary')}
-          {...props}
-        >
-          {children}
-        </Button>
-      )
-    }
+  if (className?.includes('link--action')) {
+    return (
+      <ActionLink href={href} {...props}>
+        {children}
+      </ActionLink>
+    )
   }
 
-  let afterIcon;
-  if (href.startsWith('mailto')) afterIcon = <EnvelopeIcon width={20} className="ml-4 inline-block"/>
+  if (className?.includes('button')) {
+    return (
+      <Button
+        href={href}
+        big={className.includes('--big')}
+        secondary={className.includes('--secondary')}
+        {...props}
+      >
+        {children}
+      </Button>
+    )
+  }
 
   return (
-    <Link href={href} className={className} prefetch={prefetch && href.startsWith('/')} {...props}>
+    <Link href={href} className={className} {...props}>
       {children}
-      {afterIcon}
+      {href.startsWith('mailto') &&
+        <EnvelopeIcon width={20} className="ml-4 inline-block"/>
+      }
     </Link>
   )
 }

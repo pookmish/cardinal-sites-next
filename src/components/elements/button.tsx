@@ -1,20 +1,31 @@
 import Link from "@components/elements/link";
 import {twMerge} from 'tailwind-merge'
 import {HtmlHTMLAttributes, MouseEventHandler} from "react";
+import {Maybe} from "@lib/gql/__generated__/drupal";
 import {clsx} from "clsx";
 
 
 type Props = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> & {
-  href?: string
+  href?: Maybe<string>
   buttonElem?: boolean
   big?: boolean
   secondary?: boolean
   centered?: boolean
   onClick?: MouseEventHandler
   prefetch?: boolean
+  type?: HTMLButtonElement["type"]
 }
 
-export const Button = ({href, buttonElem = false, big = false, secondary = false, centered = false, children, className, ...props}: Props) => {
+export const Button = ({
+  href,
+  buttonElem = false,
+  big = false,
+  secondary = false,
+  centered = false,
+  children,
+  className,
+  ...props
+}: Props) => {
 
   const standardClasses = clsx(
     {

@@ -2,51 +2,61 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import Button from "@components/elements/button";
 import View from "@components/views/view";
 import {H2} from "@components/elements/headers";
-import {HtmlHTMLAttributes} from "react";
-import {ListParagraphType, StanfordNode} from "@lib/types";
-import {getView} from "@lib/drupal/get-view";
-import {getResources} from "@lib/drupal/get-resource";
-import {DrupalJsonApiParams} from "drupal-jsonapi-params";
+import {cache, HtmlHTMLAttributes} from "react";
+import {
+  Maybe,
+  NodeStanfordCourse,
+  NodeStanfordPage,
+  NodeUnion,
+  ParagraphStanfordList
+} from "@lib/gql/__generated__/drupal";
+import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
+import {graphqlClient} from "@lib/gql/fetcher";
+import {buildHeaders} from "@lib/drupal/utils";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  paragraph: ListParagraphType
+  paragraph: ParagraphStanfordList
 }
 
 const ListParagraph = async ({paragraph, ...props}: Props) => {
-  const behaviors = paragraph.behavior_settings;
-  const viewId = paragraph.su_list_view.resourceIdObjMeta.drupal_internal__target_id;
-  const displayId = paragraph.su_list_view.resourceIdObjMeta.display_id
+  const behaviors = getParagraphBehaviors(paragraph);
+  const viewId = paragraph.suListView?.view || '';
+  const displayId = paragraph.suListView?.display || '';
 
-  let viewItems = await getViewItems(viewId, displayId, paragraph.su_list_view.resourceIdObjMeta.arguments, paragraph.su_list_view.resourceIdObjMeta.items_to_display);
+  let viewItems = await getViewItems(viewId, displayId, paragraph.suListView?.contextualFilter);
+  // let viewItems = (viewId && displayId) ? await getViewResults<StanfordNode>(viewId, displayId, paragraph.suListView?.contextualFilter) : [];
+  if (paragraph.suListView?.pageSize) {
+    viewItems = viewItems.slice(0, paragraph.suListView.pageSize)
+  }
 
-  if (behaviors?.list_paragraph?.hide_empty && viewItems.length === 0) return null;
+  if (behaviors.list_paragraph?.hide_empty && viewItems.length === 0) return null;
 
   return (
     <div className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20" {...props}>
-      {paragraph.su_list_headline &&
-        <H2 className="text-center">{paragraph.su_list_headline}</H2>
+      {paragraph.suListHeadline &&
+        <H2>{paragraph.suListHeadline}</H2>
       }
-      {paragraph.su_list_description &&
-        <Wysiwyg html={paragraph.su_list_description}/>
+      {paragraph.suListDescription?.processed &&
+        <Wysiwyg html={paragraph.suListDescription?.processed}/>
       }
 
-      {(viewId && displayId && viewItems.length > 0) &&
+      {viewItems &&
         <View
           viewId={viewId}
           displayId={displayId}
           items={viewItems}
-          headingLevel={paragraph.su_list_headline ? 'h3' : 'h2'}
+          headingLevel={paragraph.suListHeadline ? 'h3' : 'h2'}
         />
       }
 
-      {(viewItems.length === 0 && behaviors?.list_paragraph?.empty_message) &&
-        <div>{behaviors.list_paragraph.empty_message}</div>
+      {(viewItems.length === 0 && behaviors.list_paragraph?.empty_message) &&
+        <p>{behaviors.list_paragraph.empty_message}</p>
       }
 
-      {paragraph.su_list_button?.url &&
+      {paragraph.suListButton?.url &&
         <div>
-          <Button centered href={paragraph.su_list_button.url}>
-            {paragraph.su_list_button.title}
+          <Button centered href={paragraph.suListButton.url}>
+            {paragraph.suListButton.title}
           </Button>
         </div>
       }
@@ -54,27 +64,117 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
   )
 }
 
-const getViewItems = async <T extends StanfordNode,>(viewId: string, displayId: string, args?: string, itemsToDisplay = 0): Promise<T[]> => {
-  const view = `${viewId}--${displayId}`
-  const drupalParams = new DrupalJsonApiParams();
+const getViewItems = cache(async (viewId: string, displayId: string, contextualFilter?: Maybe<string[]>): Promise<NodeUnion[]> => {
+  let items: NodeUnion[] = []
 
-  args = args ? args + '/0/0/0' : '0/0/0';
-  drupalParams.addCustomParam({'views-argument': args.split('/')});
+  const tags = ['views'];
+  switch (`${viewId}--${displayId}`) {
+    case 'stanford_shared_tags--card_grid':
+      tags.push('views:all');
+      break;
 
-  if (itemsToDisplay > 0) {
-    // Find new way to add the item limit since this throws errors.
-    drupalParams.addPageLimit(itemsToDisplay);
+    case 'stanford_basic_pages--basic_page_type_list':
+    case 'stanford_basic_pages--viewfield_block_1':
+      tags.push('views:stanford_page');
+      break
+
+    case 'stanford_courses--default_list_viewfield_block':
+    case 'stanford_courses--vertical_teaser_viewfield_block':
+      tags.push('views:stanford_course');
+      break
+
+    case 'stanford_events--cards':
+    case 'stanford_events--list_page':
+    case 'stanford_events--past_events_list_block':
+      tags.push('views:stanford_event');
+      break
+
+    case 'stanford_news--block_1':
+    case 'stanford_news--vertical_cards':
+      tags.push('views:stanford_news');
+      break
+
+    case 'stanford_person--grid_list_all':
+      tags.push('views:stanford_person');
+      break
+
+    case 'stanford_publications--apa_list':
+    case 'stanford_publications--chicago_list':
+      tags.push('views:stanford_publication');
+      break
   }
-  let items: StanfordNode[] = [];
-  try {
-    const viewData = await getView<T[]>(view, {params: drupalParams.getQueryObject()});
-    items = viewData.results ?? [];
-  } catch (e: unknown) {
-    if (e instanceof Error) {
-      console.log(`Unable to fetch view ${view}: ${e.message}`)
-    }
+
+  const headers = await buildHeaders();
+  const client = graphqlClient({headers, next: {tags}});
+  let filters = getViewFilters(['term_node_taxonomy_name_depth'], contextualFilter)
+  let graphqlResponse;
+
+  switch (`${viewId}--${displayId}`) {
+    case 'stanford_basic_pages--basic_page_type_list':
+    case 'stanford_basic_pages--viewfield_block_1':
+      filters = getViewFilters(['term_node_taxonomy_name_depth', 'nid'], contextualFilter)
+      graphqlResponse = await client.stanfordBasicPages({filters});
+      items = graphqlResponse.stanfordBasicPages?.results as unknown as NodeStanfordPage[]
+      break
+
+    case 'stanford_courses--default_list_viewfield_block':
+    case 'stanford_courses--vertical_teaser_viewfield_block':
+      graphqlResponse = await client.stanfordCourses({filters});
+      items = graphqlResponse.stanfordCourses?.results as unknown as NodeStanfordCourse[]
+      break
+
+    case 'stanford_events--cards':
+    case 'stanford_events--list_page':
+      filters = getViewFilters(['term_node_taxonomy_name_depth', 'term_node_taxonomy_name_depth_1', 'term_node_taxonomy_name_depth_2', 'term_node_taxonomy_name_depth_3'], contextualFilter)
+      graphqlResponse = await client.stanfordEventsCardGrid({filters});
+      items = graphqlResponse.stanfordEventsCardGrid?.results as unknown as NodeUnion[]
+      break
+
+    case 'stanford_events--past_events_list_block':
+      graphqlResponse = await client.stanfordEventsPastEvents({filters});
+      items = graphqlResponse.stanfordEventsPastEvents?.results as unknown as NodeUnion[]
+      break
+
+    case 'stanford_news--block_1':
+    case 'stanford_news--vertical_cards':
+      graphqlResponse = await client.stanfordNewsDefaultList({filters});
+      items = graphqlResponse.stanfordNewsDefaultList?.results as unknown as NodeUnion[]
+      break
+
+    case 'stanford_person--grid_list_all':
+      graphqlResponse = await client.stanfordPerson({filters});
+      items = graphqlResponse.stanfordPerson?.results as unknown as NodeUnion[]
+      break
+
+    case 'stanford_publications--apa_list':
+    case 'stanford_publications--chicago_list':
+      graphqlResponse = await client.stanfordPublicationsApa({filters});
+      items = graphqlResponse.stanfordPublicationsApa?.results as unknown as NodeUnion[]
+      break
+
+    case 'stanford_shared_tags--card_grid':
+      filters = getViewFilters(['term_node_taxonomy_name_depth', 'type'], contextualFilter)
+      if (filters && Object.keys(filters).length === 2) filters.nid = '0'
+      graphqlResponse = await client.stanfordSharedTags({filters});
+      items = graphqlResponse.stanfordSharedTags?.results as unknown as NodeUnion[]
+      break
+
+    default:
+      console.error(`Unable to find query for view: ${viewId} display: ${displayId}`)
+      break;
   }
-  return getResources<T>(items);
+
+  return items;
+})
+
+const getViewFilters = (keys: string[], values?: Maybe<string[]>) => {
+  if (!keys || !values) return;
+  const filters: Record<string, string | undefined> = keys.reduce((obj, key, index) => ({
+    ...obj,
+    [key]: values[index]
+  }), {})
+  Object.keys(filters).forEach(key => filters[key] === undefined && delete filters[key]);
+  return filters;
 }
 
 export default ListParagraph;

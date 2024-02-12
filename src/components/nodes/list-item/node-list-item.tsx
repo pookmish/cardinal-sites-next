@@ -9,32 +9,32 @@ import StanfordPolicyListItem from "@components/nodes/list-item/stanford-policy/
 import StanfordPublicationListItem
   from "@components/nodes/list-item/stanford-publication/stanford-publication-list-item";
 import {isDraftMode} from "@lib/drupal/utils";
-import {StanfordNode} from "@lib/types";
+import {NodeUnion} from "@lib/gql/__generated__/drupal";
 
-const NodeListItem = ({node, headingLevel}: { node: StanfordNode, headingLevel?: string }) => {
+const NodeListItem = ({node, headingLevel}: { node: NodeUnion, headingLevel?: "h2" | "h3" }) => {
   const draftMode = isDraftMode();
   const itemProps: { [key: string]: string } = {};
   if (draftMode) {
-    itemProps['data-type'] = node.type || 'unknown';
+    itemProps['data-type'] = node.__typename || 'unknown';
     itemProps['data-id'] = node.id;
   }
 
-  switch (node.type) {
-    case 'node--stanford_course':
+  switch (node.__typename) {
+    case 'NodeStanfordCourse':
       return <StanfordCourseListItem node={node} headingLevel={headingLevel} {...itemProps}/>
-    case 'node--stanford_event':
+    case 'NodeStanfordEvent':
       return <StanfordEventListItem node={node} headingLevel={headingLevel} {...itemProps}/>
-    case 'node--stanford_event_series':
+    case 'NodeStanfordEventSeries':
       return <StanfordEventSeriesListItem node={node} headingLevel={headingLevel} {...itemProps}/>
-    case 'node--stanford_news':
+    case 'NodeStanfordNews':
       return <StanfordNewsListItem node={node} headingLevel={headingLevel} {...itemProps}/>
-    case 'node--stanford_page':
+    case 'NodeStanfordPage':
       return <StanfordPageListItem node={node} headingLevel={headingLevel} {...itemProps}/>
-    case 'node--stanford_person':
+    case 'NodeStanfordPerson':
       return <StanfordPersonListItem node={node} headingLevel={headingLevel} {...itemProps}/>
-    case 'node--stanford_policy':
+    case 'NodeStanfordPolicy':
       return <StanfordPolicyListItem node={node} headingLevel={headingLevel} {...itemProps}/>
-    case 'node--stanford_publication':
+    case 'NodeStanfordPublication':
       return <StanfordPublicationListItem node={node} headingLevel={headingLevel} {...itemProps}/>
   }
 }

@@ -2,7 +2,7 @@
 
 import {SignalIcon} from "@heroicons/react/20/solid";
 import Embed from "react-tiny-oembed";
-import {HtmlHTMLAttributes, useRef} from "react";
+import {HtmlHTMLAttributes} from "react";
 import {useIntersectionObserver} from "usehooks-ts";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -10,11 +10,10 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const Oembed = ({url, ...props}: Props) => {
-  const ref = useRef<HTMLDivElement>(null)
-  const entry = useIntersectionObserver(ref, {freezeOnceVisible: true});
+  const {isIntersecting, ref} = useIntersectionObserver({freezeOnceVisible: true})
   return (
     <div {...props} ref={ref} className="relative aspect-[16/9] w-full">
-      {!!entry?.isIntersecting && <Embed url={url} LoadingFallbackElement={<Loading/>}/>}
+      {isIntersecting && <Embed url={url} LoadingFallbackElement={<Loading/>}/>}
     </div>
   )
 }

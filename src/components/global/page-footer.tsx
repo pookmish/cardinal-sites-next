@@ -1,11 +1,17 @@
 import LocalFooter from "@components/config-pages/local-footer";
 import SuperFooter from "@components/config-pages/super-footer";
+import {getConfigPage} from "@lib/gql/fetcher";
+import {StanfordLocalFooter, StanfordSuperFooter} from "@lib/gql/__generated__/drupal";
 
 const PageFooter = async () => {
+
+  const superFooterConfig = await getConfigPage<StanfordSuperFooter>('StanfordSuperFooter')
+  const localFooterConfig = await getConfigPage<StanfordLocalFooter>('StanfordLocalFooter')
+
   return (
     <footer>
-      <SuperFooter/>
-      <LocalFooter/>
+      {superFooterConfig && <SuperFooter {...superFooterConfig}/>}
+      {localFooterConfig && <LocalFooter {...localFooterConfig}/>}
 
       <div className="bg-cardinal-red py-10 [&_a]:text-white [&_a]:no-underline [&_a:hocus]:text-white ">
         <div className="centered lg:flex lg:items-start lg:gap-20">
@@ -16,7 +22,8 @@ const PageFooter = async () => {
             </a>
           </div>
           <div className="mx-auto lg:mx-0 [&_a:hover]:underline [&_a:focus]:underline">
-            <nav aria-label="University Links" className="flex gap-20 sm:gap-0 sm:flex-col justify-center lg:justify-start mb-5">
+            <nav aria-label="University Links"
+                 className="flex gap-20 sm:gap-0 sm:flex-col justify-center lg:justify-start mb-5">
               <ul className="text-2xl md:text-3xl list-unstyled sm:flex sm:gap-10 justify-center lg:justify-start">
                 <li>
                   <a href="https://www.stanford.edu">

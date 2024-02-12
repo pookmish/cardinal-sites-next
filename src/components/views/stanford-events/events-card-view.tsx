@@ -1,10 +1,11 @@
 import CardViewGrid from "@components/views/card-view-grid";
-import {EventNodeType} from "@lib/types";
+import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal";
 
 interface Props {
-  headingLevel: string
-  items?: EventNodeType[]
+  headingLevel?: "h2" | "h3"
+  items?: NodeStanfordEvent[]
 }
+
 const EventsCardView = async ({items = [], headingLevel}: Props) => {
   return (
     <CardViewGrid items={items} headingLevel={headingLevel}/>

@@ -3,21 +3,21 @@ import Address from "@components/elements/address";
 import {H3} from "@components/elements/headers";
 import PersonCtaParagraph from "@components/paragraphs/stanford-person-cta/person-cta-paragraph";
 import {HtmlHTMLAttributes} from "react";
-import {EventScheduleParagraphType} from "@lib/types";
+import {ParagraphStanfordPersonCtum, ParagraphStanfordSchedule} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  paragraph: EventScheduleParagraphType
+  paragraph: ParagraphStanfordSchedule
 }
 
 const ScheduleParagraph = ({paragraph, ...props}: Props) => {
   let start
-  if (paragraph.su_schedule_date_time?.value) {
-    start = new Date(paragraph.su_schedule_date_time.value * 1000).toLocaleDateString('en-us', {
+  if (paragraph.suScheduleDateTime?.value) {
+    start = new Date(paragraph.suScheduleDateTime.value * 1000).toLocaleDateString('en-us', {
       weekday: 'long',
       month: 'long',
       day: 'numeric',
       year: 'numeric',
-      timeZone: paragraph.su_schedule_date_time.timezone || 'America/Los_Angeles',
+      timeZone: paragraph.suScheduleDateTime.timezone || 'America/Los_Angeles',
     })
   }
 
@@ -26,23 +26,23 @@ const ScheduleParagraph = ({paragraph, ...props}: Props) => {
       {start &&
         <H3>{start}</H3>
       }
-      {paragraph.su_schedule_headline &&
+      {paragraph.suScheduleHeadline &&
         <div>
-          {paragraph.su_schedule_headline}
+          {paragraph.suScheduleHeadline}
         </div>
       }
 
-      {paragraph.su_schedule_description &&
-        <Wysiwyg html={paragraph.su_schedule_description}/>
+      {paragraph.suScheduleDescription &&
+        <Wysiwyg html={paragraph.suScheduleDescription.processed}/>
       }
 
-      {paragraph.su_schedule_location &&
-        <Address {...paragraph.su_schedule_location}/>
+      {paragraph.suScheduleLocation &&
+        <Address {...paragraph.suScheduleLocation}/>
       }
-      {paragraph.su_schedule_speaker &&
+      {paragraph.suScheduleSpeaker &&
         <div>
-          {paragraph.su_schedule_speaker.map(speaker =>
-            <PersonCtaParagraph paragraph={speaker} key={speaker.id}/>
+          {paragraph.suScheduleSpeaker.map(speaker =>
+            <PersonCtaParagraph paragraph={speaker as ParagraphStanfordPersonCtum} key={speaker.id}/>
           )}
         </div>
       }

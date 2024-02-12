@@ -3,27 +3,27 @@ import {CalendarDaysIcon, MapPinIcon} from "@heroicons/react/20/solid";
 import Address from "@components/elements/address";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
+import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal";
 import {getEventTimeString} from "@components/nodes/cards/stanford-event/stanford-event-card";
-import {EventNodeType} from "@lib/types";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: EventNodeType
-  headingLevel?: string
+  node: NodeStanfordEvent
+  headingLevel?: "h2" | "h3"
 }
 
 const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
 
-  const timezone: string = node.su_event_date_time?.timezone || 'America/Los_Angeles';
-  const start = new Date(node.su_event_date_time.value);
-  const end = new Date(node.su_event_date_time.end_value);
+  const timeZone = node.suEventDateTime.timezone || 'America/Los_Angeles';
+  const start = new Date(node.suEventDateTime.value * 1000);
+  const end = new Date(node.suEventDateTime.end_value * 1000);
 
-  const startMonth = start.toLocaleDateString("en-US", {month: "short", timeZone: timezone})
-  const startDay = parseInt(start.toLocaleDateString("en-US", {day: "numeric", timeZone: timezone}))
+  const startMonth = start.toLocaleDateString("en-US", {month: "short", timeZone})
+  const startDay = parseInt(start.toLocaleDateString("en-US", {day: "numeric", timeZone}))
 
   // Fix difference between server side render and client side render. Replace any strange characters.
-  const dateTimeString = getEventTimeString(start, end, timezone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
-  const goToPath = node.su_event_source?.url || node.path.alias
+  const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
   const Heading = headingLevel === 'h3' ? H3 : H2;
+
   return (
     <article aria-labelledby={node.id} className="w-full mx-auto py-10 flex gap-10" {...props}>
       <div aria-hidden className="flex flex-col items-start w-fit">
@@ -35,26 +35,30 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
         </div>
       </div>
       <div>
-        {node.su_event_type?.[0]?.name &&
-          <div className="su-digital-red">
-            {node.su_event_type[0].name}
+        <div className="flex flex-col">
+          <Heading className="text-m2" id={node.id}>
+            <Link
+              href={node.suEventSource?.url || node.path}
+              className="text-digital-red no-underline hocus:text-black hocus:underline"
+            >
+              {node.title}
+            </Link>
+          </Heading>
+
+          {node.suEventType &&
+            <div className="su-digital-red order-first">
+              {node.suEventType[0].name}
+            </div>
+          }
+        </div>
+
+        {node.suEventSubheadline &&
+          <div className="text-m1 font-bold mb-5">
+            {node.suEventSubheadline}
           </div>
         }
-
-
-        <Heading className="text-m2" id={node.id}>
-          <Link
-            href={goToPath}
-            className="text-digital-red no-underline hocus:text-black hocus:underline"
-          >
-            {node.title}
-          </Link>
-        </Heading>
-
-        {node.su_event_subheadline &&
-          <div className="text-m1 font-bold mb-5">
-            {node.su_event_subheadline}
-          </div>
+        {node.suEventDek &&
+          <p>{node.suEventDek}</p>
         }
 
         <time className="flex items-center gap-5 mb-5" dateTime={start.toISOString()}>
@@ -62,19 +66,19 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
           {dateTimeString}
         </time>
 
-        {node.su_event_location &&
+        {node.suEventLocation &&
           <div>
             <div className="flex items-center gap-5">
               <MapPinIcon width={30} className="shrink-0"/>
-              <Address {...node.su_event_location}/>
+              <Address {...node.suEventLocation}/>
             </div>
           </div>
         }
 
-        {node.su_event_alt_loc &&
+        {node.suEventAltLoc &&
           <div className="flex items-center gap-5">
             <MapPinIcon width={30} className="shrink-0"/>
-            {node.su_event_alt_loc}
+            {node.suEventAltLoc}
           </div>
         }
       </div>

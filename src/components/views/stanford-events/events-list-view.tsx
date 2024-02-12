@@ -1,17 +1,17 @@
 import StanfordEventListItem from "@components/nodes/list-item/stanford-event/stanford-event-list-item";
 import LoadMoreList from "@components/elements/load-more-list";
 import EventsFilteredListView from "@components/views/stanford-events/events-filtered-list-view";
-import {DrupalTaxonomyTerm, EventNodeType} from "@lib/types";
+import {NodeStanfordEvent, TermUnion} from "@lib/gql/__generated__/drupal";
 
 interface Props {
-  headingLevel: string
-  items?: EventNodeType[]
+  headingLevel?: "h2" | "h3"
+  items?: NodeStanfordEvent[]
 }
 
 const EventsListView = async ({items = [], headingLevel}: Props) => {
   if (items.length >= 5) {
-    const topics: DrupalTaxonomyTerm[] = [];
-    items.map(event => event.su_event_type?.map(topic => topics.push(topic)))
+    const topics: TermUnion[] = [];
+    items.map(event => event.suEventType?.map(topic => topics.push(topic)))
     const uniqueTopics = [...new Map(topics.map((t) => [t.id, t])).values()];
 
     if (uniqueTopics.length > 1) {

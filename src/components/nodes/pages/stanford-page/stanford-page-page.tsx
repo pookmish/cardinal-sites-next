@@ -1,23 +1,23 @@
 import Rows from "@components/paragraphs/rows/rows";
 import InteriorPage from "@components/layouts/interior-page";
-import Paragraph from "@components/paragraphs/paragraph";
 import {H1} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {BasicPageNodeType} from "@lib/types";
+import {NodeStanfordPage} from "@lib/gql/__generated__/drupal";
+import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: BasicPageNodeType
-  headingLevel?: string
+  node: NodeStanfordPage
+  headingLevel?: "h2" | "h3"
 }
 
 const StanfordPagePage = ({node, ...props}: Props) => {
-  const fullWidth = node.layout_selection?.resourceIdObjMeta.drupal_internal__target_id === 'stanford_basic_page_full';
+  const fullWidth = node.layoutSelection?.id === 'stanford_basic_page_full';
 
   return (
     <article {...props}>
-      {node.su_page_banner &&
+      {node.suPageBanner &&
         <header aria-label="Page banner">
-          <Paragraph paragraph={node.su_page_banner}/>
+          <BannerParagraph paragraph={node.suPageBanner} eagerLoadImage/>
         </header>
       }
       <H1 className="mt-32 centered">
@@ -25,15 +25,15 @@ const StanfordPagePage = ({node, ...props}: Props) => {
       </H1>
 
       {!fullWidth &&
-        <InteriorPage currentPath={node.path.alias}>
-          {node.su_page_components &&
-            <Rows components={node.su_page_components}/>
+        <InteriorPage currentPath={node.path}>
+          {node.suPageComponents &&
+            <Rows components={node.suPageComponents}/>
           }
         </InteriorPage>
       }
 
-      {(fullWidth && node.su_page_components) &&
-        <Rows components={node.su_page_components}/>
+      {(fullWidth && node.suPageComponents) &&
+        <Rows components={node.suPageComponents}/>
       }
 
     </article>

@@ -1,9 +1,8 @@
 import {notFound} from "next/navigation";
 import {H1} from "@components/elements/headers";
 import Image from "next/image";
-import {getResource} from "@lib/drupal/get-resource";
-import {DrupalGalleryImageMediaType} from "@lib/types";
-import {buildUrl} from "@lib/drupal/utils";
+import {MediaStanfordGalleryImage} from "@lib/gql/__generated__/drupal";
+import {graphqlClient} from "@lib/gql/fetcher";
 
 export const metadata = {
   title: 'Gallery Image',
@@ -13,27 +12,32 @@ export const metadata = {
 }
 
 const Page = async ({params: {uuid}}: { params: { uuid: string } }) => {
-  const media = await getResource<DrupalGalleryImageMediaType>('media--stanford_gallery_images', uuid);
-  if (!media || !media.su_gallery_image.uri.url) notFound();
+  let media: MediaStanfordGalleryImage | undefined;
+  try {
+    const query = await graphqlClient().Media({uuid});
+    if (query.media?.__typename === 'MediaStanfordGalleryImage') media = query.media as MediaStanfordGalleryImage;
+  } catch (e) {
+  }
+  if (!media || !media.suGalleryImage?.url) notFound();
 
   return (
     <div className="centered mt-32">
-      <H1>{media.su_gallery_image.resourceIdObjMeta?.alt || "Media"}</H1>
+      <H1>{media.suGalleryImage?.alt || "Media"}</H1>
 
       <figure className="h-full w-fit mx-auto table">
         <picture>
           <Image
-            src={buildUrl(media.su_gallery_image.uri.url).toString()}
+            src={media.suGalleryImage.url}
             alt=""
-            width={media.su_gallery_image.resourceIdObjMeta?.width}
-            height={media.su_gallery_image.resourceIdObjMeta?.height}
+            width={media.suGalleryImage.width}
+            height={media.suGalleryImage.height}
             className="max-w-full h-auto m-0 p-0"
           />
         </picture>
-        {media.su_gallery_caption &&
+        {media.suGalleryCaption &&
           <figcaption
             className="bg-white text-right p-5 m-0 table-caption caption-bottom">
-            {media.su_gallery_caption}
+            {media.suGalleryCaption}
           </figcaption>
         }
       </figure>

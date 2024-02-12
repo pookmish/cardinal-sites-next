@@ -2,44 +2,54 @@ import Image from "next/image";
 import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {NewsNodeType} from "@lib/types";
+import {NodeStanfordNews, TermUnion} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: NewsNodeType
-  headingLevel?: string
+  node: NodeStanfordNews
+  headingLevel?: "h2" | "h3"
 }
 
 const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
-  const image = node.su_news_featured_media?.field_media_image
-  const imageUrl = image?.url;
-  const imageAlt = image?.alt || '';
+  const image = node.suNewsFeaturedMedia?.mediaImage
 
-  const publishDate = node.suNewsPublishingDate && new Date(node.suNewsPublishingDate.time);
-
-  const topics= node.su_news_topics ? node.su_news_topics.slice(0, 3) : [];
+  const topics: TermUnion[] = node.suNewsTopics ? node.suNewsTopics.slice(0, 3) : [];
   const Heading = headingLevel === 'h3' ? H3 : H2;
+
+  const publishDate = node.suNewsPublishingDate ? new Date(node.suNewsPublishingDate.time).toLocaleDateString("en-us", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: node.suNewsPublishingDate.timezone
+  }) : undefined;
+
   return (
     <article aria-labelledby={node.id} className="@container" {...props}>
       <div className="flex w-full justify-between flex-col @3xl:flex-row py-10">
-        <div className="order-2 @3xl::order-1 flex flex-col">
+        <div className="order-2 @3xl::order-1">
 
-          <Heading className="font-bold text-m2" id={node.id}>
-            <Link
-              href={node.path.alias}
-              className="text-digital-red no-underline hocus:text-black hocus:underline order-2"
-            >
-              {node.title}
-            </Link>
-          </Heading>
+          <div className="flex flex-col gap-10">
+            <Heading className="order-last font-bold text-m2" id={node.id}>
+              <Link
+                href={node.suNewsSource?.url || node.path}
+                className="text-digital-red no-underline hocus:text-black hocus:underline order-2"
+              >
+                {node.title}
+              </Link>
+            </Heading>
 
-          {publishDate &&
-            <div className="order-1 mb-10">
-              {publishDate.toLocaleDateString('en-us', {month: 'long', day: 'numeric', year: 'numeric'})}
-            </div>
+            {publishDate &&
+              <div>
+                {publishDate}
+              </div>
+            }
+          </div>
+
+          {node.suNewsDek &&
+            <p>{node.suNewsDek}</p>
           }
 
           {topics &&
-            <div className="order-3">
+            <div className="font-bold">
               {topics.map((topic, index) =>
                 <span key={topic.id}>
                   {topic.name}{(index != 2 && index != topics.length - 1) ? ", " : ""}
@@ -49,13 +59,14 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
           }
         </div>
 
-        {imageUrl &&
+        {image?.url &&
           <div className="order-1 @3xl:order-2 relative aspect-[16/9] @3xl:w-1/4 mb-10 @3xl:mb-0 shrink-0">
             <Image
-              src={imageUrl}
-              alt={imageAlt}
-              fill
               className="object-cover"
+              src={image.url}
+              alt={image.alt || ''}
+              fill
+              sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
             />
           </div>
         }

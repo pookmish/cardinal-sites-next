@@ -1,10 +1,10 @@
 import StanfordNewsListItem from "@components/nodes/list-item/stanford-news/stanford-news-list-item";
 import LoadMoreList from "@components/elements/load-more-list";
-import {NewsNodeType} from "@lib/types";
+import {NodeStanfordNews} from "@lib/gql/__generated__/drupal";
 
 interface Props {
-  headingLevel: string
-  items?: NewsNodeType[]
+  headingLevel?: "h2" | "h3"
+  items?: NodeStanfordNews[]
 }
 
 const NewsListView = async ({items = [], headingLevel}: Props) => {

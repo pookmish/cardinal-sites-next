@@ -1,0 +1,170 @@
+# Query specific entity types by their UUID value.
+query Node($uuid: ID!) {
+    node(id: $uuid) {
+        ...FragmentNodeUnion
+    }
+}
+
+query Media($uuid: ID!) {
+    media(id: $uuid) {
+        ...FragmentMediaUnion
+    }
+}
+
+query Term($uuid: ID!) {
+    term(id: $uuid) {
+        ...FragmentTermInterface
+    }
+}
+
+query ConfigPages {
+    stanfordBasicSiteSettings(first: 1) {
+        nodes {
+            __typename
+            suGoogleAnalytics
+            suSiteAlgolia
+            suSiteAlgoliaId
+            suSiteAlgoliaIndex
+            suSiteAlgoliaSearch
+            suSiteDropdowns
+            suSiteMenuLevels
+            suSiteName
+            suSiteNobots
+        }
+    }
+    stanfordGlobalMessages(first: 1) {
+        nodes {
+            __typename
+            suGlobalMsgEnabled
+            suGlobalMsgHeader
+            suGlobalMsgLabel
+            suGlobalMsgLink {
+                title
+                url
+            }
+            suGlobalMsgMessage {
+                processed
+            }
+            suGlobalMsgType
+        }
+    }
+    stanfordLocalFooters(first: 1) {
+        nodes {
+            __typename
+            suFooterEnabled
+            suLocalFootAction {
+                title
+                url
+            }
+            suLocalFootAddress {
+                additionalName
+                addressLine1
+                addressLine2
+                administrativeArea
+                country {
+                    code
+                    name
+                }
+                dependentLocality
+                familyName
+                givenName
+                langcode
+                locality
+                organization
+                postalCode
+                sortingCode
+            }
+            suLocalFootFButton
+            suLocalFootFIntro {
+                processed
+            }
+            suLocalFootFMethod
+            suLocalFootFUrl {
+                url
+                title
+            }
+            suLocalFootLine1
+            suLocalFootLine4
+            suLocalFootLine2
+            suLocalFootLine3
+            suLocalFootLine5
+            suLocalFootLocImg {
+                alt
+                height
+                url
+                width
+            }
+            suLocalFootLocLink {
+                title
+                url
+            }
+            suLocalFootLocOp
+            suLocalFootPrCo {
+                processed
+            }
+            suLocalFootPrimary {
+                title
+                url
+            }
+            suLocalFootPrimeH
+            suLocalFootSeCo {
+                processed
+            }
+            suLocalFootSecond {
+                title
+                url
+            }
+            suLocalFootSecondH
+            suLocalFootSocial {
+                title
+                url
+            }
+            suLocalFootSunetT
+            suLocalFootTr2Co {
+                processed
+            }
+            suLocalFootTrCo {
+                processed
+            }
+            suLocalFootUseLoc
+            suLocalFootUseLogo
+        }
+    }
+    stanfordSuperFooters(first: 1) {
+        nodes {
+            __typename
+            suSuperFootEnabled
+            suSuperFootIntranet {
+                title
+                url
+            }
+            suSuperFootLink {
+                title
+                url
+            }
+            suSuperFootText {
+                processed
+            }
+            suSuperFootTitle
+        }
+    }
+    lockupSettings(first: 1) {
+       nodes {
+           __typename
+            suLine1
+            suLine2
+            suLine3
+            suLine4
+            suLine5
+            suLockupEnabled
+            suLockupOptions
+            suUploadLogoImage {
+                alt
+                height
+                url
+                width
+            }
+            suUseThemeLogo
+        }
+    }
+}

@@ -1,40 +1,73 @@
-import CardParagraphDisplay from "@components/paragraphs/stanford-card/card-paragraph-display";
 import {HtmlHTMLAttributes} from "react";
-import {CardParagraphType} from "@lib/types";
-import {buildUrl} from "@lib/drupal/utils";
+import {ParagraphStanfordCard} from "@lib/gql/__generated__/drupal";
+import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
+import Image from "next/image";
+import Oembed from "@components/elements/ombed";
+import {H2} from "@components/elements/headers";
+import Wysiwyg from "@components/elements/wysiwyg";
+import ActionLink from "@components/elements/action-link";
+import Button from "@components/elements/button";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  paragraph: CardParagraphType
+  paragraph: ParagraphStanfordCard
 }
 
 const CardParagraph = ({paragraph, ...props}: Props) => {
+  const behaviors = getParagraphBehaviors(paragraph)
 
-  let imageUrl: string | undefined,
-    imageAlt: string | undefined,
-    videoUrl: string | undefined
-
-  if (paragraph.su_card_media?.type=== 'media--image') {
-    imageUrl = paragraph.su_card_media.field_media_image?.uri.url
-    imageAlt = paragraph.su_card_media.field_media_image?.resourceIdObjMeta?.alt || '';
-  }
-
-  if (paragraph.su_card_media?.type=== 'media--video') {
-    videoUrl = paragraph.su_card_media.field_media_oembed_video
-  }
+  const image = paragraph.suCardMedia?.__typename === 'MediaImage' ? paragraph.suCardMedia.mediaImage : undefined;
+  const videoUrl = paragraph.suCardMedia?.__typename === 'MediaVideo' && paragraph.suCardMedia.mediaOembedVideo;
 
   return (
     <div {...props}>
-      <CardParagraphDisplay
-        media={imageUrl || videoUrl ? {imageUrl: imageUrl && buildUrl(imageUrl).toString(), imageAlt, videoUrl} : undefined}
-        header={paragraph.su_card_header}
-        supHeader={paragraph.su_card_super_header}
-        body={paragraph.su_card_body}
-        link={{
-          url: paragraph.su_card_link?.url,
-          title: paragraph.su_card_link?.title,
-          style: paragraph.behavior_settings?.su_card_styles?.link_style
-        }}
-      />
+      <div className="centered lg:max-w-[980px] w-full shadow-lg border border-black-10">
+        {image?.url &&
+          <div className="relative aspect-[16/9] w-full">
+            <Image
+              className="object-cover object-center"
+              src={image.url}
+              alt={image.alt || ""}
+              fill
+              sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
+            />
+          </div>
+        }
+
+        {videoUrl &&
+          <Oembed url={videoUrl}/>
+        }
+
+        <div className="py-20 px-10 lg:px-20 flex flex-col gap-5">
+          {paragraph.suCardHeader &&
+            <H2 className="order-2 text-m2">{paragraph.suCardHeader}</H2>
+          }
+
+          {paragraph.suCardSuperHeader &&
+            <div
+              className="order-1 font-semibold">{paragraph.suCardSuperHeader}</div>
+          }
+
+          {paragraph.suCardBody &&
+            <Wysiwyg html={paragraph.suCardBody.processed} className="order-3"/>
+          }
+
+          {paragraph.suCardLink?.url &&
+            <div className="order-4">
+              {behaviors.su_card_styles?.link_style === 'action' &&
+                <ActionLink href={paragraph.suCardLink.url}>
+                  {paragraph.suCardLink.title}
+                </ActionLink>
+              }
+
+              {behaviors.su_card_styles?.link_style != 'action' &&
+                <Button href={paragraph.suCardLink.url}>
+                  {paragraph.suCardLink.title}
+                </Button>
+              }
+            </div>
+          }
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,9 +1,9 @@
 import CardViewGrid from "@components/views/card-view-grid";
-import {BasicPageNodeType} from "@lib/types";
+import {NodeStanfordPage} from "@lib/gql/__generated__/drupal";
 
 interface Props {
-  headingLevel: string
-  items?: BasicPageNodeType[]
+  headingLevel?: "h2" | "h3"
+  items?: NodeStanfordPage[]
 }
 
 const PageCardView = async ({items = [], headingLevel}: Props) => {

@@ -1,25 +1,29 @@
 import type {Meta, StoryObj} from '@storybook/react';
-
 import StanfordNewsCard from "@components/nodes/cards/stanford-news/stanford-news-card";
-import {ImageMedia, VideoMedia} from "../../media";
+import {StanfordNewsData} from "../StanfordNews.data";
+import {ComponentProps} from "react";
+import {getStoryBookImage, getStoryBookTaxonomyTerm} from "../../storybook-entities";
+import {DateTime, Image, NodeStanfordNews, TermStanfordNewsTopic} from "@lib/gql/__generated__/drupal";
+
+type ComponentStoryProps = ComponentProps<typeof StanfordNewsCard> & {
+  title: NodeStanfordNews["title"]
+  suNewsFeaturedMedia?: Image["url"]
+  suNewsTopics?: TermStanfordNewsTopic["name"][]
+  suNewsPublishingDate?: DateTime["timestamp"]
+}
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof StanfordNewsCard> = {
+const meta: Meta<ComponentStoryProps> = {
   title: 'Design/Nodes/Cards/News Card',
   component: StanfordNewsCard,
   tags: ['autodocs'],
   argTypes: {
-    su_news_banner: {
-      options: ["image", "video", "none"],
-      control: {type: "select"}
-    },
-    su_news_featured_media: {
-      options: ["image", "video", "none"],
-      control: {type: "select"}
-    },
     headingLevel: {
       options: ["h2", "h3"],
       control: {type: "select"}
+    },
+    suNewsPublishingDate: {
+      control: "date"
     },
     node: {
       table: {
@@ -30,45 +34,34 @@ const meta: Meta<typeof StanfordNewsCard> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof StanfordNewsCard>;
+type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const NewsCard: Story = {
-  render: ({headingLevel, path, ...args}) => {
-    if (args.su_news_featured_media === 'image') {
-      args.su_news_featured_media = ImageMedia();
+  render: ({title, suNewsPublishingDate, suNewsFeaturedMedia, suNewsTopics, node, ...args}) => {
+    node.title = title;
+    if (suNewsPublishingDate) node.suNewsPublishingDate = {
+      offset: "",
+      timestamp: Math.round(new Date(suNewsPublishingDate).getTime() / 1000),
+      time: new Date(suNewsPublishingDate).toISOString(),
+      timezone: "America/Los_Angeles",
     }
-    if (args.su_news_featured_media === 'video') {
-      args.su_news_featured_media = VideoMedia();
-    }
+    node.suNewsFeaturedMedia = suNewsFeaturedMedia ? getStoryBookImage() : undefined
 
-    if (args.su_news_banner === 'image') {
-      args.su_news_banner = ImageMedia();
+    node.suNewsTopics = [];
+    if (suNewsTopics) {
+      suNewsTopics.map(name => {
+        node.suNewsTopics?.push(getStoryBookTaxonomyTerm(name))
+      })
     }
-    if (args.su_news_banner === 'video') {
-      args.su_news_banner = VideoMedia();
-    }
-
-    args.path = {
-      alias: path
-    }
-    return <StanfordNewsCard node={args} headingLevel={headingLevel}/>
+    return <StanfordNewsCard node={node} {...args}/>
   },
   args: {
-    path: "/foo-bar",
-    title: "title",
-    su_news_banner: "image",
-    su_news_featured_media: "image",
-    su_news_publishing_date: new Date().toLocaleDateString(),
-    su_news_banner_media_caption: "su_news_banner_media_caption",
-    su_news_byline: "su_news_byline",
-    su_news_dek: "su_news_dek",
-    su_news_topics: [
-      {id: 1, name: "su_news_topics 1"},
-      {id: 2, name: "su_news_topics 2"},
-      {id: 3, name: "su_news_topics 3"},
-    ],
-    su_shared_tags: [{id: 1, name: "su_shared_tags1"}, {id: 2, name: "su_shared_tags2"}],
-    su_news_hide_social: false,
+    title: StanfordNewsData().title,
+    suNewsPublishingDate: new Date().getTime(),
+    suNewsTopics: ["foo", "bar"],
+    suNewsFeaturedMedia: "image",
+    headingLevel: "h2",
+    node: StanfordNewsData()
   },
 };

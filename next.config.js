@@ -1,9 +1,7 @@
 const drupalUrl = new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL);
 
 const nextConfig = {
-  experimental: {
-    serverActions: true
-  },
+  experimental: {},
   typescript: {
     // Disable build errors since dev dependencies aren't loaded on prod. Rely on GitHub actions to throw any errors.
     ignoreBuildErrors: process.env.CI !== 'true',
@@ -20,6 +18,11 @@ const nextConfig = {
         hostname: drupalUrl.hostname,
       },
     ],
+  },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    }
   },
   async rewrites() {
     return {
@@ -46,32 +49,12 @@ const nextConfig = {
         ],
       },
     ];
-  },
-  async redirects() {
-    const devRedirects = [];
-    if (process.env.NODE_ENV === 'development') {
-      devRedirects.push({
-        source: '/style-guide',
-        destination: 'http://localhost:6006',
-        permanent: false,
-      });
-    }
-    return [
-      {
-        source: '/home',
-        destination: '/',
-        permanent: true,
-      },
-      ...devRedirects,
-    ];
-  },
+  }
 };
 
 module.exports = nextConfig;
 
-if (process.env.NODE_ENV === 'development') {
-  const withBundleAnalyzer = require('@next/bundle-analyzer')({
-    enabled: process.env.ANALYZE === 'true',
-  });
+if (process.env.ANALYZE === 'true') {
+  const withBundleAnalyzer = require('@next/bundle-analyzer')({ enabled: true });
   module.exports = withBundleAnalyzer(nextConfig);
 }

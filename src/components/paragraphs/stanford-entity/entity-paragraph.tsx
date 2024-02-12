@@ -3,17 +3,15 @@ import NodeCard from "@components/nodes/cards/node-card";
 import Button from "@components/elements/button";
 import {H2} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {EntityTeaserParagraphType, StanfordNode} from "@lib/types";
-import {getResources} from "@lib/drupal/get-resource";
+import {ParagraphStanfordEntity} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  paragraph: EntityTeaserParagraphType
+  paragraph: ParagraphStanfordEntity
 }
 
 const EntityParagraph = async ({paragraph, ...props}: Props) => {
-  const entities = (await getResources<StanfordNode>(paragraph.su_entity_item || []))
-    .filter(node => !!node?.id);
 
+  const entities = paragraph.suEntityItem || [];
   const gridCols = [
     'lg:grid-cols-3',
     'lg:grid-cols-1',
@@ -23,22 +21,22 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
 
   return (
     <div className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20" {...props}>
-      {paragraph.su_entity_headline && <H2 className="text-center">{paragraph.su_entity_headline}</H2>}
+      {paragraph.suEntityHeadline && <H2 className="text-center">{paragraph.suEntityHeadline}</H2>}
 
-      {paragraph.su_entity_description &&
-        <Wysiwyg html={paragraph.su_entity_description}/>
+      {paragraph.suEntityDescription?.processed &&
+        <Wysiwyg html={paragraph.suEntityDescription?.processed}/>
       }
 
       <div className={`grid ${gridClass} [&>*]:w-full gap-20 mb-20`}>
         {entities.map(entity =>
-          <NodeCard key={entity.id} node={entity} headingLevel={paragraph.su_entity_headline ? "h3" : "h2"}/>
+          <NodeCard key={entity.id} node={entity} headingLevel={paragraph.suEntityHeadline ? "h3" : "h2"}/>
         )}
       </div>
 
-      {paragraph.su_entity_button?.url &&
+      {paragraph.suEntityButton?.url &&
         <div>
-          <Button href={paragraph.su_entity_button.url} centered>
-            {paragraph.su_entity_button.title}
+          <Button href={paragraph.suEntityButton.url} centered>
+            {paragraph.suEntityButton.title}
           </Button>
         </div>
       }

@@ -1,19 +1,23 @@
 import type {Meta, StoryObj} from '@storybook/react';
 
 import StanfordPageListItem from "@components/nodes/list-item/stanford-page/stanford-page-list-item";
-import {ImageMedia} from "../../media";
 import {PageCard} from "../cards/BasicPageCard.stories";
+import {ComponentProps} from "react";
+import {Image, NodeStanfordPage, Text} from "@lib/gql/__generated__/drupal";
+import {getStoryBookImage} from "../../storybook-entities";
+
+type ComponentStoryProps = ComponentProps<typeof StanfordPageListItem> & {
+  title: NodeStanfordPage["title"]
+  suPageImage?: Image["url"]
+  suPageDescription?: Text["processed"]
+}
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof StanfordPageListItem> = {
+const meta: Meta<ComponentStoryProps> = {
   title: 'Design/Nodes/List Item/Stanford Page List Item',
   component: StanfordPageListItem,
   tags: ['autodocs'],
   argTypes: {
-    su_page_image: {
-      options: ["image", "none"],
-      control: {type: "select"}
-    },
     headingLevel: {
       options: ["h2", "h3"],
       control: {type: "select"}
@@ -27,18 +31,15 @@ const meta: Meta<typeof StanfordPageListItem> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof StanfordPageListItem>;
+type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const PageListItem: Story = {
-  args: {...PageCard.args},
-  render: ({headingLevel, path, ...args}) => {
-    args.su_page_image = args.su_page_image === "image" ? ImageMedia() : undefined;
-
-    args.path = {
-      alias: path
-    }
-
-    return <StanfordPageListItem node={args} headingLevel={headingLevel}/>
+  render: ({title, suPageImage, suPageDescription, node, ...args}) => {
+    node.suPageImage = suPageImage ? getStoryBookImage(suPageImage) : undefined
+    node.title = title;
+    node.suPageDescription = suPageDescription;
+    return <StanfordPageListItem node={node} {...args}/>
   },
+  args: {...PageCard.args},
 };

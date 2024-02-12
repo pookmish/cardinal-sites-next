@@ -1,9 +1,9 @@
 import CardViewGrid from "@components/views/card-view-grid";
-import {CourseNodeType} from "@lib/types";
+import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal";
 
 interface Props {
-  headingLevel: string
-  items?: CourseNodeType[]
+  headingLevel?: "h2" | "h3"
+  items?: NodeStanfordCourse[]
 }
 
 const CourseCardView = async ({items = [], headingLevel}: Props) => {

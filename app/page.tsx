@@ -1,28 +1,39 @@
 import Rows from "@components/paragraphs/rows/rows";
-import Paragraph from "@components/paragraphs/paragraph";
 import {notFound} from "next/navigation";
+import {getEntityFromPath} from "@lib/gql/fetcher";
+import {NodeStanfordPage, NodeUnion} from "@lib/gql/__generated__/drupal";
 import {isDraftMode} from "@lib/drupal/utils";
-import {getResourceByPath} from "@lib/drupal/get-resource";
-import {BasicPageNodeType} from "@lib/types";
+import {Metadata} from "next";
+import {getNodeMetadata} from "./[...slug]/metadata";
+import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph";
 
-// Cache the home page for 24 hours. It should be the most modified and probably changes most frequent.
-export const revalidate = 86400;
+// https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+export const revalidate = false;
+export const dynamic = 'force-static';
 
 const Home = async () => {
-  const node = await getResourceByPath<BasicPageNodeType>('/', {draftMode: isDraftMode()});
-  if (!node) notFound();
+  const {entity, error} = await getEntityFromPath<NodeStanfordPage>('/', isDraftMode());
+
+  if (error) throw new Error(error);
+  if (!entity) notFound();
+
   return (
     <article>
-      {node.su_page_banner &&
+      {entity.suPageBanner &&
         <header aria-label="Home Page banner">
-          <Paragraph paragraph={node.su_page_banner}/>
+          <BannerParagraph paragraph={entity.suPageBanner} eagerLoadImage/>
         </header>
       }
-      {node.su_page_components &&
-        <Rows components={node.su_page_components}/>
+      {entity.suPageComponents &&
+        <Rows components={entity.suPageComponents}/>
       }
     </article>
   )
+}
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  const {entity} = await getEntityFromPath<NodeUnion>('/')
+  return entity ? getNodeMetadata(entity) : {};
 }
 
 export default Home;

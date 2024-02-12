@@ -1,18 +1,21 @@
 import type {Meta, StoryObj} from '@storybook/react';
-
 import StanfordPublicationCard from "@components/nodes/cards/stanford-publication/stanford-publication-card";
-import {ImageMedia} from "../../media";
+import {StanfordPublicationData} from "../StanfordPublication.data";
+import {ComponentProps} from "react";
+import {getStoryBookTaxonomyTerm} from "../../storybook-entities";
+import {NodeStanfordPublication, TermStanfordPublicationTopic} from "@lib/gql/__generated__/drupal";
+
+type ComponentStoryProps = ComponentProps<typeof StanfordPublicationCard> & {
+  title: NodeStanfordPublication["title"]
+  suPublicationTopics?: TermStanfordPublicationTopic["name"][]
+}
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof StanfordPublicationCard> = {
+const meta: Meta<ComponentStoryProps> = {
   title: 'Design/Nodes/Cards/Publication Card',
   component: StanfordPublicationCard,
   tags: ['autodocs'],
   argTypes: {
-    su_publication_image: {
-      options: ["image", "none"],
-      control: {type: "select"}
-    },
     headingLevel: {
       options: ["h2", "h3"],
       control: {type: "select"}
@@ -26,22 +29,22 @@ const meta: Meta<typeof StanfordPublicationCard> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof StanfordPublicationCard>;
+type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const PublicationCard: Story = {
-  render: ({headingLevel, path, ...args}) => {
-    args.path = {
-      alias: path
+  render: ({title, suPublicationTopics, node, ...args}) => {
+    node.title = title
+    node.suPublicationTopics = []
+    if (suPublicationTopics) {
+      suPublicationTopics.map(name => node.suPublicationTopics?.push(getStoryBookTaxonomyTerm(name)))
     }
-    args.su_publication_image = args.su_publication_image === "image" ? ImageMedia() : undefined;
-    return <StanfordPublicationCard node={args} headingLevel={headingLevel}/>
+    return <StanfordPublicationCard node={node} {...args}/>
   },
   args: {
-    path: "/foo-bar",
-    title: "title",
-    su_publication_image: "image",
-    su_publication_cta: {url: "#", title: "su_publication_cta"},
-    su_publication_topics: [{id: 1, name: "su_publication_topics1"}, {id: 2, name: "su_publication_topics2"}]
+    title: StanfordPublicationData().title,
+    suPublicationTopics: ["foo", "bar"],
+    headingLevel: "h2",
+    node: StanfordPublicationData()
   },
 };

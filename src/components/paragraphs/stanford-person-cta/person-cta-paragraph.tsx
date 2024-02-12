@@ -1,44 +1,42 @@
 import Image from "next/image";
 import Link from "@components/elements/link";
 import {HtmlHTMLAttributes} from "react";
-import {SpeakerParagraphType} from "@lib/types";
-import {buildUrl} from "@lib/drupal/utils";
+import {ParagraphStanfordPersonCtum,} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  paragraph: SpeakerParagraphType
+  paragraph: ParagraphStanfordPersonCtum
 }
 
 const PersonCtaParagraph = ({paragraph, ...props}: Props) => {
-  const image = paragraph.su_person_cta_image?.field_media_image
-  const imageUrl = image?.uri.url;
-  const imageAlt = image?.resourceIdObjMeta?.alt || '';
+  const image = paragraph.suPersonCtaImage?.mediaImage
   return (
     <div className="centered flex gap-10" {...props}>
-      {imageUrl &&
+      {image?.url &&
         <div className="relative aspect-[1/1] w-[200px]">
           <Image
-            src={buildUrl(imageUrl).toString()}
-            alt={imageAlt}
-            fill
             className="rounded-full"
+            src={image.url}
+            alt={image.alt || ""}
+            fill
+            sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
           />
         </div>
       }
 
       <div>
-        {paragraph.su_person_cta_link?.url &&
+        {paragraph.suPersonCtaLink?.url &&
           <div>
-            <Link href={paragraph.su_person_cta_link.url}>
-              {paragraph.su_person_cta_name}
+            <Link href={paragraph.suPersonCtaLink.url}>
+              {paragraph.suPersonCtaName}
             </Link>
           </div>
         }
 
-        {!paragraph.su_person_cta_link?.url &&
-          <div>{paragraph.su_person_cta_name}</div>
+        {!paragraph.suPersonCtaLink &&
+          <div>{paragraph.suPersonCtaName}</div>
         }
 
-        {paragraph.su_person_cta_title}
+        {paragraph.suPersonCtaTitle}
       </div>
     </div>
   )

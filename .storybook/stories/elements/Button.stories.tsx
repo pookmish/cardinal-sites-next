@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type {Meta, StoryObj} from '@storybook/react';
 
 import Button from "@components/elements/button";
 
@@ -12,22 +12,20 @@ const meta: Meta<typeof Button> = {
       description: "Link url"
     },
     buttonElem: {
-      description: "Use a <button> element"
-    },
-    children: {
-      description: "String, markup or JSX Element for the link/button"
+      description: "Use a <button> element",
+      control: "boolean"
     },
     big: {
-      description: "Big button"
+      description: "Big button",
+      control: "boolean"
     },
     secondary: {
-      description: "Secondary button style"
+      description: "Secondary button style",
+      control: "boolean"
     },
     centered: {
-      description: "Center the button"
-    },
-    className: {
-      control: false
+      description: "Center the button",
+      control: "boolean"
     }
   }
 };
@@ -38,6 +36,7 @@ type Story = StoryObj<typeof Button>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const ButtonElement: Story = {
   args: {
+    href: "http://localhost",
     children: 'Button Text',
   },
 };

@@ -10,10 +10,10 @@ import useActiveTrail from "@lib/hooks/useActiveTrail";
 import useOutsideClick from "@lib/hooks/useOutsideClick";
 import {usePathname} from "next/navigation";
 import {useBoolean} from "usehooks-ts";
-import {DrupalMenuItem} from "@lib/drupal/get-menu";
 import {clsx} from "clsx";
+import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal";
 
-const MainMenu = ({menuItems}: { menuItems: DrupalMenuItem[] }) => {
+const MainMenu = ({menuItems}: { menuItems: MenuItemType[] }) => {
   const buttonRef = useRef<HTMLButtonElement | null>(null)
   const {value: menuOpen, setFalse: closeMenu, toggle: toggleMenu} = useBoolean(false)
   const browserUrl = useNavigationEvent()
@@ -63,12 +63,12 @@ const MainMenu = ({menuItems}: { menuItems: DrupalMenuItem[] }) => {
   )
 }
 
-type MenuItemProps = DrupalMenuItem & {
+type MenuItemProps = MenuItemType & {
   activeTrail: string[]
   level?: number
 }
 
-const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps) => {
+const MenuItem = ({id, url, title, activeTrail, children, level = 0}: MenuItemProps) => {
   const sublistRef = useRef<HTMLUListElement | null>(null);
   const [positionRight, setPositionRight] = useState<boolean>(true)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
@@ -121,7 +121,7 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
     // Child menu item styles.
     {
       'ml-5 lg:ml-0 lg:pl-5': level !== 0,
-      'border-digital-red':  level !== 0 && isCurrent,
+      'border-digital-red': level !== 0 && isCurrent,
       'border-transparent': level !== 0 && !isCurrent
     }
   )
@@ -146,14 +146,14 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
     >
       <div className="flex items-center justify-between lg:justify-end">
         <Link
-          href={url}
+          href={url || '#'}
           className={linkStyles}
           aria-current={isCurrent ? "true" : undefined}
         >
           {title}
         </Link>
 
-        {(items && items.length > 0) &&
+        {(children && children.length > 0) &&
           <>
             {level === 0 && <div className="block ml-5 w-[1px] h-[25px] mb-[6px]  bg-archway-light shrink-0"/>}
             <button
@@ -174,12 +174,12 @@ const MenuItem = ({id, url, title, activeTrail, items, level = 0}: MenuItemProps
 
       </div>
 
-      {items &&
+      {children &&
         <ul
           ref={sublistRef}
           className={subMenuStyles}
         >
-          {items.map(item =>
+          {children.map(item =>
             <MenuItem
               key={item.id}
               {...item}

@@ -1,9 +1,19 @@
 import type {Meta, StoryObj} from '@storybook/react';
-
 import StanfordCourseCard from "@components/nodes/cards/stanford-course/stanford-course-card";
+import {StanfordCourseData} from "../StanfordCourse.data";
+import {ComponentProps} from "react";
+import {NodeStanfordCourse, TermSuCourseSubject} from "@lib/gql/__generated__/drupal";
+import {getStoryBookTaxonomyTerm} from "../../storybook-entities";
+
+type ComponentStoryProps = ComponentProps<typeof StanfordCourseCard> & {
+  title: NodeStanfordCourse["title"]
+  suCourseSubject?: TermSuCourseSubject["name"]
+  suCourseCode?: NodeStanfordCourse["suCourseCode"]
+  suCourseAcademicYear?: NodeStanfordCourse["suCourseAcademicYear"]
+}
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof StanfordCourseCard> = {
+const meta: Meta<ComponentStoryProps> = {
   title: 'Design/Nodes/Cards/Course Card',
   component: StanfordCourseCard,
   tags: ['autodocs'],
@@ -21,30 +31,23 @@ const meta: Meta<typeof StanfordCourseCard> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof StanfordCourseCard>;
+type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const CourseCard: Story = {
-  render: ({headingLevel, path, ...args}) => {
-    args.path = {
-      alias: path
-    }
-
-    return <StanfordCourseCard node={args} headingLevel={headingLevel}/>
+  render: ({title, suCourseSubject, suCourseCode, suCourseAcademicYear, node, ...args}) => {
+    node.title = title;
+    node.suCourseSubject = suCourseSubject ? getStoryBookTaxonomyTerm(suCourseSubject) : undefined;
+    node.suCourseCode = suCourseCode;
+    node.suCourseAcademicYear = suCourseAcademicYear;
+    return <StanfordCourseCard node={node} {...args}/>
   },
   args: {
-    path: "/foo-bar",
-    title: "title",
-    body: "body",
-    su_course_academic_year: "2022-2023",
-    su_course_code: "271",
-    su_course_id: "222980",
-    su_course_instructors: ["su_course_instructors1", "su_course_instructors2"],
-    su_course_link:{url: "#", title: "su_course_link"},
-    su_course_quarters: [{id: 1, name: "Spring"}, {id: 1, name: "Autumn"}],
-    su_course_section_units: 5,
-    su_course_subject: {id: 1, name: "su_course_subject"},
-    su_course_tags: [{id:1, name: "su_course_tags1"}, {id:1, name: "su_course_tags2"}],
-    su_shared_tags: [{id:1, name: "su_shared_tags1"}, {id:1, name: "su_shared_tags2"}]
+    title: StanfordCourseData().title,
+    suCourseSubject: StanfordCourseData().suCourseSubject?.name,
+    suCourseCode: StanfordCourseData().suCourseCode,
+    suCourseAcademicYear: StanfordCourseData().suCourseAcademicYear,
+    headingLevel: "h2",
+    node: StanfordCourseData()
   },
 };

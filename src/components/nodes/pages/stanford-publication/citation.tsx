@@ -1,14 +1,14 @@
-import {PublicationCitationType} from "@lib/types";
+import {CitationUnion} from "@lib/gql/__generated__/drupal";
 
-const Citation = ({citation}: { citation: PublicationCitationType }) => {
+const Citation = ({citation}: { citation: CitationUnion }) => {
   return (
     <div className="flex flex-col gap-10">
-      {citation.su_author &&
+      {citation.suAuthor &&
         <div>
-          <strong>Author{citation.su_author.length > 1 ? 's' : ''}</strong>
+          <strong>Author{citation.suAuthor.length > 1 ? 's' : ''}</strong>
           <br/>
 
-          {citation.su_author.map((author, i) =>
+          {citation.suAuthor.map((author, i) =>
             <div key={`author-${i}`}>
               {`${author.given} ${author.middle} ${author.family}`.replace(/ +/, ' ')}
             </div>
@@ -16,11 +16,11 @@ const Citation = ({citation}: { citation: PublicationCitationType }) => {
         </div>
       }
 
-      {citation.su_publisher &&
+      {citation.suPublisher &&
         <div>
           <strong>Publisher</strong>
           <br/>
-          {citation.su_publisher}
+          {citation.suPublisher}
         </div>
       }
 

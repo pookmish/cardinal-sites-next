@@ -1,16 +1,16 @@
 import Wysiwyg from "@components/elements/wysiwyg";
 import {HtmlHTMLAttributes} from "react";
-import {WysiwygParagraphType} from "@lib/types";
+import {ParagraphStanfordWysiwyg} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  paragraph: WysiwygParagraphType
+  paragraph: ParagraphStanfordWysiwyg
 }
 
 const WysiwygParagraph = ({paragraph, ...props}: Props) => {
-  if (paragraph.su_wysiwyg_text) {
+  if (paragraph.suWysiwygText?.processed) {
     return (
       <div className="centered lg:max-w-[980px]" {...props}>
-        <Wysiwyg html={paragraph.su_wysiwyg_text}/>
+        <Wysiwyg html={paragraph.suWysiwygText.processed}/>
       </div>
     )
   }
