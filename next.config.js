@@ -17,6 +17,9 @@ const nextConfig = {
         protocol: drupalUrl.protocol.replace(':', ''),
         hostname: drupalUrl.hostname,
       },
+      {
+        hostname: '**.gitpod.io'
+      }
     ],
   },
   logging: {
