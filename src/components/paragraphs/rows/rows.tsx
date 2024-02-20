@@ -3,10 +3,11 @@ import TwoColumn from "@components/paragraphs/rows/two-column";
 import ThreeColumn from "@components/paragraphs/rows/three-column";
 import {ParagraphStanfordLayout, ParagraphUnion} from "@lib/gql/__generated__/drupal";
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
+import {LayoutParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.types";
 
 type Layout = Record<string, {
   item: ParagraphStanfordLayout
-  layout: string
+  layout: LayoutParagraphBehaviors["layout"]
   config?: Record<string, any>
   children: ParagraphUnion[]
 }>
@@ -39,7 +40,7 @@ const Rows = async ({components}: { components: ParagraphUnion[] }) => {
   })
 
   return (
-    <div className="grid gap-32 mb-10">
+    <div className="space-y-32">
       {Object.keys(layouts).map(layoutId =>
         <Row
           key={layoutId}
@@ -53,20 +54,15 @@ const Rows = async ({components}: { components: ParagraphUnion[] }) => {
 }
 
 const Row = ({layout, layoutSettings, items}: {
-  layout: string
+  layout: LayoutParagraphBehaviors["layout"]
   layoutSettings?: Record<string, any>
   items: ParagraphUnion[]
 }) => {
-  return (
-    <>
-      {layout === 'layout_paragraphs_1_column' &&
-        <OneColumn items={items}/>}
-      {layout === 'layout_paragraphs_2_column' &&
-        <TwoColumn config={layoutSettings} items={items}/>}
-      {layout === 'layout_paragraphs_3_column' &&
-        <ThreeColumn items={items}/>}
-    </>
-  )
+  if (layout === 'layout_paragraphs_2_column') return <TwoColumn config={layoutSettings} items={items}/>
+  if (layout === 'layout_paragraphs_3_column') return <ThreeColumn items={items}/>
+
+  // Fall back to one column if the layout is unknown.
+  return <OneColumn items={items}/>
 }
 
 

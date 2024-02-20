@@ -29,8 +29,8 @@ const options: HTMLReactParserOptions = {
 
     if (domNode instanceof Element) {
       const nodeProps = attributesToProps(domNode.attribs);
-      nodeProps.className = fixClasses(nodeProps.className) ?? '';
-      let NodeName: React.ElementType = domNode.name as React.ElementType
+      nodeProps.className = fixClasses(nodeProps.className) || '';
+      const NodeName = domNode.name as React.ElementType
       const children: DOMNode[] = domNode.children as DOMNode[];
 
       switch (domNode.name) {
@@ -137,14 +137,14 @@ const fixClasses = (classes: string | boolean = ''): undefined | string => {
 
 const cleanMediaMarkup = (node: Element) => {
   const nodeProps = attributesToProps(node.attribs);
-  nodeProps.className = fixClasses(nodeProps.className) ?? '';
+  nodeProps.className = fixClasses(nodeProps.className) || '';
 
   const getImage = (node: Element): ComponentProps<any> | undefined => {
     let img;
     if (node.name === 'img') {
       const attribs = node.attribs;
-      attribs.width = attribs.width ?? attribs['data-width'];
-      attribs.height = attribs.height ?? attribs['data-height'];
+      attribs.width = attribs.width || attribs['data-width'];
+      attribs.height = attribs.height || attribs['data-height'];
       return attribs;
     }
     if (node.children.length > 0) {
@@ -261,7 +261,7 @@ const WysiwygImage = ({src, alt, height, width, className = ''}: {
 }
 
 
-const formatHtml = (html: string) => parse(html ?? '', options);
+const formatHtml = (html: string) => parse(html || '', options);
 
 
 export default Wysiwyg;

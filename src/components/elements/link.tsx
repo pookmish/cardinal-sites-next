@@ -12,7 +12,7 @@ type Props = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> & LinkPro
 const DrupalLink = ({href, className, children, ...props}: Props) => {
   // Make sure all links have a href.
   href = href || '#'
-  const drupalBase: string = (process.env.NEXT_PUBLIC_DRUPAL_BASE_URL ?? '').replace(/\/$/, '');
+  const drupalBase: string = (process.env.NEXT_PUBLIC_DRUPAL_BASE_URL || '').replace(/\/$/, '');
 
   if (href && !href.indexOf('/files/')) {
     href = href.replace(drupalBase, '').replace('<front>', '/');
@@ -49,4 +49,5 @@ const DrupalLink = ({href, className, children, ...props}: Props) => {
     </Link>
   )
 }
+
 export default DrupalLink as typeof Link;

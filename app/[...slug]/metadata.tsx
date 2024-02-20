@@ -88,8 +88,8 @@ const getNewsMetaData = (node: NodeStanfordNews) => {
       type: 'article',
       title: node.title,
       description: description,
-      publishedTime: publishTime ?? null,
-      tag: node.suNewsTopics?.map(term => term.name) ?? [],
+      publishedTime: publishTime || null,
+      tag: node.suNewsTopics?.map(term => term.name) || [],
       images: getOpenGraphImage(imageUrl, imageAlt)
     }
   }
@@ -99,7 +99,7 @@ const getPersonMetaData = (node: NodeStanfordPerson) => {
   const pageImage = node.suPersonPhoto?.mediaImage;
   const imageUrl = pageImage?.url;
   const imageAlt = pageImage?.alt || '';
-  const description = node.suPersonFullTitle ?? getCleanDescription(node.body?.processed);
+  const description = node.suPersonFullTitle || getCleanDescription(node.body?.processed);
 
   return {
     description: description,
@@ -115,7 +115,7 @@ const getPersonMetaData = (node: NodeStanfordPerson) => {
 }
 
 const getEventMetaData = (node: NodeStanfordEvent) => {
-  const description = node.suEventSubheadline ?? getCleanDescription(node.body?.processed);
+  const description = node.suEventSubheadline || getCleanDescription(node.body?.processed);
 
   return {
     description: description,

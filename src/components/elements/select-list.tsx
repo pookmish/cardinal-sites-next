@@ -109,7 +109,7 @@ const SelectList = ({
   ...props
 }: Props) => {
   const labelId = useId();
-  const labeledBy = ariaLabelledby ?? labelId;
+  const labeledBy = ariaLabelledby || labelId;
 
   const inputRef = useRef<HTMLInputElement>(null);
   const listboxRef = useRef<HTMLUListElement>(null);
@@ -174,7 +174,7 @@ const SelectList = ({
         >
           <SelectProvider value={contextValue}>
             {(!required && !multiple) &&
-              <CustomOption value={emptyValue ?? ""} rootRef={listboxRef}>
+              <CustomOption value={emptyValue || ""} rootRef={listboxRef}>
                 {emptyLabel}
               </CustomOption>
             }
@@ -190,7 +190,7 @@ const SelectList = ({
         </ul>
       </div>
       {name &&
-        <input ref={inputRef} name={name} type="hidden" value={value ?? ""}/>
+        <input ref={inputRef} name={name} type="hidden" value={value || ""}/>
       }
     </div>
   );

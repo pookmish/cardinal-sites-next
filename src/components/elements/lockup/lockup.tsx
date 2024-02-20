@@ -37,7 +37,7 @@ export const Lockup = ({
     line3: suLine3,
     line4: suLine4,
     line5: suLine5,
-    siteName: suSiteName ?? "Stanford",
+    siteName: suSiteName || "Stanford",
     logoUrl: logoUrl,
   }
 
