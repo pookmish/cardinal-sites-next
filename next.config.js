@@ -34,6 +34,20 @@ const nextConfig = {
       ],
     };
   },
+  async redirects() {
+    return [
+      {
+        source: '/user/:slug*',
+        destination: process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + '/user/login',
+        permanent: true,
+      },
+      {
+        source: '/saml/login',
+        destination: process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + '/user/login',
+        permanent: true,
+      },
+    ]
+  },
   async headers() {
     if (process.env.NEXT_PUBLIC_DOMAIN) {
       return [];
