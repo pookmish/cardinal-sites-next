@@ -1,3 +1,5 @@
+"use server";
+
 import {
   getSdk,
   ConfigPagesQuery,
@@ -79,7 +81,14 @@ const getConfigPagesData = cache(async (): Promise<ConfigPagesQuery> => {
 export const getMenu = cache(async (name?: MenuAvailable, draftMode?: boolean): Promise<MenuItem[]> => {
   const headers = await buildHeaders({draftMode});
   const menu = await graphqlClient({headers, next: {tags: ['menus', `menu:${name || "main"}`]}}).Menu({name});
-  return (menu.menu?.items || []) as MenuItem[];
+  const menuItems = (menu.menu?.items || []) as MenuItem[];
+
+  const filterInaccessible = (items: MenuItem[]): MenuItem[] => {
+    items = items.filter(item => item.title !== 'Inaccessible');
+    items.map(item => item.children = filterInaccessible(item.children));
+    return items;
+  }
+  return filterInaccessible(menuItems)
 })
 
 

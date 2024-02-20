@@ -111,8 +111,8 @@ const SelectList = ({
   const labelId = useId();
   const labeledBy = ariaLabelledby ?? labelId;
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const listboxRef = useRef<HTMLUListElement | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const listboxRef = useRef<HTMLUListElement>(null);
   const [listboxVisible, setListboxVisible] = useState<boolean>(false);
   const isClient = useIsClient()
 

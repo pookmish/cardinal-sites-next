@@ -1,10 +1,10 @@
 "use client";
 
-import React, {HtmlHTMLAttributes, useCallback, useEffect, useRef} from "react";
+import React, {HtmlHTMLAttributes, useCallback, useRef} from "react";
 import {useRouter} from "next/navigation";
 import ReactFocusLock from "react-focus-lock";
 import {XMarkIcon} from "@heroicons/react/20/solid";
-import {useLockedBody} from "usehooks-ts";
+import {useEventListener, useLockedBody} from "usehooks-ts";
 
 const InterceptionModal = ({children, ...props}: HtmlHTMLAttributes<HTMLDialogElement>) => {
   const overlay = useRef<HTMLDialogElement>(null);
@@ -22,10 +22,7 @@ const InterceptionModal = ({children, ...props}: HtmlHTMLAttributes<HTMLDialogEl
     if (e.key === "Escape") onDismiss();
   }, [onDismiss]);
 
-  useEffect(() => {
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown)
-  }, [onKeyDown]);
+  useEventListener("keydown", onKeyDown)
 
   return (
     <dialog

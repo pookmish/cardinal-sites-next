@@ -9,12 +9,12 @@ import SiteSearchForm from "@components/search/site-search-form";
 import useActiveTrail from "@lib/hooks/useActiveTrail";
 import useOutsideClick from "@lib/hooks/useOutsideClick";
 import {usePathname} from "next/navigation";
-import {useBoolean} from "usehooks-ts";
+import {useBoolean, useEventListener} from "usehooks-ts";
 import {clsx} from "clsx";
 import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal";
 
 const MainMenu = ({menuItems}: { menuItems: MenuItemType[] }) => {
-  const buttonRef = useRef<HTMLButtonElement | null>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const {value: menuOpen, setFalse: closeMenu, toggle: toggleMenu} = useBoolean(false)
   const browserUrl = useNavigationEvent()
   const activeTrail = useActiveTrail(menuItems, usePathname() || '');
@@ -29,15 +29,10 @@ const MainMenu = ({menuItems}: { menuItems: MenuItemType[] }) => {
   }, [menuOpen, closeMenu]);
 
   useEffect(() => closeMenu(), [browserUrl, closeMenu]);
-
-  useEffect(() => {
-    // Add keydown listener for escape button if the submenu is open.
-    if (menuOpen) document.addEventListener("keydown", handleEscape);
-    if (!menuOpen) document.removeEventListener("keydown", handleEscape);
-  }, [menuOpen, handleEscape]);
+  useEventListener("keydown", handleEscape);
 
   return (
-    <nav aria-label="Main Navigation" {...clickProps} className="lg:centered">
+    <nav aria-label="Main Navigation" className="lg:centered" {...clickProps}>
       <button
         ref={buttonRef}
         className="flex flex-col items-center lg:hidden absolute top-5 right-10 group"
@@ -55,7 +50,7 @@ const MainMenu = ({menuItems}: { menuItems: MenuItemType[] }) => {
         <ul
           className="list-unstyled lg:flex lg:justify-end flex-wrap m-0 p-0">
           {menuItems.map(item =>
-            <MenuItem key={item.id} {...item} activeTrail={activeTrail}/>
+            <MenuItem key={item.id} {...item} activeTrail={activeTrail} level={0}/>
           )}
         </ul>
       </div>
@@ -65,13 +60,13 @@ const MainMenu = ({menuItems}: { menuItems: MenuItemType[] }) => {
 
 type MenuItemProps = MenuItemType & {
   activeTrail: string[]
-  level?: number
+  level: number
 }
 
-const MenuItem = ({id, url, title, activeTrail, children, level = 0}: MenuItemProps) => {
-  const sublistRef = useRef<HTMLUListElement | null>(null);
+const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps) => {
+  const sublistRef = useRef<HTMLUListElement>(null);
   const [positionRight, setPositionRight] = useState<boolean>(true)
-  const buttonRef = useRef<HTMLButtonElement | null>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const {value: submenuOpen, setFalse: closeSubmenu, toggle: toggleSubmenu} = useBoolean(false)
   const browserUrl = useNavigationEvent()
 
@@ -94,11 +89,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level = 0}: MenuItemPr
     }
   }, [submenuOpen, closeSubmenu]);
 
-  useEffect(() => {
-    // Add keydown listener for escape button if the submenu is open.
-    if (submenuOpen) document.addEventListener("keydown", handleEscape);
-    if (!submenuOpen) document.removeEventListener("keydown", handleEscape);
-  }, [submenuOpen, handleEscape]);
+  useEventListener("keydown", handleEscape)
 
   // List out the specific classes so tailwind will include them. Dynamic classes values don't get compiles well.
   const zIndexes = ["z-[1]", "z-[2]", "z-[3]", "z-[4]", "z-[5]"]
