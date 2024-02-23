@@ -32,7 +32,7 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
 
   return (
     <article className="centered mt-32" {...props}>
-      <div className="lg:w-3/4 mx-auto mb-20">
+      <div className="lg:w-10/12 mx-auto mb-48">
         <div className="flex flex-col">
           <H1 className="order-2">
             {node.title}
@@ -40,12 +40,7 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
 
           {topics &&
             <div className="order-1 flex gap-2">
-              {topics.map((topic, i) =>
-                <div key={topic.id}>
-                  {topic.name}
-                  {i != 2 && i != topics.length - 1 ? ',' : ''}
-                </div>
-              )}
+              {topics.map(topic => topic.name).join(', ')}
             </div>
           }
         </div>
@@ -87,7 +82,9 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
       }
 
       {node.suNewsComponents &&
+        <div className="lg:w-8/12 mx-auto">
         <Rows components={node.suNewsComponents}/>
+        </div>
       }
 
     </article>
