@@ -18,7 +18,7 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
       }
 
       {paragraph.suGalleryDescription?.processed &&
-        <Wysiwyg html={paragraph.suGalleryDescription?.processed}/>
+        <Wysiwyg html={paragraph.suGalleryDescription.processed}/>
       }
 
       {(paragraph.suGalleryImages && paragraph.suGalleryImages?.length > 0) &&

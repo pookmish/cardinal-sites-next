@@ -37,7 +37,7 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
         <H2>{paragraph.suListHeadline}</H2>
       }
       {paragraph.suListDescription?.processed &&
-        <Wysiwyg html={paragraph.suListDescription?.processed}/>
+        <Wysiwyg html={paragraph.suListDescription.processed}/>
       }
 
       {viewItems &&

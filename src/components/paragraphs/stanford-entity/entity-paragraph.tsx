@@ -21,10 +21,12 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
 
   return (
     <div className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20" {...props}>
-      {paragraph.suEntityHeadline && <H2 className="text-center">{paragraph.suEntityHeadline}</H2>}
+      {paragraph.suEntityHeadline &&
+        <H2 className="text-center">{paragraph.suEntityHeadline}</H2>
+      }
 
       {paragraph.suEntityDescription?.processed &&
-        <Wysiwyg html={paragraph.suEntityDescription?.processed}/>
+        <Wysiwyg html={paragraph.suEntityDescription.processed}/>
       }
 
       <div className={`grid ${gridClass} [&>*]:w-full gap-20 mb-20`}>

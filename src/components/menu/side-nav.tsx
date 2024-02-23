@@ -12,7 +12,7 @@ const SideNav = ({menuItems, currentPath}: { menuItems: MenuItemType[], currentP
 
   const subTree = topMenuItem.children || [];
 
-  if (!subTree || (subTree.length <= 1 && typeof subTree[0]?.children)) {
+  if (!subTree || (subTree.length <= 1 && !subTree[0].children)) {
     return null;
   }
 
@@ -21,7 +21,7 @@ const SideNav = ({menuItems, currentPath}: { menuItems: MenuItemType[], currentP
       <nav aria-label="Secondary Navigation">
         <ul className="list-unstyled">
           {subTree.map(item =>
-            <MenuItem key={item.id} {...item} activeTrail={activeTrail}/>
+            <MenuItem key={`sidenav--${item.id}`} {...item} activeTrail={activeTrail} level={0}/>
           )}
         </ul>
       </nav>
@@ -31,10 +31,10 @@ const SideNav = ({menuItems, currentPath}: { menuItems: MenuItemType[], currentP
 
 type MenuItemProps = MenuItemType & {
   activeTrail: string[]
-  level?: number
+  level: number
 }
 
-const MenuItem = ({id, url, title, children, activeTrail, level = 0}: MenuItemProps) => {
+const MenuItem = ({id, url, title, children, activeTrail, level}: MenuItemProps) => {
   // Need to list them out each so tailwind will include each for styling.
   const leftPadding = [
     'pl-10',
