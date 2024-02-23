@@ -20,7 +20,7 @@ const TwoColumn = ({items, config}: { items: ParagraphUnion[], config?: Record<s
   }
 
   return (
-    <div className={`row centered grid ${gridCols} gap-10 md:gap-20`} {...draftProps}>
+    <div className={`gutters grid ${gridCols} gap-10 md:gap-20`} {...draftProps}>
       <OneColumn items={leftItems}/>
       <OneColumn items={rightItems}/>
     </div>
