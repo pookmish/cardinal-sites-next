@@ -42,7 +42,7 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
           </Link>
         </Heading>
 
-        {(node.suEventType && node.suEventType?.length > 0) &&
+        {node.suEventType &&
           <div className="su-digital-red order-first">
             {node.suEventType[0].name}
           </div>

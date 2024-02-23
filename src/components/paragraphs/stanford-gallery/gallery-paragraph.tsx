@@ -49,7 +49,7 @@ const GalleryImage = ({image}: { image: MediaStanfordGalleryImage }) => {
   return (
     <figure>
       <div className="relative aspect-[4/3] w-full">
-        <Link href={`/gallery-image/${image.id}`} className="block relative w-full h-full">
+        <Link href={`/gallery-image/${image.id}`} className="block relative w-full h-full" rel="nofollow">
           <Image
             className="object-cover"
             src={imageUrl}

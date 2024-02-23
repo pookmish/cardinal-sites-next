@@ -54,9 +54,7 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
 
         {topics &&
           <div>
-            {topics.map((topic, index) =>
-              <span key={topic.id}>{topic.name}{(index != 2 && index != topics.length - 1) ? ", " : ""}</span>
-            )}
+            {topics.map(topic => topic.name).join(', ')}
           </div>
         }
 
