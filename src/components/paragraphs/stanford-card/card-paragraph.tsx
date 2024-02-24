@@ -43,8 +43,9 @@ const CardParagraph = ({paragraph, ...props}: Props) => {
           }
 
           {paragraph.suCardSuperHeader &&
-            <div
-              className="order-1 font-semibold">{paragraph.suCardSuperHeader}</div>
+            <div className="order-1 font-semibold">
+              {paragraph.suCardSuperHeader}
+            </div>
           }
 
           {paragraph.suCardBody &&

@@ -1902,6 +1902,9 @@ export type QueryRouteArgs = {
  */
 export type QueryStanfordBasicPagesArgs = {
   contextualFilter?: InputMaybe<StanfordBasicPagesContextualFilterInput>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -1912,6 +1915,9 @@ export type QueryStanfordBasicPagesArgs = {
  */
 export type QueryStanfordBasicPagesCardsArgs = {
   contextualFilter?: InputMaybe<StanfordBasicPagesCardsContextualFilterInput>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -1938,6 +1944,9 @@ export type QueryStanfordBasicSiteSettingsArgs = {
  */
 export type QueryStanfordCoursesArgs = {
   contextualFilter?: InputMaybe<StanfordCoursesContextualFilterInput>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -1948,6 +1957,9 @@ export type QueryStanfordCoursesArgs = {
  */
 export type QueryStanfordCoursesCardGridArgs = {
   contextualFilter?: InputMaybe<StanfordCoursesCardGridContextualFilterInput>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -1958,6 +1970,9 @@ export type QueryStanfordCoursesCardGridArgs = {
  */
 export type QueryStanfordEventsArgs = {
   contextualFilter?: InputMaybe<StanfordEventsContextualFilterInput>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -1968,6 +1983,9 @@ export type QueryStanfordEventsArgs = {
  */
 export type QueryStanfordEventsCardGridArgs = {
   contextualFilter?: InputMaybe<StanfordEventsCardGridContextualFilterInput>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -1978,6 +1996,9 @@ export type QueryStanfordEventsCardGridArgs = {
  */
 export type QueryStanfordEventsPastEventsArgs = {
   contextualFilter?: InputMaybe<StanfordEventsPastEventsContextualFilterInput>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -2020,6 +2041,9 @@ export type QueryStanfordLocalFootersArgs = {
  */
 export type QueryStanfordNewsCardGridArgs = {
   contextualFilter?: InputMaybe<StanfordNewsCardGridContextualFilterInput>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -2030,6 +2054,9 @@ export type QueryStanfordNewsCardGridArgs = {
  */
 export type QueryStanfordNewsDefaultListArgs = {
   contextualFilter?: InputMaybe<StanfordNewsDefaultListContextualFilterInput>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
   sortDir?: InputMaybe<SortDirection>;
 };
 
@@ -2041,6 +2068,9 @@ export type QueryStanfordNewsDefaultListArgs = {
  */
 export type QueryStanfordPersonArgs = {
   contextualFilter?: InputMaybe<StanfordPersonContextualFilterInput>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -2051,6 +2081,9 @@ export type QueryStanfordPersonArgs = {
  */
 export type QueryStanfordPublicationsApaArgs = {
   contextualFilter?: InputMaybe<StanfordPublicationsApaContextualFilterInput>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -2061,6 +2094,9 @@ export type QueryStanfordPublicationsApaArgs = {
  */
 export type QueryStanfordPublicationsChicagoArgs = {
   contextualFilter?: InputMaybe<StanfordPublicationsChicagoContextualFilterInput>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -2071,6 +2107,9 @@ export type QueryStanfordPublicationsChicagoArgs = {
  */
 export type QueryStanfordSharedTagsArgs = {
   contextualFilter?: InputMaybe<StanfordSharedTagsContextualFilterInput>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -3646,6 +3685,9 @@ export type FragmentViewPageInfoFragment = { __typename?: 'ViewPageInfo', page: 
 
 export type StanfordBasicPagesQueryVariables = Exact<{
   filters?: InputMaybe<StanfordBasicPagesContextualFilterInput>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -3653,6 +3695,9 @@ export type StanfordBasicPagesQuery = { __typename?: 'Query', stanfordBasicPages
 
 export type StanfordBasicPagesCardsQueryVariables = Exact<{
   filters?: InputMaybe<StanfordBasicPagesCardsContextualFilterInput>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -3660,6 +3705,9 @@ export type StanfordBasicPagesCardsQuery = { __typename?: 'Query', stanfordBasic
 
 export type StanfordCoursesQueryVariables = Exact<{
   filters?: InputMaybe<StanfordCoursesContextualFilterInput>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -3667,6 +3715,9 @@ export type StanfordCoursesQuery = { __typename?: 'Query', stanfordCourses?: { _
 
 export type StanfordCoursesCardGridQueryVariables = Exact<{
   filters?: InputMaybe<StanfordCoursesCardGridContextualFilterInput>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -3674,6 +3725,9 @@ export type StanfordCoursesCardGridQuery = { __typename?: 'Query', stanfordCours
 
 export type StanfordEventsCardGridQueryVariables = Exact<{
   filters?: InputMaybe<StanfordEventsCardGridContextualFilterInput>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -3681,6 +3735,9 @@ export type StanfordEventsCardGridQuery = { __typename?: 'Query', stanfordEvents
 
 export type StanfordEventsQueryVariables = Exact<{
   filters?: InputMaybe<StanfordEventsContextualFilterInput>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -3688,6 +3745,9 @@ export type StanfordEventsQuery = { __typename?: 'Query', stanfordEvents?: { __t
 
 export type StanfordEventsPastEventsQueryVariables = Exact<{
   filters?: InputMaybe<StanfordEventsPastEventsContextualFilterInput>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -3695,6 +3755,9 @@ export type StanfordEventsPastEventsQuery = { __typename?: 'Query', stanfordEven
 
 export type StanfordNewsDefaultListQueryVariables = Exact<{
   filters?: InputMaybe<StanfordNewsDefaultListContextualFilterInput>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -3702,6 +3765,9 @@ export type StanfordNewsDefaultListQuery = { __typename?: 'Query', stanfordNewsD
 
 export type StanfordNewsCardGridQueryVariables = Exact<{
   filters?: InputMaybe<StanfordNewsCardGridContextualFilterInput>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -3709,6 +3775,9 @@ export type StanfordNewsCardGridQuery = { __typename?: 'Query', stanfordNewsCard
 
 export type StanfordPersonQueryVariables = Exact<{
   filters?: InputMaybe<StanfordPersonContextualFilterInput>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -3716,6 +3785,9 @@ export type StanfordPersonQuery = { __typename?: 'Query', stanfordPerson?: { __t
 
 export type StanfordPublicationsApaQueryVariables = Exact<{
   filters?: InputMaybe<StanfordPublicationsApaContextualFilterInput>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -3723,6 +3795,9 @@ export type StanfordPublicationsApaQuery = { __typename?: 'Query', stanfordPubli
 
 export type StanfordPublicationsChicagoQueryVariables = Exact<{
   filters?: InputMaybe<StanfordPublicationsChicagoContextualFilterInput>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -3730,6 +3805,9 @@ export type StanfordPublicationsChicagoQuery = { __typename?: 'Query', stanfordP
 
 export type StanfordSharedTagsQueryVariables = Exact<{
   filters?: InputMaybe<StanfordSharedTagsContextualFilterInput>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -4737,8 +4815,13 @@ export const RouteDocument = gql`
     ${FragmentNodeUnionFragmentDoc}
 ${FragmentTermInterfaceFragmentDoc}`;
 export const StanfordBasicPagesDocument = gql`
-    query stanfordBasicPages($filters: StanfordBasicPagesContextualFilterInput) {
-  stanfordBasicPages(contextualFilter: $filters) {
+    query stanfordBasicPages($filters: StanfordBasicPagesContextualFilterInput, $pageSize: Int = 3, $page: Int, $offset: Int) {
+  stanfordBasicPages(
+    contextualFilter: $filters
+    pageSize: $pageSize
+    page: $page
+    offset: $offset
+  ) {
     results {
       ...FragmentNodeStanfordPageTeaser
     }
@@ -4750,8 +4833,13 @@ export const StanfordBasicPagesDocument = gql`
     ${FragmentNodeStanfordPageTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordBasicPagesCardsDocument = gql`
-    query stanfordBasicPagesCards($filters: StanfordBasicPagesCardsContextualFilterInput) {
-  stanfordBasicPagesCards(contextualFilter: $filters) {
+    query stanfordBasicPagesCards($filters: StanfordBasicPagesCardsContextualFilterInput, $pageSize: Int = 3, $page: Int, $offset: Int) {
+  stanfordBasicPagesCards(
+    contextualFilter: $filters
+    pageSize: $pageSize
+    page: $page
+    offset: $offset
+  ) {
     results {
       ...FragmentNodeStanfordPageTeaser
     }
@@ -4763,8 +4851,13 @@ export const StanfordBasicPagesCardsDocument = gql`
     ${FragmentNodeStanfordPageTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordCoursesDocument = gql`
-    query stanfordCourses($filters: StanfordCoursesContextualFilterInput) {
-  stanfordCourses(contextualFilter: $filters) {
+    query stanfordCourses($filters: StanfordCoursesContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
+  stanfordCourses(
+    contextualFilter: $filters
+    pageSize: $pageSize
+    page: $page
+    offset: $offset
+  ) {
     results {
       ...FragmentNodeStanfordCourse
     }
@@ -4776,8 +4869,13 @@ export const StanfordCoursesDocument = gql`
     ${FragmentNodeStanfordCourseFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordCoursesCardGridDocument = gql`
-    query stanfordCoursesCardGrid($filters: StanfordCoursesCardGridContextualFilterInput) {
-  stanfordCoursesCardGrid(contextualFilter: $filters) {
+    query stanfordCoursesCardGrid($filters: StanfordCoursesCardGridContextualFilterInput, $pageSize: Int = 3, $page: Int, $offset: Int) {
+  stanfordCoursesCardGrid(
+    contextualFilter: $filters
+    pageSize: $pageSize
+    page: $page
+    offset: $offset
+  ) {
     results {
       ...FragmentNodeStanfordCourse
     }
@@ -4789,8 +4887,13 @@ export const StanfordCoursesCardGridDocument = gql`
     ${FragmentNodeStanfordCourseFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordEventsCardGridDocument = gql`
-    query stanfordEventsCardGrid($filters: StanfordEventsCardGridContextualFilterInput) {
-  stanfordEventsCardGrid(contextualFilter: $filters) {
+    query stanfordEventsCardGrid($filters: StanfordEventsCardGridContextualFilterInput, $pageSize: Int = 3, $page: Int, $offset: Int) {
+  stanfordEventsCardGrid(
+    contextualFilter: $filters
+    pageSize: $pageSize
+    page: $page
+    offset: $offset
+  ) {
     results {
       ...FragmentNodeStanfordEventTeaser
     }
@@ -4802,8 +4905,13 @@ export const StanfordEventsCardGridDocument = gql`
     ${FragmentNodeStanfordEventTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordEventsDocument = gql`
-    query stanfordEvents($filters: StanfordEventsContextualFilterInput) {
-  stanfordEvents(contextualFilter: $filters) {
+    query stanfordEvents($filters: StanfordEventsContextualFilterInput, $pageSize: Int, $page: Int = -1, $offset: Int) {
+  stanfordEvents(
+    contextualFilter: $filters
+    pageSize: $pageSize
+    page: $page
+    offset: $offset
+  ) {
     results {
       ...FragmentNodeStanfordEventTeaser
     }
@@ -4815,8 +4923,13 @@ export const StanfordEventsDocument = gql`
     ${FragmentNodeStanfordEventTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordEventsPastEventsDocument = gql`
-    query stanfordEventsPastEvents($filters: StanfordEventsPastEventsContextualFilterInput) {
-  stanfordEventsPastEvents(contextualFilter: $filters) {
+    query stanfordEventsPastEvents($filters: StanfordEventsPastEventsContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
+  stanfordEventsPastEvents(
+    contextualFilter: $filters
+    pageSize: $pageSize
+    page: $page
+    offset: $offset
+  ) {
     results {
       ...FragmentNodeStanfordEventTeaser
     }
@@ -4828,8 +4941,13 @@ export const StanfordEventsPastEventsDocument = gql`
     ${FragmentNodeStanfordEventTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordNewsDefaultListDocument = gql`
-    query stanfordNewsDefaultList($filters: StanfordNewsDefaultListContextualFilterInput) {
-  stanfordNewsDefaultList(contextualFilter: $filters) {
+    query stanfordNewsDefaultList($filters: StanfordNewsDefaultListContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
+  stanfordNewsDefaultList(
+    contextualFilter: $filters
+    pageSize: $pageSize
+    page: $page
+    offset: $offset
+  ) {
     results {
       ...FragmentNodeStanfordNewsTeaser
     }
@@ -4841,8 +4959,13 @@ export const StanfordNewsDefaultListDocument = gql`
     ${FragmentNodeStanfordNewsTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordNewsCardGridDocument = gql`
-    query stanfordNewsCardGrid($filters: StanfordNewsCardGridContextualFilterInput) {
-  stanfordNewsCardGrid(contextualFilter: $filters) {
+    query stanfordNewsCardGrid($filters: StanfordNewsCardGridContextualFilterInput, $pageSize: Int = 3, $page: Int, $offset: Int) {
+  stanfordNewsCardGrid(
+    contextualFilter: $filters
+    pageSize: $pageSize
+    page: $page
+    offset: $offset
+  ) {
     results {
       ...FragmentNodeStanfordNewsTeaser
     }
@@ -4854,8 +4977,13 @@ export const StanfordNewsCardGridDocument = gql`
     ${FragmentNodeStanfordNewsTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordPersonDocument = gql`
-    query stanfordPerson($filters: StanfordPersonContextualFilterInput) {
-  stanfordPerson(contextualFilter: $filters) {
+    query stanfordPerson($filters: StanfordPersonContextualFilterInput, $pageSize: Int, $page: Int = -1, $offset: Int) {
+  stanfordPerson(
+    contextualFilter: $filters
+    pageSize: $pageSize
+    page: $page
+    offset: $offset
+  ) {
     results {
       ...FragmentNodeStanfordPersonTeaser
     }
@@ -4867,8 +4995,13 @@ export const StanfordPersonDocument = gql`
     ${FragmentNodeStanfordPersonTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordPublicationsApaDocument = gql`
-    query stanfordPublicationsApa($filters: StanfordPublicationsApaContextualFilterInput) {
-  stanfordPublicationsApa(contextualFilter: $filters) {
+    query stanfordPublicationsApa($filters: StanfordPublicationsApaContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
+  stanfordPublicationsApa(
+    contextualFilter: $filters
+    pageSize: $pageSize
+    page: $page
+    offset: $offset
+  ) {
     results {
       ...FragmentNodeStanfordPublicationTeaser
     }
@@ -4880,8 +5013,13 @@ export const StanfordPublicationsApaDocument = gql`
     ${FragmentNodeStanfordPublicationTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordPublicationsChicagoDocument = gql`
-    query stanfordPublicationsChicago($filters: StanfordPublicationsChicagoContextualFilterInput) {
-  stanfordPublicationsChicago(contextualFilter: $filters) {
+    query stanfordPublicationsChicago($filters: StanfordPublicationsChicagoContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
+  stanfordPublicationsChicago(
+    contextualFilter: $filters
+    pageSize: $pageSize
+    page: $page
+    offset: $offset
+  ) {
     results {
       ...FragmentNodeStanfordPublicationTeaser
     }
@@ -4893,8 +5031,13 @@ export const StanfordPublicationsChicagoDocument = gql`
     ${FragmentNodeStanfordPublicationTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordSharedTagsDocument = gql`
-    query stanfordSharedTags($filters: StanfordSharedTagsContextualFilterInput) {
-  stanfordSharedTags(contextualFilter: $filters) {
+    query stanfordSharedTags($filters: StanfordSharedTagsContextualFilterInput, $pageSize: Int, $page: Int = 3, $offset: Int) {
+  stanfordSharedTags(
+    contextualFilter: $filters
+    pageSize: $pageSize
+    page: $page
+    offset: $offset
+  ) {
     results {
       ...FragmentNodeTeaserUnion
     }

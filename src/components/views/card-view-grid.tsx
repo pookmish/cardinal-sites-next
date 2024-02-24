@@ -5,7 +5,7 @@ import {NodeUnion} from "@lib/gql/__generated__/drupal";
 const CardViewGrid = ({items, headingLevel}: { items: NodeUnion[], headingLevel?: "h2" | "h3" }) => {
   return (
     <LoadMoreList
-      ulProps={{className: "list-unstyled grid @4xl:grid-cols-2 @7xl:grid-cols-3 gap-20"}}
+      ulProps={{className: "list-unstyled grid @4xl:grid-cols-2 @7xl:grid-cols-3 gap-20 mb-20"}}
       liProps={{className: ""}}
     >
       {items.map(item =>
