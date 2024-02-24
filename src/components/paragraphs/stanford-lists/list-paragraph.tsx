@@ -5,8 +5,8 @@ import {H2} from "@components/elements/headers";
 import {cache, HtmlHTMLAttributes} from "react";
 import {
   Maybe,
-  NodeStanfordCourse,
-  NodeStanfordPage,
+  NodeStanfordCourse, NodeStanfordEvent, NodeStanfordNews,
+  NodeStanfordPage, NodeStanfordPerson, NodeStanfordPublication,
   NodeUnion,
   ParagraphStanfordList
 } from "@lib/gql/__generated__/drupal";
@@ -125,29 +125,29 @@ const getViewItems = cache(async (viewId: string, displayId: string, contextualF
     case 'stanford_events--list_page':
       filters = getViewFilters(['term_node_taxonomy_name_depth', 'term_node_taxonomy_name_depth_1', 'term_node_taxonomy_name_depth_2', 'term_node_taxonomy_name_depth_3'], contextualFilter)
       graphqlResponse = await client.stanfordEventsCardGrid({filters, ...queryVariables});
-      items = graphqlResponse.stanfordEventsCardGrid?.results as unknown as NodeUnion[]
+      items = graphqlResponse.stanfordEventsCardGrid?.results as unknown as NodeStanfordEvent[]
       break
 
     case 'stanford_events--past_events_list_block':
       graphqlResponse = await client.stanfordEventsPastEvents({filters, ...queryVariables});
-      items = graphqlResponse.stanfordEventsPastEvents?.results as unknown as NodeUnion[]
+      items = graphqlResponse.stanfordEventsPastEvents?.results as unknown as NodeStanfordEvent[]
       break
 
     case 'stanford_news--block_1':
     case 'stanford_news--vertical_cards':
       graphqlResponse = await client.stanfordNewsDefaultList({filters, ...queryVariables});
-      items = graphqlResponse.stanfordNewsDefaultList?.results as unknown as NodeUnion[]
+      items = graphqlResponse.stanfordNewsDefaultList?.results as unknown as NodeStanfordNews[]
       break
 
     case 'stanford_person--grid_list_all':
       graphqlResponse = await client.stanfordPerson({filters, ...queryVariables});
-      items = graphqlResponse.stanfordPerson?.results as unknown as NodeUnion[]
+      items = graphqlResponse.stanfordPerson?.results as unknown as NodeStanfordPerson[]
       break
 
     case 'stanford_publications--apa_list':
     case 'stanford_publications--chicago_list':
       graphqlResponse = await client.stanfordPublicationsApa({filters, ...queryVariables});
-      items = graphqlResponse.stanfordPublicationsApa?.results as unknown as NodeUnion[]
+      items = graphqlResponse.stanfordPublicationsApa?.results as unknown as NodeStanfordPublication[]
       break
 
     case 'stanford_shared_tags--card_grid':

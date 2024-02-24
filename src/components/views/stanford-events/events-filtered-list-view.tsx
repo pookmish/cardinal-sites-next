@@ -7,12 +7,12 @@ import {useMemo, useState} from "react";
 import LoadMoreList from "@components/elements/load-more-list";
 import StanfordEventListItem from "@components/nodes/list-item/stanford-event/stanford-event-list-item";
 import {SelectOptionDefinition, SelectValue} from "@mui/base/useSelect";
-import {NodeStanfordEvent, TermUnion} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordEvent, TermStanfordEventType} from "@lib/gql/__generated__/drupal";
 
-const getTopicOptions = (eventItems: NodeStanfordEvent[] = [], topicTree: TermUnion[] = []): SelectOptionDefinition<string>[] => {
+const getTopicOptions = (eventItems: NodeStanfordEvent[] = [], topicTree: TermStanfordEventType[] = []): SelectOptionDefinition<string>[] => {
   const topicOptions: SelectOptionDefinition<string>[] = [];
 
-  const cleanTopic = (topic: TermUnion): boolean => {
+  const cleanTopic = (topic: TermStanfordEventType): boolean => {
     if (topic.parent?.id) return false;
 
     return !!eventItems.find(event => {
@@ -27,12 +27,12 @@ const getTopicOptions = (eventItems: NodeStanfordEvent[] = [], topicTree: TermUn
   return topicOptions.sort((a, b) => a.label < b.label ? -1 : (a.label > b.label ? 1 : 0));
 }
 
-const EventsFilteredListView = ({items, topics}: { items: NodeStanfordEvent[], topics: TermUnion[] }) => {
+const EventsFilteredListView = ({items, topics}: { items: NodeStanfordEvent[], topics: TermStanfordEventType[] }) => {
 
   const [chosenTopic, setChosenTopic] = useState<string>('');
   const [displayedEvents, setDisplayedEvents] = useState<NodeStanfordEvent[]>(items);
 
-  const topicTree = useMemo(() => getTaxonomyTree(topics), [topics]);
+  const topicTree = useMemo(() => getTaxonomyTree<TermStanfordEventType>(topics), [topics]);
   const topicOptions = useMemo(() => getTopicOptions(items, topicTree), [items, topicTree]);
 
   const filterEvents = () => {
@@ -43,7 +43,7 @@ const EventsFilteredListView = ({items, topics}: { items: NodeStanfordEvent[], t
     }
     const topicIds: string[] = [];
 
-    const buildChosenTopicIds = (topicTerm: TermUnion | undefined): void => {
+    const buildChosenTopicIds = (topicTerm: TermStanfordEventType | undefined): void => {
       if (!topicTerm) return;
 
       topicIds.push(topicTerm.id);

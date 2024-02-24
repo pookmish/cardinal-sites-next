@@ -12,7 +12,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   itemsPerPage?: number
 }
 
-const LoadMoreList = ({buttonText, children, ulProps, liProps, itemsPerPage = 20, ...props}: Props) => {
+const LoadMoreList = ({buttonText, children, ulProps, liProps, itemsPerPage = 15, ...props}: Props) => {
   const id = useId();
   const {count: shownItems, setCount: setShownItems} = useCounter(itemsPerPage)
   const {value: focusOnElement, setTrue: enableFocusElement, setFalse: disableFocusElement} = useBoolean(false)
