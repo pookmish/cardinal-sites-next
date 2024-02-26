@@ -35,7 +35,14 @@ export const Banner: Story = {
         title: "Link.",
         internal: true
       },
-      suMediaCaptionMedia: getStoryBookImage()
+      suMediaCaptionMedia: getStoryBookImage(),
+      composition: {
+        layout: null,
+        position: {
+          parentId: "a0fda19d-410c-4872-b307-222e9427698f",
+          region: "main"
+        }
+      }
     }
   }
 };
