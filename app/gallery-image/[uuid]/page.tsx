@@ -18,7 +18,7 @@ const Page = async ({params: {uuid}}: { params: { uuid: string } }) => {
     if (query.media?.__typename === 'MediaStanfordGalleryImage') media = query.media as MediaStanfordGalleryImage;
   } catch (e) {
   }
-  if (!media || !media.suGalleryImage?.url) notFound();
+  if (!media?.suGalleryImage?.url) notFound();
 
   return (
     <div className="centered mt-32">

@@ -19,7 +19,8 @@ const config: CodegenConfig = {
         {add: {content: "/** THIS IS GENERATED FILE. DO NOT MODIFY IT DIRECTLY, RUN 'yarn graphql' INSTEAD. **/"}}
       ],
       presetConfig: {
-        typesPath: './drupal.d'
+        typesPath: './drupal.d',
+        importTypesNamespace: 'DrupalTypes'
       },
     },
 

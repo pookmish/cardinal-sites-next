@@ -2,8 +2,7 @@ import {notFound, redirect} from "next/navigation";
 import NodePage from "@components/nodes/pages/node-page";
 import {Metadata} from "next";
 import {getNodeMetadata} from "./metadata";
-import {getPathFromContext, isDraftMode} from "@lib/drupal/utils";
-import {PageProps, Params} from "@lib/types";
+import {isDraftMode} from "@lib/drupal/utils";
 import {getAllNodePaths, getEntityFromPath} from "@lib/gql/fetcher";
 import {NodeUnion} from "@lib/gql/__generated__/drupal.d";
 import UnpublishedBanner from "@components/elements/unpublished-banner";
@@ -41,10 +40,24 @@ export const generateMetadata = async ({params}: PageProps): Promise<Metadata> =
   return entity ? getNodeMetadata(entity) : {};
 }
 
-export const generateStaticParams = async (): Promise<Params[]> => {
+export const generateStaticParams = async (): Promise<PageProps["params"][]> => {
   if (process.env.BUILD_COMPLETE !== 'true') return []
   const nodePaths = await getAllNodePaths();
   return nodePaths.map(path => ({slug: path.split('/').filter(part => !!part)}));
 }
+
+const getPathFromContext = (context: PageProps, prefix = ""): string => {
+  let {slug} = context.params
+
+  slug = Array.isArray(slug) ? slug.map((s) => encodeURIComponent(s)).join("/") : slug
+  slug = slug.replace(/^\//, '');
+  return prefix ? `${prefix}/${slug}` : `/${slug}`
+}
+
+type PageProps = {
+  params: { slug: string | string[] }
+  searchParams?: Record<string, string | string[] | undefined>
+}
+
 
 export default Page;

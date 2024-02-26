@@ -13,7 +13,7 @@ const Page = async ({params: {uuid}}: { params: { uuid: string } }) => {
     if (query.media?.__typename === 'MediaStanfordGalleryImage') media = query.media as MediaStanfordGalleryImage;
   } catch (e) {
   }
-  if (!media || !media.suGalleryImage?.url) return;
+  if (!media?.suGalleryImage?.url) return;
 
   return (
     <InterceptionModal aria-labelledby={captionId}>

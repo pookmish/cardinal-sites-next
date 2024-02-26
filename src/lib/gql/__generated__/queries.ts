@@ -1,5 +1,5 @@
 /** THIS IS GENERATED FILE. DO NOT MODIFY IT DIRECTLY, RUN 'yarn graphql' INSTEAD. **/
-import * as Types from './drupal.d';
+import * as DrupalTypes from './drupal.d';
 
 import { GraphQLClient, RequestOptions } from 'graphql-request';
 import gql from 'graphql-tag';
@@ -1399,89 +1399,89 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    Node(variables: Types.NodeQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.NodeQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.NodeQuery>(NodeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Node', 'query', variables);
+    Node(variables: DrupalTypes.NodeQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.NodeQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.NodeQuery>(NodeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Node', 'query', variables);
     },
-    AllNodes(variables?: Types.AllNodesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.AllNodesQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.AllNodesQuery>(AllNodesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AllNodes', 'query', variables);
+    AllNodes(variables?: DrupalTypes.AllNodesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.AllNodesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.AllNodesQuery>(AllNodesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AllNodes', 'query', variables);
     },
-    Courses(variables?: Types.CoursesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.CoursesQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.CoursesQuery>(CoursesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Courses', 'query', variables);
+    Courses(variables?: DrupalTypes.CoursesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.CoursesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.CoursesQuery>(CoursesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Courses', 'query', variables);
     },
-    EventSeries(variables?: Types.EventSeriesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.EventSeriesQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.EventSeriesQuery>(EventSeriesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'EventSeries', 'query', variables);
+    EventSeries(variables?: DrupalTypes.EventSeriesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.EventSeriesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.EventSeriesQuery>(EventSeriesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'EventSeries', 'query', variables);
     },
-    Events(variables?: Types.EventsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.EventsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.EventsQuery>(EventsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Events', 'query', variables);
+    Events(variables?: DrupalTypes.EventsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.EventsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.EventsQuery>(EventsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Events', 'query', variables);
     },
-    News(variables?: Types.NewsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.NewsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.NewsQuery>(NewsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'News', 'query', variables);
+    News(variables?: DrupalTypes.NewsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.NewsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.NewsQuery>(NewsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'News', 'query', variables);
     },
-    BasicPages(variables?: Types.BasicPagesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.BasicPagesQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.BasicPagesQuery>(BasicPagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'BasicPages', 'query', variables);
+    BasicPages(variables?: DrupalTypes.BasicPagesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.BasicPagesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.BasicPagesQuery>(BasicPagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'BasicPages', 'query', variables);
     },
-    People(variables?: Types.PeopleQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.PeopleQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.PeopleQuery>(PeopleDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'People', 'query', variables);
+    People(variables?: DrupalTypes.PeopleQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.PeopleQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.PeopleQuery>(PeopleDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'People', 'query', variables);
     },
-    Policies(variables?: Types.PoliciesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.PoliciesQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.PoliciesQuery>(PoliciesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Policies', 'query', variables);
+    Policies(variables?: DrupalTypes.PoliciesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.PoliciesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.PoliciesQuery>(PoliciesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Policies', 'query', variables);
     },
-    Publications(variables?: Types.PublicationsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.PublicationsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.PublicationsQuery>(PublicationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Publications', 'query', variables);
+    Publications(variables?: DrupalTypes.PublicationsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.PublicationsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.PublicationsQuery>(PublicationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Publications', 'query', variables);
     },
-    Media(variables: Types.MediaQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.MediaQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.MediaQuery>(MediaDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Media', 'query', variables);
+    Media(variables: DrupalTypes.MediaQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.MediaQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.MediaQuery>(MediaDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Media', 'query', variables);
     },
-    Term(variables: Types.TermQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.TermQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.TermQuery>(TermDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Term', 'query', variables);
+    Term(variables: DrupalTypes.TermQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.TermQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.TermQuery>(TermDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Term', 'query', variables);
     },
-    ConfigPages(variables?: Types.ConfigPagesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.ConfigPagesQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.ConfigPagesQuery>(ConfigPagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ConfigPages', 'query', variables);
+    ConfigPages(variables?: DrupalTypes.ConfigPagesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.ConfigPagesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.ConfigPagesQuery>(ConfigPagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ConfigPages', 'query', variables);
     },
-    Menu(variables?: Types.MenuQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.MenuQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.MenuQuery>(MenuDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Menu', 'query', variables);
+    Menu(variables?: DrupalTypes.MenuQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.MenuQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.MenuQuery>(MenuDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Menu', 'query', variables);
     },
-    Route(variables: Types.RouteQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.RouteQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.RouteQuery>(RouteDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Route', 'query', variables);
+    Route(variables: DrupalTypes.RouteQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.RouteQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.RouteQuery>(RouteDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Route', 'query', variables);
     },
-    stanfordBasicPages(variables?: Types.StanfordBasicPagesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.StanfordBasicPagesQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.StanfordBasicPagesQuery>(StanfordBasicPagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordBasicPages', 'query', variables);
+    stanfordBasicPages(variables?: DrupalTypes.StanfordBasicPagesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordBasicPagesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordBasicPagesQuery>(StanfordBasicPagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordBasicPages', 'query', variables);
     },
-    stanfordBasicPagesCards(variables?: Types.StanfordBasicPagesCardsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.StanfordBasicPagesCardsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.StanfordBasicPagesCardsQuery>(StanfordBasicPagesCardsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordBasicPagesCards', 'query', variables);
+    stanfordBasicPagesCards(variables?: DrupalTypes.StanfordBasicPagesCardsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordBasicPagesCardsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordBasicPagesCardsQuery>(StanfordBasicPagesCardsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordBasicPagesCards', 'query', variables);
     },
-    stanfordCourses(variables?: Types.StanfordCoursesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.StanfordCoursesQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.StanfordCoursesQuery>(StanfordCoursesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordCourses', 'query', variables);
+    stanfordCourses(variables?: DrupalTypes.StanfordCoursesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordCoursesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordCoursesQuery>(StanfordCoursesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordCourses', 'query', variables);
     },
-    stanfordCoursesCardGrid(variables?: Types.StanfordCoursesCardGridQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.StanfordCoursesCardGridQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.StanfordCoursesCardGridQuery>(StanfordCoursesCardGridDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordCoursesCardGrid', 'query', variables);
+    stanfordCoursesCardGrid(variables?: DrupalTypes.StanfordCoursesCardGridQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordCoursesCardGridQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordCoursesCardGridQuery>(StanfordCoursesCardGridDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordCoursesCardGrid', 'query', variables);
     },
-    stanfordEventsCardGrid(variables?: Types.StanfordEventsCardGridQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.StanfordEventsCardGridQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.StanfordEventsCardGridQuery>(StanfordEventsCardGridDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordEventsCardGrid', 'query', variables);
+    stanfordEventsCardGrid(variables?: DrupalTypes.StanfordEventsCardGridQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordEventsCardGridQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordEventsCardGridQuery>(StanfordEventsCardGridDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordEventsCardGrid', 'query', variables);
     },
-    stanfordEvents(variables?: Types.StanfordEventsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.StanfordEventsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.StanfordEventsQuery>(StanfordEventsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordEvents', 'query', variables);
+    stanfordEvents(variables?: DrupalTypes.StanfordEventsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordEventsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordEventsQuery>(StanfordEventsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordEvents', 'query', variables);
     },
-    stanfordEventsPastEvents(variables?: Types.StanfordEventsPastEventsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.StanfordEventsPastEventsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.StanfordEventsPastEventsQuery>(StanfordEventsPastEventsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordEventsPastEvents', 'query', variables);
+    stanfordEventsPastEvents(variables?: DrupalTypes.StanfordEventsPastEventsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordEventsPastEventsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordEventsPastEventsQuery>(StanfordEventsPastEventsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordEventsPastEvents', 'query', variables);
     },
-    stanfordNewsDefaultList(variables?: Types.StanfordNewsDefaultListQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.StanfordNewsDefaultListQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.StanfordNewsDefaultListQuery>(StanfordNewsDefaultListDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordNewsDefaultList', 'query', variables);
+    stanfordNewsDefaultList(variables?: DrupalTypes.StanfordNewsDefaultListQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordNewsDefaultListQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordNewsDefaultListQuery>(StanfordNewsDefaultListDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordNewsDefaultList', 'query', variables);
     },
-    stanfordNewsCardGrid(variables?: Types.StanfordNewsCardGridQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.StanfordNewsCardGridQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.StanfordNewsCardGridQuery>(StanfordNewsCardGridDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordNewsCardGrid', 'query', variables);
+    stanfordNewsCardGrid(variables?: DrupalTypes.StanfordNewsCardGridQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordNewsCardGridQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordNewsCardGridQuery>(StanfordNewsCardGridDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordNewsCardGrid', 'query', variables);
     },
-    stanfordPerson(variables?: Types.StanfordPersonQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.StanfordPersonQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.StanfordPersonQuery>(StanfordPersonDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordPerson', 'query', variables);
+    stanfordPerson(variables?: DrupalTypes.StanfordPersonQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordPersonQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordPersonQuery>(StanfordPersonDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordPerson', 'query', variables);
     },
-    stanfordPublicationsApa(variables?: Types.StanfordPublicationsApaQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.StanfordPublicationsApaQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.StanfordPublicationsApaQuery>(StanfordPublicationsApaDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordPublicationsApa', 'query', variables);
+    stanfordPublicationsApa(variables?: DrupalTypes.StanfordPublicationsApaQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordPublicationsApaQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordPublicationsApaQuery>(StanfordPublicationsApaDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordPublicationsApa', 'query', variables);
     },
-    stanfordPublicationsChicago(variables?: Types.StanfordPublicationsChicagoQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.StanfordPublicationsChicagoQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.StanfordPublicationsChicagoQuery>(StanfordPublicationsChicagoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordPublicationsChicago', 'query', variables);
+    stanfordPublicationsChicago(variables?: DrupalTypes.StanfordPublicationsChicagoQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordPublicationsChicagoQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordPublicationsChicagoQuery>(StanfordPublicationsChicagoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordPublicationsChicago', 'query', variables);
     },
-    stanfordSharedTags(variables?: Types.StanfordSharedTagsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Types.StanfordSharedTagsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Types.StanfordSharedTagsQuery>(StanfordSharedTagsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordSharedTags', 'query', variables);
+    stanfordSharedTags(variables?: DrupalTypes.StanfordSharedTagsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordSharedTagsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordSharedTagsQuery>(StanfordSharedTagsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordSharedTags', 'query', variables);
     }
   };
 }
