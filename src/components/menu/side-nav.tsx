@@ -10,9 +10,9 @@ const SideNav = ({menuItems, currentPath}: { menuItems: MenuItemType[], currentP
   const topMenuItem = activeTrail.length > 0 ? menuItems.find(item => item.id === activeTrail[0]) : undefined;
   if (!topMenuItem) return null;
 
-  const subTree = topMenuItem.children || [];
+  const subTree = topMenuItem.children || undefined;
 
-  if (!subTree || (subTree.length <= 1 && !subTree[0].children)) {
+  if (!subTree || (subTree.length === 1 && !subTree[0].children)) {
     return null;
   }
 
