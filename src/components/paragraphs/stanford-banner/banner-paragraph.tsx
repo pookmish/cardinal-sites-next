@@ -40,13 +40,13 @@ const BannerParagraph = ({paragraph, eagerLoadImage, ...props}: Props) => {
               </H2>
             }
             {paragraph.suBannerSupHeader &&
-              <div className="order-1 font-semibold">
+              <div className="order-1 text-09em font-semibold">
                 {paragraph.suBannerSupHeader}
               </div>
             }
 
             {paragraph.suBannerBody &&
-              <Wysiwyg html={paragraph.suBannerBody.processed} className="order-3"/>
+              <Wysiwyg html={paragraph.suBannerBody.processed} className="order-3 text-m0"/>
             }
 
             {paragraph.suBannerButton?.url &&

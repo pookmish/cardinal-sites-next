@@ -100,7 +100,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
   const inTrail = activeTrail.includes(id) && !isCurrent;
 
   const linkStyles = clsx(
-    'w-full relative inline-block text-white lg:text-cardinal-red hocus:text-white lg:hocus:text-black no-underline hocus:underline py-5 lg:pl-0 border-l-[6px]',
+    'w-full relative inline-block text-white lg:text-digital-red hocus:text-white lg:hocus:text-black no-underline hocus:underline py-5 lg:pl-0 border-l-[6px]',
     leftPadding[level],
     // Top menu item styles.
     {
@@ -149,7 +149,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
             {level === 0 && <div className="block ml-5 w-[1px] h-[25px] mb-[6px]  bg-archway-light shrink-0"/>}
             <button
               ref={buttonRef}
-              className="shrink-0 mb-[6px] relative right-10 lg:right-0 text-white lg:text-cardinal-red bg-cardinal-red lg:bg-transparent rounded-full lg:rounded-none group border-b border-transparent hocus:border-black hocus:bg-white"
+              className="shrink-0 mb-[6px] relative right-10 lg:right-0 text-white lg:text-digital-red bg-digital-red lg:bg-transparent rounded-full lg:rounded-none group border-b border-transparent hocus:border-black hocus:bg-white"
               onClick={toggleSubmenu}
               aria-expanded={submenuOpen}
             >
