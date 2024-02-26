@@ -11,7 +11,7 @@ import useOutsideClick from "@lib/hooks/useOutsideClick";
 import {usePathname} from "next/navigation";
 import {useBoolean, useEventListener} from "usehooks-ts";
 import {clsx} from "clsx";
-import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal";
+import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal.d";
 
 const MainMenu = ({menuItems}: { menuItems: MenuItemType[] }) => {
   const buttonRef = useRef<HTMLButtonElement>(null)

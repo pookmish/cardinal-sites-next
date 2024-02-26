@@ -1,10 +1,8 @@
 import {MetadataRoute} from "next";
-import {getNodePaths} from "@lib/drupal/get-paths";
+import {getAllNodePaths} from "@lib/gql/fetcher";
 
 const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const allPaths = await getNodePaths();
-  const urls: MetadataRoute.Sitemap = [];
-  allPaths.map(url => urls.push({url}))
-  return urls
+  const nodePaths = await getAllNodePaths()
+  return nodePaths.map(path => ({url: path}));
 }
 export default Sitemap;

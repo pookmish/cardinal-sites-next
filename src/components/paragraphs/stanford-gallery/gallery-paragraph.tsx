@@ -3,7 +3,7 @@ import Button from "@components/elements/button";
 import Image from "next/image";
 import {H2} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {MediaStanfordGalleryImage, ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal";
+import {MediaStanfordGalleryImage, ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal.d";
 import Link from "@components/elements/link";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {

@@ -2,7 +2,7 @@ import Rows from "@components/paragraphs/rows/rows";
 import InteriorPage from "@components/layouts/interior-page";
 import {H1} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {NodeStanfordPage} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordPage} from "@lib/gql/__generated__/drupal.d";
 import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {

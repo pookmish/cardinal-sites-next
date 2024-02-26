@@ -3,7 +3,7 @@ import {CalendarDaysIcon, MapPinIcon} from "@heroicons/react/20/solid";
 import Address from "@components/elements/address";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal.d";
 import {getEventTimeString} from "@components/nodes/cards/stanford-event/stanford-event-card";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {

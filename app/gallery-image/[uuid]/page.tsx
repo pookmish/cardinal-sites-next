@@ -1,7 +1,7 @@
 import {notFound} from "next/navigation";
 import {H1} from "@components/elements/headers";
 import Image from "next/image";
-import {MediaStanfordGalleryImage} from "@lib/gql/__generated__/drupal";
+import {MediaStanfordGalleryImage} from "@lib/gql/__generated__/drupal.d";
 import {graphqlClient} from "@lib/gql/fetcher";
 
 export const metadata = {

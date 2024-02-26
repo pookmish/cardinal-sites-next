@@ -1,7 +1,7 @@
 "use server";
 
+import {getSdk} from "@lib/gql/__generated__/queries";
 import {
-  getSdk,
   ConfigPagesQuery,
   ConfigPagesUnion,
   MenuAvailable,
@@ -10,7 +10,7 @@ import {
   RouteQuery,
   RouteRedirect,
   TermUnion
-} from "@lib/gql/__generated__/drupal";
+} from "@lib/gql/__generated__/drupal.d";
 import {GraphQLClient} from "graphql-request";
 import type {RequestConfig} from "graphql-request/src/types";
 import {cache} from "react";
@@ -91,4 +91,15 @@ export const getMenu = cache(async (name?: MenuAvailable, draftMode?: boolean): 
   return filterInaccessible(menuItems)
 })
 
-
+export const getAllNodePaths = cache(async () => {
+  const nodeQuery = await graphqlClient({next: {tags: ['paths']}}).AllNodes();
+  const nodePaths: string[] = [];
+  nodeQuery.nodeStanfordCourses.nodes.map(node => nodePaths.push(node.path));
+  nodeQuery.nodeStanfordEventSeriesItems.nodes.map(node => nodePaths.push(node.path));
+  nodeQuery.nodeStanfordEvents.nodes.map(node => nodePaths.push(node.path));
+  nodeQuery.nodeStanfordNewsItems.nodes.map(node => nodePaths.push(node.path));
+  nodeQuery.nodeStanfordPages.nodes.map(node => nodePaths.push(node.path));
+  nodeQuery.nodeStanfordPeople.nodes.map(node => nodePaths.push(node.path));
+  nodeQuery.nodeStanfordPolicies.nodes.map(node => nodePaths.push(node.path));
+  return nodePaths;
+})

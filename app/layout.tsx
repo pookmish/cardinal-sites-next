@@ -8,7 +8,7 @@ import {isDraftMode} from "@lib/drupal/utils";
 import BackToTop from "@components/elements/back-to-top";
 import Link from "@components/elements/link";
 import {getConfigPage} from "@lib/gql/fetcher";
-import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal";
+import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal.d";
 import {GoogleAnalytics} from "@next/third-parties/google";
 
 export const metadata = {

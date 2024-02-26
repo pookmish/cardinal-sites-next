@@ -2,7 +2,7 @@ import Link from "@components/elements/link";
 import Image from "next/image";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {NodeStanfordPage} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordPage} from "@lib/gql/__generated__/drupal.d";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPage

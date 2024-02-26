@@ -54,7 +54,9 @@
     "zustand": "^4.5.1"
   },
   "devDependencies": {
+    "@graphql-codegen/add": "^5.0.2",
     "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/import-types-preset": "^3.0.0",
     "@graphql-codegen/near-operation-file-preset": "^3.0.0",
     "@graphql-codegen/typescript-graphql-request": "^6.2.0",
     "@graphql-codegen/typescript-operations": "^4.1.3",

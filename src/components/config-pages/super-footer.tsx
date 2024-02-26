@@ -2,7 +2,7 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import Link from "@components/elements/link";
 import {LockClosedIcon} from "@heroicons/react/24/outline";
 import {H2} from "@components/elements/headers";
-import {StanfordSuperFooter} from "@lib/gql/__generated__/drupal";
+import {StanfordSuperFooter} from "@lib/gql/__generated__/drupal.d";
 
 const SuperFooter = ({suSuperFootEnabled, suSuperFootTitle, suSuperFootText, suSuperFootLink, suSuperFootIntranet}: StanfordSuperFooter ) => {
   if (!suSuperFootEnabled) return

@@ -16,7 +16,7 @@ import {
 } from "react";
 import {ChevronDownIcon} from "@heroicons/react/20/solid";
 import {useIsClient} from "usehooks-ts";
-import {Maybe} from "@lib/gql/__generated__/drupal";
+import {Maybe} from "@lib/gql/__generated__/drupal.d";
 
 interface OptionProps {
   rootRef: RefObject<HTMLUListElement>

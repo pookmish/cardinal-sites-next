@@ -1,6 +1,6 @@
 
 import {useCallback, useMemo} from "react";
-import {MenuItem} from "@lib/gql/__generated__/drupal";
+import {MenuItem} from "@lib/gql/__generated__/drupal.d";
 
 const useActiveTrail = (menuItems: MenuItem[], currentPath?: string) => {
 

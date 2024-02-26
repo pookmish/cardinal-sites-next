@@ -1,7 +1,7 @@
 import Rows from "@components/paragraphs/rows/rows";
 import {notFound} from "next/navigation";
 import {getEntityFromPath} from "@lib/gql/fetcher";
-import {NodeStanfordPage, NodeUnion} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordPage, NodeUnion} from "@lib/gql/__generated__/drupal.d";
 import {isDraftMode} from "@lib/drupal/utils";
 import {Metadata} from "next";
 import {getNodeMetadata} from "./[...slug]/metadata";

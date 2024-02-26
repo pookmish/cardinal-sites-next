@@ -1,6 +1,6 @@
 import StanfordCourseListItem from "@components/nodes/list-item/stanford-course/stanford-course-list-item";
 import LoadMoreList from "@components/elements/load-more-list";
-import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal.d";
 
 interface Props {
   headingLevel?: "h2" | "h3"

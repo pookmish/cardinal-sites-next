@@ -7,7 +7,7 @@ import {useMemo, useState} from "react";
 import LoadMoreList from "@components/elements/load-more-list";
 import StanfordEventListItem from "@components/nodes/list-item/stanford-event/stanford-event-list-item";
 import {SelectOptionDefinition, SelectValue} from "@mui/base/useSelect";
-import {NodeStanfordEvent, TermStanfordEventType} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordEvent, TermStanfordEventType} from "@lib/gql/__generated__/drupal.d";
 
 const getTopicOptions = (eventItems: NodeStanfordEvent[] = [], topicTree: TermStanfordEventType[] = []): SelectOptionDefinition<string>[] => {
   const topicOptions: SelectOptionDefinition<string>[] = [];

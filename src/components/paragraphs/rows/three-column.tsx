@@ -1,5 +1,5 @@
 import OneColumn from "@components/paragraphs/rows/one-column";
-import {ParagraphUnion} from "@lib/gql/__generated__/drupal";
+import {ParagraphUnion} from "@lib/gql/__generated__/drupal.d";
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
 import {isDraftMode} from "@lib/drupal/utils";
 

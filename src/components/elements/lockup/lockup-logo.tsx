@@ -1,4 +1,4 @@
-import {Maybe} from "@lib/gql/__generated__/drupal";
+import {Maybe} from "@lib/gql/__generated__/drupal.d";
 import StanfordWordMark from "@components/images/stanford-wordmark";
 
 const LockupLogo = ({logoUrl, siteName = ''}: { logoUrl?: Maybe<string>, siteName?: Maybe<string> }) => {

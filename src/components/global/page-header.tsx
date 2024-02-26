@@ -8,7 +8,7 @@ import {
   MenuAvailable,
   StanfordBasicSiteSetting,
   StanfordGlobalMessage
-} from "@lib/gql/__generated__/drupal";
+} from "@lib/gql/__generated__/drupal.d";
 import {isDraftMode} from "@lib/drupal/utils";
 
 const PageHeader = async () => {

@@ -9,7 +9,7 @@ import StanfordPolicyListItem from "@components/nodes/list-item/stanford-policy/
 import StanfordPublicationListItem
   from "@components/nodes/list-item/stanford-publication/stanford-publication-list-item";
 import {isDraftMode} from "@lib/drupal/utils";
-import {NodeUnion} from "@lib/gql/__generated__/drupal";
+import {NodeUnion} from "@lib/gql/__generated__/drupal.d";
 
 const NodeListItem = ({node, headingLevel}: { node: NodeUnion, headingLevel?: "h2" | "h3" }) => {
   const draftMode = isDraftMode();

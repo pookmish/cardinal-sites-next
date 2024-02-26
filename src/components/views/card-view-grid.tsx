@@ -1,6 +1,6 @@
 import NodeCard from "@components/nodes/cards/node-card";
 import LoadMoreList from "@components/elements/load-more-list";
-import {NodeUnion} from "@lib/gql/__generated__/drupal";
+import {NodeUnion} from "@lib/gql/__generated__/drupal.d";
 
 const CardViewGrid = ({items, headingLevel}: { items: NodeUnion[], headingLevel?: "h2" | "h3" }) => {
   return (

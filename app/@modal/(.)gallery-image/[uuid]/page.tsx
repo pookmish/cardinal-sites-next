@@ -2,7 +2,7 @@ import InterceptionModal from "@components/elements/interception-modal";
 import {randomUUID} from "crypto";
 import Image from "next/image";
 import {graphqlClient} from "@lib/gql/fetcher";
-import {MediaStanfordGalleryImage} from "@lib/gql/__generated__/drupal";
+import {MediaStanfordGalleryImage} from "@lib/gql/__generated__/drupal.d";
 
 const Page = async ({params: {uuid}}: { params: { uuid: string } }) => {
 

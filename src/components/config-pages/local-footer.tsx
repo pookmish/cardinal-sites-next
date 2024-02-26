@@ -19,7 +19,7 @@ import {H2} from "@components/elements/headers";
 import TwitterIcon from "@components/elements/icons/TwitterIcon";
 import YoutubeIcon from "@components/elements/icons/YoutubeIcon";
 import FacebookIcon from "@components/elements/icons/FacebookIcon";
-import { Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/drupal";
+import { Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/drupal.d";
 import {buildUrl} from "@lib/drupal/utils";
 
 const LocalFooter = ({

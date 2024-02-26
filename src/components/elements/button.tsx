@@ -1,7 +1,7 @@
 import Link from "@components/elements/link";
 import {twMerge} from 'tailwind-merge'
 import {HtmlHTMLAttributes, MouseEventHandler} from "react";
-import {Maybe} from "@lib/gql/__generated__/drupal";
+import {Maybe} from "@lib/gql/__generated__/drupal.d";
 import {clsx} from "clsx";
 
 

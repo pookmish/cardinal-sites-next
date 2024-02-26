@@ -3,7 +3,7 @@ import NodeCard from "@components/nodes/cards/node-card";
 import Button from "@components/elements/button";
 import {H2} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {ParagraphStanfordEntity} from "@lib/gql/__generated__/drupal";
+import {ParagraphStanfordEntity} from "@lib/gql/__generated__/drupal.d";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordEntity

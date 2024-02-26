@@ -1,12 +1,11 @@
 import {notFound, redirect} from "next/navigation";
 import NodePage from "@components/nodes/pages/node-page";
 import {Metadata} from "next";
-import {getNodePaths} from "@lib/drupal/get-paths";
 import {getNodeMetadata} from "./metadata";
 import {getPathFromContext, isDraftMode} from "@lib/drupal/utils";
 import {PageProps, Params} from "@lib/types";
-import {getEntityFromPath} from "@lib/gql/fetcher";
-import {NodeUnion} from "@lib/gql/__generated__/drupal";
+import {getAllNodePaths, getEntityFromPath} from "@lib/gql/fetcher";
+import {NodeUnion} from "@lib/gql/__generated__/drupal.d";
 import UnpublishedBanner from "@components/elements/unpublished-banner";
 
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
@@ -44,10 +43,8 @@ export const generateMetadata = async ({params}: PageProps): Promise<Metadata> =
 
 export const generateStaticParams = async (): Promise<Params[]> => {
   if (process.env.BUILD_COMPLETE !== 'true') return []
-  const nodePaths = await getNodePaths();
-  if (nodePaths) return nodePaths.filter(path => path !== '/')
-    .map(path => ({slug: path.replace(/^\//, '').split('/')}))
-  return [];
+  const nodePaths = await getAllNodePaths();
+  return nodePaths.map(path => ({slug: path.split('/').filter(part => !!part)}));
 }
 
 export default Page;

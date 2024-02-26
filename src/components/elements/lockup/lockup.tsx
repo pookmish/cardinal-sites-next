@@ -12,7 +12,7 @@ import LockupR from "@components/elements/lockup/lockup-r";
 import LockupS from "@components/elements/lockup/lockup-s";
 import LockupT from "@components/elements/lockup/lockup-t";
 import LockupLogo from "@components/elements/lockup/lockup-logo";
-import {LockupSetting, StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal";
+import {LockupSetting, StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal.d";
 
 type Props =
   Omit<LockupSetting, "__typename" | "id" | "metatag"> &

@@ -1,5 +1,5 @@
 import React, {HtmlHTMLAttributes} from "react";
-import {ParagraphStanfordBanner} from "@lib/gql/__generated__/drupal";
+import {ParagraphStanfordBanner} from "@lib/gql/__generated__/drupal.d";
 import Image from "next/image";
 import {H2} from "@components/elements/headers";
 import Wysiwyg from "@components/elements/wysiwyg";

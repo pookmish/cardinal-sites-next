@@ -1,4 +1,4 @@
-import {TermUnion} from "@lib/gql/__generated__/drupal";
+import {TermUnion} from "@lib/gql/__generated__/drupal.d";
 
 export type TermTree<T extends TermUnion> = T & {
   below?: TermTree<T>[]
@@ -16,7 +16,7 @@ export const buildTaxonomyTree = <T extends TermUnion, >(
 
   if (!terms?.length) return {below: []}
 
-  const children = terms.filter((term) => term.parent?.id && term.parent?.id === parent)
+  const children = terms.filter((term) => parent && term.parent?.id === parent)
 
   return children.length ? {
     below: children.map((link) => ({

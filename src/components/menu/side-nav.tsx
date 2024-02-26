@@ -1,7 +1,7 @@
 import useActiveTrail from "@lib/hooks/useActiveTrail";
 import Link from "@components/elements/link";
 import {clsx} from "clsx";
-import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal";
+import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal.d";
 
 const SideNav = ({menuItems, currentPath}: { menuItems: MenuItemType[], currentPath?: string }) => {
   const activeTrail: string[] = useActiveTrail(menuItems, currentPath);

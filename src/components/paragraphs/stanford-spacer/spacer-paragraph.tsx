@@ -1,5 +1,5 @@
 import {HtmlHTMLAttributes} from "react";
-import {ParagraphStanfordSpacer} from "@lib/gql/__generated__/drupal";
+import {ParagraphStanfordSpacer} from "@lib/gql/__generated__/drupal.d";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordSpacer

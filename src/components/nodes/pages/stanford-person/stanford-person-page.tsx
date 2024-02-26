@@ -8,7 +8,7 @@ import Email from "@components/elements/email";
 import Link from "@components/elements/link";
 import {H1, H2} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {NodeStanfordPerson} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordPerson} from "@lib/gql/__generated__/drupal.d";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPerson

@@ -7,7 +7,7 @@ import StanfordPersonCard from "@components/nodes/cards/stanford-person/stanford
 import StanfordPolicyCard from "@components/nodes/cards/stanford-policy/stanford-policy-card";
 import StanfordPublicationCard from "@components/nodes/cards/stanford-publication/stanford-publication-card";
 import {isDraftMode} from "@lib/drupal/utils";
-import {NodeUnion} from "@lib/gql/__generated__/drupal";
+import {NodeUnion} from "@lib/gql/__generated__/drupal.d";
 
 const NodeCard = ({node, headingLevel}: { node: NodeUnion, headingLevel?: "h2" | "h3" }) => {
   const draftMode = isDraftMode();

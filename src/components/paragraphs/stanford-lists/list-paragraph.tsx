@@ -9,7 +9,7 @@ import {
   NodeStanfordPage, NodeStanfordPerson, NodeStanfordPublication,
   NodeUnion,
   ParagraphStanfordList
-} from "@lib/gql/__generated__/drupal";
+} from "@lib/gql/__generated__/drupal.d";
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
 import {graphqlClient} from "@lib/gql/fetcher";
 import {buildHeaders} from "@lib/drupal/utils";
@@ -29,7 +29,7 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
   return (
     <div className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20" {...props}>
       {paragraph.suListHeadline &&
-        <H2>{paragraph.suListHeadline}</H2>
+        <H2 className="text-center">{paragraph.suListHeadline}</H2>
       }
       {paragraph.suListDescription?.processed &&
         <Wysiwyg html={paragraph.suListDescription.processed}/>

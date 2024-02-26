@@ -1,7 +1,7 @@
 import StanfordEventListItem from "@components/nodes/list-item/stanford-event/stanford-event-list-item";
 import LoadMoreList from "@components/elements/load-more-list";
 import EventsFilteredListView from "@components/views/stanford-events/events-filtered-list-view";
-import {NodeStanfordEvent, TermStanfordEventType} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordEvent, TermStanfordEventType} from "@lib/gql/__generated__/drupal.d";
 
 interface Props {
   headingLevel?: "h2" | "h3"

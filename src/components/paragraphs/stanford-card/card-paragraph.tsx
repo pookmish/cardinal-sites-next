@@ -1,5 +1,5 @@
 import {HtmlHTMLAttributes} from "react";
-import {ParagraphStanfordCard} from "@lib/gql/__generated__/drupal";
+import {ParagraphStanfordCard} from "@lib/gql/__generated__/drupal.d";
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
 import Image from "next/image";
 import Oembed from "@components/elements/ombed";
