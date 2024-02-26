@@ -25,24 +25,16 @@ export const Banner: Story = {
   },
   args: {
     paragraph: {
-      id: "aed8df99-4689-46c9-a1ce-2b75a861c707",
+      id:"6fa23537-dda7-4861-930a-648445d9904c",
       suMediaCaptionCaption: {
-        processed: "<p>This is a media with a caption.</p>",
-        value: "<p>This is a media with a caption.</p>"
+        processed:"<p>Here is my caption.</p>"
       },
       suMediaCaptionLink: {
-        url: "/publications",
-        title: "Link.",
-        internal: true
+        title:"Link text.",
+        url:"/publications",
+        internal:true
       },
       suMediaCaptionMedia: getStoryBookImage(),
-      composition: {
-        layout: null,
-        position: {
-          parentId: "a0fda19d-410c-4872-b307-222e9427698f",
-          region: "main"
-        }
-      }
     }
   }
 };
