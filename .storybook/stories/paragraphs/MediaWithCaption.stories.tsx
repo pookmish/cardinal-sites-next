@@ -19,19 +19,20 @@ export default meta;
 type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Banner: Story = {
+export const Caption: Story = {
   render: ({ ...args }) => {
     return <StanfordMediaCaption {...args} />
   },
   args: {
     paragraph: {
       id:"6fa23537-dda7-4861-930a-648445d9904c",
-      composition: {
-        layout: null,
-        position: {
-          parentId: "7a29ef1e-e98c-4463-937d-0084a7dd70cd",
-          region:"main"
-        }
+      composition: {},
+      langcode: {},
+      created: {
+        offset: "",
+        timestamp: Math.round(new Date().getTime() / 1000),
+        time: new Date().toISOString(),
+        timezone: "America/Los_Angeles"
       },
       suMediaCaptionCaption: {
         processed:"<p>Here is my caption.</p>"
