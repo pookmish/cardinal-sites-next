@@ -26,6 +26,13 @@ export const Banner: Story = {
   args: {
     paragraph: {
       id:"6fa23537-dda7-4861-930a-648445d9904c",
+      composition: {
+        layout: null,
+        position: {
+          parentId: "7a29ef1e-e98c-4463-937d-0084a7dd70cd",
+          region:"main"
+        }
+      },
       suMediaCaptionCaption: {
         processed:"<p>Here is my caption.</p>"
       },
@@ -38,3 +45,4 @@ export const Banner: Story = {
     }
   }
 };
+
