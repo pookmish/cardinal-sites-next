@@ -1,16 +1,16 @@
 "use client";
 
 import algoliasearch from 'algoliasearch/lite';
-import {Hits, useInstantSearch, useSearchBox} from "react-instantsearch";
+import {useHits, useSearchBox} from "react-instantsearch";
 import {InstantSearchNext} from 'react-instantsearch-nextjs';
 import Link from "@components/elements/link";
 import {H2} from "@components/elements/headers";
 import Image from "next/image";
-import {useId, useRef, useState} from "react";
+import {useRef} from "react";
 import Button from "@components/elements/button";
-import type {InstantSearch} from "instantsearch.js";
 import {UseSearchBoxProps} from "react-instantsearch";
 import {useRouter, useSearchParams} from "next/navigation";
+import {UseHitsProps} from "react-instantsearch-core/dist/es/connectors/useHits";
 
 type Props = {
   appId: string
@@ -32,14 +32,31 @@ const AlgoliaSearch = ({appId, searchIndex, searchApiKey}: Props) => {
         }}
         future={{preserveSharedStateOnUnmount: true}}
       >
-        <SearchBox/>
-
-        <Hits
-          hitComponent={Hit}
-          classNames={{list: "list-unstyled my-20", item: "border-b last:border-0"}}
-        />
+        <div className="space-y-10">
+          <SearchBox/>
+          <HitList/>
+        </div>
       </InstantSearchNext>
     </div>
+  )
+}
+
+const HitList = (props: UseHitsProps) => {
+  const {hits} = useHits(props);
+  if (hits.length === 0) {
+    return (
+      <p>No results for your search. Please try another search.</p>
+    )
+  }
+
+  return (
+    <ul className="list-unstyled">
+      {hits.map(hit =>
+        <li key={hit.objectID} className="border-b border-gray-300 last:border-0">
+          <Hit hit={hit as unknown as AlgoliaHit}/>
+        </li>
+      )}
+    </ul>
   )
 }
 
@@ -57,7 +74,7 @@ const Hit = ({hit}: { hit: AlgoliaHit }) => {
   return (
     <article className="@container flex justify-between gap-20 py-12">
       <div>
-        <H2>
+        <H2 className="text-m2">
           <Link href={hit.url.replace(hitUrl.origin, '')}>
             {hit.title}
           </Link>
@@ -93,11 +110,7 @@ const Hit = ({hit}: { hit: AlgoliaHit }) => {
 const SearchBox = (props?: UseSearchBoxProps) => {
   const router = useRouter();
   const {query, refine} = useSearchBox(props);
-  const {status} = useInstantSearch();
-  const [inputValue, setInputValue] = useState<string>(query);
   const inputRef = useRef<HTMLInputElement>(null);
-  const inputId = useId();
-  const isSearchStalled = status === 'stalled';
 
   if (query) {
     router.replace(`?q=${query}`, {scroll: false})
@@ -109,32 +122,29 @@ const SearchBox = (props?: UseSearchBoxProps) => {
       action=""
       role="search"
       noValidate
-      onSubmit={(event) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        if (inputRef.current) {
-          inputRef.current.blur();
-        }
-        refine(inputValue);
+      onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        inputRef.current?.blur();
+        refine(inputRef.current?.value || "");
       }}
       onReset={(event) => {
         event.preventDefault();
         event.stopPropagation();
-        setInputValue('');
         refine('');
 
         if (inputRef.current) {
+          inputRef.current.value = '';
           inputRef.current.focus();
         }
       }}
     >
       <div className="flex flex-col">
-        <label className="font-bold" htmlFor={inputId}>
+        <label className="font-bold" htmlFor="search-input">
           Keywords<span className="sr-only">&nbsp;Search</span>
         </label>
         <input
-          id={inputId}
+          id="search-input"
           className="rounded-full hocus:shadow-2xl max-w-xl h-20 text-m1"
           ref={inputRef}
           autoComplete="on"
@@ -144,8 +154,7 @@ const SearchBox = (props?: UseSearchBoxProps) => {
           maxLength={512}
           type="search"
           required
-          value={inputValue}
-          onChange={e => setInputValue(e.currentTarget.value)}
+          defaultValue={query}
           autoFocus
         />
       </div>
@@ -156,24 +165,14 @@ const SearchBox = (props?: UseSearchBoxProps) => {
         <Button
           secondary
           type="reset"
-          className={inputValue.length === 0 || isSearchStalled ? 'hidden' : undefined}
+          className={query.length === 0 ? 'hidden' : undefined}
         >
           Reset
         </Button>
       </div>
-      <StatusMessage status={status} query={query}/>
+      <div className="sr-only" aria-live="polite" aria-atomic>Showing results for {query}</div>
     </form>
   );
-}
-
-const StatusMessage = ({status, query}: { status: InstantSearch['status'], query: string }) => {
-  let message = status === 'loading' ? 'Loading' : null;
-  if (status != 'loading' && query) {
-    message = `Showing results for "${query}"`
-  }
-  return (
-    <div className="sr-only" aria-live="polite">{message}</div>
-  )
 }
 
 export default AlgoliaSearch;
