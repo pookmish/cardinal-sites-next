@@ -1,5 +1,5 @@
 import Paragraph from "@components/paragraphs/paragraph";
-import {ParagraphUnion} from "@lib/gql/__generated__/drupal";
+import {ParagraphUnion} from "@lib/gql/__generated__/drupal.d";
 import {isDraftMode} from "@lib/drupal/utils";
 
 const OneColumn = ({items}: { items: ParagraphUnion[] }) => {

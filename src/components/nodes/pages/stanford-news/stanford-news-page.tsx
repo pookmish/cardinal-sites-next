@@ -4,7 +4,7 @@ import Rows from "@components/paragraphs/rows/rows";
 import SocialIcons from "@components/nodes/pages/stanford-news/social-icons";
 import {H1} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {NodeStanfordNews} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d";
 import {isDraftMode} from "@lib/drupal/utils";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -32,7 +32,7 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
 
   return (
     <article className="centered mt-32" {...props}>
-      <div className="lg:w-3/4 mx-auto mb-20">
+      <div className="lg:w-10/12 mx-auto mb-48">
         <div className="flex flex-col">
           <H1 className="order-2">
             {node.title}
@@ -40,12 +40,7 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
 
           {topics &&
             <div className="order-1 flex gap-2">
-              {topics.map((topic, i) =>
-                <div key={topic.id}>
-                  {topic.name}
-                  {i != 2 && i != topics.length - 1 ? ',' : ''}
-                </div>
-              )}
+              {topics.map(topic => topic.name).join(', ')}
             </div>
           }
         </div>
@@ -75,7 +70,7 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
               alt={bannerImageAlt}
               loading="eager"
               fill
-              sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
+              sizes="(max-width: 768px) 100vw, (max-width: 900px) 75vw, 1000px"
             />
           </div>
           {node.suNewsBannerMediaCaption &&
@@ -87,7 +82,9 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
       }
 
       {node.suNewsComponents &&
+        <div className="lg:w-8/12 mx-auto">
         <Rows components={node.suNewsComponents}/>
+        </div>
       }
 
     </article>

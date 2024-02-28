@@ -33,7 +33,6 @@ tasks:
       rm -rf config/default &&
       mkdir -p config/default &&
       touch config/default/core.extension.yml &&
-      git checkout composer.* &&
       composer install --no-interaction &&
       mkdir -p blt &&
       cp .gitpod/blt.yml blt/local.blt.yml &&

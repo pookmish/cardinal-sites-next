@@ -5,7 +5,7 @@ import Oembed from "@components/elements/ombed";
 import React, {ComponentProps, HtmlHTMLAttributes} from "react";
 import {H2, H3, H4, H5, H6} from "@components/elements/headers";
 import {twMerge} from "tailwind-merge";
-import {Maybe} from "@lib/gql/__generated__/drupal";
+import {Maybe} from "@lib/gql/__generated__/drupal.d";
 import Mathjax from "@components/tools/mathjax";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -254,7 +254,7 @@ const WysiwygImage = ({src, alt, height, width, className = ''}: {
         src={src.trim()}
         alt={alt?.trim() || ""}
         fill
-        sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 1500px'}
+        sizes="(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 1500px"
       />
     </div>
   )

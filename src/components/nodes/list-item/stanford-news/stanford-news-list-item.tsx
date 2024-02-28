@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {NodeStanfordNews, TermUnion} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordNews, TermStanfordNewsTopic} from "@lib/gql/__generated__/drupal.d";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
@@ -12,7 +12,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
   const image = node.suNewsFeaturedMedia?.mediaImage
 
-  const topics: TermUnion[] = node.suNewsTopics ? node.suNewsTopics.slice(0, 3) : [];
+  const topics: TermStanfordNewsTopic[] = node.suNewsTopics ? node.suNewsTopics.slice(0, 3) : [];
   const Heading = headingLevel === 'h3' ? H3 : H2;
 
   const publishDate = node.suNewsPublishingDate ? new Date(node.suNewsPublishingDate.time).toLocaleDateString("en-us", {
@@ -50,11 +50,7 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
 
           {topics &&
             <div className="font-bold">
-              {topics.map((topic, index) =>
-                <span key={topic.id}>
-                  {topic.name}{(index != 2 && index != topics.length - 1) ? ", " : ""}
-                </span>
-              )}
+              {topics.map(topic => topic.name).join(', ')}
             </div>
           }
         </div>
@@ -66,7 +62,7 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
               src={image.url}
               alt={image.alt || ''}
               fill
-              sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
+              sizes="(max-width: 768px) 100vw, (max-width: 900px) 75vw, 1000px"
             />
           </div>
         }

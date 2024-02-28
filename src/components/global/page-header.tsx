@@ -8,7 +8,7 @@ import {
   MenuAvailable,
   StanfordBasicSiteSetting,
   StanfordGlobalMessage
-} from "@lib/gql/__generated__/drupal";
+} from "@lib/gql/__generated__/drupal.d";
 import {isDraftMode} from "@lib/drupal/utils";
 
 const PageHeader = async () => {
@@ -31,7 +31,7 @@ const PageHeader = async () => {
       </div>
       {globalMessageConfig && <GlobalMessage {...globalMessageConfig}/>}
       <div className="relative shadow">
-        <div className="centered min-h-50">
+        <div className="centered min-h-50 pr-24 lg:pr-0">
           <div className="flex w-full justify-between">
             <Lockup {...siteSettingsConfig} {...lockupSettingsConfig}/>
             <SiteSearchForm className="hidden lg:block"/>

@@ -3,7 +3,7 @@ import NodeCard from "@components/nodes/cards/node-card";
 import Button from "@components/elements/button";
 import {H2} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {ParagraphStanfordEntity} from "@lib/gql/__generated__/drupal";
+import {ParagraphStanfordEntity} from "@lib/gql/__generated__/drupal.d";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordEntity
@@ -21,10 +21,12 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
 
   return (
     <div className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20" {...props}>
-      {paragraph.suEntityHeadline && <H2 className="text-center">{paragraph.suEntityHeadline}</H2>}
+      {paragraph.suEntityHeadline &&
+        <H2 className="text-center">{paragraph.suEntityHeadline}</H2>
+      }
 
       {paragraph.suEntityDescription?.processed &&
-        <Wysiwyg html={paragraph.suEntityDescription?.processed}/>
+        <Wysiwyg html={paragraph.suEntityDescription.processed}/>
       }
 
       <div className={`grid ${gridClass} [&>*]:w-full gap-20 mb-20`}>

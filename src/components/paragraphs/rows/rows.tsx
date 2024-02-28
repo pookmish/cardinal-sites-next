@@ -1,9 +1,9 @@
 import OneColumn from "@components/paragraphs/rows/one-column";
 import TwoColumn from "@components/paragraphs/rows/two-column";
 import ThreeColumn from "@components/paragraphs/rows/three-column";
-import {ParagraphStanfordLayout, ParagraphUnion} from "@lib/gql/__generated__/drupal";
+import {ParagraphStanfordLayout, ParagraphUnion} from "@lib/gql/__generated__/drupal.d";
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
-import {LayoutParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.types";
+import {LayoutParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d";
 
 type Layout = Record<string, {
   item: ParagraphStanfordLayout

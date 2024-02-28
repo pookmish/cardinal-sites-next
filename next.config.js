@@ -18,6 +18,10 @@ const nextConfig = {
         hostname: drupalUrl.hostname,
       },
       {
+        protocol: 'https',
+        hostname: 'localist-images.azureedge.net'
+      },
+      {
         hostname: '**.gitpod.io'
       }
     ],
@@ -34,11 +38,16 @@ const nextConfig = {
           source: '/wp-:path*',
           destination: '/not-found',
         }
-      ],
+      ]
     };
   },
   async redirects() {
     return [
+      {
+        source: '/home',
+        destination: '/',
+        permanent: true
+      },
       {
         source: '/user/:slug*',
         destination: process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + '/user/login',

@@ -8,7 +8,7 @@ import Rows from "@components/paragraphs/rows/rows";
 import {H1, H2, H3} from "@components/elements/headers";
 import ScheduleParagraph from "@components/paragraphs/stanford-schedule/schedule-paragraph";
 import {HtmlHTMLAttributes} from "react";
-import {NodeStanfordEvent, ParagraphStanfordSchedule} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordEvent, ParagraphStanfordSchedule} from "@lib/gql/__generated__/drupal.d";
 import Email from "@components/elements/email";
 import Telephone from "@components/elements/telephone";
 import Link from "@components/elements/link";

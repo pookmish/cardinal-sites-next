@@ -2,7 +2,7 @@ import Link from "@components/elements/link";
 import {CalendarDaysIcon, MapPinIcon} from "@heroicons/react/20/solid";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal.d";
 import Address from "@components/elements/address";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -42,7 +42,7 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
           </Link>
         </Heading>
 
-        {(node.suEventType && node.suEventType?.length > 0) &&
+        {node.suEventType &&
           <div className="su-digital-red order-first">
             {node.suEventType[0].name}
           </div>

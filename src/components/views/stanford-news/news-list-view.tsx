@@ -1,6 +1,6 @@
 import StanfordNewsListItem from "@components/nodes/list-item/stanford-news/stanford-news-list-item";
 import LoadMoreList from "@components/elements/load-more-list";
-import {NodeStanfordNews} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d";
 
 interface Props {
   headingLevel?: "h2" | "h3"

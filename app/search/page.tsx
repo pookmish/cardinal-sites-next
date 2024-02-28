@@ -5,7 +5,7 @@ import {DrupalNode} from "next-drupal";
 import {Suspense} from "react";
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
 import {getConfigPage} from "@lib/gql/fetcher";
-import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal";
+import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal.d";
 import AlgoliaSearch from "./algolia-search";
 
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config

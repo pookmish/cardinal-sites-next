@@ -7,7 +7,7 @@ import {
   NodeStanfordPage,
   NodeStanfordPerson, NodeStanfordPolicy,
   NodeUnion, ParagraphStanfordWysiwyg, ParagraphUnion
-} from "@lib/gql/__generated__/drupal";
+} from "@lib/gql/__generated__/drupal.d";
 
 export const getNodeMetadata = (node: NodeUnion): Metadata => {
   const defaultData = {
@@ -50,11 +50,10 @@ export const getNodeMetadata = (node: NodeUnion): Metadata => {
 }
 
 const getBasicPageMetaData = (node: NodeStanfordPage) => {
-  const pageImage = node.suPageImage?.mediaImage
-  const bannerImage = node.suPageBanner?.suBannerImage?.mediaImage;
+  const pageTitleBannerImage = node.suPageBanner?.__typename === "ParagraphStanfordPageTitleBanner" && node.suPageBanner.suTitleBannerImage.mediaImage;
+  const bannerImage = node.suPageBanner?.__typename === "ParagraphStanfordBanner" && node.suPageBanner.suBannerImage?.mediaImage;
+  const image = node.suPageImage?.mediaImage || pageTitleBannerImage || bannerImage;
 
-  const imageUrl = pageImage?.url || bannerImage?.url
-  const imageAlt = pageImage?.alt || bannerImage?.alt || '';
   const description = node.suPageDescription || getFirstText(node.suPageComponents);
 
   return {
@@ -63,7 +62,7 @@ const getBasicPageMetaData = (node: NodeStanfordPage) => {
       type: 'website',
       title: node.title,
       description: description,
-      images: getOpenGraphImage(imageUrl, imageAlt)
+      images: image ? getOpenGraphImage(image.url, image.alt || "") : []
     }
   }
 }

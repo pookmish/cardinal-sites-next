@@ -1,6 +1,6 @@
 import {cache} from "@lib/drupal/get-cache"
 
-interface AccessToken {
+type AccessToken = {
   token_type: string
   expires_in: number
   access_token: string

@@ -1,5 +1,5 @@
 import CardViewGrid from "@components/views/card-view-grid";
-import {NodeStanfordPerson} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordPerson} from "@lib/gql/__generated__/drupal.d";
 
 interface Props {
   headingLevel?: "h2" | "h3"

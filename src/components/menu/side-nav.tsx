@@ -1,7 +1,7 @@
 import useActiveTrail from "@lib/hooks/useActiveTrail";
 import Link from "@components/elements/link";
 import {clsx} from "clsx";
-import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal";
+import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal.d";
 
 const SideNav = ({menuItems, currentPath}: { menuItems: MenuItemType[], currentPath?: string }) => {
   const activeTrail: string[] = useActiveTrail(menuItems, currentPath);
@@ -10,9 +10,9 @@ const SideNav = ({menuItems, currentPath}: { menuItems: MenuItemType[], currentP
   const topMenuItem = activeTrail.length > 0 ? menuItems.find(item => item.id === activeTrail[0]) : undefined;
   if (!topMenuItem) return null;
 
-  const subTree = topMenuItem.children || [];
+  const subTree = topMenuItem.children || undefined;
 
-  if (!subTree || (subTree.length <= 1 && typeof subTree[0]?.children)) {
+  if (!subTree || (subTree.length === 1 && !subTree[0].children)) {
     return null;
   }
 
@@ -21,7 +21,7 @@ const SideNav = ({menuItems, currentPath}: { menuItems: MenuItemType[], currentP
       <nav aria-label="Secondary Navigation">
         <ul className="list-unstyled">
           {subTree.map(item =>
-            <MenuItem key={item.id} {...item} activeTrail={activeTrail}/>
+            <MenuItem key={`sidenav--${item.id}`} {...item} activeTrail={activeTrail} level={0}/>
           )}
         </ul>
       </nav>
@@ -31,10 +31,10 @@ const SideNav = ({menuItems, currentPath}: { menuItems: MenuItemType[], currentP
 
 type MenuItemProps = MenuItemType & {
   activeTrail: string[]
-  level?: number
+  level: number
 }
 
-const MenuItem = ({id, url, title, children, activeTrail, level = 0}: MenuItemProps) => {
+const MenuItem = ({id, url, title, children, activeTrail, level}: MenuItemProps) => {
   // Need to list them out each so tailwind will include each for styling.
   const leftPadding = [
     'pl-10',

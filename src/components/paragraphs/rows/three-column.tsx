@@ -1,5 +1,5 @@
 import OneColumn from "@components/paragraphs/rows/one-column";
-import {ParagraphUnion} from "@lib/gql/__generated__/drupal";
+import {ParagraphUnion} from "@lib/gql/__generated__/drupal.d";
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
 import {isDraftMode} from "@lib/drupal/utils";
 
@@ -14,7 +14,7 @@ const ThreeColumn = ({items}: { items: ParagraphUnion[] }) => {
   }
 
   return (
-    <div className="centered grid md:grid-cols-3 gap-10 md:gap-20" {...draftProps}>
+    <div className="gutters grid md:grid-cols-3 gap-10 md:gap-20" {...draftProps}>
       <OneColumn items={leftItems}/>
       <OneColumn items={mainItems}/>
       <OneColumn items={rightItems}/>

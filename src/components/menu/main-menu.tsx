@@ -11,7 +11,7 @@ import useOutsideClick from "@lib/hooks/useOutsideClick";
 import {usePathname} from "next/navigation";
 import {useBoolean, useEventListener} from "usehooks-ts";
 import {clsx} from "clsx";
-import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal";
+import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal.d";
 
 const MainMenu = ({menuItems}: { menuItems: MenuItemType[] }) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -104,7 +104,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
     leftPadding[level],
     // Top menu item styles.
     {
-      'lg:border-l-0 lg:border-b-[6px] ml-5 lg:ml-0': level === 0,
+      'lg:border-l-0 lg:border-b-[6px] ml-5 lg:ml-0 lg:pb-2': level === 0,
       'border-digital-red lg:border-black': level === 0 && isCurrent,
       'border-transparent lg:border-foggy-dark': level === 0 && !isCurrent && inTrail,
       'border-transparent': level === 0 && !isCurrent && !inTrail,

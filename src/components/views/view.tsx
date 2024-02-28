@@ -18,7 +18,7 @@ import {
   NodeStanfordPerson,
   NodeStanfordPublication,
   NodeUnion
-} from "@lib/gql/__generated__/drupal";
+} from "@lib/gql/__generated__/drupal.d";
 
 interface Props {
   viewId: string;

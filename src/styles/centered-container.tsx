@@ -42,6 +42,13 @@ module.exports = function () {
           maxWidth: `${largestScreen}px`,
         },
       },
+      '.gutters': {
+        maxWidth: 'calc(100vw - ' + (smallestGutter * 2) + 'px)',
+        width: '100%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        ...maxWidths
+      },
     };
 
     addComponents(components);

@@ -7,7 +7,7 @@ import WysiwygParagraph from "@components/paragraphs/stanford-wysiwyg/wysiwyg-pa
 import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph";
 import ListParagraph from "@components/paragraphs/stanford-lists/list-paragraph";
 import {isDraftMode} from "@lib/drupal/utils";
-import {ParagraphUnion} from "@lib/gql/__generated__/drupal";
+import {ParagraphUnion} from "@lib/gql/__generated__/drupal.d";
 import {Suspense} from "react";
 
 const Paragraph = async ({paragraph}: { paragraph: ParagraphUnion }) => {

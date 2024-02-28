@@ -3,7 +3,7 @@ import Button from "@components/elements/button";
 import Image from "next/image";
 import {H2} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {MediaStanfordGalleryImage, ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal";
+import {MediaStanfordGalleryImage, ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal.d";
 import Link from "@components/elements/link";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -18,7 +18,7 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
       }
 
       {paragraph.suGalleryDescription?.processed &&
-        <Wysiwyg html={paragraph.suGalleryDescription?.processed}/>
+        <Wysiwyg html={paragraph.suGalleryDescription.processed}/>
       }
 
       {(paragraph.suGalleryImages && paragraph.suGalleryImages?.length > 0) &&
@@ -49,13 +49,13 @@ const GalleryImage = ({image}: { image: MediaStanfordGalleryImage }) => {
   return (
     <figure>
       <div className="relative aspect-[4/3] w-full">
-        <Link href={`/gallery-image/${image.id}`} className="block relative w-full h-full">
+        <Link href={`/gallery-image/${image.id}`} className="block relative w-full h-full" rel="nofollow">
           <Image
             className="object-cover"
             src={imageUrl}
             alt={image.suGalleryImage?.alt || ''}
             fill
-            sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
+            sizes="(max-width: 768px) 100vw, 1000px"
           />
         </Link>
       </div>

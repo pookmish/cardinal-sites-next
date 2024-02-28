@@ -4,13 +4,13 @@ import React, {HtmlHTMLAttributes, useCallback, useRef} from "react";
 import {useRouter} from "next/navigation";
 import ReactFocusLock from "react-focus-lock";
 import {XMarkIcon} from "@heroicons/react/20/solid";
-import {useEventListener, useLockedBody} from "usehooks-ts";
+import {useEventListener, useScrollLock} from "usehooks-ts";
 
 const InterceptionModal = ({children, ...props}: HtmlHTMLAttributes<HTMLDialogElement>) => {
   const overlay = useRef<HTMLDialogElement>(null);
   const wrapper = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  useLockedBody(true)
+  useScrollLock()
 
   const onDismiss = useCallback(() => router.back(), [router]);
 

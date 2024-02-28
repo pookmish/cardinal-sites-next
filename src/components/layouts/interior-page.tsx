@@ -2,7 +2,7 @@ import {getMenu} from "@lib/gql/fetcher";
 import SideNav from "@components/menu/side-nav";
 import {HtmlHTMLAttributes} from "react";
 import {isDraftMode} from "@lib/drupal/utils";
-import {MenuAvailable} from "@lib/gql/__generated__/drupal";
+import {MenuAvailable} from "@lib/gql/__generated__/drupal.d";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   currentPath: string

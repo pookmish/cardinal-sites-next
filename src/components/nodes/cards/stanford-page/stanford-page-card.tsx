@@ -2,7 +2,7 @@ import Link from "@components/elements/link";
 import Image from "next/image";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {NodeStanfordPage} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordPage} from "@lib/gql/__generated__/drupal.d";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPage
@@ -10,12 +10,14 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordPageCard = ({node, headingLevel, ...props}: Props) => {
-  const image = node.suPageImage?.mediaImage || node.suPageBanner?.suBannerImage?.mediaImage
+  const pageTitleBannerImage = node.suPageBanner?.__typename === "ParagraphStanfordPageTitleBanner" && node.suPageBanner.suTitleBannerImage.mediaImage;
+  const bannerImage = node.suPageBanner?.__typename === "ParagraphStanfordBanner" && node.suPageBanner.suBannerImage?.mediaImage;
+  const image = node.suPageImage?.mediaImage || pageTitleBannerImage || bannerImage;
 
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <article aria-labelledby={node.id} className="mx-auto shadow-xl border border-black-20 overflow-hidden" {...props}>
-      {image?.url &&
+      {image &&
         <div
           className="relative aspect-[16/9] w-full">
           <Image
@@ -23,7 +25,7 @@ const StanfordPageCard = ({node, headingLevel, ...props}: Props) => {
             src={image.url}
             alt={image.alt || ''}
             fill
-            sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
+            sizes="(max-width: 768px) 100vw, (max-width: 900px) 75vw, 1000px"
           />
         </div>
       }

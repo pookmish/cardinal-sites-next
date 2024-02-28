@@ -8,7 +8,7 @@ import Email from "@components/elements/email";
 import Link from "@components/elements/link";
 import {H1, H2} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
-import {NodeStanfordPerson} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordPerson} from "@lib/gql/__generated__/drupal.d";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPerson
@@ -29,7 +29,7 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
               alt=""
               loading="eager"
               fill
-              sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
+              sizes="(max-width: 768px) 100vw, (max-width: 900px) 75vw, 1000px"
             />
           </div>
         }

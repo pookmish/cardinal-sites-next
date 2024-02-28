@@ -1,7 +1,7 @@
 import {notFound} from "next/navigation";
 import {H1} from "@components/elements/headers";
 import Image from "next/image";
-import {MediaStanfordGalleryImage} from "@lib/gql/__generated__/drupal";
+import {MediaStanfordGalleryImage} from "@lib/gql/__generated__/drupal.d";
 import {graphqlClient} from "@lib/gql/fetcher";
 
 export const metadata = {
@@ -18,7 +18,7 @@ const Page = async ({params: {uuid}}: { params: { uuid: string } }) => {
     if (query.media?.__typename === 'MediaStanfordGalleryImage') media = query.media as MediaStanfordGalleryImage;
   } catch (e) {
   }
-  if (!media || !media.suGalleryImage?.url) notFound();
+  if (!media?.suGalleryImage?.url) notFound();
 
   return (
     <div className="centered mt-32">

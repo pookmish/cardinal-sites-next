@@ -1,5 +1,5 @@
 import {HtmlHTMLAttributes} from "react";
-import {ParagraphStanfordMediaCaption} from "@lib/gql/__generated__/drupal";
+import {ParagraphStanfordMediaCaption} from "@lib/gql/__generated__/drupal.d";
 import Image from "next/image";
 import Oembed from "@components/elements/ombed";
 import Link from "@components/elements/link";
@@ -24,7 +24,7 @@ const MediaCaptionParagraph = ({paragraph, ...props}: Props) => {
               src={image.url}
               alt={image.alt || ""}
               fill
-              sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
+              sizes="(max-width: 768px) 100vw, 1000px"
             />
           </div>
         }
