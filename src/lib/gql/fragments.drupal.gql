@@ -47,7 +47,8 @@ fragment FragmentNodeStanfordPage on NodeStanfordPage {
         ...FragmentTermInterface
     }
     suPageBanner {
-        ...FragmentParagraphUnion
+        ...FragmentParagraphStanfordBanner
+        ...FragmentParagraphStanfordPageTitleBanner
     }
     suPageComponents {
         ...FragmentParagraphUnion
@@ -119,7 +120,7 @@ fragment FragmentNodeStanfordEvent on NodeStanfordEvent {
         title
     }
     suEventSchedule {
-        ...FragmentParagraphUnion
+        ...FragmentParagraphStanfordSchedule
     }
     suEventSource {
         url
@@ -540,6 +541,13 @@ fragment FragmentParagraphStanfordWysiwyg on ParagraphStanfordWysiwyg {
     }
 }
 
+fragment FragmentParagraphStanfordPageTitleBanner on ParagraphStanfordPageTitleBanner {
+    ...FragmentParagraphInterface
+    suTitleBannerImage {
+        ...FragmentMediaImage
+    }
+}
+
 fragment FragmentParagraphUnion on ParagraphUnion {
     ...FragmentParagraphInterface
     ...FragmentParagraphStanfordAccordion
@@ -549,8 +557,6 @@ fragment FragmentParagraphUnion on ParagraphUnion {
     ...FragmentParagraphStanfordGallery
     ...FragmentParagraphStanfordList
     ...FragmentParagraphStanfordMediaCaption
-    ...FragmentParagraphStanfordPersonCtum
-    ...FragmentParagraphStanfordSchedule
     ...FragmentParagraphStanfordSpacer
     ...FragmentParagraphStanfordWysiwyg
     ...FragmentParagraphStanfordLayout

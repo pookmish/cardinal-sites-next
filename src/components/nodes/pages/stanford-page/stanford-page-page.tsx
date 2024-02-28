@@ -4,6 +4,7 @@ import {H1} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordPage} from "@lib/gql/__generated__/drupal.d";
 import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph";
+import PageTitleBannerParagraph from "@components/paragraphs/stanford-page-title-banner/page-title-banner-paragraph";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPage
@@ -17,12 +18,20 @@ const StanfordPagePage = ({node, ...props}: Props) => {
     <article {...props}>
       {node.suPageBanner &&
         <header aria-label="Page banner">
-          <BannerParagraph paragraph={node.suPageBanner} eagerLoadImage/>
+          {node.suPageBanner.__typename === "ParagraphStanfordBanner" &&
+            <BannerParagraph paragraph={node.suPageBanner} eagerLoadImage/>
+          }
+          {node.suPageBanner.__typename === "ParagraphStanfordPageTitleBanner" &&
+            <PageTitleBannerParagraph paragraph={node.suPageBanner} pageTitle={node.title}/>
+          }
         </header>
       }
-      <H1 className="mt-32 centered">
-        {node.title}
-      </H1>
+
+      {node.suPageBanner?.__typename !== "ParagraphStanfordPageTitleBanner"  &&
+        <H1 className="mt-32 centered">
+          {node.title}
+        </H1>
+      }
 
       {!fullWidth &&
         <InteriorPage currentPath={node.path}>

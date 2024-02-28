@@ -19,7 +19,7 @@ const Home = async () => {
 
   return (
     <article>
-      {entity.suPageBanner &&
+      {entity.suPageBanner?.__typename === "ParagraphStanfordBanner" &&
         <header aria-label="Home Page banner">
           <BannerParagraph paragraph={entity.suPageBanner} eagerLoadImage/>
         </header>

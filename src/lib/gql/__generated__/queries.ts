@@ -408,6 +408,50 @@ export const FragmentParagraphStanfordMediaCaptionFragmentDoc = gql`
 }
     ${FragmentParagraphInterfaceFragmentDoc}
 ${FragmentMediaUnionFragmentDoc}`;
+export const FragmentParagraphStanfordSpacerFragmentDoc = gql`
+    fragment FragmentParagraphStanfordSpacer on ParagraphStanfordSpacer {
+  ...FragmentParagraphInterface
+  suSpacerSize
+}
+    ${FragmentParagraphInterfaceFragmentDoc}`;
+export const FragmentParagraphStanfordWysiwygFragmentDoc = gql`
+    fragment FragmentParagraphStanfordWysiwyg on ParagraphStanfordWysiwyg {
+  ...FragmentParagraphInterface
+  suWysiwygText {
+    processed
+  }
+}
+    ${FragmentParagraphInterfaceFragmentDoc}`;
+export const FragmentParagraphStanfordLayoutFragmentDoc = gql`
+    fragment FragmentParagraphStanfordLayout on ParagraphStanfordLayout {
+  ...FragmentParagraphInterface
+}
+    ${FragmentParagraphInterfaceFragmentDoc}`;
+export const FragmentParagraphUnionFragmentDoc = gql`
+    fragment FragmentParagraphUnion on ParagraphUnion {
+  ...FragmentParagraphInterface
+  ...FragmentParagraphStanfordAccordion
+  ...FragmentParagraphStanfordBanner
+  ...FragmentParagraphStanfordCard
+  ...FragmentParagraphStanfordEntity
+  ...FragmentParagraphStanfordGallery
+  ...FragmentParagraphStanfordList
+  ...FragmentParagraphStanfordMediaCaption
+  ...FragmentParagraphStanfordSpacer
+  ...FragmentParagraphStanfordWysiwyg
+  ...FragmentParagraphStanfordLayout
+}
+    ${FragmentParagraphInterfaceFragmentDoc}
+${FragmentParagraphStanfordAccordionFragmentDoc}
+${FragmentParagraphStanfordBannerFragmentDoc}
+${FragmentParagraphStanfordCardFragmentDoc}
+${FragmentParagraphStanfordEntityFragmentDoc}
+${FragmentParagraphStanfordGalleryFragmentDoc}
+${FragmentParagraphStanfordListFragmentDoc}
+${FragmentParagraphStanfordMediaCaptionFragmentDoc}
+${FragmentParagraphStanfordSpacerFragmentDoc}
+${FragmentParagraphStanfordWysiwygFragmentDoc}
+${FragmentParagraphStanfordLayoutFragmentDoc}`;
 export const FragmentParagraphStanfordPersonCtumFragmentDoc = gql`
     fragment FragmentParagraphStanfordPersonCtum on ParagraphStanfordPersonCtum {
   ...FragmentParagraphInterface
@@ -448,54 +492,6 @@ export const FragmentParagraphStanfordScheduleFragmentDoc = gql`
 ${FragmentSmartDateTypeFragmentDoc}
 ${FragmentAddressTypeFragmentDoc}
 ${FragmentParagraphStanfordPersonCtumFragmentDoc}`;
-export const FragmentParagraphStanfordSpacerFragmentDoc = gql`
-    fragment FragmentParagraphStanfordSpacer on ParagraphStanfordSpacer {
-  ...FragmentParagraphInterface
-  suSpacerSize
-}
-    ${FragmentParagraphInterfaceFragmentDoc}`;
-export const FragmentParagraphStanfordWysiwygFragmentDoc = gql`
-    fragment FragmentParagraphStanfordWysiwyg on ParagraphStanfordWysiwyg {
-  ...FragmentParagraphInterface
-  suWysiwygText {
-    processed
-  }
-}
-    ${FragmentParagraphInterfaceFragmentDoc}`;
-export const FragmentParagraphStanfordLayoutFragmentDoc = gql`
-    fragment FragmentParagraphStanfordLayout on ParagraphStanfordLayout {
-  ...FragmentParagraphInterface
-}
-    ${FragmentParagraphInterfaceFragmentDoc}`;
-export const FragmentParagraphUnionFragmentDoc = gql`
-    fragment FragmentParagraphUnion on ParagraphUnion {
-  ...FragmentParagraphInterface
-  ...FragmentParagraphStanfordAccordion
-  ...FragmentParagraphStanfordBanner
-  ...FragmentParagraphStanfordCard
-  ...FragmentParagraphStanfordEntity
-  ...FragmentParagraphStanfordGallery
-  ...FragmentParagraphStanfordList
-  ...FragmentParagraphStanfordMediaCaption
-  ...FragmentParagraphStanfordPersonCtum
-  ...FragmentParagraphStanfordSchedule
-  ...FragmentParagraphStanfordSpacer
-  ...FragmentParagraphStanfordWysiwyg
-  ...FragmentParagraphStanfordLayout
-}
-    ${FragmentParagraphInterfaceFragmentDoc}
-${FragmentParagraphStanfordAccordionFragmentDoc}
-${FragmentParagraphStanfordBannerFragmentDoc}
-${FragmentParagraphStanfordCardFragmentDoc}
-${FragmentParagraphStanfordEntityFragmentDoc}
-${FragmentParagraphStanfordGalleryFragmentDoc}
-${FragmentParagraphStanfordListFragmentDoc}
-${FragmentParagraphStanfordMediaCaptionFragmentDoc}
-${FragmentParagraphStanfordPersonCtumFragmentDoc}
-${FragmentParagraphStanfordScheduleFragmentDoc}
-${FragmentParagraphStanfordSpacerFragmentDoc}
-${FragmentParagraphStanfordWysiwygFragmentDoc}
-${FragmentParagraphStanfordLayoutFragmentDoc}`;
 export const FragmentNodeStanfordEventFragmentDoc = gql`
     fragment FragmentNodeStanfordEvent on NodeStanfordEvent {
   ...FragmentNodeInterface
@@ -533,7 +529,7 @@ export const FragmentNodeStanfordEventFragmentDoc = gql`
     title
   }
   suEventSchedule {
-    ...FragmentParagraphUnion
+    ...FragmentParagraphStanfordSchedule
   }
   suEventSource {
     url
@@ -553,7 +549,8 @@ export const FragmentNodeStanfordEventFragmentDoc = gql`
 ${FragmentTermInterfaceFragmentDoc}
 ${FragmentParagraphUnionFragmentDoc}
 ${FragmentSmartDateTypeFragmentDoc}
-${FragmentAddressTypeFragmentDoc}`;
+${FragmentAddressTypeFragmentDoc}
+${FragmentParagraphStanfordScheduleFragmentDoc}`;
 export const FragmentNodeStanfordEventSeriesFragmentDoc = gql`
     fragment FragmentNodeStanfordEventSeries on NodeStanfordEventSeries {
   ...FragmentNodeInterface
@@ -605,6 +602,15 @@ ${FragmentMediaUnionFragmentDoc}
 ${FragmentParagraphUnionFragmentDoc}
 ${FragmentDateTimeFragmentDoc}
 ${FragmentTermInterfaceFragmentDoc}`;
+export const FragmentParagraphStanfordPageTitleBannerFragmentDoc = gql`
+    fragment FragmentParagraphStanfordPageTitleBanner on ParagraphStanfordPageTitleBanner {
+  ...FragmentParagraphInterface
+  suTitleBannerImage {
+    ...FragmentMediaImage
+  }
+}
+    ${FragmentParagraphInterfaceFragmentDoc}
+${FragmentMediaImageFragmentDoc}`;
 export const FragmentNodeStanfordPageFragmentDoc = gql`
     fragment FragmentNodeStanfordPage on NodeStanfordPage {
   ...FragmentNodeInterface
@@ -615,7 +621,8 @@ export const FragmentNodeStanfordPageFragmentDoc = gql`
     ...FragmentTermInterface
   }
   suPageBanner {
-    ...FragmentParagraphUnion
+    ...FragmentParagraphStanfordBanner
+    ...FragmentParagraphStanfordPageTitleBanner
   }
   suPageComponents {
     ...FragmentParagraphUnion
@@ -627,6 +634,8 @@ export const FragmentNodeStanfordPageFragmentDoc = gql`
 }
     ${FragmentNodeInterfaceFragmentDoc}
 ${FragmentTermInterfaceFragmentDoc}
+${FragmentParagraphStanfordBannerFragmentDoc}
+${FragmentParagraphStanfordPageTitleBannerFragmentDoc}
 ${FragmentParagraphUnionFragmentDoc}
 ${FragmentMediaUnionFragmentDoc}`;
 export const FragmentNodeStanfordPersonFragmentDoc = gql`

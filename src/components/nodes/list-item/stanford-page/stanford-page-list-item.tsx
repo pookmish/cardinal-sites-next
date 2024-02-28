@@ -10,7 +10,9 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
-  const image = node.suPageImage?.mediaImage || node.suPageBanner?.suBannerImage?.mediaImage;
+  const pageTitleBannerImage = node.suPageBanner?.__typename === "ParagraphStanfordPageTitleBanner" && node.suPageBanner.suTitleBannerImage.mediaImage;
+  const bannerImage = node.suPageBanner?.__typename === "ParagraphStanfordBanner" && node.suPageBanner.suBannerImage?.mediaImage;
+  const image = node.suPageImage?.mediaImage || pageTitleBannerImage || bannerImage;
 
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
@@ -28,7 +30,7 @@ const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
           }
         </div>
 
-        {image?.url &&
+        {image &&
           <div
             className="order-1 @4xl:order-2 relative aspect-[16/9] h-fit w-full @4xl:w-1/4 shrink-0">
             <Image
@@ -36,7 +38,7 @@ const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
               src={image.url}
               alt={image.alt || ''}
               fill
-              sizes={'(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 500px'}
+              sizes="(max-width: 768px) 100vw, 1000px"
             />
           </div>
         }

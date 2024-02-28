@@ -12,6 +12,8 @@ export type ListParagraphBehaviors = {
 }
 
 export type CardParagraphBehaviors = {
+  heading?: string
+  hide_heading?: boolean
   link_style?: 'action' | 'button'
 }
 
