@@ -6,7 +6,7 @@ import {InstantSearchNext} from 'react-instantsearch-nextjs';
 import Link from "@components/elements/link";
 import {H2} from "@components/elements/headers";
 import Image from "next/image";
-import {useEffect, useId, useRef, useState} from "react";
+import {useId, useRef, useState} from "react";
 import Button from "@components/elements/button";
 import type {InstantSearch} from "instantsearch.js";
 import {UseSearchBoxProps} from "react-instantsearch";
@@ -97,12 +97,11 @@ const SearchBox = (props?: UseSearchBoxProps) => {
   const [inputValue, setInputValue] = useState<string>(query);
   const inputRef = useRef<HTMLInputElement>(null);
   const inputId = useId();
-
   const isSearchStalled = status === 'stalled';
 
-  useEffect(() => {
-    if (query) router.replace(`?q=${query}`, {scroll: false})
-  }, [router, query])
+  if (query) {
+    router.replace(`?q=${query}`, {scroll: false})
+  }
 
   return (
     <form

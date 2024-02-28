@@ -4,13 +4,15 @@ import Button from "@components/elements/button";
 import {H2} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {ParagraphStanfordEntity} from "@lib/gql/__generated__/drupal.d";
+import {twMerge} from "tailwind-merge";
+import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordEntity
 }
 
 const EntityParagraph = async ({paragraph, ...props}: Props) => {
-
+  const behaviors = getParagraphBehaviors(paragraph);
   const entities = paragraph.suEntityItem || [];
   const gridCols = [
     'lg:grid-cols-3',
@@ -22,7 +24,9 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
   return (
     <div className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20" {...props}>
       {paragraph.suEntityHeadline &&
-        <H2 className="text-center">{paragraph.suEntityHeadline}</H2>
+        <H2 className={twMerge("text-center", behaviors.stanford_teaser?.hide_heading && "sr-only")}>
+          {paragraph.suEntityHeadline}
+        </H2>
       }
 
       {paragraph.suEntityDescription?.processed &&

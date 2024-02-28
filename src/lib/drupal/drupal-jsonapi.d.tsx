@@ -8,6 +8,7 @@ export type LayoutParagraphBehaviors = {
 export type ListParagraphBehaviors = {
   hide_empty?: boolean
   empty_message?: string
+  hide_heading?: boolean
 }
 
 export type CardParagraphBehaviors = {
@@ -22,9 +23,14 @@ export type BannerParagraphBehaviors = {
   hide_heading?: string
 }
 
+export type TeaserParagraphBehaviors = {
+  hide_heading?: boolean
+}
+
 export type ParagraphBehaviors = {
   layout_paragraphs?: LayoutParagraphBehaviors
   list_paragraph?: ListParagraphBehaviors
   su_card_styles?: CardParagraphBehaviors
   hero_pattern?: BannerParagraphBehaviors
+  stanford_teaser?: TeaserParagraphBehaviors
 }
