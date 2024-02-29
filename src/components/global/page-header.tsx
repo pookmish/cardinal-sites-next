@@ -22,7 +22,7 @@ const PageHeader = async () => {
       <div className="bg-cardinal-red">
         <div className="centered py-3">
           <a
-            className="font-stanford no-underline font-regular text-m0 hocus:underline text-white hocus:text-white leading-none"
+            className="font-stanford no-underline font-regular text-20 hocus:underline text-white hocus:text-white leading-none"
             href="https://www.stanford.edu"
           >
             Stanford University
