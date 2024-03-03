@@ -49,6 +49,6 @@ export const SideNavComponent: Story = {
       {id: "2", title: "Second Item", url: "/bar", ...defaultMenuProps},
       {id: "3", title: "Third Item", url: "/baz", ...defaultMenuProps},
     ],
-    currentPath: "/foo/baz/bin",
+    activeTrail: ["4", "6", "8"],
   },
 };
