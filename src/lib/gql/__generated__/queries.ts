@@ -405,6 +405,13 @@ export const FragmentParagraphStanfordMediaCaptionFragmentDoc = gql`
   suMediaCaptionMedia {
     ...FragmentMediaUnion
   }
+  suMediaCaptionLink {
+    url
+    title
+  }
+  suMediaCaptionCaption {
+    processed
+  }
 }
     ${FragmentParagraphInterfaceFragmentDoc}
 ${FragmentMediaUnionFragmentDoc}`;
