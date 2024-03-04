@@ -1,8 +1,37 @@
 import {MetadataRoute} from "next";
-import {getAllNodePaths} from "@lib/gql/fetcher";
+import {graphqlClient} from "@lib/gql/fetcher";
+import {headers} from "next/headers";
+import {NodeUnion} from "@lib/gql/__generated__/drupal";
+
+// https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+export const revalidate = false;
+export const dynamic = 'force-static';
 
 const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const nodePaths = await getAllNodePaths()
-  return nodePaths.map(path => ({url: path}));
+  const nodeQuery = await graphqlClient({next: {tags: ['paths']}}).AllNodes();
+  const nodes: NodeUnion[] = [];
+
+  nodeQuery.nodeStanfordCourses.nodes.map(node => nodes.push(node as NodeUnion));
+  nodeQuery.nodeStanfordEventSeriesItems.nodes.map(node => nodes.push(node as NodeUnion));
+  nodeQuery.nodeStanfordEvents.nodes.map(node => nodes.push(node as NodeUnion));
+  nodeQuery.nodeStanfordNewsItems.nodes.map(node => nodes.push(node as NodeUnion));
+  nodeQuery.nodeStanfordPages.nodes.map(node => nodes.push(node as NodeUnion));
+  nodeQuery.nodeStanfordPeople.nodes.map(node => nodes.push(node as NodeUnion));
+  nodeQuery.nodeStanfordPolicies.nodes.map(node => nodes.push(node as NodeUnion));
+
+
+  const sitemap: MetadataRoute.Sitemap = [];
+  const domain = 'https://' + headers().get('host');
+
+  nodes.map(node => sitemap.push({
+    url: `${domain}${node.path}`,
+    lastModified: new Date(node.changed.time),
+    priority: node.__typename === "NodeStanfordPage" ? 1 : .8,
+    changeFrequency: node.__typename === "NodeStanfordPage" ? "weekly": "monthly"
+  }));
+
+  return sitemap;
 }
+
+
 export default Sitemap;

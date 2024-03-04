@@ -1,5 +1,3 @@
-"use server";
-
 import {getSdk} from "@lib/gql/__generated__/queries";
 import {
   ConfigPagesQuery,
@@ -34,6 +32,8 @@ export const getEntityFromPath = cache(async <T extends NodeUnion | TermUnion, >
   redirect?: RouteRedirect
   error?: string
 }> => {
+  "use server";
+
   const headers = await buildHeaders({draftMode})
   let entity: T | undefined;
   let query: RouteQuery;
@@ -51,6 +51,8 @@ export const getEntityFromPath = cache(async <T extends NodeUnion | TermUnion, >
 })
 
 export const getConfigPage = async <T extends ConfigPagesUnion, >(configPageType: ConfigPagesUnion['__typename']): Promise<T | undefined> => {
+  "use server";
+
   let query: ConfigPagesQuery;
   try {
     query = await getConfigPagesData();
@@ -79,6 +81,8 @@ const getConfigPagesData = cache(async (): Promise<ConfigPagesQuery> => {
 })
 
 export const getMenu = cache(async (name?: MenuAvailable, draftMode?: boolean): Promise<MenuItem[]> => {
+  "use server";
+
   const headers = await buildHeaders({draftMode});
   const menu = await graphqlClient({headers, next: {tags: ['menus', `menu:${name || "main"}`]}}).Menu({name});
   const menuItems = (menu.menu?.items || []) as MenuItem[];
@@ -92,6 +96,8 @@ export const getMenu = cache(async (name?: MenuAvailable, draftMode?: boolean): 
 })
 
 export const getAllNodePaths = cache(async () => {
+  "use server";
+
   const nodeQuery = await graphqlClient({next: {tags: ['paths']}}).AllNodes();
   const nodePaths: string[] = [];
   nodeQuery.nodeStanfordCourses.nodes.map(node => nodePaths.push(node.path));

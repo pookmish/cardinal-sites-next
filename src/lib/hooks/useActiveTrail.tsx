@@ -1,10 +1,8 @@
-
-import {useCallback, useMemo} from "react";
 import {MenuItem} from "@lib/gql/__generated__/drupal.d";
 
 const useActiveTrail = (menuItems: MenuItem[], currentPath?: string) => {
 
-  const getActiveTrail = useCallback((menuItems: MenuItem[], trail: string[] = []): string[]  => {
+  const getActiveTrail = (menuItems: MenuItem[], trail: string[] = []): string[]  => {
     let childTrail, currentTrail;
     for (let i = 0; i < menuItems.length; i++) {
       currentTrail = [...trail];
@@ -25,9 +23,9 @@ const useActiveTrail = (menuItems: MenuItem[], currentPath?: string) => {
 
     }
     return [];
-  }, [currentPath]);
+  };
 
-  return useMemo(() => getActiveTrail(menuItems), [getActiveTrail, menuItems]);
+  return getActiveTrail(menuItems);
 }
 
 export default useActiveTrail;

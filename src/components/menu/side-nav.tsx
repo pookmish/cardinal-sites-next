@@ -1,31 +1,16 @@
-import useActiveTrail from "@lib/hooks/useActiveTrail";
 import Link from "@components/elements/link";
 import {clsx} from "clsx";
 import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal.d";
 
-const SideNav = ({menuItems, currentPath}: { menuItems: MenuItemType[], currentPath?: string }) => {
-  const activeTrail: string[] = useActiveTrail(menuItems, currentPath);
-
-  // Peel off the menu items from the parent.
-  const topMenuItem = activeTrail.length > 0 ? menuItems.find(item => item.id === activeTrail[0]) : undefined;
-  if (!topMenuItem) return null;
-
-  const subTree = topMenuItem.children || undefined;
-
-  if (!subTree || (subTree.length === 1 && !subTree[0].children)) {
-    return null;
-  }
-
+const SideNav = ({menuItems, activeTrail}: { menuItems: MenuItemType[], activeTrail: string[] }) => {
   return (
-    <aside className="hidden lg:block w-1/4 shrink-0 order-first">
-      <nav aria-label="Secondary Navigation">
-        <ul className="list-unstyled">
-          {subTree.map(item =>
-            <MenuItem key={`sidenav--${item.id}`} {...item} activeTrail={activeTrail} level={0}/>
-          )}
-        </ul>
-      </nav>
-    </aside>
+    <nav aria-label="Secondary Navigation">
+      <ul className="list-unstyled">
+        {menuItems.map(item =>
+          <MenuItem key={`sidenav--${item.id}`} {...item} activeTrail={activeTrail} level={0}/>
+        )}
+      </ul>
+    </nav>
   )
 }
 
