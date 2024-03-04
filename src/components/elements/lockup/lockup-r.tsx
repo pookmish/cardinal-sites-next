@@ -9,7 +9,7 @@ const LockupR = ({line5, siteName, logoUrl}: FooterLockupProps) => {
         <div className="flex flex-col lg:flex-row gap-4">
           <div>
             <LockupLogo logoUrl={logoUrl} siteName={siteName}/>
-            <div className="font-normal">{line5}</div>
+            <div className="font-normal uppercase mt-4">{line5}</div>
           </div>
         </div>
       </Link>

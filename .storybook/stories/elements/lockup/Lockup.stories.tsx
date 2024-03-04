@@ -98,13 +98,6 @@ export const LockupM: Story = {
     suLockupOptions: "m"
   }
 }
-export const LockupN: Story = {
-  render: LockupDisplay.render,
-  args: {
-    ...LockupDisplay.args,
-    suLockupOptions: "n"
-  }
-}
 export const LockupO: Story = {
   render: LockupDisplay.render,
   args: {
