@@ -489,6 +489,13 @@ fragment FragmentParagraphStanfordMediaCaption on ParagraphStanfordMediaCaption 
     suMediaCaptionMedia {
         ...FragmentMediaUnion
     }
+    suMediaCaptionLink {
+        url
+        title
+    }
+    suMediaCaptionCaption {
+        processed
+    }
 }
 
 fragment FragmentParagraphStanfordPersonCtum on ParagraphStanfordPersonCtum {
