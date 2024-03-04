@@ -65,7 +65,7 @@ type MenuItemProps = MenuItemType & {
 }
 
 const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps) => {
-  const sublistRef = useRef<HTMLUListElement>(null);
+  const sublistRef = useRef<HTMLLIElement>(null);
   const [positionRight, setPositionRight] = useState<boolean>(true)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const {value: submenuOpen, setFalse: closeSubmenu, toggle: toggleSubmenu} = useBoolean(false)
@@ -86,9 +86,9 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
   const handleEscape = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape" && submenuOpen) {
       closeSubmenu()
-      buttonRef.current?.focus();
+      if (level === 0) buttonRef.current?.focus();
     }
-  }, [submenuOpen, closeSubmenu]);
+  }, [level, submenuOpen, closeSubmenu]);
 
   useEventListener("keydown", handleEscape)
 
@@ -133,6 +133,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
 
   return (
     <li
+      ref={sublistRef}
       className={clsx("m-0 py-2 lg:py-0 relative border-b first:border-t last:border-0 border-cool-grey lg:border-black-20 lg:relative lg:mr-5 last:lg:mr-0", level === 0 && "lg:border-b-0 first:border-t-0")}
     >
       <div className="flex items-center justify-between lg:justify-end">
@@ -166,10 +167,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
       </div>
 
       {children &&
-        <ul
-          ref={sublistRef}
-          className={subMenuStyles}
-        >
+        <ul className={subMenuStyles}>
           {children.map(item =>
             <MenuItem
               key={item.id}
@@ -183,4 +181,5 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
     </li>
   )
 }
+
 export default MainMenu;

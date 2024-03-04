@@ -133,16 +133,9 @@ const StanfordEventPage = ({node, ...props}: Props) => {
         }
       </div>
 
+      <Wysiwyg html={node.body?.processed} className="lg:w-3/4 mx-auto"/>
 
-      {node.body?.processed &&
-        <div className="lg:w-3/4 mx-auto">
-          <Wysiwyg html={node.body.processed}/>
-        </div>
-      }
-
-      {node.suEventComponents &&
-        <Rows components={node.suEventComponents}/>
-      }
+      <Rows components={node.suEventComponents}/>
 
       {node.suEventSchedule &&
         <div>

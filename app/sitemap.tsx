@@ -1,6 +1,5 @@
 import {MetadataRoute} from "next";
-import {graphqlClient} from "@lib/gql/fetcher";
-import {headers} from "next/headers";
+import {graphqlClient} from "@lib/gql/gql-client";
 import {NodeUnion} from "@lib/gql/__generated__/drupal";
 
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
@@ -19,12 +18,10 @@ const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   nodeQuery.nodeStanfordPeople.nodes.map(node => nodes.push(node as NodeUnion));
   nodeQuery.nodeStanfordPolicies.nodes.map(node => nodes.push(node as NodeUnion));
 
-
   const sitemap: MetadataRoute.Sitemap = [];
-  const domain = 'https://' + headers().get('host');
 
   nodes.map(node => sitemap.push({
-    url: `${domain}${node.path}`,
+    url: `https://localhost:3000${node.path}`,
     lastModified: new Date(node.changed.time),
     priority: node.__typename === "NodeStanfordPage" ? 1 : .8,
     changeFrequency: node.__typename === "NodeStanfordPage" ? "weekly": "monthly"

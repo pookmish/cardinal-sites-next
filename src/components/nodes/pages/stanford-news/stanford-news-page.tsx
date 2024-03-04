@@ -81,11 +81,7 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
         </figure>
       }
 
-      {node.suNewsComponents &&
-        <div className="lg:w-8/12 mx-auto">
-        <Rows components={node.suNewsComponents}/>
-        </div>
-      }
+      <Rows components={node.suNewsComponents} className="lg:w-8/12 mx-auto"/>
 
     </article>
   )

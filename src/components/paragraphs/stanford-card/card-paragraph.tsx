@@ -68,9 +68,7 @@ const CardParagraph = ({paragraph, ...props}: Props) => {
             </div>
           }
 
-          {paragraph.suCardBody &&
-            <Wysiwyg html={paragraph.suCardBody.processed} className="order-3"/>
-          }
+          <Wysiwyg html={paragraph.suCardBody?.processed} className="order-3"/>
 
           {paragraph.suCardLink?.url &&
             <div className="order-4">

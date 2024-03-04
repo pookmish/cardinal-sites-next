@@ -2,7 +2,7 @@ import SiteSearchForm from "@components/search/site-search-form";
 import MainMenu from "@components/menu/main-menu";
 import GlobalMessage from "@components/config-pages/global-message";
 import Lockup from "@components/elements/lockup/lockup";
-import {getConfigPage, getMenu} from "@lib/gql/fetcher";
+import {getConfigPage, getMenu} from "@lib/gql/gql-queries";
 import {
   LockupSetting,
   MenuAvailable,

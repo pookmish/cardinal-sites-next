@@ -26,11 +26,8 @@ const StanfordPublicationPage = ({node, ...props}: Props) => {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-20">
-        {node.suPublicationComponents &&
-          <div className="order-2 lg:order-1 flex-grow">
-            <Rows components={node.suPublicationComponents}/>
-          </div>
-        }
+
+        <Rows components={node.suPublicationComponents} className="order-2 lg:order-1 flex-grow"/>
 
         <aside
           className="order-1 lg:order-2 lg:w-1/4 shrink-0 flex flex-col gap-10">

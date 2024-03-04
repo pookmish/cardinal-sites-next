@@ -1,4 +1,3 @@
-import {getSdk} from "@lib/gql/__generated__/queries";
 import {
   ConfigPagesQuery,
   ConfigPagesUnion,
@@ -9,23 +8,10 @@ import {
   RouteRedirect,
   TermUnion
 } from "@lib/gql/__generated__/drupal.d";
-import {GraphQLClient} from "graphql-request";
-import type {RequestConfig} from "graphql-request/src/types";
 import {cache} from "react";
 import {buildHeaders} from "@lib/drupal/utils";
 import {cache as nodeCache} from "@lib/drupal/get-cache";
-
-export const graphqlClient = (requestConfig: RequestConfig = {}) => {
-  const client = new GraphQLClient(
-    process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + '/graphql',
-    {
-      ...requestConfig,
-      // Use fetch function so Next.js will be able to cache it normally.
-      fetch: async (input: URL | RequestInfo, init?: RequestInit) => fetch(input, init),
-    }
-  )
-  return getSdk(client);
-}
+import {graphqlClient} from "@lib/gql/gql-client";
 
 export const getEntityFromPath = cache(async <T extends NodeUnion | TermUnion, >(path: string, draftMode: boolean = false): Promise<{
   entity?: T,
@@ -69,6 +55,8 @@ export const getConfigPage = async <T extends ConfigPagesUnion, >(configPageType
 }
 
 const getConfigPagesData = cache(async (): Promise<ConfigPagesQuery> => {
+  "use server";
+
   // Config page data doesn't change if a user is in "Draft" mode or not, so the data can be cached for both situations.
   const cachedData = nodeCache.get<ConfigPagesQuery>('config-pages')
   if (cachedData) return cachedData;

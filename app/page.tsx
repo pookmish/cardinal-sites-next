@@ -1,6 +1,6 @@
 import Rows from "@components/paragraphs/rows/rows";
 import {notFound} from "next/navigation";
-import {getEntityFromPath} from "@lib/gql/fetcher";
+import {getEntityFromPath} from "@lib/gql/gql-queries";
 import {NodeStanfordPage, NodeUnion} from "@lib/gql/__generated__/drupal.d";
 import {isDraftMode} from "@lib/drupal/utils";
 import {Metadata} from "next";

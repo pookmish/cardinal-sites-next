@@ -29,9 +29,7 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
         </H2>
       }
 
-      {paragraph.suEntityDescription?.processed &&
-        <Wysiwyg html={paragraph.suEntityDescription.processed}/>
-      }
+      <Wysiwyg html={paragraph.suEntityDescription?.processed}/>
 
       <div className={`grid ${gridClass} [&>*]:w-full gap-20 mb-20`}>
         {entities.map(entity =>

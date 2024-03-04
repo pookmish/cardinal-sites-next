@@ -9,15 +9,17 @@ import {Maybe} from "@lib/gql/__generated__/drupal.d";
 import Mathjax from "@components/tools/mathjax";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  html: string
-  className?: Maybe<string>
+  html?: Maybe<string>
 }
 
-const Wysiwyg = ({html, className = "", ...props}: Props) => {
-  className = twMerge(className, 'wysiwyg');
+const Wysiwyg = ({html, className, ...props}: Props) => {
+  if (!html) return;
+  // Remove comments and empty lines.
+  html = html.replaceAll(/<!--[\s\S]*?-->/g, '').replaceAll(/(^(\r\n|\n|\r)$)|(^(\r\n|\n|\r))|^\s*$/gm, "");
+
   const addMathJax = html.match(/\$\$.*\$\$/) || html.match(/\\\[.*\\\]/) || html.match(/\\\(.*\\\)/);
   return (
-    <div className={className} {...props}>
+    <div className={twMerge('wysiwyg', className)} {...props}>
       {addMathJax && <Mathjax/>}
       {formatHtml(html)}
     </div>
@@ -29,7 +31,7 @@ const options: HTMLReactParserOptions = {
 
     if (domNode instanceof Element) {
       const nodeProps = attributesToProps(domNode.attribs);
-      nodeProps.className = fixClasses(nodeProps.className) || '';
+      nodeProps.className = fixClasses(nodeProps.className);
       const NodeName = domNode.name as React.ElementType
       const children: DOMNode[] = domNode.children as DOMNode[];
 
@@ -43,7 +45,7 @@ const options: HTMLReactParserOptions = {
 
         case "div":
           delete nodeProps.role;
-          if (!!nodeProps.className?.indexOf('media-entity-wrapper')) {
+          if (nodeProps.className && !!nodeProps.className.indexOf('media-entity-wrapper')) {
             return cleanMediaMarkup(domNode);
           }
           return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
@@ -107,9 +109,9 @@ const options: HTMLReactParserOptions = {
   }
 }
 
-const fixClasses = (classes: string | boolean = ''): undefined | string => {
-  if (!classes) return undefined;
-  // Pass the classes so that we can easily replace a whole class instead of parts of them.
+const fixClasses = (classes?: string | boolean): string => {
+  if (!classes) return '';
+  // Pad the classes so that we can easily replace a whole class instead of parts of them.
   classes = ` ${classes} `;
 
   classes = classes.replaceAll(' su-', ' ')
@@ -122,22 +124,22 @@ const fixClasses = (classes: string | boolean = ''): undefined | string => {
     .replaceAll(' font-splash ', ' splash-text text-m4 ')
     .replaceAll(' callout-text ', ' font-bold text-m2 ')
     .replaceAll(' related-text ', ' shadow-lg border border-black-20 p-16 ')
-    .replaceAll(' drop-cap ', ' text-m1 first-letter:font-bold first-letter:text-m5 first-letter:float-left first-letter:my-2 first-letter:mr-4 ')
-    .replace(/tablesaw.*? /g, ' ')
+    .replaceAll(' drop-cap ', ' text-m1 first-letter:font-bold first-letter:text-m6 first-letter:float-left first-letter:my-2 first-letter:mr-4 ')
+    .replaceAll(' intro-text ', ' text-m2 ')
+    .replace(/ tablesaw.*? /g, ' ')
     .replace(/ +/g, ' ')
     .trim();
 
   classes = classes.split(' ')
     .filter(className => className.trim().length >= 1)
-    .filter((value, index, self) => self?.indexOf(value) === index)
     .join(' ');
 
-  return classes.trim();
+  return twMerge(classes.trim());
 }
 
 const cleanMediaMarkup = (node: Element) => {
   const nodeProps = attributesToProps(node.attribs);
-  nodeProps.className = fixClasses(nodeProps.className) || '';
+  nodeProps.className = fixClasses(nodeProps.className);
 
   const getImage = (node: Element): ComponentProps<any> | undefined => {
     let img;
@@ -204,14 +206,15 @@ const cleanMediaMarkup = (node: Element) => {
     const figCaption = getFigCaption(node);
 
     if (figCaption) {
-      nodeProps.className += ' table';
+      nodeProps.className = twMerge('table', nodeProps.className);
       if (!!nodeProps.className?.indexOf('mx-auto')) nodeProps.className += ' w-full'
       delete nodeProps.role;
       return (
         <figure {...nodeProps}>
           <WysiwygImage src={src} alt={alt} height={height} width={width}/>
-          <figcaption
-            className="table-caption caption-bottom text-center">{domToReact(figCaption, options)}</figcaption>
+          <figcaption className="table-caption caption-bottom text-center">
+            {domToReact(figCaption, options)}
+          </figcaption>
         </figure>
       )
     }
@@ -229,7 +232,7 @@ const cleanMediaMarkup = (node: Element) => {
   return <NodeName {...nodeProps}>{domToReact(node.children as DOMNode[], options)}</NodeName>
 }
 
-const WysiwygImage = ({src, alt, height, width, className = ''}: {
+const WysiwygImage = ({src, alt, height, width, className}: {
   src: string,
   alt?: Maybe<string>,
   height?: Maybe<string>,

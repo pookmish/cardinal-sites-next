@@ -10,7 +10,9 @@ const Editori11y = () => {
       // @ts-ignore
       new Ed11y({
         checkRoots: '#main-content',
-        ignoreElements: 'nav'
+        ignoreElements: 'nav',
+        allowHide: false,
+        allowOK: false,
       });
     }
   }

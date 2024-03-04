@@ -11,7 +11,7 @@ import {
   ParagraphStanfordList
 } from "@lib/gql/__generated__/drupal.d";
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
-import {graphqlClient} from "@lib/gql/fetcher";
+import {graphqlClient} from "@lib/gql/gql-client";
 import {buildHeaders} from "@lib/drupal/utils";
 import {twMerge} from "tailwind-merge";
 
@@ -34,9 +34,8 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
           {paragraph.suListHeadline}
         </H2>
       }
-      {paragraph.suListDescription?.processed &&
-        <Wysiwyg html={paragraph.suListDescription.processed}/>
-      }
+
+      <Wysiwyg html={paragraph.suListDescription?.processed}/>
 
       {viewItems &&
         <View

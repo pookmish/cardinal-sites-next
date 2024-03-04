@@ -3,7 +3,7 @@ import NodePage from "@components/nodes/pages/node-page";
 import {Metadata} from "next";
 import {getNodeMetadata} from "./metadata";
 import {isDraftMode} from "@lib/drupal/utils";
-import {getAllNodePaths, getEntityFromPath} from "@lib/gql/fetcher";
+import {getAllNodePaths, getEntityFromPath} from "@lib/gql/gql-queries";
 import {NodeUnion} from "@lib/gql/__generated__/drupal.d";
 import UnpublishedBanner from "@components/elements/unpublished-banner";
 

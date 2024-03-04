@@ -65,9 +65,7 @@ const BannerParagraph = ({paragraph, eagerLoadImage, ...props}: Props) => {
               </div>
             }
 
-            {paragraph.suBannerBody &&
-              <Wysiwyg html={paragraph.suBannerBody.processed} className="order-3 text-m0"/>
-            }
+            <Wysiwyg html={paragraph.suBannerBody?.processed} className="order-3 text-m0"/>
 
             {paragraph.suBannerButton?.url &&
               <div className="order-4">

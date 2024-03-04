@@ -1,6 +1,6 @@
 import LocalFooter from "@components/config-pages/local-footer";
 import SuperFooter from "@components/config-pages/super-footer";
-import {getConfigPage} from "@lib/gql/fetcher";
+import {getConfigPage} from "@lib/gql/gql-queries";
 import {StanfordLocalFooter, StanfordSuperFooter} from "@lib/gql/__generated__/drupal.d";
 
 const PageFooter = async () => {

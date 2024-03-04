@@ -54,11 +54,9 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
 
       <section className="flex flex-col lg:flex-row">
         <div className="flex-1 shrink-0">
-          {node.body && <Wysiwyg html={node.body.processed}/>}
+          <Wysiwyg html={node.body?.processed}/>
 
-          {node.suPersonComponents &&
-            <Rows components={node.suPersonComponents}/>
-          }
+          <Rows components={node.suPersonComponents}/>
 
           {node.suPersonEducation &&
             <div className="mb-10">
@@ -76,9 +74,7 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
               <H2 className="text-m1">Research</H2>
               <div className="grid grid-cols-2 gap-10">
                 {node.suPersonResearch.map((research, i) =>
-                  <div key={`${node.id}-research-${i}`}>
-                    {research.processed}
-                  </div>
+                  <Wysiwyg key={`${node.id}-research-${i}`} html={research.processed}/>
                 )}
               </div>
             </div>
@@ -146,9 +142,8 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
               <MapPinIcon width={30} className="shrink-0"/>
               <div>
                 <H2 className="text-m1">Location</H2>
-                {node.suPersonLocationAddress &&
-                  <Wysiwyg html={node.suPersonLocationAddress.processed}/>
-                }
+
+                <Wysiwyg html={node.suPersonLocationAddress?.processed}/>
 
                 {node.suPersonMapUrl?.url &&
                   <div>

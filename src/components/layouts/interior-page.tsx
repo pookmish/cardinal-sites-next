@@ -1,4 +1,4 @@
-import {getMenu} from "@lib/gql/fetcher";
+import {getMenu} from "@lib/gql/gql-queries";
 import SideNav from "@components/menu/side-nav";
 import {HtmlHTMLAttributes} from "react";
 import {isDraftMode} from "@lib/drupal/utils";

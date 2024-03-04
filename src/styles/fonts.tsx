@@ -1,7 +1,7 @@
 import {Source_Sans_3} from "next/font/google";
 
-export const sourceSansPro = Source_Sans_3({
+export const sourceSans3 = Source_Sans_3({
   subsets: ['latin'],
-  weight: ['400', '600', '700'],
+  display: "swap",
   variable: "--font-sans",
 })

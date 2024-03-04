@@ -1,5 +1,5 @@
 import '../src/styles/index.css';
-import {sourceSansPro} from "../src/styles/fonts";
+import {sourceSans3} from "../src/styles/fonts";
 import PageHeader from "@components/global/page-header";
 import PageFooter from "@components/global/page-footer";
 import Editori11y from "@components/tools/editorially";
@@ -7,7 +7,7 @@ import Script from "next/script";
 import {isDraftMode} from "@lib/drupal/utils";
 import BackToTop from "@components/elements/back-to-top";
 import Link from "@components/elements/link";
-import {getConfigPage} from "@lib/gql/fetcher";
+import {getConfigPage} from "@lib/gql/gql-queries";
 import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal.d";
 import {GoogleAnalytics} from "@next/third-parties/google";
 
@@ -25,7 +25,7 @@ const RootLayout = async ({children, modal}: { children: React.ReactNode, modal:
   const draftMode = isDraftMode();
   const siteSettingsConfig = await getConfigPage<StanfordBasicSiteSetting>('StanfordBasicSiteSetting')
   return (
-    <html lang="en" className={`${sourceSansPro.className} font-sans`}>
+    <html lang="en" className={sourceSans3.className}>
     {draftMode && <Editori11y/>}
 
     {/* Add Google Analytics and SiteImprove when not in draft mode. */}

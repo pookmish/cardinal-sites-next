@@ -26,9 +26,7 @@ const StanfordCoursePage = ({node, ...props}: Props) => {
           <div>{node.suCourseCode}</div>
         }
 
-        {node.body &&
-          <Wysiwyg html={node.body.processed}/>
-        }
+        <Wysiwyg html={node.body?.processed}/>
 
         {node.suCourseTags &&
           <div>
