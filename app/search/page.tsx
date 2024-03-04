@@ -4,7 +4,7 @@ import {H1} from "@components/elements/headers";
 import {DrupalNode} from "next-drupal";
 import {Suspense} from "react";
 import {DrupalJsonApiParams} from "drupal-jsonapi-params";
-import {getConfigPage} from "@lib/gql/fetcher";
+import {getConfigPage} from "@lib/gql/gql-queries";
 import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal.d";
 import AlgoliaSearch from "./algolia-search";
 

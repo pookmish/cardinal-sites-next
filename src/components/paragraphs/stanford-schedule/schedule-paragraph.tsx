@@ -32,9 +32,7 @@ const ScheduleParagraph = ({paragraph, ...props}: Props) => {
         </div>
       }
 
-      {paragraph.suScheduleDescription &&
-        <Wysiwyg html={paragraph.suScheduleDescription.processed}/>
-      }
+      <Wysiwyg html={paragraph.suScheduleDescription?.processed}/>
 
       {paragraph.suScheduleLocation &&
         <Address {...paragraph.suScheduleLocation}/>

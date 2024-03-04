@@ -76,9 +76,7 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
           </div>
         }
 
-        {node.body?.processed &&
-          <Wysiwyg html={node.body.processed}/>
-        }
+        <Wysiwyg html={node.body?.processed}/>
 
         {node.suPolicyRelated &&
           <div>

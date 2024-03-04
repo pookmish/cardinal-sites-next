@@ -32,9 +32,9 @@ const GlobalMessage = ({
         </div>
         <div className="[&_a]:text-white [&_a.btn]:bg-transparent [&_a.btn]:border-2 [&_a.btn]:border-white">
           {suGlobalMsgHeader && <H2>{suGlobalMsgHeader}</H2>}
-          {suGlobalMsgMessage?.processed &&
-            <Wysiwyg html={suGlobalMsgMessage.processed}/>
-          }
+
+          <Wysiwyg html={suGlobalMsgMessage?.processed}/>
+
           {suGlobalMsgLink?.url &&
             <Link href={suGlobalMsgLink.url} className="text-white">
               {suGlobalMsgLink.title}

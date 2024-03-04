@@ -1,9 +1,11 @@
 import OneColumn from "@components/paragraphs/rows/one-column";
 import TwoColumn from "@components/paragraphs/rows/two-column";
 import ThreeColumn from "@components/paragraphs/rows/three-column";
-import {ParagraphStanfordLayout, ParagraphUnion} from "@lib/gql/__generated__/drupal.d";
+import {Maybe, ParagraphStanfordLayout, ParagraphUnion} from "@lib/gql/__generated__/drupal.d";
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
 import {LayoutParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d";
+import {HTMLAttributes} from "react";
+import {twMerge} from "tailwind-merge";
 
 type Layout = Record<string, {
   item: ParagraphStanfordLayout
@@ -12,8 +14,12 @@ type Layout = Record<string, {
   children: ParagraphUnion[]
 }>
 
-const Rows = async ({components}: { components: ParagraphUnion[] }) => {
+type Props = HTMLAttributes<HTMLDivElement> & {
+  components?: Maybe<ParagraphUnion[]>
+}
 
+const Rows = async ({components, className, ...props}: Props) => {
+  if (!components) return;
   const layouts: Layout = {};
 
   // Set the layouts first.
@@ -40,7 +46,7 @@ const Rows = async ({components}: { components: ParagraphUnion[] }) => {
   })
 
   return (
-    <div className="space-y-32">
+    <div className={twMerge("space-y-32", className)} {...props}>
       {Object.keys(layouts).map(layoutId =>
         <Row
           key={layoutId}

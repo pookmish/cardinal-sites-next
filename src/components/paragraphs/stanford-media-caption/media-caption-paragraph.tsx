@@ -37,9 +37,8 @@ const MediaCaptionParagraph = ({paragraph, ...props}: Props) => {
             </Link>
           }
 
-          {paragraph.suMediaCaptionCaption &&
-            <Wysiwyg html={paragraph.suMediaCaptionCaption.processed}/>
-          }
+          <Wysiwyg html={paragraph.suMediaCaptionCaption?.processed}/>
+
         </figcaption>
       </figure>
     </div>

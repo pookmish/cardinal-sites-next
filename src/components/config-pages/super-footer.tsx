@@ -14,9 +14,8 @@ const SuperFooter = ({suSuperFootEnabled, suSuperFootTitle, suSuperFootText, suS
           {suSuperFootTitle &&
             <H2 className="text-m2">{suSuperFootTitle}</H2>
           }
-          {suSuperFootText?.processed &&
-            <Wysiwyg html={suSuperFootText.processed}/>
-          }
+
+          <Wysiwyg html={suSuperFootText?.processed}/>
         </div>
 
         <div className="flex-1 text-right">

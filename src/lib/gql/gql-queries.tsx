@@ -1,4 +1,5 @@
-import {getSdk} from "@lib/gql/__generated__/queries";
+"use server";
+
 import {
   ConfigPagesQuery,
   ConfigPagesUnion,
@@ -9,31 +10,16 @@ import {
   RouteRedirect,
   TermUnion
 } from "@lib/gql/__generated__/drupal.d";
-import {GraphQLClient} from "graphql-request";
-import type {RequestConfig} from "graphql-request/src/types";
 import {cache} from "react";
 import {buildHeaders} from "@lib/drupal/utils";
 import {cache as nodeCache} from "@lib/drupal/get-cache";
-
-export const graphqlClient = (requestConfig: RequestConfig = {}) => {
-  const client = new GraphQLClient(
-    process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + '/graphql',
-    {
-      ...requestConfig,
-      // Use fetch function so Next.js will be able to cache it normally.
-      fetch: async (input: URL | RequestInfo, init?: RequestInit) => fetch(input, init),
-    }
-  )
-  return getSdk(client);
-}
+import {graphqlClient} from "@lib/gql/gql-client";
 
 export const getEntityFromPath = cache(async <T extends NodeUnion | TermUnion, >(path: string, draftMode: boolean = false): Promise<{
   entity?: T,
   redirect?: RouteRedirect
   error?: string
 }> => {
-  "use server";
-
   const headers = await buildHeaders({draftMode})
   let entity: T | undefined;
   let query: RouteQuery;
@@ -51,8 +37,6 @@ export const getEntityFromPath = cache(async <T extends NodeUnion | TermUnion, >
 })
 
 export const getConfigPage = async <T extends ConfigPagesUnion, >(configPageType: ConfigPagesUnion['__typename']): Promise<T | undefined> => {
-  "use server";
-
   let query: ConfigPagesQuery;
   try {
     query = await getConfigPagesData();
@@ -81,8 +65,6 @@ const getConfigPagesData = cache(async (): Promise<ConfigPagesQuery> => {
 })
 
 export const getMenu = cache(async (name?: MenuAvailable, draftMode?: boolean): Promise<MenuItem[]> => {
-  "use server";
-
   const headers = await buildHeaders({draftMode});
   const menu = await graphqlClient({headers, next: {tags: ['menus', `menu:${name || "main"}`]}}).Menu({name});
   const menuItems = (menu.menu?.items || []) as MenuItem[];
@@ -96,8 +78,6 @@ export const getMenu = cache(async (name?: MenuAvailable, draftMode?: boolean): 
 })
 
 export const getAllNodePaths = cache(async () => {
-  "use server";
-
   const nodeQuery = await graphqlClient({next: {tags: ['paths']}}).AllNodes();
   const nodePaths: string[] = [];
   nodeQuery.nodeStanfordCourses.nodes.map(node => nodePaths.push(node.path));

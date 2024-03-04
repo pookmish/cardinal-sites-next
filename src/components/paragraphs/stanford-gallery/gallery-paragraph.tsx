@@ -17,9 +17,7 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
         <H2>{paragraph.suGalleryHeadline}</H2>
       }
 
-      {paragraph.suGalleryDescription?.processed &&
-        <Wysiwyg html={paragraph.suGalleryDescription.processed}/>
-      }
+      <Wysiwyg html={paragraph.suGalleryDescription?.processed}/>
 
       {(paragraph.suGalleryImages && paragraph.suGalleryImages?.length > 0) &&
         <ul className="list-unstyled grid @3xl:grid-cols-2 @6xl:grid-cols-3 gap-20">
@@ -44,7 +42,7 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
 
 const GalleryImage = ({image}: { image: MediaStanfordGalleryImage }) => {
   const imageUrl = image.suGalleryImage?.url
-  if(!imageUrl) return;
+  if (!imageUrl) return;
 
   return (
     <figure>

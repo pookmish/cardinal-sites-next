@@ -104,9 +104,7 @@ const LocalFooter = ({
               </ul>
             }
 
-            {suLocalFootPrCo &&
-              <Wysiwyg html={suLocalFootPrCo.processed}/>
-            }
+            <Wysiwyg html={suLocalFootPrCo?.processed}/>
           </div>
 
           <div>
@@ -126,9 +124,7 @@ const LocalFooter = ({
                 })}
               </ul>
             }
-            {suLocalFootSeCo &&
-              <Wysiwyg html={suLocalFootSeCo.processed}/>
-            }
+            <Wysiwyg html={suLocalFootSeCo?.processed}/>
 
           </div>
 
@@ -151,17 +147,12 @@ const LocalFooter = ({
               </ul>
             }
 
-            {suLocalFootTr2Co &&
-              <Wysiwyg html={suLocalFootTr2Co.processed}/>
-            }
+            <Wysiwyg html={suLocalFootTr2Co?.processed}/>
 
           </div>
 
-          <div>
-            {suLocalFootTrCo &&
-              <Wysiwyg html={suLocalFootTrCo.processed}/>
-            }
-          </div>
+          <Wysiwyg html={suLocalFootTrCo?.processed}/>
+
         </div>
       </div>
     </div>
