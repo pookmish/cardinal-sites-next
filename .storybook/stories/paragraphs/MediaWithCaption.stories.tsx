@@ -26,6 +26,7 @@ export const Caption: Story = {
   args: {
     paragraph: {
       id:"6fa23537-dda7-4861-930a-648445d9904c",
+      __typename: 'ParagraphStanfordMediaCaption',
       composition: {},
       langcode: {},
       created: {
