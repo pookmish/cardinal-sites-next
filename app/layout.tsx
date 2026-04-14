@@ -34,7 +34,7 @@ export const metadata = {
   },
 }
 
-const RootLayout = async ({children, modal}: {children: React.ReactNode; modal: React.ReactNode}) => {
+const RootLayout = async ({children}: {children: React.ReactNode}) => {
   "use cache: remote"
 
   const homePath = await getHomePagePath()
@@ -49,7 +49,6 @@ const RootLayout = async ({children, modal}: {children: React.ReactNode; modal: 
           </a>
         </nav>
         <GlobalPage>{children}</GlobalPage>
-        <div>{modal}</div>
       </body>
     </html>
   )

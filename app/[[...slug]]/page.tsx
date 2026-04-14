@@ -1,6 +1,6 @@
 import NodePage from "@components/nodes/pages/node-page"
 import {NodeUnion} from "@lib/gql/__generated__/graphql"
-import {getAllNodes, getEntityFromPath, getHomePagePath} from "@lib/gql/gql-queries"
+import {getAllNodes, getAllRedirectPaths, getEntityFromPath, getHomePagePath} from "@lib/gql/gql-queries"
 import {notFound, redirect} from "next/navigation"
 import {getPathFromContext, PageProps, Slug} from "@lib/utils/utils"
 
@@ -24,16 +24,14 @@ const Page = async (props: PageProps) => {
 }
 
 export const generateStaticParams = async (): Promise<Array<Slug>> => {
-  const pagesToBuild = parseInt(process.env.BUILD_PAGES || "0")
-  if (pagesToBuild === 0) return [{slug: ["home"]}]
+  const homePagePath = await getHomePagePath()
+  const redirectPaths = await getAllRedirectPaths()
 
-  const paths = (await getAllNodes())
-    .map(node => node.path)
-    .filter(path => !path?.startsWith("/internal")) as Array<string>
-
+  const paths = (await getAllNodes()).map(node => (node.path === homePagePath ? "/" : node.path)) as Array<string>
+  redirectPaths.forEach(p => paths.push(p))
   const nodePaths = paths.map(path => ({slug: path.split("/").filter(part => !!part)}))
   nodePaths.push({slug: ["home"]})
-  return pagesToBuild < 0 ? nodePaths : nodePaths.slice(0, pagesToBuild)
+  return nodePaths
 }
 
 export default Page

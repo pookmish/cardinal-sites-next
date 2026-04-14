@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "DEV=true next dev --webpack",
     "build": "next build --webpack",
+    "localize-assets": "node scripts/localize-assets.mjs",
     "analyze": "ANALYZE=true next build",
     "preview": "next build --webpack && next start",
     "start": "next start",

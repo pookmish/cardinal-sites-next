@@ -6,6 +6,7 @@ const drupalUrl = new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL as string)
 
 module.exports = async (_phase: string) => {
   const nextConfig: NextConfig = {
+    output: process.env.NODE_ENV !== "development" ? "export" : undefined,
     env: {...(await vaultEnvVars())},
     cacheComponents: true,
     cacheLife: {
@@ -45,55 +46,6 @@ module.exports = async (_phase: string) => {
       fetches: {
         fullUrl: true,
       },
-    },
-    async redirects() {
-      return [
-        {
-          source: "/wp-:path",
-          destination: "/not-found",
-          permanent: true,
-        },
-        {
-          source: "/wp-:slug/:path*",
-          destination: "/not-found",
-          permanent: true,
-        },
-        {
-          source: "/node/:slug",
-          destination: process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + "/node/:slug",
-          permanent: true,
-        },
-        {
-          source: "/saml/login",
-          destination: process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + "/user/login",
-          permanent: true,
-        },
-      ]
-    },
-    async headers() {
-      if (process.env.NEXT_PUBLIC_DOMAIN) {
-        return []
-      }
-      return [
-        {
-          source: "/:path*",
-          headers: [
-            {
-              key: "X-Robots-Tag",
-              value: "noindex,nofollow,noarchive",
-            },
-          ],
-        },
-      ]
-    },
-    async rewrites() {
-      // Rewrite document urls so the user doesn't change domains. They will stay on the FE.
-      return [
-        {
-          source: "/files/:site(\\w+)/:slug(.*[txt|rtf|doc|docx|ppt|pptx|xls|xlsx|pdf]$)",
-          destination: `${drupalUrl.protocol}//${drupalUrl.hostname}/sites/:site/files/:slug`,
-        },
-      ]
     },
   }
   return nextConfig
