@@ -1,7 +1,7 @@
 import "../src/styles/index.css"
 import {Icon} from "next/dist/lib/metadata/types/metadata-types"
 import {sourceSans3, stanford} from "../src/styles/typography/fonts"
-import UserAnalytics from "@components/elements/user-analytics"
+import UserAnalytics from "@components/elements/user-analytics/user-analytics"
 import {twJoin} from "tailwind-merge"
 import GlobalPage from "@components/layouts/global-page"
 

@@ -2,15 +2,10 @@
 
 import {usePathname} from "next/navigation"
 import {useIsClient} from "usehooks-ts"
-import {useEffect} from "react"
 
 const useDrupalWindowSync = () => {
   const pathname = usePathname()
   const isClient = useIsClient()
-
-  useEffect(() => {
-    fetch("/api/draft/disable").catch(_e => console.warn("Disabling preview mode failed"))
-  }, [])
 
   if (!isClient) return
 
