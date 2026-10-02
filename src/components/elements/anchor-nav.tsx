@@ -81,20 +81,30 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
   const calculateOverflow = useCallback(() => {
     if (!horizontal || !navRef.current) return
 
-    const containerWidth = navRef.current.clientWidth
     const widths = itemWidthsRef.current
-
     if (widths.length === 0) return
+
+    // clientWidth includes the wrapper's padding (centered-container) and not the nav's border, so measure the
+    // space the nav can actually occupy.
+    const wrapperStyles = getComputedStyle(navRef.current)
+    const navElement = navRef.current.querySelector("nav")
+    const navStyles = navElement ? getComputedStyle(navElement) : undefined
+    const containerWidth =
+      navRef.current.clientWidth -
+      parseFloat(wrapperStyles.paddingLeft) -
+      parseFloat(wrapperStyles.paddingRight) -
+      (navStyles ? parseFloat(navStyles.borderLeftWidth) + parseFloat(navStyles.borderRightWidth) : 0)
 
     const headingWidth = headingRef.current?.offsetWidth || 0
     const totalItemsWidth = widths.reduce((a, b) => a + b, 0)
+    // The "See More" item is always rendered (invisibly when unused), so it takes up room either way.
+    const overflowBtnWidth = overflowContainerRef.current?.offsetWidth ?? 80
 
-    if (headingWidth + totalItemsWidth <= containerWidth) {
+    if (headingWidth + totalItemsWidth + overflowBtnWidth <= containerWidth) {
       setVisibleCount(null)
       return
     }
 
-    const overflowBtnWidth = overflowBtnRef.current?.offsetWidth ?? 80
     const available = containerWidth - overflowBtnWidth - headingWidth
 
     let sum = 0
@@ -148,7 +158,8 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
 
     observer.observe(navRef.current)
     return () => observer.disconnect()
-  }, [horizontal, calculateOverflow])
+    // The nav only mounts once headings are found, so re-run to attach the observer after that.
+  }, [horizontal, calculateOverflow, headings.length])
 
   if (headings.length === 0) return null
 

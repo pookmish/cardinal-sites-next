@@ -167,5 +167,11 @@ const checkCacheClearAuth = async (username: string, password: string): Promise<
 // If this is changed, the directory /app/internal may need to be renamed,
 // or removed if the whole site is behind authentication.
 export const config = {
-  matcher: ["/preview/:path*", "/internal/:path*", "/user", "/system/:path*"],
+  matcher: [
+    "/preview/:path*",
+    "/system/:path*",
+    // Comment or remove these if the site does not have authentication.
+    "/internal/:path*",
+    "/user",
+  ],
 }

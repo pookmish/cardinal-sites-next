@@ -223,11 +223,7 @@ export type CitationSuArticleJournal = CitationInterface & {
   suAuthor?: Maybe<Array<NameType>>;
   /** Day */
   suDay?: Maybe<Scalars['Int']['output']>;
-  /**
-   * DOI id to the journal web page without the “https://doi.org/”. For example
-   * enter only for a link that is https://doi.org/12.345/123123 enter only
-   * <strong>12.345/123123</strong>.
-   */
+  /** DOI id to the journal web page without the “https://doi.org/”. For example enter only for a link that is https://doi.org/12.345/123123 enter only <strong>12.345/123123</strong>. */
   suDoi?: Maybe<Scalars['String']['output']>;
   /** Issue */
   suIssue?: Maybe<Scalars['Int']['output']>;
@@ -242,8 +238,7 @@ export type CitationSuArticleJournal = CitationInterface & {
   /**
    * Add a URL to an external source for this publication item such as https://example.com/.
    * This can be the same url as the DOI link.
-   * By adding an external source URL, all listings of this publication will link
-   * to the external source instead of a page on this website.
+   * By adding an external source URL, all listings of this publication will link to the external source instead of a page on this website.
    */
   suUrl?: Maybe<Link>;
   /** Volume */
@@ -278,8 +273,7 @@ export type CitationSuArticleNewspaper = CitationInterface & {
   /**
    * Add a URL to an external source for this publication item such as https://example.com/.
    * This can be the same url as the DOI link.
-   * By adding an external source URL, all listings of this publication will link
-   * to the external source instead of a page on this website.
+   * By adding an external source URL, all listings of this publication will link to the external source instead of a page on this website.
    */
   suUrl?: Maybe<Link>;
   /** Year */
@@ -303,18 +297,11 @@ export type CitationSuBook = CitationInterface & {
   id: Scalars['ID']['output'];
   /** Author(s) */
   suAuthor?: Maybe<Array<NameType>>;
-  /**
-   * DOI id to the journal web page without the “https://doi.org/”. For example
-   * enter only for a link that is https://doi.org/12.345/123123 enter only
-   * <strong>12.345/123123</strong>.
-   */
+  /** DOI id to the journal web page without the “https://doi.org/”. For example enter only for a link that is https://doi.org/12.345/123123 enter only <strong>12.345/123123</strong>. */
   suDoi?: Maybe<Scalars['String']['output']>;
   /** Edition */
   suEdition?: Maybe<Scalars['Int']['output']>;
-  /**
-   * Page numbers may vary based on the e-book viewer used. In these cases it is
-   * preferred to use chapter or paragraph numbers if they are provided (eg. chap.
-   */
+  /** Page numbers may vary based on the e-book viewer used. In these cases it is preferred to use chapter or paragraph numbers if they are provided (eg. chap. 2 or para. 11) */
   suPage?: Maybe<Scalars['String']['output']>;
   /** Publisher */
   suPublisher?: Maybe<Scalars['String']['output']>;
@@ -325,8 +312,7 @@ export type CitationSuBook = CitationInterface & {
   /**
    * Add a URL to an external source for this publication item such as https://example.com/.
    * This can be the same url as the DOI link.
-   * By adding an external source URL, all listings of this publication will link
-   * to the external source instead of a page on this website.
+   * By adding an external source URL, all listings of this publication will link to the external source instead of a page on this website.
    */
   suUrl?: Maybe<Link>;
   /** Year */
@@ -383,11 +369,7 @@ export type CitationSuThesi = CitationInterface & {
   suAuthor?: Maybe<Array<NameType>>;
   /** Day */
   suDay?: Maybe<Scalars['Int']['output']>;
-  /**
-   * DOI id to the journal web page without the “https://doi.org/”. For example
-   * enter only for a link that is https://doi.org/12.345/123123 enter only
-   * <strong>12.345/123123</strong>.
-   */
+  /** DOI id to the journal web page without the “https://doi.org/”. For example enter only for a link that is https://doi.org/12.345/123123 enter only <strong>12.345/123123</strong>. */
   suDoi?: Maybe<Scalars['String']['output']>;
   /** Type of Dissertation */
   suGenre?: Maybe<Scalars['String']['output']>;
@@ -398,8 +380,7 @@ export type CitationSuThesi = CitationInterface & {
   /**
    * Add a URL to an external source for this publication item such as https://example.com/.
    * This can be the same url as the DOI link.
-   * By adding an external source URL, all listings of this publication will link
-   * to the external source instead of a page on this website.
+   * By adding an external source URL, all listings of this publication will link to the external source instead of a page on this website.
    */
   suUrl?: Maybe<Link>;
   /** To display the year in the citation style for Chicago format, the publisher field must be populated. */
@@ -499,9 +480,7 @@ export type DateTime = {
 
 /**
  * An edge in a connection.
- * Provides the cursor to fetch data based on the position of the associated
- * node. Specific edge implementations may provide more information about the
- * relationship they represent.
+ *         Provides the cursor to fetch data based on the position of the associated node. Specific edge implementations may provide more information about the relationship they represent.
  */
 export type Edge = {
   cursor: Scalars['Cursor']['output'];
@@ -695,36 +674,48 @@ export type Language = {
   id?: Maybe<Scalars['ID']['output']>;
   /** The language name. */
   name?: Maybe<Scalars['String']['output']>;
+  /** The language weight. */
+  weight?: Maybe<Scalars['Int']['output']>;
 };
 
-/** Entity type layout. */
-export type Layout = LayoutLibraryInterface & {
+/** A layout defined by the CMS. */
+export type Layout = {
   __typename?: 'Layout';
-  /** The entity ID. */
-  id: Scalars['ID']['output'];
-  /** The Universally Unique IDentifier (UUID). */
-  uuid: Scalars['ID']['output'];
-};
-
-/** Layout Library entity. */
-export type LayoutLibrary = {
-  __typename?: 'LayoutLibrary';
-  /** Machine name of the layout definition. */
+  /** Human readable category of the layout definition. */
+  category: Scalars['String']['output'];
+  /** A default region as fallback for convenience. */
+  defaultRegion: Scalars['String']['output'];
+  /** Machine readable name of the layout definition. */
   id: Scalars['ID']['output'];
   /** Human readable name of the layout definition. */
   label: Scalars['String']['output'];
+  /** Regions represent where a User can place content within the CMS. */
+  regions: Array<Scalars['String']['output']>;
+};
+
+/** Entity type layout. */
+export type LayoutLibrary = LayoutLibraryInterface & {
+  __typename?: 'LayoutLibrary';
+  /** The entity ID. */
+  id: Scalars['ID']['output'];
+  /** Human readable name of the layout definition. */
+  label: Scalars['String']['output'];
+  /** The Universally Unique IDentifier (UUID). */
+  uuid: Scalars['ID']['output'];
 };
 
 /** Entity type layout. */
 export type LayoutLibraryInterface = {
   /** The entity ID. */
   id: Scalars['ID']['output'];
+  /** Human readable name of the layout definition. */
+  label: Scalars['String']['output'];
   /** The Universally Unique IDentifier (UUID). */
   uuid: Scalars['ID']['output'];
 };
 
 /** Entity type layout. */
-export type LayoutLibraryUnion = Layout;
+export type LayoutLibraryUnion = LayoutLibrary;
 
 /** If this component has been designed by a User extra information will be available here. */
 export type LayoutParagraphs = {
@@ -779,24 +770,15 @@ export type LockupSetting = ConfigPagesInterface & EdgeNode & MetaTagInterface &
   /** Last line full width option. */
   suLine5?: Maybe<Scalars['String']['output']>;
   /**
-   * Uncheck this box if you want to replace the default lock-up settings with a
-   * custom logo or text. This custom logo will appear in the top left corner of
-   * the website's main header.
-   * <strong>The lockup will only change the look. Remember to change the name of
-   * your site as well. For instructions, <a
-   * href="https://sitesuserguide.stanford.edu/get-started/update-site-name">see
-   * the user guide</a>.</strong>
+   * Uncheck this box if you want to replace the default lock-up settings with a custom logo or text. This custom logo will appear in the top left corner of the website's main header.
+   * <strong>The lockup will only change the look. Remember to change the name of your site as well. For instructions, <a href="https://sitesuserguide.stanford.edu/get-started/update-site-name">see the user guide</a>.</strong>
    */
   suLockupEnabled?: Maybe<Scalars['Boolean']['output']>;
   /** Layout options. */
   suLockupOptions?: Maybe<Scalars['String']['output']>;
   /** Upload logo image */
   suUploadLogoImage?: Maybe<Image>;
-  /**
-   * Uncheck this box if you want to replace the default lock up settings with a
-   * custom logo. This custom logo will appear in the top left corner of the
-   * website's main header.
-   */
+  /** Uncheck this box if you want to replace the default lock up settings with a custom logo. This custom logo will appear in the top left corner of the website's main header. */
   suUseThemeLogo?: Maybe<Scalars['Boolean']['output']>;
   /** The Universally Unique IDentifier (UUID). */
   uuid: Scalars['ID']['output'];
@@ -839,7 +821,7 @@ export type MediaEmbeddable = MediaInterface & MetaTagInterface & {
    *  <li><strong>Outlook Calendar</li></strong>
    *  <li><strong>Localist Events</li></strong>
    * </ul>
-   * For more custom embed codes please <a
+   * For more custom embed codes please <a href="https://stanford.service-now.com/it_services?id=sc_cat_item&sys_id=83daed294f4143009a9a97411310c70a">request support.</a>
    */
   mediaEmbeddableCode?: Maybe<Scalars['String']['output']>;
   /** The URL of the media to embed. */
@@ -892,10 +874,7 @@ export type MediaGoogleForm = MediaInterface & MetaTagInterface & {
   id: Scalars['ID']['output'];
   /** Language */
   langcode: Language;
-  /**
-   * Forms can only be embedded if they do <strong>not</strong> have any file
-   * upload fields. Please ensure your form doesn't have any of these fields.
-   */
+  /** Forms can only be embedded if they do <strong>not</strong> have any file upload fields. Please ensure your form doesn't have any of these fields. */
   mediaGoogleForm: Scalars['String']['output'];
   /** The height, in pixels, of the iframe used to embed the Google Form */
   mediaGoogleFormHgt: Scalars['Int']['output'];
@@ -1345,10 +1324,7 @@ export type NodeStanfordEvent = EdgeNode & MetaTagInterface & NodeInterface & {
   status: Scalars['Boolean']['output'];
   /** Sticky at top of lists */
   sticky: Scalars['Boolean']['output'];
-  /**
-   * Use this for the location if a physical address is not available. If a
-   * physical address is available, it is recommended to use the "Location" field.
-   */
+  /** Use this for the location if a physical address is not available. If a physical address is available, it is recommended to use the "Location" field. */
   suEventAltLoc?: Maybe<Scalars['String']['output']>;
   /** Groups of people to whom this event is for.  */
   suEventAudience?: Maybe<Array<TermEventAudience>>;
@@ -1360,10 +1336,7 @@ export type NodeStanfordEvent = EdgeNode & MetaTagInterface & NodeInterface & {
   suEventCta?: Maybe<Link>;
   /** The day and time this event occurs.  */
   suEventDateTime: SmartDateType;
-  /**
-   * Maximum 180 characters. <em>A "dek" is a brief summary that appears below the
-   * subheadline - in smaller font - on the list page and on the event page.</em>
-   */
+  /** Maximum 180 characters. <em>A "dek" is a brief summary that appears below the subheadline - in smaller font - on the list page and on the event page.</em> */
   suEventDek?: Maybe<Scalars['String']['output']>;
   /** Add a contact e-mail address for the event. */
   suEventEmail?: Maybe<Scalars['Email']['output']>;
@@ -1379,39 +1352,19 @@ export type NodeStanfordEvent = EdgeNode & MetaTagInterface & NodeInterface & {
   suEventLocation?: Maybe<Address>;
   /** This is the text that will display on the site. */
   suEventMapLink?: Maybe<Link>;
-  /**
-   * Add all schedule items for your event here. By default the items will be
-   * listed in chronological order of date and time. Items with no date and time
-   * are displayed at the top of the list in alphabetical order.
-   */
+  /** Add all schedule items for your event here. By default the items will be listed in chronological order of date and time. Items with no date and time are displayed at the top of the list in alphabetical order.  */
   suEventSchedule?: Maybe<Array<ParagraphStanfordSchedule>>;
-  /**
-   * Add a URL to an external source for this event item such as
-   * https://example.com/. By adding an external source URL all listings of this
-   * event article will link to the external source instead of a page on this
-   */
+  /** Add a URL to an external source for this event item such as https://example.com/. By adding an external source URL all listings of this event article will link to the external source instead of a page on this website. */
   suEventSource?: Maybe<Link>;
-  /**
-   * Add all event sponsors here. You can rearrange the list using the drag-drop
-   * functionality. <em>Sponsors appear below the Dek on the event page.</em>
-   */
+  /** Add all event sponsors here. You can rearrange the list using the drag-drop functionality. <em>Sponsors appear below the Dek on the event page.</em> */
   suEventSponsor?: Maybe<Array<Scalars['String']['output']>>;
-  /**
-   * Maximum 140 characters. <em>A "subheadline" is a shorter headline text that
-   * appears below the main headline - in smaller font - on the list page and on
-   * the event page.</em>
-   */
+  /** Maximum 140 characters. <em>A "subheadline" is a shorter headline text that appears below the main headline - in smaller font - on the list page and on the event page.</em> */
   suEventSubheadline?: Maybe<Scalars['String']['output']>;
   /** Subject */
   suEventSubject?: Maybe<Array<TermStanfordEventSubject>>;
   /**  Add a contact telephone number for the event. */
   suEventTelephone?: Maybe<Scalars['PhoneNumber']['output']>;
-  /**
-   * Add all Event Type terms for this event. Note: Only the first selected term
-   * will be displayed to the end users. The complete list of terms will be
-   * displayed at the end of the event page. <a
-   * to add, edit and delete event terms.</a>
-   */
+  /** Add all Event Type terms for this event. Note: Only the first selected term will be displayed to the end users. The complete list of terms will be displayed at the end of the event page. <a href="https://sitesuserguide.stanford.edu/build-and-design/page-types/event-content-type/event-taxonomy">How to add, edit and delete event terms.</a> */
   suEventType?: Maybe<Array<TermStanfordEventType>>;
   /** Title */
   title: Scalars['String']['output'];
@@ -1457,21 +1410,11 @@ export type NodeStanfordEventSeries = EdgeNode & MetaTagInterface & NodeInterfac
   sticky: Scalars['Boolean']['output'];
   /** Add additional content that displays under the body text on the series node page.  */
   suEventSeriesComponents?: Maybe<Array<NodeStanfordEventSeriesSuEventSeriesComponentsUnion>>;
-  /**
-   * Maximum 180 characters. <em>A "dek" is a brief summary that appears below the
-   * headline - in smaller font - on the list page.</em>
-   */
+  /** Maximum 180 characters. <em>A "dek" is a brief summary that appears below the headline - in smaller font - on the list page.</em> */
   suEventSeriesDek?: Maybe<Scalars['String']['output']>;
-  /**
-   * A manually curated list of events in this event series. Start typing the title
-   * of a published event within this site to select it. You can rearrange the list
-   * using the drag-drop functionality.
-   */
+  /** A manually curated list of events in this event series. Start typing the title of a published event within this site to select it. You can rearrange the list using the drag-drop functionality.  */
   suEventSeriesEvent?: Maybe<Array<NodeStanfordEvent>>;
-  /**
-   * Maximum 140 characters. A "subheadline" is a shorter headline text that
-   * appears below the main headline - in smaller font - on the series node page
-   */
+  /** Maximum 140 characters. A "subheadline" is a shorter headline text that appears below the main headline - in smaller font - on the series node page and list page. */
   suEventSeriesSubheadline?: Maybe<Scalars['String']['output']>;
   /** The "event type" will appear above the main headline - in smaller font - on the list page.  */
   suEventSeriesType?: Maybe<Array<TermStanfordEventType>>;
@@ -1604,35 +1547,17 @@ export type NodeStanfordNews = EdgeNode & MetaTagInterface & NodeInterface & {
   status: Scalars['Boolean']['output'];
   /** Sticky at top of lists */
   sticky: Scalars['Boolean']['output'];
-  /**
-   * Maximum one banner media. <em>The “banner media” will display as a
-   * full-width image or video above the body text area on the article page.</em>
-   */
+  /** Maximum one banner media. <em>The “banner media” will display as a full-width image or video above the body text area on the article page.</em> */
   suNewsBanner?: Maybe<NodeStanfordNewsSuNewsBannerUnion>;
   /** Banner Caption */
   suNewsBannerMediaCaption?: Maybe<Scalars['String']['output']>;
-  /**
-   * Use a comma to separate the list of names. <em>The “byline" identifies the
-   * author(s) of the article. It will appear below the headline and dek on the
-   * article page.</em>
-   */
+  /** Use a comma to separate the list of names. <em>The “byline" identifies the author(s) of the article. It will appear below the headline and dek on the article page.</em> */
   suNewsByline?: Maybe<Scalars['String']['output']>;
   /** Paragraphs */
   suNewsComponents?: Maybe<Array<NodeStanfordNewsSuNewsComponentsUnion>>;
-  /**
-   * Maximum 500 characters. <em>A "dek" is a brief summary that appears below the
-   * headline - in smaller font - on the list page and on the article page.</em>
-   */
+  /** Maximum 500 characters. <em>A "dek" is a brief summary that appears below the headline - in smaller font - on the list page and on the article page.</em> */
   suNewsDek?: Maybe<Scalars['String']['output']>;
-  /**
-   * Maximum of one featured media item. <em>The featured media will appear as a
-   * thumbnail on the list page and on the teaser card paragraph.</em> The
-   * alternative text for the image should not be just the image or person’s
-   * name. The image should either be marked as decorative, or the alternative text
-   * should describe the image. See the <a
-   * Guide: Alternative text (alt text) for images and other media</a> for
-   * additional information.
-   */
+  /** Maximum of one featured media item. <em>The featured media will appear as a thumbnail on the list page and on the teaser card paragraph.</em> The alternative text for the image should not be just the image or person’s name. The image should either be marked as decorative, or the alternative text should describe the image. See the <a href="https://sitesuserguide.stanford.edu/build/media-library/alternative-text-alt-text-images-and-other-media">User Guide: Alternative text (alt text) for images and other media</a> for additional information. */
   suNewsFeaturedMedia?: Maybe<MediaImage>;
   /** Hide Social Share Icons */
   suNewsHideSocial?: Maybe<Scalars['Boolean']['output']>;
@@ -1642,24 +1567,11 @@ export type NodeStanfordNews = EdgeNode & MetaTagInterface & NodeInterface & {
   suNewsPublishingDate?: Maybe<DateTime>;
   /** Quote / Big Text */
   suNewsQuote?: Maybe<Scalars['String']['output']>;
-  /**
-   * Add a URL to an external source for this news item such as
-   * https://example.com/. By adding an external source URL all listings of this
-   * news article will link to the external source instead of a page on this
-   */
+  /** Add a URL to an external source for this news item such as https://example.com/. By adding an external source URL all listings of this news article will link to the external source instead of a page on this website. */
   suNewsSource?: Maybe<Link>;
-  /**
-   * Enter the categories associated with this spotlight. These will be used in two
-   * ways: displayed in the content on the individual spotlight page, and as
-   * filters for the Filtered Lists Paragraph view.
-   */
+  /** Enter the categories associated with this spotlight. These will be used in two ways: displayed in the content on the individual spotlight page, and as filters for the Filtered Lists Paragraph view. */
   suNewsSpotlightFilters?: Maybe<Array<TermStanfordNewsSpotlightFilter>>;
-  /**
-   * Add all News Type terms for this article. Note: Only the top three selected
-   * terms will be displayed to the end-users. The complete list of terms will be
-   * displayed at the end of the article page. <a
-   * to add, edit and delete news terms.</a>
-   */
+  /** Add all News Type terms for this article. Note: Only the top three selected terms will be displayed to the end-users. The complete list of terms will be displayed at the end of the article page. <a href="https://sitesuserguide.stanford.edu/build-and-design/page-types/news-content-type/news-types">How to add, edit and delete news terms.</a> */
   suNewsTopics?: Maybe<Array<TermStanfordNewsTopic>>;
   /** Title */
   title: Scalars['String']['output'];
@@ -1682,10 +1594,7 @@ export type NodeStanfordNewsEdge = Edge & {
   node: NodeStanfordNews;
 };
 
-/**
- * Maximum one banner media. <em>The “banner media” will display as a
- * full-width image or video above the body text area on the article page.</em>
- */
+/** Maximum one banner media. <em>The “banner media” will display as a full-width image or video above the body text area on the article page.</em> */
 export type NodeStanfordNewsSuNewsBannerUnion = MediaImage | MediaVideo;
 
 /** Paragraphs */
@@ -1718,10 +1627,7 @@ export type NodeStanfordOpportunity = EdgeNode & MetaTagInterface & NodeInterfac
   sticky: Scalars['Boolean']['output'];
   /** Enter the deadline for applying or signing up for this opportunity. Time will be listed as Pacific time. */
   suOppApplicationDeadline?: Maybe<DateTime>;
-  /**
-   * Add in any additional information that may need to display at the bottom of
-   * the individual card for this opportunity in a list or teaser view.
-   */
+  /**  Add in any additional information that may need to display at the bottom of the individual card for this opportunity in a list or teaser view. */
   suOppCardFooter?: Maybe<Text>;
   /** Add additional content that displays under the body text on the Opportunity page. */
   suOppComponents?: Maybe<Array<NodeStanfordOpportunitySuOppComponentsUnion>>;
@@ -1733,79 +1639,29 @@ export type NodeStanfordOpportunity = EdgeNode & MetaTagInterface & NodeInterfac
   suOppContactPhone?: Maybe<Scalars['PhoneNumber']['output']>;
   /** Enter the site URL for the contact. Often this is the Opportunity Sponsor's site. */
   suOppContactUrl?: Maybe<Link>;
-  /**
-   * If this opportunity is related to a course, enter the Course Code(s) (example:
-   * amstudies 13N,  history 100, etc.) This will display in the sidebar.
-   */
+  /** If this opportunity is related to a course, enter the Course Code(s) (example: amstudies 13N,  history 100, etc.) This will display in the sidebar. */
   suOppCourseCode?: Maybe<Array<Scalars['String']['output']>>;
-  /**
-   * Use this field to direct users to the next step for this opportunity. Links
-   * may be external to your site or internal. A button with this link will show in
-   * the sidebar on the individual opportunity page. Typical uses include
-   * registration links, application form links, schedule an appointment links,
-   */
+  /** Use this field to direct users to the next step for this opportunity. Links may be external to your site or internal. A button with this link will show in the sidebar on the individual opportunity page. Typical uses include registration links, application form links, schedule an appointment links, etc. */
   suOppCtaUrl?: Maybe<Link>;
-  /**
-   * Use this field to indicate who is eligible to apply or take part in this
-   * opportunity. For example, major, cohort, staff type, etc.
-   */
+  /** Use this field to indicate who is eligible to apply or take part in this opportunity. For example, major, cohort, staff type, etc. */
   suOppEligibility?: Maybe<Text>;
-  /**
-   * Add in an icon to represent your opportunity. This will be shown on the card
-   * display for the Teaser, Lists Paragraph, and Filtered Lists Paragraph. It will
-   * also show on the individual opportunity page. This can be used with a Featured
-   * Image or without. If both are filled in, both will display.
-   */
+  /** Add in an icon to represent your opportunity. This will be shown on the card display for the Teaser, Lists Paragraph, and Filtered Lists Paragraph. It will also show on the individual opportunity page. This can be used with a Featured Image or without. If both are filled in, both will display. */
   suOppIcon?: Maybe<FontawesomeIconType>;
-  /**
-   * This is an optional field. Select an image for this opportunity. This will be
-   * used as a banner on this Opportunity page. It will also be used in Teasers, in
-   * the Default List and Card Grid views for the Lists Paragraph and the Filtered
-   * Lists Paragraph.
-   */
+  /** This is an optional field. Select an image for this opportunity. This will be used as a banner on this Opportunity page. It will also be used in Teasers, in the Default List and Card Grid views for the Lists Paragraph and the Filtered Lists Paragraph. */
   suOppImage?: Maybe<MediaImage>;
-  /**
-   * This field is used for indicating prerequisites to participate in this
-   * opportunity. Common uses include course pre-requisites, language experience,
-   * skills needed, etc. This displays on the individual opportunity page.
-   */
+  /** This field is used for indicating prerequisites to participate in this opportunity. Common uses include course pre-requisites, language experience, skills needed, etc. This displays on the individual opportunity page. */
   suOppPrerequisites?: Maybe<Text>;
-  /**
-   * Add a URL to an external source for this opportunity, such as
-   * https://example.com/. By adding an external source URL all listings of this
-   * news article will link directly to the external source instead of to a page on
-   * this website. If you enter a URL in this field, you do not need to fill out
-   * the Sidebar or Page Content sections of this form.
-   */
+  /** Add a URL to an external source for this opportunity, such as https://example.com/. By adding an external source URL all listings of this news article will link directly to the external source instead of to a page on this website. If you enter a URL in this field, you do not need to fill out the Sidebar or Page Content sections of this form. */
   suOppSource?: Maybe<Link>;
   /** Who sponsors this opportunity. */
   suOppSponsor?: Maybe<Array<TermOpportunitySponsor>>;
-  /**
-   * Use this field to provide a short summary about the opportunity. This will
-   * appear on card displays on Teasers, Lists Paragraphs, and Filtered Lists
-   * Paragraphs. It will also be used in social sharing.
-   */
+  /** Use this field to provide a short summary about the opportunity. This will appear on card displays on Teasers, Lists Paragraphs, and Filtered Lists Paragraphs. It will also be used in social sharing. */
   suOppSummary?: Maybe<Text>;
-  /**
-   * Enter the categories associated with this opportunity. These will be used in
-   * two ways: They will be displayed in the sidebar on the individual opportunity
-   * page. They will also be used as filters for the Filtered Lists Paragraph view.
-   */
+  /** Enter the categories associated with this opportunity. These will be used in two ways: They will be displayed in the sidebar on the individual opportunity page. They will also be used as filters for the Filtered Lists Paragraph view. */
   suOppTags?: Maybe<Array<TermOpportunityTagFilter>>;
-  /**
-   * This field is designed to show the type of opportunity (for example, job,
-   * grant, fellowship, course, etc) but can also be used in other ways, as needed.
-   * It will display on the individual cards for all Teaser, Lists Paragraph, and
-   * Filtered Lists Paragraphs displays. It also appears at the top of the sidebar
-   * on the individual opportunity page. Note: if you wish to allow users to filter
-   * based on this type, please use the Opportunities Filters field instead.
-   */
+  /** This field is designed to show the type of opportunity (for example, job, grant, fellowship, course, etc) but can also be used in other ways, as needed. It will display on the individual cards for all Teaser, Lists Paragraph, and Filtered Lists Paragraphs displays. It also appears at the top of the sidebar on the individual opportunity page. Note: if you wish to allow users to filter based on this type, please use the Opportunities Filters field instead. */
   suOppType?: Maybe<Array<TermOpportunityType>>;
-  /**
-   * If the opportunity will provide academic credit, enter the units. This will
-   * display on the sidebar. Note: if you wish to allow users to filter based on
-   * number of units, please use the Opportunities Filters field instead.
-   */
+  /** If the opportunity will provide academic credit, enter the units. This will display on the sidebar. Note: if you wish to allow users to filter based on number of units, please use the Opportunities Filters field instead. */
   suOppUnits?: Maybe<Array<TermOpportunityUnit>>;
   /** Title */
   title: Scalars['String']['output'];
@@ -1858,24 +1714,13 @@ export type NodeStanfordPage = EdgeNode & MetaTagInterface & NodeInterface & {
   sticky: Scalars['Boolean']['output'];
   /** Basic Page Type */
   suBasicPageType?: Maybe<Array<TermBasicPageType>>;
-  /**
-   * The top banner displays directly below the navigation and on interior pages,
-   * above the page title. The page title banner replaces the default page title
-   * with a page title within the banner image.
-   */
+  /** The top banner displays directly below the navigation and on interior pages, above the page title. The page title banner replaces the default page title with a page title within the banner image. */
   suPageBanner?: Maybe<NodeStanfordPageSuPageBannerUnion>;
   /** Paragraphs */
   suPageComponents?: Maybe<Array<NodeStanfordPageSuPageComponentsUnion>>;
-  /**
-   * Maximum 255 characters.  The <i>"page description"</i> is a brief summary that
-   * appears below the page title - in smaller font - on the list page.
-   */
+  /** Maximum 255 characters.  The <i>"page description"</i> is a brief summary that appears below the page title - in smaller font - on the list page. */
   suPageDescription?: Maybe<Scalars['String']['output']>;
-  /**
-   * Maximum one image. The <i>"page image"</i> will only appear as a thumbnail
-   * image on Teaser and List page display. Use the Banner paragraph to add a
-   * Featured Media to a page.
-   */
+  /** Maximum one image. The <i>"page image"</i> will only appear as a thumbnail image on Teaser and List page display. Use the Banner paragraph to add a Featured Media to a page. */
   suPageImage?: Maybe<MediaImage>;
   /** Title */
   title: Scalars['String']['output'];
@@ -1898,11 +1743,7 @@ export type NodeStanfordPageEdge = Edge & {
   node: NodeStanfordPage;
 };
 
-/**
- * The top banner displays directly below the navigation and on interior pages,
- * above the page title. The page title banner replaces the default page title with
- * a page title within the banner image.
- */
+/** The top banner displays directly below the navigation and on interior pages, above the page title. The page title banner replaces the default page title with a page title within the banner image. */
 export type NodeStanfordPageSuPageBannerUnion = ParagraphStanfordBanner | ParagraphStanfordPageTitleBanner;
 
 /** Paragraphs */
@@ -1963,10 +1804,7 @@ export type NodeStanfordPerson = EdgeNode & MetaTagInterface & NodeInterface & {
   suPersonMapUrl?: Maybe<Link>;
   /** The person's mobile phone number. */
   suPersonMobilePhone?: Maybe<Scalars['String']['output']>;
-  /**
-   * The person’s headshot or profile photo. Image ration should be 1:1 or Image
-   * size should be at least 140 pixels x 140 pixels
-   */
+  /** The person’s headshot or profile photo. Image ration should be 1:1 or Image size should be at least 140 pixels x 140 pixels */
   suPersonPhoto?: Maybe<MediaImage>;
   /** Profile Link */
   suPersonProfileLink?: Maybe<Link>;
@@ -1981,9 +1819,7 @@ export type NodeStanfordPerson = EdgeNode & MetaTagInterface & NodeInterface & {
   /** The person's simple title. eg: Professor. */
   suPersonShortTitle?: Maybe<Scalars['String']['output']>;
   /**
-   * Add a URL to an external source for this person profile pages. By adding an
-   * external source URL, all teaser and list displays for this person will link to
-   * the external source instead of a page on this website.
+   * Add a URL to an external source for this person profile pages. By adding an external source URL, all teaser and list displays for this person will link to the external source instead of a page on this website.
    * This must be an external URL such as https://example.com.
    */
   suPersonSource?: Maybe<Link>;
@@ -2018,11 +1854,7 @@ export type NodeStanfordPersonSuPersonComponentsUnion = ParagraphStanfordBanner 
 /** BETA: Provide a administrative policy structure with breadcrumbs. */
 export type NodeStanfordPolicy = EdgeNode & MetaTagInterface & NodeInterface & {
   __typename?: 'NodeStanfordPolicy';
-  /**
-   * For the "Summary" field above, leave black to use the initial 250 characters
-   * from Body content at the summary.  <em>The "summary" is appears below the
-   * title - in smaller font - on the list and teaser display.</em>
-   */
+  /** For the "Summary" field above, leave black to use the initial 250 characters from Body content at the summary.  <em>The "summary" is appears below the title - in smaller font - on the list and teaser display.</em> */
   body?: Maybe<TextSummary>;
   book?: Maybe<BookLink>;
   /** The time that the node was last edited. */
@@ -2043,45 +1875,27 @@ export type NodeStanfordPolicy = EdgeNode & MetaTagInterface & NodeInterface & {
   status: Scalars['Boolean']['output'];
   /** Sticky at top of lists */
   sticky: Scalars['Boolean']['output'];
-  /**
-   * The person, department, and/or officials responsible for this policy. <em>The
-   * "authority" field will be displayed to site-visitors below the effective
-   */
+  /** The person, department, and/or officials responsible for this policy. <em>The "authority" field will be displayed to site-visitors below the effective date.</em> */
   suPolicyAuthority?: Maybe<Scalars['String']['output']>;
   /** Automatic Prefix */
   suPolicyAutoPrefix?: Maybe<Scalars['Boolean']['output']>;
-  /**
-   * Add all prominent changes associated with this policy. Note: Only three most
-   * recently edited changelogs will be displayed to the site-visitors on the
-   * policy detail page. The complete list of changelogs will be available in the
-   * authoring experience.
-   */
+  /** Add all prominent changes associated with this policy. Note: Only three most recently edited changelogs will be displayed to the site-visitors on the policy detail page. The complete list of changelogs will be available in the authoring experience. */
   suPolicyChangelog?: Maybe<Array<SuPolicyLog>>;
   /** Chapter Number */
   suPolicyChapter?: Maybe<Scalars['String']['output']>;
-  /**
-   * The day this policy will go into effect. <em>The "effective date" will be
-   * displayed to site-visitors below the page title.</em>
-   */
+  /** The day this policy will go into effect. <em>The "effective date" will be displayed to site-visitors below the page title.</em> */
   suPolicyEffective?: Maybe<DateTime>;
   /** Policy Number */
   suPolicyPolicyNum?: Maybe<Scalars['String']['output']>;
   /** Related Policies */
   suPolicyRelated?: Maybe<Array<NodeStanfordPolicy>>;
-  /**
-   * Add a URL to an external source for this policy item such as
-   * https://example.com/. By adding an external source URL all listings of this
-   * policy will link to the external source instead of a page on this website.
-   */
+  /** Add a URL to an external source for this policy item such as https://example.com/. By adding an external source URL all listings of this policy will link to the external source instead of a page on this website. */
   suPolicySource?: Maybe<Link>;
   /** SubChapter Number */
   suPolicySubchapter?: Maybe<Scalars['String']['output']>;
   /** Policy Title */
   suPolicyTitle: Scalars['String']['output'];
-  /**
-   * The day content and information regarding this policy was updated. <em>The
-   * "last updated" date will be displayed to site-visitors above the body
-   */
+  /** The day content and information regarding this policy was updated. <em>The "last updated" date will be displayed to site-visitors above the body content.</em> */
   suPolicyUpdated?: Maybe<DateTime>;
   /** Title */
   title: Scalars['String']['output'];
@@ -2133,17 +1947,9 @@ export type NodeStanfordPublication = EdgeNode & MetaTagInterface & NodeInterfac
   suPublicationComponents?: Maybe<Array<NodeStanfordPublicationSuPublicationComponentsUnion>>;
   /** This will only display on the node page. */
   suPublicationCta?: Maybe<Link>;
-  /**
-   * <strong>CAUTION:</strong> Currently, image functionality is only for data
-   * collection. It will NOT BE VISIBLE in the end-user display.
-   */
+  /** <strong>CAUTION:</strong> Currently, image functionality is only for data collection. It will NOT BE VISIBLE in the end-user display. */
   suPublicationImage?: Maybe<MediaImage>;
-  /**
-   * Add all Publication Type terms for this article. Note: Only the top three
-   * selected terms will be displayed to the end-users. The complete list of terms
-   * will be displayed at the end of the publication page. <a
-   * to add, edit and delete publication terms.</a>
-   */
+  /** Add all Publication Type terms for this article. Note: Only the top three selected terms will be displayed to the end-users. The complete list of terms will be displayed at the end of the publication page. <a href="https://sitesuserguide.stanford.edu/build-and-design/taxonomy/publication-taxonomy">How to add, edit and delete publication terms.</a> */
   suPublicationTopics?: Maybe<Array<TermStanfordPublicationTopic>>;
   /** Title */
   title: Scalars['String']['output'];
@@ -2296,21 +2102,13 @@ export type ParagraphStanfordEntity = LayoutParagraphsInterface & ParagraphInter
   suEntityDescription?: Maybe<Text>;
   /** This headline will appear above the content items in large font. */
   suEntityHeadline?: Maybe<Scalars['String']['output']>;
-  /**
-   * Start typing the title of the piece of content to select it. You can add
-   * multiple items to create a curated list of teaser items. Learn more about the
-   * Teaser Paragraph in the <a
-   */
+  /** Start typing the title of the piece of content to select it. You can add multiple items to create a curated list of teaser items. Learn more about the Teaser Paragraph in the <a href="https://sitesuserguide.stanford.edu/build-and-design/paragraphs/teaser-paragraph">user-guide</a>. */
   suEntityItem?: Maybe<Array<ParagraphStanfordEntitySuEntityItemUnion>>;
   /** The Universally Unique IDentifier (UUID). */
   uuid: Scalars['ID']['output'];
 };
 
-/**
- * Start typing the title of the piece of content to select it. You can add
- * multiple items to create a curated list of teaser items. Learn more about the
- * Teaser Paragraph in the <a
- */
+/** Start typing the title of the piece of content to select it. You can add multiple items to create a curated list of teaser items. Learn more about the Teaser Paragraph in the <a href="https://sitesuserguide.stanford.edu/build-and-design/paragraphs/teaser-paragraph">user-guide</a>. */
 export type ParagraphStanfordEntitySuEntityItemUnion = NodeStanfordCourse | NodeStanfordEvent | NodeStanfordEventSeries | NodeStanfordMedia | NodeStanfordNews | NodeStanfordOpportunity | NodeStanfordPage | NodeStanfordPerson | NodeStanfordPolicy | NodeStanfordPublication;
 
 /** Entity type paragraph. */
@@ -2353,21 +2151,11 @@ export type ParagraphStanfordFilteredList = LayoutParagraphsInterface & Paragrap
   langcode: Language;
   /** Published */
   status: Scalars['Boolean']['output'];
-  /**
-   * This is a viewfield query proxy. Page size and contextual filters are applied
-   * within the CMS. See the actual view base query for more documentation on
-   * filters and options available. Main display options for items presented in the
-   * list view. Learn more in the guide to &lt;a
-   * Lists.&lt;/a&gt;
-   */
+  /** This is a viewfield query proxy. Page size and contextual filters are applied within the CMS. See the actual view base query for more documentation on filters and options available. Main display options for items presented in the list view. Learn more in the guide to &lt;a href=&quot;https://sitesuserguide.stanford.edu/build/paragraphs/filtered-lists-paragraph&quot;&gt;Filtered Lists.&lt;/a&gt; */
   suFilteredListView?: Maybe<ViewReference>;
   /** Description */
   suListDescription?: Maybe<Text>;
-  /**
-   * This is the main headline for the list paragraph. The headline will appear
-   * above the list view in large font. This heading is required to build correct
-   * heading structure for accessibility purposes.
-   */
+  /** This is the main headline for the list paragraph. The headline will appear above the list view in large font. This heading is required to build correct heading structure for accessibility purposes. */
   suListHeadline: Scalars['String']['output'];
   /** The Universally Unique IDentifier (UUID). */
   uuid: Scalars['ID']['output'];
@@ -2438,20 +2226,9 @@ export type ParagraphStanfordList = LayoutParagraphsInterface & ParagraphInterfa
   suListButton?: Maybe<Link>;
   /** Description */
   suListDescription?: Maybe<Text>;
-  /**
-   * This is the main headline for the list paragraph. The headline will appear
-   * above the list view in large font. This heading is required to build correct
-   * heading structure for accessibility purposes.
-   */
+  /** This is the main headline for the list paragraph. The headline will appear above the list view in large font. This heading is required to build correct heading structure for accessibility purposes. */
   suListHeadline: Scalars['String']['output'];
-  /**
-   * This is a viewfield query proxy. Page size and contextual filters are applied
-   * within the CMS. See the actual view base query for more documentation on
-   * filters and options available. Main display options for items presented in the
-   * list view. Learn more in the section on &lt;a
-   * Options&lt;/a&gt; to customize the list by taxonomy terms and change the
-   * number of items displayed in the list.
-   */
+  /** This is a viewfield query proxy. Page size and contextual filters are applied within the CMS. See the actual view base query for more documentation on filters and options available. Main display options for items presented in the list view. Learn more in the section on &lt;a href=&quot;https://sitesuserguide.stanford.edu/build-and-design/paragraphs/lists-paragraph&quot;&gt;Advanced Options&lt;/a&gt; to customize the list by taxonomy terms and change the number of items displayed in the list. */
   suListView?: Maybe<ViewReference>;
   /** The Universally Unique IDentifier (UUID). */
   uuid: Scalars['ID']['output'];
@@ -2523,11 +2300,7 @@ export type ParagraphStanfordPersonCtum = LayoutParagraphsInterface & ParagraphI
   status: Scalars['Boolean']['output'];
   /** Image */
   suPersonCtaImage?: Maybe<MediaImage>;
-  /**
-   * Add a URL to the person's website or profile. You can also enter an internal
-   * path such as /node/add or an external URL such as http://example.com. Enter
-   * <front> to link to the home page of this site.
-   */
+  /** Add a URL to the person's website or profile. You can also enter an internal path such as /node/add or an external URL such as http://example.com. Enter <front> to link to the home page of this site. */
   suPersonCtaLink?: Maybe<Link>;
   /** Add the person's full name. */
   suPersonCtaName?: Maybe<Scalars['String']['output']>;
@@ -2614,22 +2387,11 @@ export type ParagraphStanfordStatCard = LayoutParagraphsInterface & ParagraphInt
   suStatCentered?: Maybe<Scalars['Boolean']['output']>;
   /** Visually Hide Heading */
   suStatHeadingHide?: Maybe<Scalars['Boolean']['output']>;
-  /**
-   * The headline is the label that provides additional information about your
-   * statistic and let's the site visitor know what the number refers to. It
-   * displays right under the statistic number.
-   */
+  /** The headline is the label that provides additional information about your statistic and let's the site visitor know what the number refers to. It displays right under the statistic number.  */
   suStatHeadline: Scalars['String']['output'];
   /** Headling Level */
   suStatHeadlineLvl: Scalars['String']['output'];
-  /**
-   * Name of the Font Awesome Icon. See <a href="https://fontawesome.com/icons">the
-   * Font Awesome icon list</a> for valid icon names, or begin typing for an
-   * autocomplete list. Note that all four versions of the icon will be shown -
-   * Light, Regular, Solid, Duotone, and Thin respectively. Please note that if the
-   * icon name does not appear in the autocomplete drop-down, it may not be
-   * available for use.
-   */
+  /** Name of the Font Awesome Icon. See <a href="https://fontawesome.com/icons">the Font Awesome icon list</a> for valid icon names, or begin typing for an autocomplete list. Note that all four versions of the icon will be shown - Light, Regular, Solid, Duotone, and Thin respectively. Please note that if the icon name does not appear in the autocomplete drop-down, it may not be available for use.  */
   suStatIcon?: Maybe<FontawesomeIconType>;
   /** Icon Color */
   suStatIconColor?: Maybe<ColorFieldType>;
@@ -2637,10 +2399,7 @@ export type ParagraphStanfordStatCard = LayoutParagraphsInterface & ParagraphInt
   suStatImage?: Maybe<MediaImage>;
   /** Choose how you would like the link to display.  */
   suStatLinkStyle: Scalars['String']['output'];
-  /**
-   * Enter a number that represents the statistic to highlight. Additional
-   * characters can be included.  Examples: 256, 20%, 1K, 72.5, $15.
-   */
+  /** Enter a number that represents the statistic to highlight. Additional characters can be included.  Examples: 256, 20%, 1K, 72.5, $15. */
   suStatStat: Scalars['String']['output'];
   /** Stat Color */
   suStatStatColor?: Maybe<ColorFieldType>;
@@ -3219,12 +2978,7 @@ export type Redirect = EdgeNode & MetaTagInterface & RedirectInterface & {
   metatag: Array<MetaTagUnion>;
   /** To */
   redirectRedirect: Link;
-  /**
-   * Enter an internal Drupal path or path alias to redirect (e.g. <em
-   * class="placeholder">node/123</em> or <em
-   * class="placeholder">taxonomy/term/123</em>). Fragment anchors (e.g. <em
-   * class="placeholder">#anchor</em>) are <strong>not</strong> allowed.
-   */
+  /** Enter an internal Drupal path or path alias to redirect (e.g. <em class="placeholder">node/123</em> or <em class="placeholder">taxonomy/term/123</em>). Fragment anchors (e.g. <em class="placeholder">#anchor</em>) are <strong>not</strong> allowed. */
   redirectSource: RedirectSourceType;
   /** The redirect status code. */
   statusCode: Scalars['Int']['output'];
@@ -3255,12 +3009,7 @@ export type RedirectInterface = {
   metatag: Array<MetaTagUnion>;
   /** To */
   redirectRedirect: Link;
-  /**
-   * Enter an internal Drupal path or path alias to redirect (e.g. <em
-   * class="placeholder">node/123</em> or <em
-   * class="placeholder">taxonomy/term/123</em>). Fragment anchors (e.g. <em
-   * class="placeholder">#anchor</em>) are <strong>not</strong> allowed.
-   */
+  /** Enter an internal Drupal path or path alias to redirect (e.g. <em class="placeholder">node/123</em> or <em class="placeholder">taxonomy/term/123</em>). Fragment anchors (e.g. <em class="placeholder">#anchor</em>) are <strong>not</strong> allowed. */
   redirectSource: RedirectSourceType;
   /** The redirect status code. */
   statusCode: Scalars['Int']['output'];
@@ -3356,20 +3105,33 @@ export type SearchResult = View & {
   filters: Array<Maybe<ViewFilter>>;
   /** The ID of the view. */
   id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
   /** The language code of the view. */
   langcode?: Maybe<Scalars['String']['output']>;
   /** Information about the page in the view. */
   pageInfo: ViewPageInfo;
   /** The results of the view. */
   results: Array<SearchRow>;
+  /** The title of the view. */
+  title?: Maybe<Scalars['String']['output']>;
   /** The machine name of the view. */
   view: Scalars['String']['output'];
 };
 
 /** All available types for view result row. */
 export type SearchRow = NodeStanfordCourse | NodeStanfordEvent | NodeStanfordEventSeries | NodeStanfordMedia | NodeStanfordNews | NodeStanfordOpportunity | NodeStanfordPage | NodeStanfordPerson | NodeStanfordPolicy | NodeStanfordPublication;
+
+/** A Date range has a start and an end. */
+export type SmartDate = {
+  __typename?: 'SmartDate';
+  /** The duration, in minutes. */
+  duration?: Maybe<Scalars['Float']['output']>;
+  /** The end of the date range. */
+  end?: Maybe<DateTime>;
+  /** The start of the date range. */
+  start?: Maybe<DateTime>;
+  /** The timezone of the date range. */
+  timezone?: Maybe<Scalars['String']['output']>;
+};
 
 /** Smart Date data. */
 export type SmartDateType = {
@@ -3412,14 +3174,14 @@ export type StanfordBasicPagesResult = View & {
   filters: Array<Maybe<ViewFilter>>;
   /** The ID of the view. */
   id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
   /** The language code of the view. */
   langcode?: Maybe<Scalars['String']['output']>;
   /** Information about the page in the view. */
   pageInfo: ViewPageInfo;
   /** The results of the view. */
   results: Array<NodeUnion>;
+  /** The title of the view. */
+  title?: Maybe<Scalars['String']['output']>;
   /** The machine name of the view. */
   view: Scalars['String']['output'];
 };
@@ -3441,14 +3203,7 @@ export type StanfordBasicSiteSetting = ConfigPagesInterface & EdgeNode & MetaTag
   id: Scalars['ID']['output'];
   /** The computed meta tags for the entity. */
   metatag: Array<MetaTagUnion>;
-  /**
-   * This ID is unique to each site you want to track separately and is in the form
-   * of G-xxxxxxxxx. To get a Web Property ID, <a
-   * href="https://marketingplatform.google.com/about/analytics/">register your
-   * site with Google Analytics</a>, or if you already have registered your site,
-   * go to your Google Analytics Settings page to see the ID next to every site
-   * more information in the documentation.</a>
-   */
+  /** This ID is unique to each site you want to track separately and is in the form of G-xxxxxxxxx. To get a Web Property ID, <a href="https://marketingplatform.google.com/about/analytics/">register your site with Google Analytics</a>, or if you already have registered your site, go to your Google Analytics Settings page to see the ID next to every site profile. <a href="https://developers.google.com/analytics/resources/concepts/gaConceptsAccounts#webProperty">Find more information in the documentation.</a> */
   suGoogleAnalytics?: Maybe<Scalars['String']['output']>;
   /** Check this box to disable the external link icons. */
   suHideExtLinkIcons?: Maybe<Scalars['Boolean']['output']>;
@@ -3458,19 +3213,11 @@ export type StanfordBasicSiteSetting = ConfigPagesInterface & EdgeNode & MetaTag
   suSiteAlgolia?: Maybe<Scalars['Boolean']['output']>;
   /** Check this if using a single Algolia Index to search more than one site. */
   suSiteAlgoliaFed?: Maybe<Scalars['Boolean']['output']>;
-  /**
-   * This is your unique application identifier. It's used to identify you when
-   * using Algolia's API. Find this ID in <a
-   * href="https://dashboard.algolia.com/account/api-keys/all>Algolia
-   */
+  /** This is your unique application identifier. It's used to identify you when using Algolia's API. Find this ID in <a href="https://dashboard.algolia.com/account/api-keys/all>Algolia dashboard</a>. */
   suSiteAlgoliaId?: Maybe<Scalars['String']['output']>;
   /** Algolia index machine name. This can be found at the top of the Algolia UI when on the "Search" configuration page. */
   suSiteAlgoliaIndex?: Maybe<Scalars['String']['output']>;
-  /**
-   * This is the public API key to use in your frontend code. This key is only
-   * usable for search queries and sending data to the Insights API. Find this key
-   * in <a href="https://dashboard.algolia.com/account/api-keys/all>Algolia
-   */
+  /** This is the public API key to use in your frontend code. This key is only usable for search queries and sending data to the Insights API. Find this key in <a href="https://dashboard.algolia.com/account/api-keys/all>Algolia dashboard</a> */
   suSiteAlgoliaSearch?: Maybe<Scalars['String']['output']>;
   /** Enable Algolia searching on the <a href="/search">search page</a>. */
   suSiteAlgoliaUi?: Maybe<Scalars['Boolean']['output']>;
@@ -3484,11 +3231,7 @@ export type StanfordBasicSiteSetting = ConfigPagesInterface & EdgeNode & MetaTag
   suSiteMenuLevels?: Maybe<Scalars['Int']['output']>;
   /** Site Name */
   suSiteName?: Maybe<Scalars['String']['output']>;
-  /**
-   * Emit metadata that tells <em>well behaved</em> search engines to not crawl
-   * this site. This is useful when the site is being built. Remember to disable
-   * upon the site launching.
-   */
+  /** Emit metadata that tells <em>well behaved</em> search engines to not crawl this site. This is useful when the site is being built. Remember to disable upon the site launching. */
   suSiteNobots?: Maybe<Scalars['Boolean']['output']>;
   /** The Universally Unique IDentifier (UUID). */
   uuid: Scalars['ID']['output'];
@@ -3529,14 +3272,14 @@ export type StanfordCoursesResult = View & {
   filters: Array<Maybe<ViewFilter>>;
   /** The ID of the view. */
   id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
   /** The language code of the view. */
   langcode?: Maybe<Scalars['String']['output']>;
   /** Information about the page in the view. */
   pageInfo: ViewPageInfo;
   /** The results of the view. */
   results: Array<NodeUnion>;
+  /** The title of the view. */
+  title?: Maybe<Scalars['String']['output']>;
   /** The machine name of the view. */
   view: Scalars['String']['output'];
 };
@@ -3573,14 +3316,14 @@ export type StanfordEventsPastEventsResult = View & {
   filters: Array<Maybe<ViewFilter>>;
   /** The ID of the view. */
   id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
   /** The language code of the view. */
   langcode?: Maybe<Scalars['String']['output']>;
   /** Information about the page in the view. */
   pageInfo: ViewPageInfo;
   /** The results of the view. */
   results: Array<NodeUnion>;
+  /** The title of the view. */
+  title?: Maybe<Scalars['String']['output']>;
   /** The machine name of the view. */
   view: Scalars['String']['output'];
 };
@@ -3608,14 +3351,14 @@ export type StanfordEventsResult = View & {
   filters: Array<Maybe<ViewFilter>>;
   /** The ID of the view. */
   id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
   /** The language code of the view. */
   langcode?: Maybe<Scalars['String']['output']>;
   /** Information about the page in the view. */
   pageInfo: ViewPageInfo;
   /** The results of the view. */
   results: Array<NodeUnion>;
+  /** The title of the view. */
+  title?: Maybe<Scalars['String']['output']>;
   /** The machine name of the view. */
   view: Scalars['String']['output'];
 };
@@ -3643,20 +3386,13 @@ export type StanfordGlobalMessage = ConfigPagesInterface & EdgeNode & MetaTagInt
   suGlobalMsgEnabled?: Maybe<Scalars['Boolean']['output']>;
   /** This is the main headline for the message. <em>It will appear in large and bold text above the message.</em> */
   suGlobalMsgHeader?: Maybe<Scalars['String']['output']>;
-  /**
-   * Maximum 65 characters. <em>A “label” is short description of the message
-   * such as alert, information, warning). It will appear in small capital letters
-   * with to the icon, next to the message.</em>
-   */
+  /** Maximum 65 characters. <em>A “label” is short description of the message such as alert, information, warning). It will appear in small capital letters with to the icon, next to the message.</em> */
   suGlobalMsgLabel?: Maybe<Scalars['String']['output']>;
   /** Action Link */
   suGlobalMsgLink?: Maybe<Link>;
   /** This is the body content of the message. */
   suGlobalMsgMessage?: Maybe<Text>;
-  /**
-   * Select the display of the message. You can see examples in <a
-   * href="https://sitesuserguide.stanford.edu/node/676/">the user-guide.</a>
-   */
+  /** Select the display of the message. You can see examples in <a href="https://sitesuserguide.stanford.edu/node/676/">the user-guide.</a> */
   suGlobalMsgType: Scalars['String']['output'];
   /** The Universally Unique IDentifier (UUID). */
   uuid: Scalars['ID']['output'];
@@ -3726,11 +3462,7 @@ export type StanfordLocalFooter = ConfigPagesInterface & EdgeNode & MetaTagInter
   suLocalFootSecond?: Maybe<Array<Link>>;
   /** Secondary Links Header */
   suLocalFootSecondH?: Maybe<Scalars['String']['output']>;
-  /**
-   * Links added in this section will automatically create icons that will appear
-   * in your footer. Supported social links include: Bluesky, Facebook, Flickr,
-   * Github, Google Scholar, Instagram, LinkedIn, Mastodon.social, Threads, X, and
-   */
+  /** Links added in this section will automatically create icons that will appear in your footer. Supported social links include: Bluesky, Facebook, Flickr, Github, Google Scholar, Instagram, LinkedIn, Mastodon.social, Threads, X, and YouTube. */
   suLocalFootSocial?: Maybe<Array<Link>>;
   /** The link text for a user to log into this site. */
   suLocalFootSunetT?: Maybe<Scalars['String']['output']>;
@@ -3739,20 +3471,11 @@ export type StanfordLocalFooter = ConfigPagesInterface & EdgeNode & MetaTagInter
   /** Fourth Content Block */
   suLocalFootTrCo?: Maybe<Text>;
   /**
-   * Uncheck this box if you want to replace the default lock-up settings with a
-   * custom logo or text. This custom logo will appear in the top left corner of
-   * the website's main header.
-   * <strong>The lockup will only change the look. Remember to change the name of
-   * your site as well. See the user guide for instructions on <a
-   * your site name</a> and <a
-   * branding and logo options</a>.</strong>
+   * Uncheck this box if you want to replace the default lock-up settings with a custom logo or text. This custom logo will appear in the top left corner of the website's main header.
+   * <strong>The lockup will only change the look. Remember to change the name of your site as well. See the user guide for instructions on <a href="https://sitesuserguide.stanford.edu/get-started/update-site-name">updating your site name</a> and <a href="https://sitesuserguide.stanford.edu/tour/site-organization-menus/branding-and-logo-lockup-options">managing branding and logo options</a>.</strong>
    */
   suLocalFootUseLoc?: Maybe<Scalars['Boolean']['output']>;
-  /**
-   * Uncheck this box if you want to replace the default lock up settings with a
-   * custom logo. This custom logo will appear in the top left corner of the
-   * website's main header.
-   */
+  /** Uncheck this box if you want to replace the default lock up settings with a custom logo. This custom logo will appear in the top left corner of the website's main header. */
   suLocalFootUseLogo?: Maybe<Scalars['Boolean']['output']>;
   /** The Universally Unique IDentifier (UUID). */
   uuid: Scalars['ID']['output'];
@@ -3799,14 +3522,14 @@ export type StanfordMediaResult = View & {
   filters: Array<Maybe<ViewFilter>>;
   /** The ID of the view. */
   id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
   /** The language code of the view. */
   langcode?: Maybe<Scalars['String']['output']>;
   /** Information about the page in the view. */
   pageInfo: ViewPageInfo;
   /** The results of the view. */
   results: Array<NodeUnion>;
+  /** The title of the view. */
+  title?: Maybe<Scalars['String']['output']>;
   /** The machine name of the view. */
   view: Scalars['String']['output'];
 };
@@ -3835,14 +3558,14 @@ export type StanfordNewsResult = View & {
   filters: Array<Maybe<ViewFilter>>;
   /** The ID of the view. */
   id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
   /** The language code of the view. */
   langcode?: Maybe<Scalars['String']['output']>;
   /** Information about the page in the view. */
   pageInfo: ViewPageInfo;
   /** The results of the view. */
   results: Array<NodeUnion>;
+  /** The title of the view. */
+  title?: Maybe<Scalars['String']['output']>;
   /** The machine name of the view. */
   view: Scalars['String']['output'];
 };
@@ -3879,14 +3602,14 @@ export type StanfordOpportunitiesResult = View & {
   filters: Array<Maybe<ViewFilter>>;
   /** The ID of the view. */
   id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
   /** The language code of the view. */
   langcode?: Maybe<Scalars['String']['output']>;
   /** Information about the page in the view. */
   pageInfo: ViewPageInfo;
   /** The results of the view. */
   results: Array<NodeUnion>;
+  /** The title of the view. */
+  title?: Maybe<Scalars['String']['output']>;
   /** The machine name of the view. */
   view: Scalars['String']['output'];
 };
@@ -3917,14 +3640,14 @@ export type StanfordPersonResult = View & {
   filters: Array<Maybe<ViewFilter>>;
   /** The ID of the view. */
   id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
   /** The language code of the view. */
   langcode?: Maybe<Scalars['String']['output']>;
   /** Information about the page in the view. */
   pageInfo: ViewPageInfo;
   /** The results of the view. */
   results: Array<NodeUnion>;
+  /** The title of the view. */
+  title?: Maybe<Scalars['String']['output']>;
   /** The machine name of the view. */
   view: Scalars['String']['output'];
 };
@@ -3963,14 +3686,14 @@ export type StanfordPublicationsResult = View & {
   filters: Array<Maybe<ViewFilter>>;
   /** The ID of the view. */
   id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
   /** The language code of the view. */
   langcode?: Maybe<Scalars['String']['output']>;
   /** Information about the page in the view. */
   pageInfo: ViewPageInfo;
   /** The results of the view. */
   results: Array<NodeUnion>;
+  /** The title of the view. */
+  title?: Maybe<Scalars['String']['output']>;
   /** The machine name of the view. */
   view: Scalars['String']['output'];
 };
@@ -4007,14 +3730,14 @@ export type StanfordSharedTagsResult = View & {
   filters: Array<Maybe<ViewFilter>>;
   /** The ID of the view. */
   id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
   /** The language code of the view. */
   langcode?: Maybe<Scalars['String']['output']>;
   /** Information about the page in the view. */
   pageInfo: ViewPageInfo;
   /** The results of the view. */
   results: Array<NodeUnion>;
+  /** The title of the view. */
+  title?: Maybe<Scalars['String']['output']>;
   /** The machine name of the view. */
   view: Scalars['String']['output'];
 };
@@ -4899,12 +4622,12 @@ export type View = {
   display: Scalars['String']['output'];
   /** The ID of the view. */
   id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
   /** The language code of the view. */
   langcode?: Maybe<Scalars['String']['output']>;
   /** Information about the page in the view. */
   pageInfo: ViewPageInfo;
+  /** The title of the view. */
+  title?: Maybe<Scalars['String']['output']>;
   /** The machine name of the view. */
   view: Scalars['String']['output'];
 };
