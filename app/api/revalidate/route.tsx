@@ -1,10 +1,11 @@
 import {NextRequest, NextResponse} from "next/server"
 import {revalidateTag} from "next/cache"
 import {getEntityFromPath, getHomePagePath} from "@lib/gql/gql-queries"
+import {secretsMatch} from "@lib/utils/security"
 
 export const GET = async (request: NextRequest) => {
   const secret = request.nextUrl.searchParams.get("secret")
-  if (secret !== process.env.DRUPAL_REVALIDATE_SECRET)
+  if (!(await secretsMatch(secret, process.env.DRUPAL_REVALIDATE_SECRET)))
     return NextResponse.json({message: "Invalid token"}, {status: 403})
 
   let path = request.nextUrl.searchParams.get("path")
@@ -36,7 +37,9 @@ export const GET = async (request: NextRequest) => {
 export const POST = async (request: NextRequest) => {
   const auth = request.headers.get("Authorization")
 
-  if (auth !== `Bearer ${process.env.DRUPAL_REVALIDATE_SECRET}`)
+  // Check the secret is set first, or this would accept the literal header `Bearer undefined`.
+  const secret = process.env.DRUPAL_REVALIDATE_SECRET
+  if (!secret || !(await secretsMatch(auth, `Bearer ${secret}`)))
     return NextResponse.json({message: "Invalid token"}, {status: 403})
 
   // Parse the incoming JSON body

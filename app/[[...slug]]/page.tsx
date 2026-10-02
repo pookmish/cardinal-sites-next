@@ -31,12 +31,26 @@ const PageContent = async ({params}: {params: PageProps["params"]}) => {
   if (redirectPath && !redirectPath.permanent) redirect(redirectPath.url)
   if (!entity) notFound()
 
+  // Internal content is only served behind authentication by /internal. Drupal matches paths case
+  // insensitively, so a request like `/INTERNAL/page` would skip the proxy and land here instead.
+  if (isInternalPath(path) || isInternalPath(entity.path)) notFound()
+
   return (
     <>
       <NodePageMetadata pageTitle={path !== "/" ? entity.title : undefined} metatags={entity.metatag} />
       <NodePage node={entity} isHome={path === "/"} />
     </>
   )
+}
+
+const isInternalPath = (path?: string | null) => {
+  let decoded = path?.toLowerCase() || ""
+  try {
+    decoded = decodeURIComponent(decoded)
+  } catch {
+    // Keep the raw path when the percent encoding is malformed.
+  }
+  return decoded === "/internal" || decoded.startsWith("/internal/")
 }
 
 export const generateStaticParams = async (): Promise<Array<Slug>> => {

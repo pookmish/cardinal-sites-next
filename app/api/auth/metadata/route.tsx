@@ -23,7 +23,12 @@ export const GET = async (req: NextRequest) => {
 
     // Certificates are passed as arguments rather than embedded in the config
     // to avoid issues with passport-saml's metadata generation.
-    const metadata = saml.generateServiceProviderMetadata(signingCert, signingCert)
+    const metadata = saml
+      .generateServiceProviderMetadata(signingCert, signingCert)
+      // passport-saml advertises AES-CBC alongside AES-GCM, and the IdP picks from this list. CBC is
+      // still accepted at decryption, but only GCM is offered so the IdP moves to it once it re-reads this.
+      // @see lib/auth/manual-saml-decrypt.ts
+      .replace(/\s*<EncryptionMethod Algorithm="http:\/\/www\.w3\.org\/2001\/04\/xmlenc#aes(128|256)-cbc"\s*\/>/g, "")
 
     return new Response(metadata, {
       headers: {

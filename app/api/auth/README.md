@@ -60,10 +60,12 @@ Receives the SAML response posted by the IdP after the user authenticates.
 **Flow:**
 
 1. Reads `SAMLResponse` (base64) and `RelayState` from the `multipart/form-data` body.
-2. Manually decrypts the encrypted SAML assertion using the SP private key (`manuallyDecryptSAMLResponse`).
-3. Parses the decrypted XML to extract the user profile (`extractProfileFromDecryptedXML`).
+2. Validates the response (`validateSamlResponse`): exactly one assertion, signed by the IdP certificate, within its
+   time conditions and issued for this SP's audience. Encrypted assertions are decrypted with the SP private key
+   (`manuallyDecryptSAMLResponse`) before their signature is checked.
+3. Parses the validated assertion to extract the user profile (`extractProfileFromDecryptedXML`).
 4. Signs a JWT containing the profile and writes it as an `httpOnly` cookie (`auth_token`).
-5. Redirects to `RelayState` (normalising `/user/login` → `/user`).
+5. Redirects to `RelayState` when it is a path on this site (normalising `/user/login` → `/user`), otherwise `/`.
 6. On any failure, redirects to `/internal/admin`.
 
 > **Note:** Standard `passport-saml` assertion decryption has known issues with certain IdP configurations. A custom
@@ -199,15 +201,21 @@ The JWT payload includes the following claims extracted from SAML attributes:
 Encrypted SAML assertions (`saml2:EncryptedAssertion`) are decrypted using the `xml-encryption` library directly rather
 than relying on `passport-saml`'s built-in decryption, which has compatibility issues with some IdP assertion formats.
 
-**`manuallyDecryptSAMLResponse(encodedResponse, privateKeyPem)`**
+**`validateSamlResponse(encodedResponse, samlConfig)`**
 
-- Decodes the base64 SAML response.
-- If no `saml2:EncryptedAssertion` elements are found, returns the response unchanged (supports unencrypted assertions).
-- Otherwise decrypts using the SP private key and resolves with the plaintext XML.
+- Mirrors `passport-saml`'s `validatePostResponseAsync`, using the decryption helper below.
+- Requires a valid IdP signature on the response or on its single (decrypted) assertion.
+- Checks the assertion's `NotBefore`/`NotOnOrAfter` conditions, subject confirmation and audience.
+- Resolves with the verified `Assertion` XML, or throws.
 
-**`extractProfileFromDecryptedXML(decryptedXML)`**
+**`manuallyDecryptSAMLResponse(encryptedXml, privateKeyPem)`**
 
-- Parses SAML `saml2:Attribute` elements by `FriendlyName` or `Name`.
+- Decrypts an `EncryptedAssertion` using the SP private key and resolves with the plaintext XML.
+- Does not authenticate the content; only call it through `validateSamlResponse`.
+
+**`extractProfileFromDecryptedXML(assertionXml)`**
+
+- Parses SAML `Attribute` elements by `FriendlyName` or `Name`.
 - Returns a `UserProfile` object populated from the attribute map.
 
 ---

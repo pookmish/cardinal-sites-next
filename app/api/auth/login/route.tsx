@@ -1,6 +1,7 @@
 import {NextRequest, NextResponse} from "next/server"
 import {getSamlConfig} from "@lib/auth/saml-config"
 import {SamlUnavailableError, loadSaml} from "@lib/auth/optional-saml"
+import {getSafeRedirectPath} from "@lib/utils/security"
 
 /**
  * GET /api/auth/login
@@ -32,8 +33,11 @@ export const GET = async (req: NextRequest) => {
 
     // Determine where to send the user after a successful login.
     // Priority: explicit `destination` param > Referer header pathname > root.
-    const refer = req.headers.get("referer")
-    const relayState = req.nextUrl.searchParams.get("destination") || (refer ? new URL(refer).pathname : "/")
+    // Only paths on this site are accepted so the login can't be used to bounce users off site.
+    const refer = URL.parse(req.headers.get("referer") || "")
+    const relayState = getSafeRedirectPath(
+      req.nextUrl.searchParams.get("destination") || (refer?.origin === req.nextUrl.origin ? refer.pathname : "/")
+    )
     const SAML = await loadSaml()
     const saml = new SAML(samlConfig)
 
@@ -70,9 +74,9 @@ export const GET = async (req: NextRequest) => {
         })
       }
 
-      return NextResponse.json({error: "Authentication failed", details: error.message}, {status: 500})
+      return NextResponse.json({error: "Authentication failed"}, {status: 500})
     }
 
-    return NextResponse.json({error: "Authentication failed", details: "unknown"}, {status: 500})
+    return NextResponse.json({error: "Authentication failed"}, {status: 500})
   }
 }

@@ -4,6 +4,18 @@ import {vaultEnvVars} from "./vault-envars"
 
 const drupalUrl = new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL as string)
 
+// Document types proxied from Drupal's public files directory by the `/files/` rewrite. Matching is
+// case-insensitive, so `.PDF` is included.
+const DOCUMENT_EXTENSIONS = ["txt", "rtf", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "pdf"]
+// A single path segment. Slashes and backslashes, including percent-encoded ones that the upstream
+// server could decode into separators, are not allowed inside it.
+const FILE_PATH_SEGMENT = "(?:(?!%2f|%5c)[^/\\\\])+"
+// A directory segment, which can't be `.` or `..` (literal or percent-encoded). That keeps the rewritten
+// path inside `/sites/[site]/files` rather than walking up to anything else on the Drupal host.
+const FILE_PATH_DIRECTORY = `(?!(?:\\.|%2e){1,2}/)${FILE_PATH_SEGMENT}/`
+// Any depth of directories, then a file name ending in one of the document extensions.
+const DOCUMENT_FILE_PATH = `(?:${FILE_PATH_DIRECTORY})*${FILE_PATH_SEGMENT}\\.(?:${DOCUMENT_EXTENSIONS.join("|")})`
+
 module.exports = async (_phase: string) => {
   const nextConfig: NextConfig = {
     env: {...(await vaultEnvVars())},
@@ -92,7 +104,7 @@ module.exports = async (_phase: string) => {
       // Rewrite document urls so the user doesn't change domains. They will stay on the FE.
       return [
         {
-          source: "/files/:site(\\w+)/:slug(.*[txt|rtf|doc|docx|ppt|pptx|xls|xlsx|pdf]$)",
+          source: `/files/:site(\\w+)/:slug(${DOCUMENT_FILE_PATH})`,
           destination: `${drupalUrl.protocol}//${drupalUrl.hostname}/sites/:site/files/:slug`,
         },
       ]

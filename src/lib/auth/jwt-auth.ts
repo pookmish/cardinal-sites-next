@@ -5,8 +5,11 @@ const JWT_EXPIRES_IN = "1d"
 
 // Read lazily so the value injected by Vault at startup (instrumentation.ts)
 // is always picked up rather than a stale module-load-time snapshot.
-const getJwtSecretKey = () =>
-  new TextEncoder().encode(process.env.JWT_SECRET || "your-super-secret-jwt-key-change-in-production")
+// There is deliberately no fallback: a well known default key would let anyone mint a valid session.
+const getJwtSecretKey = () => {
+  if (!process.env.JWT_SECRET) throw new Error("JWT_SECRET is not set. Authentication is disabled.")
+  return new TextEncoder().encode(process.env.JWT_SECRET)
+}
 
 export type UserProfile = {
   uid?: string
@@ -42,6 +45,7 @@ export const verifyJWT = async (token: string): Promise<JWTPayload | null> => {
   try {
     const {payload} = await jwtVerify(token, getJwtSecretKey(), {
       issuer: "cardinal-sites-saml",
+      algorithms: ["HS256"],
     })
     return payload as JWTPayload
   } catch (error) {

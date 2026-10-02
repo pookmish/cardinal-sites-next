@@ -1,9 +1,10 @@
 import {NextRequest, NextResponse} from "next/server"
-import {manuallyDecryptSAMLResponse, extractProfileFromDecryptedXML} from "@lib/auth/manual-saml-decrypt"
+import {validateSamlResponse, extractProfileFromDecryptedXML} from "@lib/auth/manual-saml-decrypt"
 import {generateJWT, getJWTCookieName, getSecureCookieOptions} from "@lib/auth/jwt-auth"
 import {redirect} from "next/navigation"
 import {cookies} from "next/headers"
 import {getSamlConfig} from "@lib/auth/saml-config"
+import {getSafeRedirectPath} from "@lib/utils/security"
 
 /**
  * POST /api/auth/callback
@@ -14,10 +15,11 @@ import {getSamlConfig} from "@lib/auth/saml-config"
  *
  * Expected form body fields:
  *   - `SAMLResponse`  – base64-encoded SAML response XML from the IdP (required)
- *   - `RelayState`    – the original destination path to redirect to after login
+ *   - `RelayState`    – the original destination path to redirect to after login (site paths only)
  *
  * On success:  redirects to `RelayState` with the `auth_token` cookie set.
- * On failure:  redirects to `/internal/admin` (decryption error) or `/` (other).
+ * On failure:  redirects to `/internal/admin` (invalid signature, expired assertion, or
+ *              decryption error) or `/` (other).
  *
  * @param req - Incoming Next.js request with `multipart/form-data` body.
  * @returns A redirect response; never returns a JSON body on the happy path.
@@ -29,7 +31,8 @@ export const POST = async (req: NextRequest) => {
 
   // Default to "/" if RelayState is missing; normalise the login page back to the
   // user dashboard since there is nothing to show on /user/login after auth.
-  let relayState = (body.get("RelayState") as string) || "/"
+  // RelayState round trips through the browser, so it is only ever followed as a path on this site.
+  let relayState = getSafeRedirectPath(body.get("RelayState") as string)
   if (relayState === "/user/login") relayState = "/user"
 
   if (!samlResponse) {
@@ -39,19 +42,18 @@ export const POST = async (req: NextRequest) => {
 
   const cookieStore = await cookies()
 
-  // Decrypt the SAML assertion using the SP private key.
+  // Verify the IdP signature and the assertion conditions before trusting anything in the response,
+  // then decrypt the assertion using the SP private key.
   // passport-saml's built-in decryption has compatibility issues with some IdP
   // assertion formats, so we use a custom xml-encryption-based helper instead.
   let decryptedXML: string | null = null
   try {
-    decryptedXML = await manuallyDecryptSAMLResponse(samlResponse, samlConfig.decryptionPvk as string)
-  } catch (manualError) {
-    console.error("❌ Manual decryption threw an error:")
-    if (manualError instanceof Error) {
-      console.error("Error message:", manualError.message)
-      console.error("Error stack:", manualError.stack)
-    }
-    console.error("Full error object:", manualError)
+    decryptedXML = await validateSamlResponse(samlResponse, samlConfig)
+  } catch (validationError) {
+    console.error(
+      "❌ SAML response validation failed:",
+      validationError instanceof Error ? validationError.message : validationError
+    )
     redirect("/internal/admin")
   }
 

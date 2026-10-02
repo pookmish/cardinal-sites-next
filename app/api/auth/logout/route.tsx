@@ -1,5 +1,6 @@
 import {NextRequest, NextResponse} from "next/server"
 import {getJWTCookieName} from "@lib/auth/jwt-auth"
+import {getSafeRedirectPath} from "@lib/utils/security"
 
 /**
  * GET /api/auth/logout
@@ -11,11 +12,11 @@ import {getJWTCookieName} from "@lib/auth/jwt-auth"
  * (Single Logout) — the user's session on the IdP remains active.
  *
  * @param req - Incoming Next.js request. Reads:
- *   - `destination` query param – redirect path after logout (defaults to `/user/login`)
+ *   - `destination` query param – redirect path on this site after logout (defaults to `/user/login`)
  * @returns 302 redirect with a Set-Cookie header that clears `auth_token`.
  */
 export const GET = (req: NextRequest) => {
-  const destination = req.nextUrl.searchParams.get("destination") || "/user/login"
+  const destination = getSafeRedirectPath(req.nextUrl.searchParams.get("destination"), "/user/login")
 
   // Build the redirect response first so we can mutate its cookie headers.
   const response = NextResponse.redirect(new URL(destination, req.url))

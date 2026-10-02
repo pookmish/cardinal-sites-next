@@ -1,5 +1,6 @@
 import {NextRequest, NextResponse} from "next/server"
 import {verifyJWT, getJWTCookieName} from "./src/lib/auth/jwt-auth"
+import {secretsMatch} from "./src/lib/utils/security"
 
 // Draft content must never be indexed or held in a shared cache, and the preview url carries the
 // shared secret in its query string, so keep that url out of any outbound Referer header.
@@ -35,13 +36,14 @@ export const proxy = async (request: NextRequest) => {
   const payload = await verifyJWT(token)
   if (!payload) return NextResponse.redirect(loginUrl)
 
-  // Add user info to request headers for use in pages/components
-  const response = NextResponse.next()
-  response.headers.set("x-user-id", payload.uid || "")
-  response.headers.set("x-user-email", payload.mail || "")
-  response.headers.set("x-user-name", payload.displayName || "")
+  // Add user info to request headers for use in pages/components. These overwrite any `x-user-*`
+  // headers the client sent, so pages can trust them.
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set("x-user-id", payload.uid || "")
+  requestHeaders.set("x-user-email", payload.mail || "")
+  requestHeaders.set("x-user-name", payload.displayName || "")
 
-  return response
+  return NextResponse.next({request: {headers: requestHeaders}})
 }
 
 /**
@@ -83,29 +85,6 @@ const withPreviewHeaders = (response: NextResponse) => {
 }
 
 /**
- * Compare the two secrets in constant time.
- *
- * A plain `===` bails on the first differing character, which leaks the secret one character at a
- * time to anyone willing to measure the response. Hashing first gives two fixed-length values, so
- * neither the length nor the contents of the expected secret affect how long the comparison takes.
- */
-const secretsMatch = async (given: string, expected: string): Promise<boolean> => {
-  const encoder = new TextEncoder()
-  const [givenHash, expectedHash] = await Promise.all([
-    crypto.subtle.digest("SHA-256", encoder.encode(given)),
-    crypto.subtle.digest("SHA-256", encoder.encode(expected)),
-  ])
-
-  const givenBytes = new Uint8Array(givenHash)
-  const expectedBytes = new Uint8Array(expectedHash)
-
-  let difference = 0
-  for (let i = 0; i < expectedBytes.length; i++) difference |= givenBytes[i] ^ expectedBytes[i]
-
-  return difference === 0
-}
-
-/**
  * Drupal sends the page to preview as a `slug` query parameter, which is pasted straight into the
  * redirect location. Accept only a plain, relative path: an authority (`//host`), a backslash (which
  * some browsers normalize to `/`), or a `..` segment would all walk the editor off `/preview` — and
@@ -137,14 +116,19 @@ const isSafePreviewSlug = (slug: string | null): slug is string => {
 const isAuthenticated = async (req: NextRequest) => {
   const authHeader = req.headers.get("authorization") || req.headers.get("Authorization")
 
-  if (!authHeader) return false
+  const [scheme, encoded] = authHeader?.split(" ") || []
+  if (scheme?.toLowerCase() !== "basic" || !encoded) return false
 
   // Check for cache-clear specific route
   if (req.nextUrl.pathname.startsWith("/system/cache-clear")) {
-    const [user, pass] = Buffer.from(authHeader.split(" ")[1], "base64").toString().split(":")
+    // Split on the first colon only; the password itself may contain colons.
+    const credentials = Buffer.from(encoded, "base64").toString()
+    const separator = credentials.indexOf(":")
+    if (separator < 0) return false
 
-    return await checkCacheClearAuth(user, pass)
+    return await checkCacheClearAuth(credentials.slice(0, separator), credentials.slice(separator + 1))
   }
+  return false
 }
 
 const checkCacheClearAuth = async (username: string, password: string): Promise<boolean> => {
@@ -157,8 +141,8 @@ const checkCacheClearAuth = async (username: string, password: string): Promise<
   }
 
   const [usernameOk, passwordOk] = await Promise.all([
-    secretsMatch(validUsername, username),
-    secretsMatch(validPassword, password),
+    secretsMatch(username, validUsername),
+    secretsMatch(password, validPassword),
   ])
   return usernameOk && passwordOk
 }

@@ -33,6 +33,23 @@ export const loadSaml = async () => {
 }
 
 /**
+ * Loads the XML helpers `passport-saml` uses internally to parse and query SAML documents.
+ *
+ * Signature validation runs through `passport-saml`, so the nodes it inspects must come from its own
+ * parser and xpath implementation rather than a separately installed copy.
+ *
+ * @returns The `parseDomFromString` and `xpath` helpers.
+ * @throws {SamlUnavailableError} When `passport-saml` is not installed.
+ */
+export const loadSamlXml = async () => {
+  try {
+    return await import("passport-saml/lib/node-saml/xml")
+  } catch {
+    throw new SamlUnavailableError("passport-saml")
+  }
+}
+
+/**
  * Loads the `xml-encryption` module used to decrypt SAML assertions.
  *
  * @returns The `xml-encryption` module namespace.
