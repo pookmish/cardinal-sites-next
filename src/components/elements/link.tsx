@@ -43,7 +43,9 @@ export const getLinkHref = (href: string = "#") => {
   return href
 }
 
-const DrupalLink = ({href, showExtLinkIcon, className, children, ...props}: LinkProps) => {
+// Prefetching is disabled by default. Every in-viewport link prefetch is a request to Vercel, and prefetching a page
+// that hasn't been rendered yet triggers a background render and cache write.
+const DrupalLink = ({href, showExtLinkIcon, className, children, prefetch = false, ...props}: LinkProps) => {
   href = getLinkHref(href)
 
   const externalLink =
@@ -55,7 +57,7 @@ const DrupalLink = ({href, showExtLinkIcon, className, children, ...props}: Link
 
   if (className?.includes("link--action")) {
     return (
-      <ActionLink href={href} className={className?.replaceAll("link--action", "")} {...props}>
+      <ActionLink href={href} className={className?.replaceAll("link--action", "")} prefetch={prefetch} {...props}>
         {children}
       </ActionLink>
     )
@@ -65,6 +67,7 @@ const DrupalLink = ({href, showExtLinkIcon, className, children, ...props}: Link
     return (
       <Button
         href={href}
+        prefetch={prefetch}
         big={className.includes("--big")}
         secondary={className.includes("--secondary")}
         className={className?.replaceAll("button", "")}
@@ -83,7 +86,7 @@ const DrupalLink = ({href, showExtLinkIcon, className, children, ...props}: Link
   }
 
   return (
-    <Link href={href} className={cn("group", className)} {...props}>
+    <Link href={href} className={cn("group", className)} prefetch={prefetch} {...props}>
       {children}
       {href.startsWith("mailto") && <EnvelopeIcon width={20} className="ml-8 inline-block" />}
 

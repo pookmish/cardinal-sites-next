@@ -37,6 +37,11 @@ module.exports = async (_phase: string) => {
     },
     images: {
       minimumCacheTTL: 2678400,
+      // Every width and quality is a separately billed transformation per source image. The defaults allow 15 widths
+      // up to 3840px; these 7 still cover the smallest rendered image through a full-width banner on a 2x display.
+      imageSizes: [256, 384],
+      deviceSizes: [640, 828, 1200, 1920, 2560],
+      qualities: [75],
       dangerouslyAllowLocalIP: !process.env.VERCEL_ENV,
       remotePatterns: [
         {

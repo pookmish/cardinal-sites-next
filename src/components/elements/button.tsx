@@ -52,6 +52,7 @@ export const Button = ({
   centered = false,
   children,
   className,
+  prefetch = false,
   ...props
 }: ButtonProps) => {
   const standardClasses = cn({
@@ -76,7 +77,7 @@ export const Button = ({
   }
 
   return (
-    <Link href={getLinkHref(href)} className={cn(standardClasses, className)} {...props}>
+    <Link href={getLinkHref(href)} className={cn(standardClasses, className)} prefetch={prefetch} {...props}>
       {children}
     </Link>
   )

@@ -23,6 +23,7 @@ const MediaCaptionParagraph = ({paragraph, ...props}: Props) => {
           <BlurImage
             className="object-cover"
             src={image.url}
+            blurSrc={image.variations?.[0]?.url}
             alt={image.alt || ""}
             fill
             sizes="(max-width: 768px) 100vw, 1000px"

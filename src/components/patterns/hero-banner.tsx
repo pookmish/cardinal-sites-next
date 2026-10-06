@@ -10,6 +10,10 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
    */
   imageUrl?: Maybe<string>
   /**
+   * Url of the image's `tiny_blur` style derivative, used to build the blur placeholder.
+   */
+  imageBlurUrl?: Maybe<string>
+  /**
    * Image alt string.
    */
   imageAlt?: Maybe<string>
@@ -33,6 +37,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const HeroBanner = ({
   imageUrl,
+  imageBlurUrl,
   imageAlt,
   eagerLoadImage,
   isSection,
@@ -67,6 +72,7 @@ const HeroBanner = ({
           <BlurImage
             className="object-cover"
             src={imageUrl}
+            blurSrc={imageBlurUrl}
             alt={imageAlt || ""}
             loading={eagerLoadImage ? "eager" : "lazy"}
             fill

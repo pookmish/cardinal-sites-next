@@ -19,6 +19,11 @@ const Page = (props: PageProps) => (
 const PageContent = async ({params}: {params: PageProps["params"]}) => {
   const path = getPathFromContext((await params).slug || "")
 
+  // Scanner probes (`/.env`, `/.git/config`, `/wp-login.php`) never match a Drupal alias. Rejecting them here skips the
+  // Drupal query and the cache entry each new junk path would otherwise create. Extensions like `.html` are left
+  // alone since migrated sites can keep legacy aliases that use them.
+  if (SCANNER_PATH.test(path)) notFound()
+
   // Independent lookups: resolving the home page alias doesn't gate fetching this path.
   const [homePath, {redirect: redirectPath, entity}] = await Promise.all([
     getHomePagePath(),
@@ -42,6 +47,9 @@ const PageContent = async ({params}: {params: PageProps["params"]}) => {
     </>
   )
 }
+
+// A path segment starting with a dot, or a server-side script, config or backup file extension.
+const SCANNER_PATH = /(^|\/)\.|\.(php\d?|phtml|asp|aspx|jsp|cgi|env|ini|sql|bak|old|swp|ya?ml|log|config)$/i
 
 const isInternalPath = (path?: string | null) => {
   let decoded = path?.toLowerCase() || ""

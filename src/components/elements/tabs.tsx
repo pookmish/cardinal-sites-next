@@ -1,7 +1,7 @@
 "use client"
 
 import {useState} from "react"
-import {useRouter, useSearchParams} from "next/navigation"
+import {useSearchParams} from "next/navigation"
 import {
   Tabs as BaseTabs,
   type TabsRootProps,
@@ -31,7 +31,6 @@ const TabsInner = ({
 }: TabsProps) => {
   const screen = useScreen({initializeWithValue: false})
   const isVertical = (screen && screen.width < 768) || orientation === "vertical"
-  const router = useRouter()
   const searchParams = useSearchParams()
 
   const queryValue = queryKey ? (searchParams.get(queryKey) ?? undefined) : undefined
@@ -48,7 +47,8 @@ const TabsInner = ({
       const params = new URLSearchParams(searchParams.toString())
       params.delete(queryKey)
       if (newValue !== defaultValue) params.set(queryKey, String(newValue))
-      router.replace(`?${params.toString()}`, {scroll: false})
+      // Native History API instead of router.replace, so a tab change doesn't fetch the page from the server.
+      window.history.replaceState(null, "", `?${params.toString()}`)
       setActiveTab(newValue)
     }
     onValueChange?.(newValue, eventDetails)

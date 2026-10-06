@@ -13,6 +13,7 @@ const PageTitleBannerParagraph = ({paragraph, pageTitle, ...props}: Props) => {
     <HeroBanner
       {...props}
       imageUrl={paragraph.suTitleBannerImage?.mediaImage.url}
+      imageBlurUrl={paragraph.suTitleBannerImage?.mediaImage.variations?.[0]?.url}
       imageAlt={paragraph.suTitleBannerImage?.mediaImage.alt}
       eagerLoadImage
     >

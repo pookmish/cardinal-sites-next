@@ -51,3 +51,15 @@ export const getSafeRedirectPath = (destination: string | null | undefined, fall
     return fallback
   }
 }
+
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+/**
+ * Check a request supplied value is a UUID before it's used to look up a Drupal entity.
+ *
+ * Each distinct value is its own Drupal query and cache entry, so malformed ids are rejected up front.
+ *
+ * @param value - The value supplied by the request.
+ * @returns Whether the value is a UUID.
+ */
+export const isUuid = (value?: string | null): value is string => !!value && UUID_PATTERN.test(value)

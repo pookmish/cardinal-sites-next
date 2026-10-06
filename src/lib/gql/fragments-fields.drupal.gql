@@ -67,6 +67,10 @@ fragment FragmentMediaImage on MediaImage {
     alt
     height
     width
+    # 10x10 derivative used to build blur placeholders without downloading the original.
+    variations(styles: [TINY_BLUR]) {
+      url
+    }
   }
 }
 

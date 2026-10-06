@@ -3,8 +3,8 @@ import {graphqlClient} from "@lib/gql/gql-client"
 import {notFound} from "next/navigation"
 import {ParagraphDocument, ParagraphQuery, ParagraphStanfordGallery} from "@lib/gql/__generated__/graphql"
 import Image from "next/image"
-import {Suspense} from "react"
 import {cacheTag} from "next/cache"
+import {isUuid} from "@lib/utils/security"
 
 export const metadata = {
   title: "Gallery Image",
@@ -20,23 +20,35 @@ type Props = {
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
 
-const Page = (props: Props) => (
-  <Suspense fallback={<GallerySkeleton />}>
-    <GalleryContent params={props.params} />
-  </Suspense>
-)
+export const instant = false
 
-const GalleryContent = async (props: Props) => {
+/**
+ * Resolved outside of a Suspense boundary so `notFound()` runs before streaming starts and an unknown gallery returns
+ * a real 404 instead of a 200 soft-404 that crawlers keep requesting. In-app navigation to a gallery is handled by the
+ * intercepting modal route, so this page is only rendered on a full page load.
+ */
+const Page = async (props: Props) => {
+  const [paragraphId, mediaUuid] = (await props.params).uuid
+
+  // Reject malformed ids before they reach Drupal or create a cache entry.
+  if (!isUuid(paragraphId) || (mediaUuid && !isUuid(mediaUuid))) notFound()
+
+  const paragraph = await getGallery(paragraphId)
+  if (!paragraph) notFound()
+
+  return <GalleryContent paragraph={paragraph} mediaUuid={mediaUuid} />
+}
+
+const getGallery = async (paragraphId: string): Promise<ParagraphStanfordGallery | undefined> => {
   "use cache: remote"
-
-  const params = await props.params
-  const [paragraphId, mediaUuid] = params.uuid
   cacheTag("all-cache", "paragraphs", `paragraph:${paragraphId}`)
 
   const paragraphQuery = await graphqlClient().request<ParagraphQuery>(ParagraphDocument, {uuid: paragraphId})
-  if (paragraphQuery.paragraph?.__typename !== "ParagraphStanfordGallery") notFound()
+  if (paragraphQuery.paragraph?.__typename === "ParagraphStanfordGallery")
+    return paragraphQuery.paragraph as ParagraphStanfordGallery
+}
 
-  const paragraph = paragraphQuery.paragraph as ParagraphStanfordGallery
+const GalleryContent = ({paragraph, mediaUuid}: {paragraph: ParagraphStanfordGallery; mediaUuid?: string}) => {
   let galleryImages = mediaUuid
     ? paragraph.suGalleryImages?.filter(image => image.uuid === mediaUuid)
     : paragraph.suGalleryImages
@@ -55,6 +67,7 @@ const GalleryContent = async (props: Props) => {
               src={galleryImage.suGalleryImage.url}
               width={galleryImage.suGalleryImage.width}
               height={galleryImage.suGalleryImage.height}
+              sizes="(max-width: 1200px) 100vw, 1200px"
               alt=""
             />
 
@@ -65,13 +78,6 @@ const GalleryContent = async (props: Props) => {
     </div>
   )
 }
-
-const GallerySkeleton = () => (
-  <div className="mt-64 centered">
-    <div className="mb-40 h-16 w-1/2 bg-black-10" />
-    <div className="aspect-[16/9] w-full bg-black-10" />
-  </div>
-)
 
 export const generateStaticParams = async (): Promise<Array<{uuid: string[]}>> => [{uuid: ["none"]}]
 

@@ -32,6 +32,7 @@ const BannerParagraph = ({paragraph, eagerLoadImage, ...props}: Props) => {
       {...props}
       aria-labelledby={id}
       imageUrl={paragraph.suBannerImage?.mediaImage.url}
+      imageBlurUrl={paragraph.suBannerImage?.mediaImage.variations?.[0]?.url}
       imageAlt={paragraph.suBannerImage?.mediaImage.alt}
       isSection={!!paragraph.suBannerHeader && headerTag !== "div"}
       overlayPosition={behaviors.hero_pattern?.overlay_position}
