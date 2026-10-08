@@ -65,14 +65,14 @@
 @custom-variant data-intrail (&[data-intrail="true"]);
 
 /* Styles for react-tiny-oembed containers */
-.aspect-\[16\/9\] .__embed_column {
+.aspect-video .__embed_column {
   width: 100%;
   max-width: 100%;
   height: 100%;
   display: block;
 }
 
-.aspect-\[16\/9\] .__embed_column iframe {
+.aspect-video .__embed_column iframe {
   width: 100%;
   height: 100%;
 }

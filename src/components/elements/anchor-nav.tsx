@@ -145,7 +145,7 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
 
   useLayoutEffect(() => {
     if (!horizontal) return
-    measureAndCalculate() // eslint-disable-line react-hooks/set-state-in-effect
+    measureAndCalculate()
   })
 
   // Recalculate on container resize using stored widths (no DOM re-measurement needed)

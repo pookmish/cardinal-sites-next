@@ -9,6 +9,8 @@ import {Suspense} from "react"
 
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
+// https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config/ensureStatic
+export const ensureStatic = "navigation"
 
 const Page = (props: PageProps) => (
   <Suspense fallback={<NodePageSkeleton />}>

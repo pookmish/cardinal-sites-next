@@ -3,7 +3,7 @@ import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/graphql"
 import UserAnalyticsScripts from "@components/elements/user-analytics/user-analytics.client"
 
 const UserAnalytics = async () => {
-  if (process.env.NODE_ENV === "development") return
+  if (process.env.VERCEL_ENV !== "production") return
 
   const ga4 = await getConfigPageField<StanfordBasicSiteSetting, StanfordBasicSiteSetting["suGoogleAnalytics"]>(
     "StanfordBasicSiteSetting",
