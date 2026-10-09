@@ -5,6 +5,7 @@ import {ParagraphDocument, ParagraphQuery, ParagraphStanfordGallery} from "@lib/
 import Image from "next/image"
 import {cacheTag} from "next/cache"
 import {isUuid} from "@lib/utils/security"
+import {cacheFailure} from "@lib/gql/gql-queries"
 
 export const metadata = {
   title: "Gallery Image",
@@ -43,9 +44,13 @@ const getGallery = async (paragraphId: string): Promise<ParagraphStanfordGallery
   "use cache: remote"
   cacheTag("all-cache", "paragraphs", `paragraph:${paragraphId}`)
 
-  const paragraphQuery = await graphqlClient().request<ParagraphQuery>(ParagraphDocument, {uuid: paragraphId})
-  if (paragraphQuery.paragraph?.__typename === "ParagraphStanfordGallery")
-    return paragraphQuery.paragraph as ParagraphStanfordGallery
+  try {
+    const paragraphQuery = await graphqlClient().request<ParagraphQuery>(ParagraphDocument, {uuid: paragraphId})
+    if (paragraphQuery.paragraph?.__typename === "ParagraphStanfordGallery")
+      return paragraphQuery.paragraph as ParagraphStanfordGallery
+  } catch (e) {
+    cacheFailure(`Unable to fetch gallery ${paragraphId}`, e)
+  }
 }
 
 const GalleryContent = ({paragraph, mediaUuid}: {paragraph: ParagraphStanfordGallery; mediaUuid?: string}) => {

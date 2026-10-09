@@ -32,10 +32,22 @@ import {
   AllRedirectsQuery,
   AllRedirectsDocument,
 } from "@lib/gql/__generated__/graphql"
-import {ClientError, graphqlClient} from "@lib/gql/gql-client"
+import {describeError, graphqlClient} from "@lib/gql/gql-client"
 import {FilterGroup} from "@components/views/filtered-list-view/filtered-list-view.client"
 import {FilterVocabs} from "@lib/gql/filter-vocabs"
-import {cacheTag} from "next/cache"
+import {cacheLife, cacheTag} from "next/cache"
+
+/**
+ * Log a failed Drupal request from inside a `use cache` function and keep its fallback short-lived.
+ *
+ * A failure is not a real answer, so it must not be cached for as long as one. Pages that render the
+ * fallback also take this shorter lifetime, so they try Drupal again within minutes. Only call this
+ * inside a cache scope, and only once per invocation (it sets the scope's cacheLife).
+ */
+export const cacheFailure = (context: string, error: unknown) => {
+  console.warn(`${context}: ${describeError(error)}`)
+  cacheLife("minutes")
+}
 
 /** Resolved result of a route lookup: an entity, a redirect, or neither when the lookup failed. */
 type RouteResult<T extends NodeUnion> = {
@@ -50,17 +62,28 @@ type RouteResult<T extends NodeUnion> = {
  * @param previewMode  When `true`, uses admin credentials so unpublished content is visible.
  * @param teaser       When `true`, Drupal returns a reduced field set suitable for list views.
  *
- * @returns `{ entity }` for real pages, `{ redirect }` for 3xx routes, or `{}` on error.
+ * @returns `{ entity }` for real pages, `{ redirect }` for 3xx routes, or `{}` when the path doesn't exist.
+ *   A teaser lookup also returns `{}` when Drupal fails, so one card can't break the page around it.
+ * @throws {ClientError} When a full (non-teaser, non-preview) lookup fails. The page render fails with it,
+ *   so a cached copy of the page keeps being served instead of being replaced by a "not found".
  */
 export const getEntityFromPath = async <T extends NodeUnion>(
   path: string,
   previewMode?: boolean,
   teaser?: boolean
-): Promise<RouteResult<T>> =>
+): Promise<RouteResult<T>> => {
   // Preview renders draft content, which changes on every editor save. Caching it would leave an
   // editor looking at a stale draft until Drupal happened to fire a revalidation for that path, so
   // preview requests go straight to Drupal and only published content is cached.
-  previewMode ? requestEntityFromPath<T>(path, true, teaser) : getCachedEntityFromPath<T>(path, teaser)
+  if (!previewMode) return getCachedEntityFromPath<T>(path, teaser)
+
+  try {
+    return await requestEntityFromPath<T>(path, true, teaser)
+  } catch (e) {
+    console.warn(`Unable to fetch preview of ${path}: ${describeError(e)}`)
+    return {}
+  }
+}
 
 const getCachedEntityFromPath = async <T extends NodeUnion>(
   path: string,
@@ -69,7 +92,22 @@ const getCachedEntityFromPath = async <T extends NodeUnion>(
   "use cache: remote"
 
   cacheTag("all-cache", "paths", `paths:${path}`)
-  return requestEntityFromPath<T>(path, false, teaser)
+  try {
+    // A path Drupal doesn't know resolves without an error, so a real "not found" is cached normally.
+    return await requestEntityFromPath<T>(path, false, teaser)
+  } catch (e) {
+    // A teaser is a card within some other page: show the page without it, and retry soon.
+    if (teaser) {
+      cacheFailure(`Unable to fetch teaser of ${path}`, e)
+      return {}
+    }
+
+    // A failure is not a "not found". Rendering a 404 here would replace a good cached page, and tell
+    // search engines the page is gone. Failing the render instead keeps the last good copy in the cache
+    // (or returns an error status when there isn't one). A thrown error is never cached.
+    console.warn(`Unable to fetch ${path}: ${describeError(e)}`)
+    throw e
+  }
 }
 
 const requestEntityFromPath = async <T extends NodeUnion>(
@@ -77,23 +115,11 @@ const requestEntityFromPath = async <T extends NodeUnion>(
   previewMode: boolean,
   teaser?: boolean
 ): Promise<RouteResult<T>> => {
-  let query: RouteQuery
-  try {
-    query = await graphqlClient(undefined, previewMode).request<RouteQuery>(RouteDocument, {
-      path,
-      teaser: !!teaser,
-    })
-  } catch (e) {
-    if (e instanceof ClientError) {
-      // The Drupal GraphQL module attaches a human-readable `debugMessage` alongside the
-      // standard `message`. Deduplicate in case multiple errors carry the same text.
-      const messages = e.response.errors?.map(error => error.debugMessage || error.message)
-      console.warn([...new Set(messages)].join(" "))
-    } else {
-      console.warn(e instanceof Error ? e.message : "An error occurred")
-    }
-    return {}
-  }
+  // Errors are left to the caller: only a cached caller can shorten the cache lifetime.
+  const query = await graphqlClient(undefined, previewMode).request<RouteQuery>(RouteDocument, {
+    path,
+    teaser: !!teaser,
+  })
 
   if (query.route?.__typename === "RouteRedirect")
     return {redirect: {url: query.route.url, permanent: query.route.status === 301}}
@@ -120,7 +146,7 @@ const getAllConfigPages = async (): Promise<ConfigPagesQuery | undefined> => {
   try {
     return await graphqlClient().request<ConfigPagesQuery>(ConfigPagesDocument)
   } catch (e) {
-    console.error("Unable to fetch config pages: " + (e instanceof Error && e.stack))
+    cacheFailure("Unable to fetch config pages", e)
   }
 }
 
@@ -181,8 +207,8 @@ const fetchMenu = async (name?: MenuAvailable): Promise<MenuItem[]> => {
   try {
     const menu = await graphqlClient().request<MenuQuery>(MenuDocument, {name})
     return (menu.menu?.items ?? []) as MenuItem[]
-  } catch (_e) {
-    console.error("Unable to fetch menu")
+  } catch (e) {
+    cacheFailure(`Unable to fetch the ${name?.toLowerCase() ?? "main"} menu`, e)
     return []
   }
 }
@@ -198,8 +224,9 @@ const fetchMenu = async (name?: MenuAvailable): Promise<MenuItem[]> => {
  * @param maxLevels  Maximum nesting depth to return. `0` returns only top-level items.
  */
 export const getMenu = async (name?: MenuAvailable, maxLevels?: number): Promise<MenuItem[]> => {
-  // Neither of these depends on the other, so don't make the menu wait on the home page lookup.
-  const [homePath, menuItems] = await Promise.all([getHomePagePath(), fetchMenu(name)])
+  // Neither of these depends on the other, so don't make the menu wait on the home page lookup. If Drupal
+  // can't resolve the home page, the menu still renders, linking to the home page's alias instead of "/".
+  const [homePath, menuItems] = await Promise.all([getHomePagePath().catch(() => undefined), fetchMenu(name)])
 
   // Rebuild the tree instead of mutating it in place: `menuItems` comes straight out of a cache
   // entry, and the in-memory tier can hand the same objects to every caller.
@@ -237,7 +264,14 @@ export const getAllNodes = async () => {
   const cursors: Omit<AllNodesQueryVariables, "first"> = {}
 
   while (fetchMore) {
-    const nodeQuery = await graphqlClient().request<AllNodesQuery>(AllNodesDocument, {first: 1000, ...cursors})
+    let nodeQuery: AllNodesQuery
+    try {
+      nodeQuery = await graphqlClient().request<AllNodesQuery>(AllNodesDocument, {first: 1000, ...cursors})
+    } catch (e) {
+      // A partial list would drop nodes from static generation, so fall back to none at all.
+      cacheFailure("Unable to fetch all nodes", e)
+      return []
+    }
     const queryKeys = Object.keys(nodeQuery) as (keyof AllNodesQuery)[]
     fetchMore = false
 
@@ -265,14 +299,17 @@ export const getAllRedirectPaths = async () => {
   let after = undefined
 
   while (fetchMore) {
-    // Need to act like it's in preview mode to bypass access restriction.
-    const redirectsQuery: AllRedirectsQuery = await graphqlClient(undefined, true).request<AllRedirectsQuery>(
-      AllRedirectsDocument,
-      {
+    let redirectsQuery: AllRedirectsQuery
+    try {
+      // Need to act like it's in preview mode to bypass access restriction.
+      redirectsQuery = await graphqlClient(undefined, true).request<AllRedirectsQuery>(AllRedirectsDocument, {
         first: 1000,
         after,
-      }
-    )
+      })
+    } catch (e) {
+      cacheFailure("Unable to fetch redirects", e)
+      return []
+    }
 
     redirectsQuery.redirects.nodes.forEach(redirect => paths.push(redirect.redirectSource.url))
 
@@ -335,34 +372,38 @@ export const getFilterTerms = async (vocab: FilterVocabs): Promise<Array<TermInt
   "use cache: remote"
 
   cacheTag("all-cache", "taxonomy", `taxonomy:${vocab}`)
-  switch (vocab) {
-    case FilterVocabs.Courses:
-      return (await graphqlClient().request<CourseFiltersTermsQuery>(CourseFiltersTermsDocument)).termCourseFilters
-        .nodes as unknown as TermInterface[]
+  try {
+    switch (vocab) {
+      case FilterVocabs.Courses:
+        return (await graphqlClient().request<CourseFiltersTermsQuery>(CourseFiltersTermsDocument)).termCourseFilters
+          .nodes as unknown as TermInterface[]
 
-    case FilterVocabs.Events:
-      return (await graphqlClient().request<EventFiltersTermsQuery>(EventFiltersTermsDocument)).termEventFilters
-        .nodes as unknown as TermInterface[]
+      case FilterVocabs.Events:
+        return (await graphqlClient().request<EventFiltersTermsQuery>(EventFiltersTermsDocument)).termEventFilters
+          .nodes as unknown as TermInterface[]
 
-    case FilterVocabs.Media:
-      return (await graphqlClient().request<MediaContentFiltersTermsQuery>(MediaContentFiltersTermsDocument))
-        .termMediaContentFilters.nodes as unknown as TermInterface[]
+      case FilterVocabs.Media:
+        return (await graphqlClient().request<MediaContentFiltersTermsQuery>(MediaContentFiltersTermsDocument))
+          .termMediaContentFilters.nodes as unknown as TermInterface[]
 
-    case FilterVocabs.News:
-      return (await graphqlClient().request<NewsSpotlightFiltersTermsQuery>(NewsSpotlightFiltersTermsDocument))
-        .termStanfordNewsSpotlightFilters.nodes as unknown as TermInterface[]
+      case FilterVocabs.News:
+        return (await graphqlClient().request<NewsSpotlightFiltersTermsQuery>(NewsSpotlightFiltersTermsDocument))
+          .termStanfordNewsSpotlightFilters.nodes as unknown as TermInterface[]
 
-    case FilterVocabs.Opportunities:
-      return (await graphqlClient().request<OpportunityFiltersTermsQuery>(OpportunityFiltersTermsDocument))
-        .termOpportunityTagFilters.nodes as unknown as TermInterface[]
+      case FilterVocabs.Opportunities:
+        return (await graphqlClient().request<OpportunityFiltersTermsQuery>(OpportunityFiltersTermsDocument))
+          .termOpportunityTagFilters.nodes as unknown as TermInterface[]
 
-    case FilterVocabs.People:
-      return (await graphqlClient().request<PersonFiltersTermsQuery>(PersonFiltersTermsDocument)).termPersonFilters
-        .nodes as unknown as TermInterface[]
+      case FilterVocabs.People:
+        return (await graphqlClient().request<PersonFiltersTermsQuery>(PersonFiltersTermsDocument)).termPersonFilters
+          .nodes as unknown as TermInterface[]
 
-    case FilterVocabs.Publications:
-      return (await graphqlClient().request<PublicationFiltersTermsQuery>(PublicationFiltersTermsDocument))
-        .termPublicationFilters.nodes as unknown as TermInterface[]
+      case FilterVocabs.Publications:
+        return (await graphqlClient().request<PublicationFiltersTermsQuery>(PublicationFiltersTermsDocument))
+          .termPublicationFilters.nodes as unknown as TermInterface[]
+    }
+  } catch (e) {
+    cacheFailure(`Unable to fetch ${vocab} filter terms`, e)
   }
   return []
 }

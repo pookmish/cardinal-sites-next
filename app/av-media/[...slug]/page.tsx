@@ -14,6 +14,7 @@ import Button from "@components/elements/button"
 import {notFound} from "next/navigation"
 import {Suspense} from "react"
 import {cacheTag} from "next/cache"
+import {cacheFailure} from "@lib/gql/gql-queries"
 
 export const metadata: Metadata = {
   robots: {index: false},
@@ -38,7 +39,12 @@ const MediaContent = async ({params}: {params: Promise<Param>}) => {
   cacheTag("all-cache", "media", `media:${uuid}`)
   const nodePath = getPathFromContext(slug)
 
-  const {media} = await graphqlClient().request<MediaQuery>(MediaDocument, {uuid})
+  let media: MediaQuery["media"]
+  try {
+    media = (await graphqlClient().request<MediaQuery>(MediaDocument, {uuid})).media
+  } catch (e) {
+    cacheFailure(`Unable to fetch media ${uuid}`, e)
+  }
   if (!media) notFound()
 
   return (

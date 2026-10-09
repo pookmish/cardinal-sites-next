@@ -6,6 +6,7 @@ import {notFound} from "next/navigation"
 import type {Slug} from "@lib/@types/types"
 import {H2} from "@components/elements/headers"
 import {cacheTag} from "next/cache"
+import {cacheFailure} from "@lib/gql/gql-queries"
 
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
@@ -16,7 +17,12 @@ const Page = async ({params}: {params: Promise<{slug: Array<string>}>}) => {
   if (!uuid) notFound()
   cacheTag("all-cache", "media", `media:${uuid}`)
 
-  const {media} = await graphqlClient().request<MediaQuery>(MediaDocument, {uuid})
+  let media: MediaQuery["media"]
+  try {
+    media = (await graphqlClient().request<MediaQuery>(MediaDocument, {uuid})).media
+  } catch (e) {
+    cacheFailure(`Unable to fetch media ${uuid}`, e)
+  }
   if (!media) return null
 
   return (

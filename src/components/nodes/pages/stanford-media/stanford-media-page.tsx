@@ -11,6 +11,7 @@ import {graphqlClient} from "@lib/gql/gql-client"
 import Image from "next/image"
 import {getIdFromText, getTimeDuration} from "@lib/utils/text-tools"
 import {cacheTag} from "next/cache"
+import {cacheFailure} from "@lib/gql/gql-queries"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordMedia
@@ -141,9 +142,14 @@ const NextMedia = async ({node}: {node: NodeStanfordMedia}) => {
   "use cache: remote"
 
   cacheTag("all-cache", "paths", `paths:${node.path}`)
-  const upNextMediaQuery = node.suMediaSeries
-    ? await graphqlClient().request<StanfordMediaQuery>(StanfordMediaDocument, {filter: {series: node.suMediaSeries}})
-    : undefined
+  let upNextMediaQuery: StanfordMediaQuery | undefined
+  try {
+    upNextMediaQuery = node.suMediaSeries
+      ? await graphqlClient().request<StanfordMediaQuery>(StanfordMediaDocument, {filter: {series: node.suMediaSeries}})
+      : undefined
+  } catch (e) {
+    cacheFailure(`Unable to fetch the next media in ${node.path}`, e)
+  }
   const nextMedia = upNextMediaQuery?.stanfordMedia?.results.filter(
     item => item.uuid !== node.uuid
   ) as Array<NodeStanfordMedia>

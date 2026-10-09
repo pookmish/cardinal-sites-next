@@ -27,7 +27,8 @@ const PreviewContent = async ({params}: {params: PageProps["params"]}) => {
   const {entity} = await getEntityFromPath<NodeUnion>(path, true)
 
   if (!entity) notFound()
-  const homePath = await getHomePagePath()
+  // The draft still renders when the published home page can't be resolved; it just isn't styled as the home page.
+  const homePath = await getHomePagePath().catch(() => undefined)
 
   return (
     <EditorAlert status={entity.status} message="Unpublished Page">

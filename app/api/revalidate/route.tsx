@@ -27,7 +27,9 @@ export const GET = async (request: NextRequest) => {
 
   // When the home page is saved, it's url slug might be like `/home`. If the home page matches the slug, invalidate
   // the home page path.
-  if ((await getHomePagePath()) === path) tagsInvalidated.push("paths:/")
+  // If Drupal is unreachable the home alias can't be checked, but the path's own tags are still cleared.
+  const homePagePath = await getHomePagePath().catch(() => undefined)
+  if (homePagePath === path) tagsInvalidated.push("paths:/")
 
   tagsInvalidated.map(tag => revalidateTag(tag, "max"))
 

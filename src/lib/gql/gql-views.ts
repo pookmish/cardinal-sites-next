@@ -47,6 +47,7 @@ import {
 } from "@lib/gql/__generated__/graphql"
 import {graphqlClient} from "@lib/gql/gql-client"
 import {cacheTag} from "next/cache"
+import {cacheFailure} from "@lib/gql/gql-queries"
 
 export const VIEW_PAGE_SIZE = 21
 
@@ -264,7 +265,7 @@ export const getViewPagedItems = async (
         break
     }
   } catch (e) {
-    if (e instanceof Error) console.warn(e.message)
+    cacheFailure(`Unable to fetch view ${viewId}--${displayId}`, e)
     return {items: [], totalItems: 0}
   }
 
